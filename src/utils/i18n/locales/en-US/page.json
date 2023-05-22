@@ -1,0 +1,15 @@
+{
+  "INTRO": "Intro",
+  "GREETING": "Greeting",
+  "BUSINESS_INFO": "BusinessInfo",
+  "AGENCY": "Agency",
+  "DATA": "Data",
+  "SAFE": "Safe",
+  "ANALYSIS": "Analysis",
+  "ZONE": "Zone",
+  "MARKET": "Market",
+  "NOTICE": "Notice",
+  "SIGNUP": "SignUp",
+  "LOGIN": "Login",
+  "LOGOUT": "Logout"
+}
