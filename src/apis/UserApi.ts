@@ -1,40 +1,49 @@
+import UserModel from '@/types/models/userModel';
 import axios, { AxiosError } from 'axios';
-import { UserType } from '@/types/typeBundle';
 
 const { NODE_ENV, REACT_APP_BACKEND_URL } = process.env;
-const BASE_URL =
-  NODE_ENV === 'development' ? REACT_APP_BACKEND_URL : '/proobject-devserver';
+const BASE_URL = NODE_ENV === 'development' ? REACT_APP_BACKEND_URL : '/proobject-devserver';
 
 const UserApi = {
   getUsers: async () => {
     try {
-      const { data } = await axios.get(BASE_URL + '/user');
+      const { data } = await axios.get(
+        'http://101.101.209.11:14000/proobject/proobject-manager/UserList?{"dto":{"user_id":"a"}}&_=1684811200090'
+      );
       return data;
     } catch (error: unknown) {
       return error instanceof AxiosError ? error.response : error;
     }
   },
 
-  addUser: async (submitValue: UserType) => {
+  addUser: async (submitValue: UserModel) => {
     try {
-      return await axios.post(BASE_URL + '/user', submitValue);
+      return await axios.post('http://101.101.209.11:14000/proobject/proobject-manager/User', {
+        dto: submitValue,
+      });
     } catch (error: unknown) {
       return error instanceof AxiosError ? error.response : error;
     }
   },
 
-  editUser: async (submitValue: UserType) => {
+  editUser: async (submitValue: UserModel) => {
     try {
-      return await axios.patch(BASE_URL + '/user', submitValue);
+      return await axios.put('http://101.101.209.11:14000/proobject/proobject-manager/User', {
+        dto: submitValue,
+      });
     } catch (error: unknown) {
       return error instanceof AxiosError ? error.response : error;
     }
   },
 
-  deleteUsers: async (submitValue: string[]) => {
+  deleteUser: async (user: UserModel) => {
     try {
-      return await axios.delete(BASE_URL + '/user', {
-        data: { deleteUserList: submitValue },
+      return await axios.delete('http://101.101.209.11:14000/proobject/proobject-manager/UserList', {
+        data: {
+          dto: {
+            ConfigUserDto: [user],
+          },
+        },
       });
     } catch (error: unknown) {
       return error instanceof AxiosError ? error.response : error;

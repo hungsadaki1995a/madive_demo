@@ -17,7 +17,7 @@ export class AuthStore {
     this.privileges = [];
     sessionStorage.removeItem('privileges');
     const { UserStore, RoleStore, MetaStore, NodeStore } = MobxStore;
-    UserStore.initProperties();
+    // UserStore.initProperties();
     RoleStore.initProperties();
     MetaStore.initProperties();
     NodeStore.initProperties();

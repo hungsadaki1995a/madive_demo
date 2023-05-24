@@ -1,50 +1,34 @@
+import UserModel from '@/types/models/userModel';
 import { makeAutoObservable } from 'mobx';
-import { UserType, UserSelectionType } from '@/types/typeBundle';
-
-type UserOrderPropertyType = Exclude<
-  keyof UserSelectionType,
-  'userPasswd' | 'selection'
->;
 
 export class UserStore {
-  userInfo: UserType[] = [];
-  selectedUsers: string[] = [];
-  userOrder: 'asc' | 'desc' = 'asc';
-  userOrderProperty: UserOrderPropertyType = 'userId';
-  searchType = 'User ID';
+  users: UserModel[] = [];
+  isFetching = false;
 
   constructor() {
     makeAutoObservable(this);
   }
 
-  initProperties = () => {
-    this.userInfo = [];
-    this.selectedUsers = [];
-    this.userOrder = 'asc';
-    this.userOrderProperty = 'userId';
-    this.searchType = 'User ID';
+  setUsers = (userInfo: UserModel[]) => {
+    this.users = userInfo;
   };
 
-  setUsers = (userInfo: UserType[]) => {
-    this.userInfo = userInfo.map((user: UserType) => ({
-      ...user,
-      roleName: user?.devUserRoleDTO?.roleName ?? '',
-    }));
+  setIsFetching = (val: boolean) => {
+    this.isFetching = val;
   };
 
-  setSelectedUsers = (selectedData: string[]) => {
-    this.selectedUsers = selectedData;
+  addUser = (userInfo: UserModel) => {
+    this.users = [...this.users, userInfo];
   };
 
-  setUserOrder = (order: 'asc' | 'desc') => {
-    this.userOrder = order;
+  updateUser = (userInfo: UserModel) => {
+    const storedUserIndex = this.users.findIndex((x) => x.user_id === userInfo.user_id);
+    const temp = [...this.users];
+    temp[storedUserIndex] = userInfo;
+    this.users = temp;
   };
 
-  setUserOrderProperty = (property: UserOrderPropertyType) => {
-    this.userOrderProperty = property;
-  };
-
-  setSearchType = (type: string) => {
-    this.searchType = type;
+  deleteUser = (userId: string) => {
+    this.users = this.users.filter((x) => x.user_id !== userId);
   };
 }
