@@ -39,82 +39,222 @@ function Button() {
       {/* ButtonComponent */}
       <Paper>
         <p>Primary - Filled / Disable </p>
-        <Stack direction="row" spacing={2}>
+        <Stack
+          direction="row"
+          spacing={2}
+        >
           <label>CmButton - Icon + Title</label>
-          <CmButton variant="contained" startIcon={<StarsIcon />} btnTitle="Contained" />
-          <CmButton variant="contained" startIcon={<StarsIcon />} btnTitle="Contained" disabled />
+          <CmButton
+            variant="contained"
+            startIcon={<StarsIcon />}
+            btnTitle="Contained"
+          />
+          <CmButton
+            variant="contained"
+            startIcon={<StarsIcon />}
+            btnTitle="Contained"
+            disabled
+          />
         </Stack>
-        <Stack direction="row" spacing={2}>
+        <Stack
+          direction="row"
+          spacing={2}
+        >
           <label>CmButton - Title</label>
-          <CmButton variant="contained" btnTitle="Contained" />
-          <CmButton variant="contained" btnTitle="Contained" disabled />
+          <CmButton
+            variant="contained"
+            btnTitle="Contained"
+          />
+          <CmButton
+            variant="contained"
+            btnTitle="Contained"
+            disabled
+          />
         </Stack>
-        <Stack direction="row" spacing={2}>
+        <Stack
+          direction="row"
+          spacing={2}
+        >
           <label>CmButton - Icon</label>
-          <CmButton variant="contained" startIcon={<StarsIcon />} />
-          <CmButton variant="contained" startIcon={<StarsIcon />} disabled />
+          <CmButton
+            variant="contained"
+            startIcon={<StarsIcon />}
+          />
+          <CmButton
+            variant="contained"
+            startIcon={<StarsIcon />}
+            disabled
+          />
         </Stack>
       </Paper>
 
       <Paper>
         <p>Text - Ghost / Disable (No Background)</p>
-        <Stack direction="row" spacing={2}>
+        <Stack
+          direction="row"
+          spacing={2}
+        >
           <label>CmButton - Icon + Title</label>
-          <CmButton variant="text" startIcon={<UploadIcon />} btnTitle="Text" />
-          <CmButton variant="text" startIcon={<UploadIcon />} btnTitle="Text" disabled />
+          <CmButton
+            variant="text"
+            startIcon={<UploadIcon />}
+            btnTitle="Text"
+          />
+          <CmButton
+            variant="text"
+            startIcon={<UploadIcon />}
+            btnTitle="Text"
+            disabled
+          />
         </Stack>
-        <Stack direction="row" spacing={2}>
+        <Stack
+          direction="row"
+          spacing={2}
+        >
           <label>CmButton - Title</label>
-          <CmButton variant="text" btnTitle="Text" />
-          <CmButton variant="text" btnTitle="Text" disabled />
+          <CmButton
+            variant="text"
+            btnTitle="Text"
+          />
+          <CmButton
+            variant="text"
+            btnTitle="Text"
+            disabled
+          />
         </Stack>
-        <Stack direction="row" spacing={2}>
+        <Stack
+          direction="row"
+          spacing={2}
+        >
           <label>CmButton - Icon</label>
-          <CmButton variant="text" startIcon={<UploadIcon />} />
-          <CmButton variant="text" startIcon={<UploadIcon />} disabled />
+          <CmButton
+            variant="text"
+            startIcon={<UploadIcon />}
+          />
+          <CmButton
+            variant="text"
+            startIcon={<UploadIcon />}
+            disabled
+          />
         </Stack>
-        <Stack direction="row" spacing={2}>
+        <Stack
+          direction="row"
+          spacing={2}
+        >
           <label>CmIconButton - Icon</label>
           <CmIconButton iconName={<EditIcon />} />
-          <CmIconButton iconName={<DeleteIcon />} disabled />
+          <CmIconButton
+            iconName={<DeleteIcon />}
+            disabled
+          />
         </Stack>
       </Paper>
 
       <Paper>
-        <p>String - Ghost / Disable (Background)</p>
-        <Stack direction="row" spacing={2}>
+        <p>Text .tBtnBg - Ghost / Disable (Background)</p>
+        <Stack
+          direction="row"
+          spacing={2}
+        >
           <label>CmButton - Icon + Title</label>
-          <CmButton variant="text" startIcon={<FilterAltIcon />} btnTitle="String" />
-          <CmButton variant="text" startIcon={<FilterAltIcon />} btnTitle="String" disabled />
+          <CmButton
+            variant="text"
+            className="tBtnBg"
+            startIcon={<FilterAltIcon />}
+            btnTitle="String"
+          />
+          <CmButton
+            variant="text"
+            className="tBtnBg"
+            startIcon={<FilterAltIcon />}
+            btnTitle="String"
+            disabled
+          />
         </Stack>
-        <Stack direction="row" spacing={2}>
+        <Stack
+          direction="row"
+          spacing={2}
+        >
           <label>CmButton - Title</label>
-          <CmButton variant="text" btnTitle="String" />
-          <CmButton variant="text" btnTitle="String" disabled />
+          <CmButton
+            variant="text"
+            className="tBtnBg"
+            btnTitle="String"
+          />
+          <CmButton
+            variant="text"
+            className="tBtnBg"
+            btnTitle="String"
+            disabled
+          />
         </Stack>
-        <Stack direction="row" spacing={2}>
+        <Stack
+          direction="row"
+          spacing={2}
+        >
           <label>CmButton - Icon</label>
-          <CmButton variant="text" startIcon={<FilterAltIcon />} />
-          <CmButton variant="text" startIcon={<FilterAltIcon />} disabled />
+          <CmButton
+            variant="text"
+            className="tBtnBg"
+            startIcon={<FilterAltIcon />}
+          />
+          <CmButton
+            variant="text"
+            className="tBtnBg"
+            startIcon={<FilterAltIcon />}
+            disabled
+          />
         </Stack>
       </Paper>
 
       <Paper>
         <p>Outline - Login button / Disable</p>
-        <Stack direction="row" spacing={2}>
+        <Stack
+          direction="row"
+          spacing={2}
+        >
           <label>CmButton - Icon + Title</label>
-          <CmButton variant="outlined" startIcon={<LogoutIcon />} btnTitle="Outline" />
-          <CmButton variant="outlined" startIcon={<LogoutIcon />} btnTitle="Outline" disabled />
+          <CmButton
+            variant="outlined"
+            startIcon={<LogoutIcon />}
+            btnTitle="Outline"
+          />
+          <CmButton
+            variant="outlined"
+            startIcon={<LogoutIcon />}
+            btnTitle="Outline"
+            disabled
+          />
         </Stack>
-        <Stack direction="row" spacing={2}>
+        <Stack
+          direction="row"
+          spacing={2}
+        >
           <label>CmButton - Title</label>
-          <CmButton variant="outlined" btnTitle="Outline" />
-          <CmButton variant="outlined" btnTitle="Outline" disabled />
+          <CmButton
+            variant="outlined"
+            btnTitle="Outline"
+          />
+          <CmButton
+            variant="outlined"
+            btnTitle="Outline"
+            disabled
+          />
         </Stack>
-        <Stack direction="row" spacing={2}>
+        <Stack
+          direction="row"
+          spacing={2}
+        >
           <label>CmButton - Icon</label>
-          <CmButton variant="outlined" startIcon={<LogoutIcon />} />
-          <CmButton variant="outlined" startIcon={<LogoutIcon />} disabled />
+          <CmButton
+            variant="outlined"
+            startIcon={<LogoutIcon />}
+          />
+          <CmButton
+            variant="outlined"
+            startIcon={<LogoutIcon />}
+            disabled
+          />
         </Stack>
       </Paper>
     </ButtonStyled>

@@ -70,7 +70,7 @@ const CmButtonStyle = styled.label`
     }
 
     // String - Ghost (Background)
-    &.MuiButton-stringPrimary:not([class*='-disabled']) {
+    &.tBtnBg:not([class*='-disabled']) {
       color: ${CmStyle.color.colorT01};
       background: ${CmStyle.color.colorBtnSecondaryBg01};
 
@@ -81,7 +81,7 @@ const CmButtonStyle = styled.label`
         background: ${CmStyle.color.colorBtnSecondaryBg03};
       }
     }
-    &.MuiButton-stringPrimary.Mui-disabled {
+    &.tBtnBg.Mui-disabled {
       color: ${CmStyle.color.colorBtnDisabledText};
       background: ${CmStyle.color.colorBtnDisabled};
     }
@@ -285,6 +285,7 @@ const CmSelectStyle = styled.label`
     }
   }
 `;
+
 // Common Modal
 const CmModalStyle = styled.div`
   position: absolute;
@@ -416,4 +417,50 @@ const CmModalStyle = styled.div`
   }
 `;
 
-export { CmButtonStyle, CmCardStyle, CmSelectStyle, CmModalStyle };
+// Common Table
+const CmTableStyle = styled.div`
+  .MuiTableHead-root {
+    border-bottom: 2px solid ${CmStyle.color.colorbd01};
+  }
+
+  .MuiTableCell-head {
+    font: 13px / 1 ${CmStyle.notoSansDJKFont.medium};
+    color: ${CmStyle.color.colorBtnString};
+    border: 0;
+    padding: 8px;
+  }
+
+  .MuiTableBody-root {
+    .MuiTableRow-root {
+      border-bottom: 1px solid ${CmStyle.color.colorbd01};
+      :hover {
+        background: ${CmStyle.color.colorDef};
+      }
+      &.Mui-selected {
+        background: ${CmStyle.color.colorBtnSecondaryBg03};
+      }
+
+      .MuiTableCell-body {
+        font: 13px / 1 ${CmStyle.notoSansDJKFont.regular};
+        color: ${CmStyle.color.colorT01};
+        border: 0;
+        padding: 6px 8px;
+      }
+      a.MuiLink-root {
+        color: ${CmStyle.color.colorT01};
+        text-decoration-color: ${CmStyle.color.colorT01};
+      }
+    }
+  }
+
+  // Form
+  .formCell {
+    width: 30px;
+    // CheckBox
+    .MuiCheckbox-root {
+      padding: 0;
+    }
+  }
+`;
+
+export { CmButtonStyle, CmCardStyle, CmSelectStyle, CmModalStyle, CmTableStyle };

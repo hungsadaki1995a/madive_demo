@@ -36,11 +36,17 @@ function CmGnb() {
 
   return (
     <CmGnbStyle>
-      <AppBar position="static" className="header">
+      <AppBar
+        position="static"
+        className="header"
+      >
         <Toolbar disableGutters>
           <Box>
             {pages.map((page) => (
-              <Button key={page} onClick={handleCloseNavMenu}>
+              <Button
+                key={page}
+                onClick={handleCloseNavMenu}
+              >
                 {page}
               </Button>
             ))}
@@ -53,7 +59,6 @@ function CmGnb() {
               variant="outlined"
               startIcon={<LogoutIcon />}
               btnTitle="Logout"
-              color="info"
             />
             <Menu
               id="menu-appbar"
@@ -71,7 +76,10 @@ function CmGnb() {
               onClose={handleCloseUserMenu}
             >
               {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
+                <MenuItem
+                  key={setting}
+                  onClick={handleCloseUserMenu}
+                >
                   <Typography textAlign="center">{setting}</Typography>
                 </MenuItem>
               ))}

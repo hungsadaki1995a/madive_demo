@@ -9,10 +9,12 @@ import {
   IPlainObject,
   ITopAction,
 } from '@/components/organisms/CmCommonTable/types';
+import { Paper } from '@mui/material';
+
 import SearchIcon from '@mui/icons-material/Search';
 import AddIcon from '@mui/icons-material/Add';
 import useTableDataClient from '@/components/organisms/CmCommonTable/hooks/useTableDataClient';
-import UserApi from '@/apis/UserApi';
+import UserApi2 from '@/apis/UserApi';
 import CreateModal from './modals/CreateModal';
 import UpdateModal from './modals/UpdateModal';
 import CommonTable from '@/components/organisms/CmCommonTable';
@@ -138,7 +140,7 @@ function UserManagementDataTable() {
         label: 'Delete',
         onClick: (selectedRows: UserModel[]) => {
           selectedRows?.forEach(async (row) => {
-            await UserApi.deleteUser(row);
+            await UserApi2.deleteUser(row);
             UserStore.deleteUser(row.user_id);
             AlertStore.openApiAlert('success', 'Delete Success!');
           });
@@ -164,7 +166,7 @@ function UserManagementDataTable() {
   const { fetch, rows, sort, filter, pagination } = useTableDataClient<UserModel>({
     queryFn: async () => {
       UserStore.setIsFetching(true);
-      const data = await UserApi.getUsers();
+      const data = await UserApi2.getUsers();
       UserStore.setIsFetching(false);
       UserStore.setUsers(data?.dto?.ConfigUserDto);
     },
@@ -187,7 +189,7 @@ function UserManagementDataTable() {
   }, []);
 
   return (
-    <>
+    <Paper style={{ padding: '20px' }}>
       <CommonTable
         tableName="user-management"
         // renderLayoutAs={TableLayoutCustom}
@@ -226,7 +228,7 @@ function UserManagementDataTable() {
           }
         }}
       />
-    </>
+    </Paper>
   );
 }
 export default observer(UserManagementDataTable);

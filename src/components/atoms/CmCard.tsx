@@ -34,15 +34,32 @@ import AddCircleIcon from '@mui/icons-material/AddCircleOutlineOutlined';
 
 import { CARD_DATA } from '@/example/GenaralCode';
 
-function CmCard() {
+type propsType = {
+  onClick?: (e: string) => void;
+};
+
+function CmCard(props: propsType) {
+  const { onClick } = props;
+
+  const handleClick = (type: string) => {
+    typeof onClick === 'function' && onClick(type);
+  };
+
   return (
     <CmCardStyle>
       <Card>
         <CardHeader
           action={
             <>
-              <CmIconButton btnTitle="Edit" iconName={<EditIcon />} />
-              <CmIconButton btnTitle="Delete" iconName={<DeleteIcon />} />
+              <CmIconButton
+                btnTitle="Edit"
+                iconName={<EditIcon />}
+                onClick={() => handleClick('I')}
+              />
+              <CmIconButton
+                btnTitle="Delete"
+                iconName={<DeleteIcon onClick={() => handleClick('D')} />}
+              />
             </>
           }
           title="Title"
@@ -61,7 +78,10 @@ function CmCard() {
                 secondaryAction={
                   CARD_DATA.key === 1 ? (
                     // <CmButton variant="text" className="underLink" btnTitle={CARD_DATA.num} />
-                    <Link href="#" underline="always">
+                    <Link
+                      href="#"
+                      underline="always"
+                    >
                       {CARD_DATA.num}
                     </Link>
                   ) : (

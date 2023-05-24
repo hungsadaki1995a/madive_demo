@@ -2,15 +2,6 @@ import styled from 'styled-components';
 import * as CmStyle from '@/stylesheets/common';
 import '@/stylesheets/font/stylesheet.css';
 
-// lnbIcon
-// import lnbOverview from '@/stylesheets/images/lnbOverview.svg';
-// import lnbNode from '@/stylesheets/images/lnbNode.svg';
-// import lnbTest from '@/stylesheets/images/lnbTest.svg';
-// import lnbProminer from '@/stylesheets/images/lnbProminer.svg';
-// import lnbSystemcontext from '@/stylesheets/images/lnbSystemcontext.svg';
-// import lnbResource from '@/stylesheets/images/lnbResource.svg';
-// import lnbTwoDepthIcon from '@/stylesheets/images/lnbTwoDepthIcon.svg';
-
 const CmGnbStyle = styled.div`
   * {
     font: 16px / 1.5 ${CmStyle.notoSansDJKFont.regular};
@@ -212,22 +203,33 @@ const CmSearchStyle = styled.div`
   margin-bottom: 20px;
 
   // Search
-  .MuiPaper-root[label='search'] {
+  .MuiPaper-root[title='search'] {
     padding: 2px 0;
     display: flex;
     align-items: center;
 
     svg[data-testid='SearchOutlinedIcon'] {
       margin: 0 15px;
+      font-size: 18px;
     }
 
     .MuiStack-root {
       padding: 0;
       border: 0;
+
+      .MuiChip-root {
+        height: 24px;
+        .MuiChip-label {
+          line-height: 1;
+        }
+      }
     }
     .MuiInputBase-root {
       width: 100%;
       font-family: ${CmStyle.notoSansDJKFont.regular};
+    }
+    .MuiStack-root ~ .MuiInputBase-root {
+      padding-left: 15px;
     }
   }
 `;
@@ -244,7 +246,7 @@ const CmPageTitleStyle = styled.div`
     justify-content: space-between;
     align-items: center;
     margin-bottom: 20px;
-    padding: 0;
+    padding: 20px 0;
 
     h6 {
       font: 15px / 1.5 ${CmStyle.notoSansDJKFont.bold};

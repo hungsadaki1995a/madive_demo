@@ -3,6 +3,7 @@ body {
   min-width: 1600px;
   /* font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans',
     'Droid Sans', 'Helvetica Neue', sans-serif; */
+  font-family: 'NotoSansCJKRegular', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -12,16 +13,16 @@ ul {
   margin: 0;
 }
 
-#wrap {
-  /* display: flex; */
-  /* width: 100vw;
-  height: 100vh; */
-  /* overflow: hidden; */
-}
+/* #wrap {
+  display: flex;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+} */
 
-.MuiSvgIcon-root {
-  /* color: rgba(0, 0, 0, 0.5); */
-}
+/* .MuiSvgIcon-root {
+  color: rgba(0, 0, 0, 0.5);
+} */
 
 /* Align */
 .alignR {

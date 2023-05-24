@@ -20,13 +20,14 @@ type propsType = {
   className: string;
   title: string;
   visible: boolean;
+  onClick?: () => void;
   onClose: () => void;
   content?: JSX.Element;
   children: React.ReactNode;
 };
 
 function CmModal(props: propsType) {
-  const { className, title, visible, onClose, content, children } = props;
+  const { className, title, visible, onClick, onClose, content, children } = props;
 
   return (
     <Modal open={visible}>
@@ -34,7 +35,11 @@ function CmModal(props: propsType) {
         {/* Header */}
         <Box className="header">
           <Typography>{title}</Typography>
-          <CmIconButton btnTitle="" iconName={<ModalClose />} onClick={onClose} />
+          <CmIconButton
+            btnTitle=""
+            iconName={<ModalClose />}
+            onClick={onClose}
+          />
         </Box>
 
         {/* Contents */}
@@ -61,6 +66,7 @@ function CmModal(props: propsType) {
               startIcon={<></>}
               className=""
               color="info"
+              onClick={onClose}
             />
             <CmButton
               id="rightBtn2"
@@ -69,6 +75,7 @@ function CmModal(props: propsType) {
               startIcon={<></>}
               className=""
               color="info"
+              onClick={onClick}
             />
           </Box>
         </Box>

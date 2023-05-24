@@ -8,7 +8,7 @@ function UserManagement(props: propsType) {
   const { title } = props;
   return (
     <>
-      <h1>{title}</h1>
+      {/* <h1>{title}</h1> */}
       <DataTable />
     </>
   );
