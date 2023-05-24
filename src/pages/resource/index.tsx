@@ -1,5 +1,5 @@
 import { Routes, Route, Navigate } from 'react-router-dom';
-import LockAndUnlock from './LockAndUnlock';
+import LockAndUnlock from './PRO10105101P';
 import { subMenusType } from '@/types/typeBundle';
 import Error from '@/pages/error';
 

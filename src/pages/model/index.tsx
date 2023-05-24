@@ -1,5 +1,5 @@
 import { Routes, Route, Navigate } from 'react-router-dom';
-import Dbio from './Dbio';
+import Dbio from './PRO20202201P';
 import { subMenusType } from '@/types/typeBundle';
 import Error from '@/pages/error';
 

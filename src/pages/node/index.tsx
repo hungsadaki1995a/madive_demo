@@ -1,5 +1,5 @@
 import { Routes, Route, Navigate } from 'react-router-dom';
-import NodeManagement from './NodeManagement';
+import NodeManagement from './PRO10101101P';
 import { subMenusType } from '@/types/typeBundle';
 import Error from '@/pages/error';
 

@@ -1,5 +1,5 @@
 import { Routes, Route, Navigate } from 'react-router-dom';
-import LogManagement from './LogManagement';
+import LogManagement from './PRO20203201P';
 import { subMenusType } from '@/types/typeBundle';
 import Error from '@/pages/error';
 

@@ -1,11 +1,11 @@
 import { Routes, Route, Navigate } from 'react-router-dom';
-import UserManagement from './UserManagement';
-import History from './History';
-import GroupManagement from './GroupManagement';
-import RoleManagement from './RoleManagement';
-import UserGroupAssign from './UserGroupAssign';
-import GroupRoleAssign from './GroupRoleAssign';
-import RolePermissionAssign from './RolePermissionAssign';
+import UserManagement from './PRO20201201P';
+import History from './PRO20201204P';
+import GroupManagement from './PRO20201205P';
+import RoleManagement from './PRO20201208P';
+import UserGroupAssign from './PRO20201211P';
+import GroupRoleAssign from './PRO20201212P';
+import RolePermissionAssign from './PRO20201213P';
 import { subMenusType } from '@/types/typeBundle';
 import Error from '@/pages/error';
 

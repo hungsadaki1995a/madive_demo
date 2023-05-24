@@ -9,7 +9,7 @@ import CreateStore from '@/utils/useStore';
 import { ErrorBoundary } from 'react-error-boundary';
 import ErrorFallback from '@/pages/error/ErrorFallback';
 import Error from '@/pages/error';
-import Login from '@/pages/login';
+import Login from '@/pages/login/PRO20204201P';
 import Overview from '@/pages/overview';
 import Node from '@/pages/node';
 import Test from '@/pages/test';

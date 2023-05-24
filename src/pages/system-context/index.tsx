@@ -1,6 +1,6 @@
 import { Routes, Route, Navigate } from 'react-router-dom';
-import SystemContextManagement from './SystemContextManagement';
-import Datasource from './Datasource';
+import SystemContextManagement from './PRO10104101P';
+import Datasource from './PRO10104104P';
 import { subMenusType } from '@/types/typeBundle';
 import Error from '@/pages/error';
 

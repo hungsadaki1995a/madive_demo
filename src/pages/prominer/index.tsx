@@ -1,9 +1,9 @@
 import { Routes, Route, Navigate } from 'react-router-dom';
-import Resource from './Resource';
-import ViewResourceDetail from './ViewResourceDetail';
-import Method from './Method';
-import Field from './Field';
-import Varible from './Varible';
+import Resource from './PRO10103101P';
+import ViewResourceDetail from './PRO10103102P';
+import Method from './PRO10103103P';
+import Field from './PRO10103105P';
+import Varible from './PRO10103106P';
 import { subMenusType } from '@/types/typeBundle';
 import Error from '@/pages/error';
 

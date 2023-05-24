@@ -14,16 +14,15 @@ function Login() {
     navigate('/cm/button', { replace: true });
   };
 
-  useEffect(() => {}, []);
-
   return (
     <LoginContainer>
       <CssBaseline />
 
       <Grid container className="loginGrid">
         <Grid xs={8} className="tImgBox">
-          Creating a web site or an application,​people usually have different and sometimes numerous goals.​Some of
-          them in case of conversion give...
+          {`Creating a web site or an application,
+          people usually have different and sometimes numerous goals.
+          Some of them in case of conversion give...`}
         </Grid>
 
         {/* Login Form */}

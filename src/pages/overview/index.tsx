@@ -1,7 +1,7 @@
 import { Routes, Route, Navigate } from 'react-router-dom';
-import AppSG from './AppSG';
-import Meta from './meta/Meta';
-import MetaHistory from './meta/MetaHistory';
+import AppSG from './PRO10100101P';
+import Meta from './meta/PRO10100106P';
+import MetaHistory from './meta/PRO10100110P';
 import { subMenusType } from '@/types/typeBundle';
 import Error from '@/pages/error';
 
