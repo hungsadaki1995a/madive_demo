@@ -5,9 +5,18 @@ import Error from '@/pages/error';
 
 const Model = ({ subMenus }: { subMenus: subMenusType }) => (
   <Routes>
-    <Route path="/dbio" element={<Dbio title={subMenus['DBIO'].title} />} />
-    <Route path="/" element={<Navigate to="/configuration/model/dbio" />} />
-    <Route path="/*" element={<Error />} />
+    <Route
+      path="/dbio"
+      element={<Dbio title={subMenus['DBIO'].title} />}
+    />
+    <Route
+      path="/"
+      element={<Navigate to="/configuration/model/dbio" />}
+    />
+    <Route
+      path="/*"
+      element={<Error />}
+    />
   </Routes>
 );
 

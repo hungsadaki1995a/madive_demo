@@ -7,11 +7,26 @@ import Error from '@/pages/error';
 
 const Overview = ({ subMenus }: { subMenus: subMenusType }) => (
   <Routes>
-    <Route path="/app-and-sg" element={<AppSG title={subMenus['AppAndSg'].title} />} />
-    <Route path="/meta/management" element={<Meta title={subMenus['Meta'].title} />} />
-    <Route path="/meta/history" element={<MetaHistory title={subMenus['MetaHistory'].title} />} />
-    <Route path="/" element={<Navigate to="/development/overview/app-and-sg" />} />
-    <Route path="/*" element={<Error />} />
+    <Route
+      path="/app-and-sg"
+      element={<AppSG title={subMenus['AppAndSg'].title} />}
+    />
+    <Route
+      path="/meta/management"
+      element={<Meta title={subMenus['Meta'].title} />}
+    />
+    <Route
+      path="/meta/history"
+      element={<MetaHistory title={subMenus['MetaHistory'].title} />}
+    />
+    <Route
+      path="/"
+      element={<Navigate to="/development/overview/app-and-sg" />}
+    />
+    <Route
+      path="/*"
+      element={<Error />}
+    />
   </Routes>
 );
 

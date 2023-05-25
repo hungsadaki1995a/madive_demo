@@ -2,8 +2,7 @@ import axios, { AxiosError } from 'axios';
 import { DependencyType } from '@/types/typeBundle';
 
 const { NODE_ENV, REACT_APP_BACKEND_URL } = process.env;
-const BASE_URL =
-  NODE_ENV === 'development' ? REACT_APP_BACKEND_URL : '/proobject-devserver';
+const BASE_URL = NODE_ENV === 'development' ? REACT_APP_BACKEND_URL : '/proobject-devserver';
 const typeValues: Record<string, string> = {
   'Private Gitlab': 'PRIVATE_GITLAB',
   'Public Gitlab': 'PUBLIC_GITLAB',
@@ -23,10 +22,7 @@ const DependencyApi = {
         url: submitValue.gitUrl,
         branchName: submitValue.gitBranch || null,
       };
-      const { data } = await axios.post(
-        BASE_URL + '/dependencies',
-        serverParams
-      );
+      const { data } = await axios.post(BASE_URL + '/dependencies', serverParams);
       return data;
     } catch (error: unknown) {
       return error instanceof AxiosError ? error.response : error;

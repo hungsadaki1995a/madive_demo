@@ -60,9 +60,7 @@ export const isMobileNumber = (chkString: string) => {
 export const isPhoneNumber = (chkString: string) => {
   chkString = chkString ?? '';
   if (
-    /^(0(2|3[1-3]|4[1-4]|5[1-5]|6[1-4]|505|70))-(\d{3,4})-(\d{4})/.test(
-      chkString
-    ) ||
+    /^(0(2|3[1-3]|4[1-4]|5[1-5]|6[1-4]|505|70))-(\d{3,4})-(\d{4})/.test(chkString) ||
     /^(0(2|3[1-3]|4[1-4]|5[1-5]|6[1-4]|505|70))(\d{3,4})(\d{4})/.test(chkString)
   ) {
     return true;
@@ -186,8 +184,7 @@ export const modCommaNumber = (chkNumber: string) => {
   const splitTranNumbers = tranNumber.toString().split('.');
   tranNumber = splitTranNumbers[0];
   tranNumber = tranNumber.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-  if (!isEmpty(splitTranNumbers[1]))
-    tranNumber = `${tranNumber}.${splitTranNumbers[1]}`;
+  if (!isEmpty(splitTranNumbers[1])) tranNumber = `${tranNumber}.${splitTranNumbers[1]}`;
   return tranNumber;
 };
 

@@ -33,7 +33,7 @@ i18n
         escapeValue: false,
       },
     },
-    function (err) {
+    (err) => {
       if (err) console.error(err);
     }
   );

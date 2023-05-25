@@ -41,7 +41,10 @@ const App = () => (
     <ErrorBoundary FallbackComponent={ErrorFallback}>
       <CmContainer>
         <CssBaseline />
-        <Grid container className="gridContainer">
+        <Grid
+          container
+          className="gridContainer"
+        >
           {/* LNB */}
           <CmLnb />
           <Grid className="conArea">
@@ -53,37 +56,88 @@ const App = () => (
             <main>
               <Routes>
                 {/* Login */}
-                <Route path="/login" element={<Login />} />
+                <Route
+                  path="/login"
+                  element={<Login />}
+                />
                 {/* Development */}
-                <Route path="/development/overview/*" element={<Overview subMenus={menus['Overview'].subMenus} />} />
-                <Route path="/development/node/*" element={<Node subMenus={menus['Node'].subMenus} />} />
-                <Route path="/development/test/*" element={<Test subMenus={menus['Test'].subMenus} />} />
-                <Route path="/development/prominer/*" element={<Prominer subMenus={menus['Prominer'].subMenus} />} />
+                <Route
+                  path="/development/overview/*"
+                  element={<Overview subMenus={menus['Overview'].subMenus} />}
+                />
+                <Route
+                  path="/development/node/*"
+                  element={<Node subMenus={menus['Node'].subMenus} />}
+                />
+                <Route
+                  path="/development/test/*"
+                  element={<Test subMenus={menus['Test'].subMenus} />}
+                />
+                <Route
+                  path="/development/prominer/*"
+                  element={<Prominer subMenus={menus['Prominer'].subMenus} />}
+                />
                 <Route
                   path="/development/system-context/*"
                   element={<SystemContext subMenus={menus['SystemContext'].subMenus} />}
                 />
-                <Route path="/development/resource/*" element={<Resource subMenus={menus['Resource'].subMenus} />} />
-                <Route path="/development" element={<Navigate to="/development/overview" />} />
+                <Route
+                  path="/development/resource/*"
+                  element={<Resource subMenus={menus['Resource'].subMenus} />}
+                />
+                <Route
+                  path="/development"
+                  element={<Navigate to="/development/overview" />}
+                />
 
                 {/* Configuration */}
-                <Route path="/configuration/user/*" element={<User subMenus={menus['User'].subMenus} />} />
-                <Route path="/configuration/model/*" element={<Model subMenus={menus['Model'].subMenus} />} />
+                <Route
+                  path="/configuration/user/*"
+                  element={<User subMenus={menus['User'].subMenus} />}
+                />
+                <Route
+                  path="/configuration/model/*"
+                  element={<Model subMenus={menus['Model'].subMenus} />}
+                />
                 <Route
                   path="/configuration/log-control/*"
                   element={<LogControl subMenus={menus['LogControl'].subMenus} />}
                 />
-                <Route path="/configuration" element={<Navigate to="configuration/user" />} />
+                <Route
+                  path="/configuration"
+                  element={<Navigate to="configuration/user" />}
+                />
 
                 {/* 공통 컴포넌트 구성 Sample Page (참고) */}
-                <Route path="/cm/button" element={<Button />} />
-                <Route path="/cm/card" element={<Card />} />
-                <Route path="/cm/modal" element={<Modal />} />
-                <Route path="/cm/snackbar" element={<SnackBar />} />
-                <Route path="/cm/table" element={<Table />} />
+                <Route
+                  path="/cm/button"
+                  element={<Button />}
+                />
+                <Route
+                  path="/cm/card"
+                  element={<Card />}
+                />
+                <Route
+                  path="/cm/modal"
+                  element={<Modal />}
+                />
+                <Route
+                  path="/cm/snackbar"
+                  element={<SnackBar />}
+                />
+                <Route
+                  path="/cm/table"
+                  element={<Table />}
+                />
 
-                <Route path="/" element={<Navigate to="/login" />} />
-                <Route path="/*" element={<Error />} />
+                <Route
+                  path="/"
+                  element={<Navigate to="/login" />}
+                />
+                <Route
+                  path="/*"
+                  element={<Error />}
+                />
               </Routes>
             </main>
           </Grid>

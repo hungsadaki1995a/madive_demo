@@ -18,28 +18,52 @@ function Login() {
     <LoginContainer>
       <CssBaseline />
 
-      <Grid container className="loginGrid">
-        <Grid xs={8} className="tImgBox">
+      <Grid
+        container
+        className="loginGrid"
+      >
+        <Grid
+          xs={8}
+          className="tImgBox"
+        >
           {`Creating a web site or an application,
           people usually have different and sometimes numerous goals.
           Some of them in case of conversion give...`}
         </Grid>
 
         {/* Login Form */}
-        <Grid xs={4} className="" component="form">
-          <img src={logGif} />
+        <Grid
+          xs={4}
+          className=""
+          component="form"
+        >
+          <img
+            src={logGif}
+            alt=""
+          />
 
           {/* ID */}
           <Box className="id">
-            <TextField label="ID" variant="outlined" />
+            <TextField
+              label="ID"
+              variant="outlined"
+            />
           </Box>
           {/* Password */}
           <Box className="pw">
-            <TextField label="Password" variant="outlined" type="password" />
+            <TextField
+              label="Password"
+              variant="outlined"
+              type="password"
+            />
           </Box>
 
           {/* Submit */}
-          <Button variant="contained" disableElevation onClick={handleClick}>
+          <Button
+            variant="contained"
+            disableElevation
+            onClick={handleClick}
+          >
             Login
           </Button>
 

@@ -65,7 +65,10 @@ function CmIconButton(props: icoBtnPropsType) {
 
   return (
     <CmButtonStyle>
-      <Tooltip title={btnTitle} arrow>
+      <Tooltip
+        title={btnTitle}
+        arrow
+      >
         <IconButton
           onClick={onClick}
           size="small"

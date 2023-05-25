@@ -1,12 +1,4 @@
-import {
-  AlertStore,
-  AuthStore,
-  MetaStore,
-  NodeStore,
-  ProminerStore,
-  RoleStore,
-  UserStore,
-} from '@/stores';
+import { AlertStore, AuthStore, MetaStore, NodeStore, ProminerStore, RoleStore, UserStore } from '@/stores';
 
 export class RootStore {
   AlertStore: AlertStore = new AlertStore();

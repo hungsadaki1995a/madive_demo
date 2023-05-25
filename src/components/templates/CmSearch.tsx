@@ -25,9 +25,19 @@ function CmSearch() {
       {/* Search */}
       <Paper title="search">
         <SearchIcon />
-        <Stack direction="row" spacing={1}>
-          <Chip label="Deletable" onDelete={handleDelete} />
-          <Chip label="Deletable" variant="outlined" onDelete={handleDelete} />
+        <Stack
+          direction="row"
+          spacing={1}
+        >
+          <Chip
+            label="Deletable"
+            onDelete={handleDelete}
+          />
+          <Chip
+            label="Deletable"
+            variant="outlined"
+            onDelete={handleDelete}
+          />
         </Stack>
         <InputBase placeholder="검색할 항목을 입력해 주세요." />
       </Paper>
