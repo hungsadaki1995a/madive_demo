@@ -12,12 +12,7 @@ const orderTable = <T extends object>(
     if (bField === null) return order === 'asc' ? 1 : -1;
     let thisOrder = 0;
     String(Number(aField)) === aField && String(Number(bField)) === bField
-      ? (thisOrder =
-          Number(aField) > Number(bField)
-            ? 1
-            : Number(aField) < Number(bField)
-            ? -1
-            : 0)
+      ? (thisOrder = Number(aField) > Number(bField) ? 1 : Number(aField) < Number(bField) ? -1 : 0)
       : (thisOrder = aField > bField ? 1 : aField < bField ? -1 : 0);
     return order === 'asc' ? thisOrder : thisOrder * -1;
   });

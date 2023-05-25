@@ -23,8 +23,14 @@ wrap.render(
     <StyledEngineProvider injectFirst>
       <HashRouter>
         <Routes>
-          <Route path="/" element={<Login />} />
-          <Route path="/*" element={<App />} />
+          <Route
+            path="/"
+            element={<Login />}
+          />
+          <Route
+            path="/*"
+            element={<App />}
+          />
         </Routes>
       </HashRouter>
     </StyledEngineProvider>

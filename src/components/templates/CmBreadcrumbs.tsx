@@ -39,15 +39,24 @@ function CmBreadcrumbs() {
     <CmBreadcrumbsStyle>
       {/* <Box label="breadcrumbs"> */}
       <Box title="breadcrumbs">
-        <Breadcrumbs separator="›" aria-label="breadcrumbs">
+        <Breadcrumbs
+          separator="›"
+          aria-label="breadcrumbs"
+        >
           {!!naviData &&
             naviData.map((item, idx) => (
-              <Link key={idx} href={item.naviUrl}>
+              <Link
+                key={idx}
+                href={item.naviUrl}
+              >
                 {item.naviName}
               </Link>
             ))}
         </Breadcrumbs>
-        <Typography variant="subtitle1" gutterBottom>
+        <Typography
+          variant="subtitle1"
+          gutterBottom
+        >
           {naviTitle}
         </Typography>
       </Box>

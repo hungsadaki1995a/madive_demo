@@ -31,7 +31,13 @@ export const CmDialogTextField = forwardRef((props: CmDialogTextFieldProps, ref:
   return (
     <div className={classes.dialogBox}>
       <DialogContentText className={classes.dialogTitle}>{label}</DialogContentText>
-      <TextField {...otherProps} ref={ref} spellCheck="false" error={!!error} helperText={error?.message} />
+      <TextField
+        {...otherProps}
+        ref={ref}
+        spellCheck="false"
+        error={!!error}
+        helperText={error?.message}
+      />
     </div>
   );
 });

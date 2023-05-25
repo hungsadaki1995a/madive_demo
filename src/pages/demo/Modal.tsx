@@ -70,95 +70,205 @@ function Modal() {
     <ModalStyled>
       <p>small medium large</p>
 
-      <Stack direction="row" spacing={2}>
-        <CmButton variant="contained" onClick={handleModify} btnTitle="Edit Application" />
-        <CmButton variant="contained" onClick={handleWrite} btnTitle="Service Group Registration" />
-        <CmButton variant="contained" onClick={handleDel} btnTitle="Delete Application" />
-        <CmButton variant="contained" onClick={handleDetail} btnTitle="Detail Test History" />
+      <Stack
+        direction="row"
+        spacing={2}
+      >
+        <CmButton
+          variant="contained"
+          onClick={handleModify}
+          btnTitle="Edit Application"
+        />
+        <CmButton
+          variant="contained"
+          onClick={handleWrite}
+          btnTitle="Service Group Registration"
+        />
+        <CmButton
+          variant="contained"
+          onClick={handleDel}
+          btnTitle="Delete Application"
+        />
+        <CmButton
+          variant="contained"
+          onClick={handleDetail}
+          btnTitle="Detail Test History"
+        />
       </Stack>
 
       {/* Edit Application - Modal */}
-      <CmModal title="Edit Application" visible={isModifyVisible} onClose={handleClose} className="medium">
+      <CmModal
+        title="Edit Application"
+        visible={isModifyVisible}
+        onClose={handleClose}
+        className="medium"
+      >
         {/* contents */}
         <label className="labelFormArea">
           <span>Physical Name</span>
-          <TextField className="labelTextField" defaultValue="Luke Test" size="small" />
+          <TextField
+            className="labelTextField"
+            defaultValue="Luke Test"
+            size="small"
+          />
           {/* <TextField disabled defaultValue="Luke Test" hiddenLabel size="small" /> */}
         </label>
         <label className="labelFormArea">
           <span>Logical Name</span>
-          <TextField className="labelTextField" defaultValue="1" type="password" size="small" />
+          <TextField
+            className="labelTextField"
+            defaultValue="1"
+            type="password"
+            size="small"
+          />
         </label>
         <label className="labelFormArea">
           <span>Package</span>
-          <TextField className="labelTextField" defaultValue="test" size="small" />
+          <TextField
+            className="labelTextField"
+            defaultValue="test"
+            size="small"
+          />
         </label>
         <label className="labelFormArea">
           <span>Description</span>
-          <TextField className="labelTextField" multiline rows={4} defaultValue="Default Value" />
+          <TextField
+            className="labelTextField"
+            multiline
+            rows={4}
+            defaultValue="Default Value"
+          />
         </label>
       </CmModal>
 
       {/* Service Group Registration - Modal */}
-      <CmModal title="Service Group Registration" visible={isWriteVisible} onClose={handleClose} className="medium">
+      <CmModal
+        title="Service Group Registration"
+        visible={isWriteVisible}
+        onClose={handleClose}
+        className="medium"
+      >
         {/* contents */}
         <label className="inputArea">
-          <TextField placeholder="Physical Name" size="small" />
-          <TextField placeholder="Logical Name" size="small" />
-          <CmButton variant="contained" startIcon={<ModalAdd />} />
+          <TextField
+            placeholder="Physical Name"
+            size="small"
+          />
+          <TextField
+            placeholder="Logical Name"
+            size="small"
+          />
+          <CmButton
+            variant="contained"
+            startIcon={<ModalAdd />}
+          />
         </label>
 
         <p>테이블 구조 이슈 완료후 작업 예정</p>
       </CmModal>
 
       {/* Delete Application - Modal */}
-      <CmModal title="Delete Application" visible={isDelVisible} onClose={handleClose} className="medium">
+      <CmModal
+        title="Delete Application"
+        visible={isDelVisible}
+        onClose={handleClose}
+        className="medium"
+      >
         {/* contents */}
         <p className="pointTxt">Are you sure to delete this application ?</p>
       </CmModal>
 
       {/* Detail Test History - Modal */}
-      <CmModal title="Detail Test History" visible={isDetailVisible} onClose={handleClose} className="large">
+      <CmModal
+        title="Detail Test History"
+        visible={isDetailVisible}
+        onClose={handleClose}
+        className="large"
+      >
         {/* contents */}
 
-        <Stack direction="row" spacing={5}>
+        <Stack
+          direction="row"
+          spacing={5}
+        >
           <label className="labelFormArea half">
             <span>Physical Name</span>
-            <TextField className="labelTextField" defaultValue="Luke Test" size="small" />
+            <TextField
+              className="labelTextField"
+              defaultValue="Luke Test"
+              size="small"
+            />
           </label>
           <label className="labelFormArea half">
             <span>Physical Name</span>
-            <TextField className="labelTextField" defaultValue="Luke Test" size="small" />
-          </label>
-        </Stack>
-        <Stack direction="row" spacing={5}>
-          <label className="labelFormArea half">
-            <span>Physical Name</span>
-            <TextField className="labelTextField" defaultValue="Luke Test" size="small" />
-          </label>
-          <label className="labelFormArea half">
-            <span>Physical Name</span>
-            <TextField className="labelTextField" defaultValue="Luke Test" size="small" />
-          </label>
-        </Stack>
-        <Stack direction="row" spacing={5}>
-          <label className="labelFormArea half">
-            <span>Physical Name</span>
-            <TextField className="labelTextField" defaultValue="Luke Test" size="small" />
-          </label>
-          <label className="labelFormArea half">
-            <span>Physical Name</span>
-            <TextField className="labelTextField" defaultValue="Luke Test" size="small" />
+            <TextField
+              className="labelTextField"
+              defaultValue="Luke Test"
+              size="small"
+            />
           </label>
         </Stack>
-        <Stack direction="row" spacing={5}>
+        <Stack
+          direction="row"
+          spacing={5}
+        >
           <label className="labelFormArea half">
             <span>Physical Name</span>
-            <TextField className="labelTextField" defaultValue="Luke Test" size="small" />
+            <TextField
+              className="labelTextField"
+              defaultValue="Luke Test"
+              size="small"
+            />
           </label>
           <label className="labelFormArea half">
             <span>Physical Name</span>
-            <TextField className="labelTextField" defaultValue="Luke Test" size="small" />
+            <TextField
+              className="labelTextField"
+              defaultValue="Luke Test"
+              size="small"
+            />
+          </label>
+        </Stack>
+        <Stack
+          direction="row"
+          spacing={5}
+        >
+          <label className="labelFormArea half">
+            <span>Physical Name</span>
+            <TextField
+              className="labelTextField"
+              defaultValue="Luke Test"
+              size="small"
+            />
+          </label>
+          <label className="labelFormArea half">
+            <span>Physical Name</span>
+            <TextField
+              className="labelTextField"
+              defaultValue="Luke Test"
+              size="small"
+            />
+          </label>
+        </Stack>
+        <Stack
+          direction="row"
+          spacing={5}
+        >
+          <label className="labelFormArea half">
+            <span>Physical Name</span>
+            <TextField
+              className="labelTextField"
+              defaultValue="Luke Test"
+              size="small"
+            />
+          </label>
+          <label className="labelFormArea half">
+            <span>Physical Name</span>
+            <TextField
+              className="labelTextField"
+              defaultValue="Luke Test"
+              size="small"
+            />
           </label>
         </Stack>
 

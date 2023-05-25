@@ -5,9 +5,18 @@ import Error from '@/pages/error';
 
 const LogControl = ({ subMenus }: { subMenus: subMenusType }) => (
   <Routes>
-    <Route path="/management" element={<LogManagement title={subMenus['Management'].title} />} />
-    <Route path="/" element={<Navigate to="/configuration/log-control/management" />} />
-    <Route path="/*" element={<Error />} />
+    <Route
+      path="/management"
+      element={<LogManagement title={subMenus['Management'].title} />}
+    />
+    <Route
+      path="/"
+      element={<Navigate to="/configuration/log-control/management" />}
+    />
+    <Route
+      path="/*"
+      element={<Error />}
+    />
   </Routes>
 );
 

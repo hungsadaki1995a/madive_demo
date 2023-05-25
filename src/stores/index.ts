@@ -7,3 +7,4 @@ export { MetaStore } from './MetaStore';
 export { NodeStore } from './NodeStore';
 export { ProminerStore } from './ProminerStore';
 export { AlertStore } from './AlertStore';
+export { TestCaseStore } from './TestCaseStore';

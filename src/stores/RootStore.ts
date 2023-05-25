@@ -5,6 +5,7 @@ import {
   NodeStore,
   ProminerStore,
   RoleStore,
+  TestCaseStore,
   UserStore,
 } from '@/stores';
 
@@ -16,4 +17,5 @@ export class RootStore {
   ProminerStore: ProminerStore = new ProminerStore();
   RoleStore: RoleStore = new RoleStore();
   UserStore: UserStore = new UserStore();
+  TestCaseStore: TestCaseStore = new TestCaseStore();
 }

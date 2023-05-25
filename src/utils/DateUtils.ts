@@ -1,15 +1,7 @@
 import moment from 'moment';
 
 moment.locale('ko', {
-  weekdays: [
-    '일요일',
-    '월요일',
-    '화요일',
-    '수요일',
-    '목요일',
-    '금요일',
-    '토요일',
-  ],
+  weekdays: ['일요일', '월요일', '화요일', '수요일', '목요일', '금요일', '토요일'],
   weekdaysShort: ['일', '월', '화', '수', '목', '금', '토'],
 });
 
@@ -59,18 +51,11 @@ export const isPastTime = (dateString: string, dateFormat: string) => {
 // Function description: get date difference date_calculate difference date based on start date and end date
 // Input values: start date String, end date String, date format String
 // return value: difference date String
-export const getDiffDateDay = (
-  startDate: string,
-  endDate: string,
-  dateFormat: string
-) => {
+export const getDiffDateDay = (startDate: string, endDate: string, dateFormat: string) => {
   dateFormat = dateFormat ?? 'YYYYMMDD';
   if (!moment(startDate, dateFormat).isValid()) return 0;
   if (!moment(endDate, dateFormat).isValid()) return 0;
-  return moment(endDate, dateFormat).diff(
-    moment(startDate, dateFormat),
-    'days'
-  );
+  return moment(endDate, dateFormat).diff(moment(startDate, dateFormat), 'days');
 };
 
 // Function Description: Get today's date_Return information about today's date.
@@ -101,11 +86,7 @@ export const getNow = (formatWord: string) => {
 // Function description: Get the day of the week for the date_Get the day of the week for the date.
 // Input value: dateStr_date string information, formatWord_day classification [dddd,ddd] dddd: day word, ddd day abbreviation
 // return value: day of the week for that date
-export const getDayOfWeek = (
-  dateStr: string,
-  formatWord: string,
-  localeStr: string
-) => {
+export const getDayOfWeek = (dateStr: string, formatWord: string, localeStr: string) => {
   dateStr = dateStr ?? moment().format('YYYYMMDD');
   formatWord = formatWord ?? 'dddd';
   localeStr = localeStr ?? 'ko';

@@ -87,7 +87,11 @@ function CmSelect(props: propsType) {
           inputProps={{ 'aria-label': 'Without label' }}
         >
           {names.map((name) => (
-            <MenuItem key={name} value={name} style={getStyles(name, personName, theme)}>
+            <MenuItem
+              key={name}
+              value={name}
+              style={getStyles(name, personName, theme)}
+            >
               {name}
             </MenuItem>
           ))}

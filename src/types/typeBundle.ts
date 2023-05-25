@@ -148,6 +148,21 @@ export interface ResourceResponseType {
   type: string;
 }
 
+export interface PageInfoDto {
+  pageLength: number;
+  pageNum: number;
+  sort: boolean;
+  sortField: string;
+  sortingType: string;
+}
+
+export interface PagingResultDto {
+  count: number;
+  currentPage: number;
+  totalNum: number;
+  totalPage: number;
+}
+
 export interface DependencyOptionsType {
   project: number | '';
   type: string;
