@@ -19,7 +19,13 @@ const CreateModal = ({ onSuccess }: CreateModalProps, ref: React.Ref<UserFormRef
 
   return (
     <>
-      <UserForm ref={ref} header="Add User" submitLabel="Create" cancelLabel="Cancel" onSubmit={submitForm} />
+      <UserForm
+        ref={ref}
+        header="Add User"
+        submitLabel="Create"
+        cancelLabel="Cancel"
+        onSubmit={submitForm}
+      />
     </>
   );
 };

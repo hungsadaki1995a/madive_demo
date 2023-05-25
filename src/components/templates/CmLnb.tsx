@@ -66,11 +66,18 @@ function CmLnb() {
     <CmLnbStyle>
       {/* logo */}
       <h1 className="logo">
-        <img src={logoimg} alt="logo" />
+        <img
+          src={logoimg}
+          alt="logo"
+        />
       </h1>
 
       {/* menu */}
-      <TreeView className="lnbMenuBox" defaultCollapseIcon={<ArrowUpIcon />} defaultExpandIcon={<ArrowDownIcon />}>
+      <TreeView
+        className="lnbMenuBox"
+        defaultCollapseIcon={<ArrowUpIcon />}
+        defaultExpandIcon={<ArrowDownIcon />}
+      >
         {LNB_LIST.map((item, idx) => (
           <TreeItem
             key={item.id}

@@ -53,15 +53,42 @@ function SnackBar() {
 
   return (
     <SnackbarStyled>
-      <Stack direction="row" spacing={2}>
-        <CmButton variant="contained" onClick={handleSuccessClick} btnTitle="success - Snackbar" />
-        <CmButton variant="contained" onClick={handleInfoClick} btnTitle="info - Snackbar" />
-        <CmButton variant="contained" onClick={handleWarningClick} btnTitle="warning - Snackbar" />
-        <CmButton variant="contained" onClick={handleErrorClick} btnTitle="error - Snackbar" />
+      <Stack
+        direction="row"
+        spacing={2}
+      >
+        <CmButton
+          variant="contained"
+          onClick={handleSuccessClick}
+          btnTitle="success - Snackbar"
+        />
+        <CmButton
+          variant="contained"
+          onClick={handleInfoClick}
+          btnTitle="info - Snackbar"
+        />
+        <CmButton
+          variant="contained"
+          onClick={handleWarningClick}
+          btnTitle="warning - Snackbar"
+        />
+        <CmButton
+          variant="contained"
+          onClick={handleErrorClick}
+          btnTitle="error - Snackbar"
+        />
       </Stack>
 
-      <Snackbar open={successOpen} autoHideDuration={3000} onClose={handleClose}>
-        <Alert icon={<SuccessIcon />} variant="filled" severity="success">
+      <Snackbar
+        open={successOpen}
+        autoHideDuration={3000}
+        onClose={handleClose}
+      >
+        <Alert
+          icon={<SuccessIcon />}
+          variant="filled"
+          severity="success"
+        >
           success 텍스트 영역
           <Box className="alignR">
             <Button variant="text">txt-txt</Button>
@@ -72,8 +99,16 @@ function SnackBar() {
         </Alert>
       </Snackbar>
 
-      <Snackbar open={infoOpen} autoHideDuration={3000} onClose={handleClose}>
-        <Alert icon={<SuccessIcon />} variant="filled" severity="info">
+      <Snackbar
+        open={infoOpen}
+        autoHideDuration={3000}
+        onClose={handleClose}
+      >
+        <Alert
+          icon={<SuccessIcon />}
+          variant="filled"
+          severity="info"
+        >
           info 텍스트 영역
           <Box className="alignR">
             <Button variant="text">txt-txt</Button>
@@ -84,8 +119,16 @@ function SnackBar() {
         </Alert>
       </Snackbar>
 
-      <Snackbar open={warningOpen} autoHideDuration={3000} onClose={handleClose}>
-        <Alert icon={<WarningIcon />} variant="filled" severity="warning">
+      <Snackbar
+        open={warningOpen}
+        autoHideDuration={3000}
+        onClose={handleClose}
+      >
+        <Alert
+          icon={<WarningIcon />}
+          variant="filled"
+          severity="warning"
+        >
           warning 텍스트 영역
           <Box className="alignR">
             <Button variant="text">txt-txt</Button>
@@ -96,8 +139,16 @@ function SnackBar() {
         </Alert>
       </Snackbar>
 
-      <Snackbar open={errorOpen} autoHideDuration={3000} onClose={handleClose}>
-        <Alert icon={<ErrorIcon />} variant="filled" severity="error">
+      <Snackbar
+        open={errorOpen}
+        autoHideDuration={3000}
+        onClose={handleClose}
+      >
+        <Alert
+          icon={<ErrorIcon />}
+          variant="filled"
+          severity="error"
+        >
           error 텍스트 영역
           <Box className="alignR">
             <Button variant="text">txt-txt</Button>

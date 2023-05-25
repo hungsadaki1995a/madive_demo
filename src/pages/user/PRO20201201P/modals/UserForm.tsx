@@ -141,17 +141,46 @@ const UserForm = (
           error={errors.user_id}
           disabled={disabledMapping['userId']}
         />
-        <CmDialogTextField label="Password*" {...register('user_passwd')} error={errors.user_passwd} />
-        <CmDialogTextField label="Name*" {...register('user_name')} error={errors.user_name} />
-        <CmDialogTextField label="User Div*" {...register('user_div')} error={errors.user_div} />
-        <CmDialogTextField label="E-mail*" {...register('email')} error={errors.email} />
-        <CmDialogTextField label="Telephone No.*" {...register('tel_no')} error={errors.tel_no} />
+        <CmDialogTextField
+          label="Password*"
+          {...register('user_passwd')}
+          error={errors.user_passwd}
+        />
+        <CmDialogTextField
+          label="Name*"
+          {...register('user_name')}
+          error={errors.user_name}
+        />
+        <CmDialogTextField
+          label="User Div*"
+          {...register('user_div')}
+          error={errors.user_div}
+        />
+        <CmDialogTextField
+          label="E-mail*"
+          {...register('email')}
+          error={errors.email}
+        />
+        <CmDialogTextField
+          label="Telephone No.*"
+          {...register('tel_no')}
+          error={errors.tel_no}
+        />
       </DialogContent>
       <DialogActions>
-        <Button onClick={handleSubmit(submitForm)} type="submit" color="primary" variant="contained">
+        <Button
+          onClick={handleSubmit(submitForm)}
+          type="submit"
+          color="primary"
+          variant="contained"
+        >
           {submitLabel}
         </Button>
-        <Button color="inherit" onClick={handleHide} variant="contained">
+        <Button
+          color="inherit"
+          onClick={handleHide}
+          variant="contained"
+        >
           {cancelLabel}
         </Button>
       </DialogActions>

@@ -5,9 +5,18 @@ import Error from '@/pages/error';
 
 const Resource = ({ subMenus }: { subMenus: subMenusType }) => (
   <Routes>
-    <Route path="/lock-and-unlock" element={<LockAndUnlock title={subMenus['Resource'].title} />} />
-    <Route path="/" element={<Navigate to="/development/resource/lock-and-unlock" />} />
-    <Route path="/*" element={<Error />} />
+    <Route
+      path="/lock-and-unlock"
+      element={<LockAndUnlock title={subMenus['Resource'].title} />}
+    />
+    <Route
+      path="/"
+      element={<Navigate to="/development/resource/lock-and-unlock" />}
+    />
+    <Route
+      path="/*"
+      element={<Error />}
+    />
   </Routes>
 );
 

@@ -2,8 +2,7 @@ import axios, { AxiosError } from 'axios';
 import { NodeType } from '@/types/typeBundle';
 
 const { NODE_ENV, REACT_APP_BACKEND_URL } = process.env;
-const BASE_URL =
-  NODE_ENV === 'development' ? REACT_APP_BACKEND_URL : '/proobject-devserver';
+const BASE_URL = NODE_ENV === 'development' ? REACT_APP_BACKEND_URL : '/proobject-devserver';
 
 const NodeApi = {
   getNodes: async (nodeType: string) => {
@@ -33,9 +32,7 @@ const NodeApi = {
     }
   },
 
-  deleteNodes: async (
-    poDeployNodeDTOArray: Record<'serverHostName' | 'nodeName', string>[]
-  ) => {
+  deleteNodes: async (poDeployNodeDTOArray: Record<'serverHostName' | 'nodeName', string>[]) => {
     try {
       return await axios.post(BASE_URL + '/nodeDelete', {
         poDeployNodeDTOArray,

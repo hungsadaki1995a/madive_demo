@@ -34,7 +34,12 @@ function Test(props: propsType) {
         {/* FormBox */}
         <label className="labelFormArea">
           <span>Target Node</span>
-          <Select value={test} onChange={handleChange} displayEmpty size="small">
+          <Select
+            value={test}
+            onChange={handleChange}
+            displayEmpty
+            size="small"
+          >
             <MenuItem value="">
               <em>DevServer</em>
             </MenuItem>
@@ -45,7 +50,12 @@ function Test(props: propsType) {
         {/* FormBox */}
         <label className="labelFormArea">
           <span>Resource Name</span>
-          <Select value={test} onChange={handleChange} displayEmpty size="small">
+          <Select
+            value={test}
+            onChange={handleChange}
+            displayEmpty
+            size="small"
+          >
             <MenuItem value="">
               <em>DevServer</em>
             </MenuItem>
@@ -56,7 +66,12 @@ function Test(props: propsType) {
         {/* FormBox */}
         <label className="labelFormArea">
           <span>Label</span>
-          <Select value={test} onChange={handleChange} displayEmpty size="small">
+          <Select
+            value={test}
+            onChange={handleChange}
+            displayEmpty
+            size="small"
+          >
             <MenuItem value="">
               <em>None</em>
             </MenuItem>
