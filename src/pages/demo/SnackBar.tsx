@@ -60,7 +60,7 @@ function SnackBar() {
         <CmButton variant="contained" onClick={handleErrorClick} btnTitle="error - Snackbar" />
       </Stack>
 
-      <Snackbar open={successOpen} autoHideDuration={3000} onClose={handleClose}>
+      <Snackbar open={successOpen} autoHideDuration={9993000} onClose={handleClose}>
         <Alert icon={<SuccessIcon />} variant="filled" severity="success">
           success 텍스트 영역
           <Box className="alignR">

@@ -30,6 +30,77 @@ type propsType = {
   title: string;
 };
 
+import * as CmStyle from '@/stylesheets/common';
+import makeStyles from '@mui/styles/makeStyles';
+// Styled
+const useStyles = makeStyles(() => ({
+  lbSnack: {
+    '& .MuiPaper-root.MuiAlert-root': {
+      width: '400px',
+      height: '52px',
+      alignItems: 'center',
+      padding: '0 16px',
+      margin: 0,
+      // Icon
+      '& .MuiAlert-icon': {
+        width: '22px',
+        justifyContent: 'center',
+        marginRight: '8px',
+      },
+
+      // Message
+      '& .MuiAlert-message': {
+        width: 'calc(100% - 28px)',
+        display: 'flex',
+        alignItems: 'center',
+        fontSize: '13px',
+        fontFamily: CmStyle.notoSansDJKFont.regular,
+        color: CmStyle.color.colorT04,
+
+        '& .alignR.MuiBox-root': {
+          display: 'flex',
+          alignItems: 'center',
+          '& button': {
+            fontSize: '13px',
+            fontFamily: CmStyle.notoSansDJKFont.regular,
+            color: CmStyle.color.colorT01,
+            textDecoration: 'underline',
+            '&:hover': {
+              background: 'none',
+            },
+          },
+        },
+      },
+
+      // Success
+      '&.MuiAlert-filledSuccess': {
+        background: CmStyle.color.colorSuccessBg,
+      },
+      // Info
+      '&.MuiAlert-filledInfo': {
+        background: CmStyle.color.colorInfoBg,
+      },
+      // Warning
+      '&.MuiAlert-filledWarning': {
+        background: CmStyle.color.colorWarningBg,
+      },
+      // Error
+      '& .MuiAlert-filledError': {
+        background: CmStyle.color.colorErrorBg,
+
+        '& .MuiAlert-message': {
+          color: CmStyle.color.colorBg02,
+        },
+      },
+
+      // Right Text
+      '& .alignR.MuiBox-root button': {
+        color: CmStyle.color.colorBg02,
+      },
+    },
+  },
+}));
+
 function AppSG(props: propsType) {
   const { title } = props;
   const [isModifyVisible, setIsModifyVisible] = useState(false);
@@ -71,6 +142,8 @@ function AppSG(props: propsType) {
     setSuccessOpen(!successOpen);
   };
 
+  const classes = useStyles();
+
   return (
     <OverviewStyled>
       {/* Search */}
@@ -99,37 +172,19 @@ function AppSG(props: propsType) {
         {/* contents */}
         <label className="labelFormArea">
           <span>Physical Name</span>
-          <TextField
-            className="labelTextField"
-            defaultValue="Luke Test"
-            size="small"
-          />
+          <TextField className="labelTextField" defaultValue="Luke Test" size="small" />
         </label>
         <label className="labelFormArea">
           <span>Logical Name</span>
-          <TextField
-            className="labelTextField"
-            defaultValue="1"
-            type="password"
-            size="small"
-          />
+          <TextField className="labelTextField" defaultValue="1" type="password" size="small" />
         </label>
         <label className="labelFormArea">
           <span>Package</span>
-          <TextField
-            className="labelTextField"
-            defaultValue="test"
-            size="small"
-          />
+          <TextField className="labelTextField" defaultValue="test" size="small" />
         </label>
         <label className="labelFormArea">
           <span>Description</span>
-          <TextField
-            className="labelTextField"
-            multiline
-            rows={4}
-            defaultValue="Default Value"
-          />
+          <TextField className="labelTextField" multiline rows={4} defaultValue="Default Value" />
         </label>
       </CmModal>
 
@@ -145,16 +200,8 @@ function AppSG(props: propsType) {
         <p className="pointTxt">Are you sure to delete this application ?</p>
       </CmModal>
 
-      <Snackbar
-        open={successOpen}
-        autoHideDuration={3000}
-        onClose={handleSnackBarClose}
-      >
-        <Alert
-          icon={<SuccessIcon />}
-          variant="filled"
-          severity="success"
-        >
+      <Snackbar className={classes.lbSnack} open={successOpen} autoHideDuration={993000} onClose={handleSnackBarClose}>
+        <Alert icon={<SuccessIcon />} variant="filled" severity="success">
           success 텍스트 영역
           <Box className="alignR">
             <Button variant="text">txt-txt</Button>
