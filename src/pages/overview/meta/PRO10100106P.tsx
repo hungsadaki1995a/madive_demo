@@ -4,6 +4,6 @@ type propsType = {
 
 function Meta(props: propsType) {
   const { title } = props;
-  return <>{title}</>;
+  return <>{title} - Table Data Area</>;
 }
 export default Meta;
