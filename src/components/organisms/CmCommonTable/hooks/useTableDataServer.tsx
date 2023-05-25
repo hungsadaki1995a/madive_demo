@@ -101,6 +101,7 @@ const useTableDataServer = <TRowDataType extends IPlainObject>({
     setState((prev) => {
       return {
         ...prev,
+        paginationParamsStore: { ...paginationParamsDefault },
         filterValuesStore: filterValues,
         invalidate: true, // => auto refetch
       };
@@ -141,7 +142,7 @@ const useTableDataServer = <TRowDataType extends IPlainObject>({
       onRowsPerPageChange: handleRowsPerPageChange,
     };
   }, [state.paginationParamsStore, handlePageChange, handleRowsPerPageChange]);
-
+  console.log('>>>>pagination', pagination);
   return {
     rows: state.originalData || [],
     pagination,
