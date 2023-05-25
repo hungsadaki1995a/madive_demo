@@ -19,7 +19,7 @@ import CmModal from '@/components/atoms/CmModal';
 
 // Templates
 import CmSearch from '@/components/templates/CmSearch';
-import CmPageTitle from '@/components/templates/CmPageTitle';
+import {CmPageTitle} from '@/components/templates/CmPageTitle';
 
 // img, icon
 import { ReactComponent as ModalAdd } from '@/stylesheets/images/cmModalAdd.svg';

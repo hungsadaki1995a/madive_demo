@@ -17,7 +17,7 @@ import { CmCard, CmCardAdd } from '@/components/atoms/CmCard';
 
 // Templates
 import CmSearch from '@/components/templates/CmSearch';
-import CmPageTitle from '@/components/templates/CmPageTitle';
+import {CmPageTitle} from '@/components/templates/CmPageTitle';
 
 function Card() {
   return (

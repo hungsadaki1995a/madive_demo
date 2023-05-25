@@ -5,7 +5,8 @@ import '@/stylesheets/font/stylesheet.css';
 // TestStyled
 const TestStyled = styled.div`
   display: flex;
-  flexwrap: wrap;
+  flex-wrap: wrap;
+  align-items: flex-start;
   font: 13px/ 1.5 ${CmStyle.notoSansDJKFont.regular};
 
   // Title
@@ -41,24 +42,28 @@ const TestStyled = styled.div`
         // Form
         .MuiInputBase-root {
           margin-left: auto;
-          width: 55%;
+          width: 230px;
           padding: 0;
 
-          .MuiSelect-select {
-            font: 13px/ 2 ${CmStyle.notoSansDJKFont.regular};
-            color: ${CmStyle.color.colorT01};
-            padding-top: 1px;
-            padding-bottom: 1px;
+          // .MuiSelect-select {
+          //   font: 13px/ 2 ${CmStyle.notoSansDJKFont.regular};
+          //   color: ${CmStyle.color.colorT01};
+          //   padding-top: 1px;
+          //   padding-bottom: 1px;
 
-            em {
-              font-style: normal;
-            }
+          //   em {
+          //     font-style: normal;
+          //   }
           }
         }
 
         & + .formArea {
           margin-top: 20px;
         }
+      }
+      
+      & ~ .MuiPaper-root {
+        width: calc(100% - 456px);
       }
     }
   }
