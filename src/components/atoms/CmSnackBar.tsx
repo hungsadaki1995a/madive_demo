@@ -95,15 +95,22 @@ function CmSnackBar() {
   return (
     <>
       {/* Success */}
-      <Snackbar className={classes.lbSnack} open={} autoHideDuration={3000} onClose={}>
-        <Alert icon={<SuccessIcon />} variant="filled" severity="success">
+      <Snackbar
+        className={classes.lbSnack}
+        autoHideDuration={3000}
+      >
+        <Alert
+          icon={<SuccessIcon />}
+          variant="filled"
+          severity="success"
+        >
           {/* text 영역 받음 */}
           success 텍스트 영역
           <Box className="alignR">
             {/* Btn Text 유무 있음 */}
             <Button variant="text">txt-txt</Button>
             {/* 닫기버튼 */}
-            <IconButton onClick={}>
+            <IconButton>
               <CloseIcon />
             </IconButton>
           </Box>
@@ -111,12 +118,19 @@ function CmSnackBar() {
       </Snackbar>
 
       {/* Info */}
-      <Snackbar className={classes.lbSnack} open={} autoHideDuration={3000} onClose={}>
-        <Alert icon={<SuccessIcon />} variant="filled" severity="info">
+      <Snackbar
+        className={classes.lbSnack}
+        autoHideDuration={3000}
+      >
+        <Alert
+          icon={<SuccessIcon />}
+          variant="filled"
+          severity="info"
+        >
           info 텍스트 영역
           <Box className="alignR">
             <Button variant="text">txt-txt</Button>
-            <IconButton onClick={}>
+            <IconButton>
               <CloseIcon />
             </IconButton>
           </Box>
@@ -124,12 +138,19 @@ function CmSnackBar() {
       </Snackbar>
 
       {/* Warning */}
-      <Snackbar className={classes.lbSnack} open={} autoHideDuration={3000} onClose={}>
-        <Alert icon={<WarningIcon />} variant="filled" severity="warning">
+      <Snackbar
+        className={classes.lbSnack}
+        autoHideDuration={3000}
+      >
+        <Alert
+          icon={<WarningIcon />}
+          variant="filled"
+          severity="warning"
+        >
           warning 텍스트 영역
           <Box className="alignR">
             <Button variant="text">txt-txt</Button>
-            <IconButton onClick={}>
+            <IconButton>
               <CloseIcon />
             </IconButton>
           </Box>
@@ -137,12 +158,19 @@ function CmSnackBar() {
       </Snackbar>
 
       {/* Error */}
-      <Snackbar className={classes.lbSnack} open={} autoHideDuration={3000} onClose={}>
-        <Alert icon={<ErrorIcon />} variant="filled" severity="error">
+      <Snackbar
+        className={classes.lbSnack}
+        autoHideDuration={3000}
+      >
+        <Alert
+          icon={<ErrorIcon />}
+          variant="filled"
+          severity="error"
+        >
           error 텍스트 영역
           <Box className="alignR">
             <Button variant="text">txt-txt</Button>
-            <IconButton onClick={}>
+            <IconButton>
               <CloseIcon />
             </IconButton>
           </Box>
