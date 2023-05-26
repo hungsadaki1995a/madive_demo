@@ -10,13 +10,14 @@
  ******************************************************/
 // import React, { useEffect, useState } from 'react';
 import { Box, Typography } from '@mui/material';
-import { CmPageTitleStyle } from './Templates.Styled';
-import * as CmStyle from '@/stylesheets/common';
 import makeStyles from '@mui/styles/makeStyles';
 
 // Common Atoms
 import { CmSelect } from '@/components/atoms/CmSelect';
 
+import * as CmStyle from '@/stylesheets/common';
+
+import { CmPageTitleStyle } from './Templates.Styled';
 
 // Styled
 const useStyles = makeStyles(() => ({
@@ -27,7 +28,6 @@ const useStyles = makeStyles(() => ({
       fontSize: '15px',
       fontFamily: CmStyle.notoSansDJKFont.bold,
       marginBottom: '10px',
-
     },
   },
 }));
@@ -65,13 +65,11 @@ function CmPageTselectVtc() {
 
   return (
     <Box className={classes.tSelect}>
-      <Typography>
-        Select Application
-      </Typography>
+      <Typography>Select Application</Typography>
 
       {/* Select */}
-      <CmSelect className='' /* value="test" */ />
+      <CmSelect className="" /* value="test" */ />
     </Box>
   );
 }
-export  {CmPageTitle, CmPageTselectVtc};
+export { CmPageTitle, CmPageTselectVtc };

@@ -1,9 +1,12 @@
 import { forwardRef } from 'react';
+
 import { observer } from 'mobx-react';
-import UserForm, { UserFormRefType } from './UserForm';
-import { useStore } from '@/utils';
-import UserModel from '@/types/models/userModel';
+
 import UserApi from '@/apis/UserApi';
+import UserModel from '@/types/models/userModel';
+import { useStore } from '@/utils';
+
+import UserForm, { UserFormRefType } from './UserForm';
 
 type UpdateModalProps = {
   onSuccess?: (data: UserModel) => void;

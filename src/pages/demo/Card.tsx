@@ -8,16 +8,15 @@
  * ====================================================
  * 2023.05.12   김정아 차장   최초 작성
  ******************************************************/
-import React, { useEffect, useState } from 'react';
 import { Box } from '@mui/material';
-import { CardStyled } from './CmCpst.Styled';
 
 // Common Atoms
 import { CmCard, CmCardAdd } from '@/components/atoms/CmCard';
-
+import { CmPageTitle } from '@/components/templates/CmPageTitle';
 // Templates
 import CmSearch from '@/components/templates/CmSearch';
-import {CmPageTitle} from '@/components/templates/CmPageTitle';
+
+import { CardStyled } from './CmCpst.Styled';
 
 function Card() {
   return (

@@ -11,8 +11,8 @@
     "@mui/icons-material": "5.11.16",
     "@mui/lab": "5.0.0-alpha.129",
     "@mui/material": "5.12.1",
-    "@mui/styles": "^5.8.6",
     "@mui/styled-engine-sc": "5.12.0",
+    "@mui/styles": "^5.8.6",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
@@ -42,6 +42,7 @@
     "web-vitals": "^2.1.4"
   },
   "devDependencies": {
+    "@trivago/prettier-plugin-sort-imports": "^4.1.1",
     "@types/lodash": "^4.14.194",
     "@types/styled-components": "^5.1.26",
     "@typescript-eslint/eslint-plugin": "^5.57.1",
@@ -54,6 +55,7 @@
     "eslint-plugin-react": "^7.32.2",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.3.4",
+    "husky": "^8.0.3",
     "msw": "^1.2.1",
     "prettier": "^2.8.8",
     "react-app-alias": "^2.2.2"
@@ -64,7 +66,8 @@
     "test": "craco test",
     "eject": "react-scripts eject",
     "format": "prettier . --write",
-    "lint": "eslint src --fix --ext .js,.jsx,.ts,.tsx"
+    "lint": "eslint src --fix --ext .js,.jsx,.ts,.tsx",
+    "husky:install": "husky install"
   },
   "eslintConfig": {
     "extends": [

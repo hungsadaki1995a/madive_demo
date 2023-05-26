@@ -1,5 +1,6 @@
-import { TestCaseDto } from '@/types/dtos/testCaseDtos';
 import { makeAutoObservable } from 'mobx';
+
+import { TestCaseDto } from '@/types/dtos/testCaseDtos';
 
 export class TestCaseStore {
   testCases: TestCaseDto[] = [];

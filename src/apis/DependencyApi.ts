@@ -1,4 +1,5 @@
 import axios, { AxiosError } from 'axios';
+
 import { DependencyType } from '@/types/typeBundle';
 
 const { NODE_ENV, REACT_APP_BACKEND_URL } = process.env;

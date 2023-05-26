@@ -1,5 +1,5 @@
-import { Link, styled } from '@mui/material';
 import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
+import { Link, styled } from '@mui/material';
 
 const Error = () => (
   <Wrap>

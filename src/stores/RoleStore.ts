@@ -1,5 +1,6 @@
 import { makeAutoObservable } from 'mobx';
-import { RoleType, RoleSelectionType } from '@/types/typeBundle';
+
+import { RoleSelectionType, RoleType } from '@/types/typeBundle';
 
 type RoleOrderPropertyType = Exclude<keyof RoleSelectionType, 'selection'>;
 
