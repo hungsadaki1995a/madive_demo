@@ -228,7 +228,7 @@ function AppSG(props: propsType) {
           variant="filled"
           severity="success"
         >
-          success 텍스트 영역
+          The save was success
           <Box className="alignR">
             <Button variant="text">txt-txt</Button>
             <IconButton onClick={handleSnackBarClose}>
