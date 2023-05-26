@@ -89,6 +89,67 @@ const TestStyled = styled.div`
 
     & ~ .MuiPaper-root {
       width: calc(100% - 456px);
+
+      &.inputDataBox {
+        p.MuiTypography-root {
+          margin-bottom: 20px;
+        }
+        .panel {
+          padding: 20px 10px;
+          & > .MuiBox-root {
+            padding: 0;
+          }
+          .treeBox {
+            width: 300px;
+          }
+          .tableBox {
+            width: calc(100% - 300px);
+          }
+          /* Table */
+          table {
+            * {
+              font: 13px / 1 ${CmStyle.notoSansDJKFont.regular};
+            }
+            th,
+            td {
+              padding: 8px;
+              height: 44px;
+            }
+            &.addRow {
+              thead th {
+                background: ${CmStyle.color.colorBtnSecondaryBg01};
+                border: 1px solid ${CmStyle.color.colorBtnSecondaryBg03};
+                color: ${CmStyle.color.colorT05};
+                &.iconBtn {
+                  width: 35px;
+                }
+              }
+              tbody {
+                * {
+                  color: ${CmStyle.color.colorT01};
+                }
+                td {
+                  border: 1px solid ${CmStyle.color.colorBtnSecondaryBg03};
+                }
+              }
+            }
+            // TextField
+            .MuiOutlinedInput-input {
+              height: 27px;
+              padding: 1px 8px 2px;
+              font: 13px/ 1.5 ${CmStyle.notoSansDJKFont.light};
+              &.Mui-disabled {
+                -webkit-text-fill-color: unset;
+                color: ${CmStyle.color.colorT01};
+              }
+              .Mui-disabled .MuiOutlinedInput-notchedOutline {
+                color: ${CmStyle.color.colorBtnDisabledText};
+                background-color: rgba(0, 0, 0, 0.03);
+              }
+            }
+          }
+        }
+      }
     }
   }
 `;
