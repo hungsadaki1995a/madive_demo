@@ -17,7 +17,7 @@ import { CmButton, CmIconButton } from '@/components/atoms/CmButton';
 
 // Templates
 import CmSearch from '@/components/templates/CmSearch';
-import {CmPageTitle} from '@/components/templates/CmPageTitle';
+import { CmPageTitle } from '@/components/templates/CmPageTitle';
 
 // img, icon
 import StarsIcon from '@mui/icons-material/StarsOutlined';

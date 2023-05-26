@@ -28,3 +28,7 @@ ul {
 .alignR {
   margin-left: auto;
 }
+.flexEnd {
+  display: flex;
+  justify-content: flex-end;
+}
