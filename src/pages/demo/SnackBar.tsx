@@ -8,19 +8,21 @@
  * ====================================================
  * 2023.05.21   김정아 차장   최초 작성
  ******************************************************/
-import React, { useEffect, useState } from 'react';
-import { Stack, Box, Button, IconButton, Snackbar, Alert, SnackbarCloseReason } from '@mui/material';
-import { SnackbarStyled } from './CmCpst.Styled';
+import React, { useState } from 'react';
+
+// import { ReactComponent as WarningIcon } from '@/stylesheets/images/SnackWarningIcon.svg' - svg 오류로 인해 불러올 수 없습니다.
+import WarningIcon from '@mui/icons-material/WarningAmber';
+import { Alert, Box, Button, IconButton, Snackbar, SnackbarCloseReason, Stack } from '@mui/material';
 
 // Common Atoms
-import { CmButton, CmIconButton } from '@/components/atoms/CmButton';
+import { CmButton } from '@/components/atoms/CmButton';
 
 // img, icon
 import { ReactComponent as CloseIcon } from '@/stylesheets/images/SnackCloseIcon.svg';
-import { ReactComponent as SuccessIcon } from '@/stylesheets/images/SnackSuccessIcon.svg';
-// import { ReactComponent as WarningIcon } from '@/stylesheets/images/SnackWarningIcon.svg' - svg 오류로 인해 불러올 수 없습니다.
-import WarningIcon from '@mui/icons-material/WarningAmber';
 import { ReactComponent as ErrorIcon } from '@/stylesheets/images/SnackErrorIcon.svg';
+import { ReactComponent as SuccessIcon } from '@/stylesheets/images/SnackSuccessIcon.svg';
+
+import { SnackbarStyled } from './CmCpst.Styled';
 
 function SnackBar() {
   const [successOpen, setSuccessOpen] = useState(false);

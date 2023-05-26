@@ -1,4 +1,5 @@
 import { makeAutoObservable } from 'mobx';
+
 import { MetaType } from '@/types/typeBundle';
 
 export class MetaStore {

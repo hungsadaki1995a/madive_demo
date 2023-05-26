@@ -1,1 +1,1 @@
-export { initialUserValue, emptyUserInfo } from './constantObjects';
+export { emptyUserInfo, initialUserValue } from './constantObjects';

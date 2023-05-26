@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+
 import * as CmStyle from '@/stylesheets/common';
 import '@/stylesheets/font/stylesheet.css';
 
@@ -54,17 +55,16 @@ const TestStyled = styled.div`
           //   em {
           //     font-style: normal;
           //   }
-          }
         }
+      }
 
-        & + .formArea {
-          margin-top: 20px;
-        }
+      & + .formArea {
+        margin-top: 20px;
       }
-      
-      & ~ .MuiPaper-root {
-        width: calc(100% - 456px);
-      }
+    }
+
+    & ~ .MuiPaper-root {
+      width: calc(100% - 456px);
     }
   }
 `;

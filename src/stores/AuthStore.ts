@@ -1,7 +1,9 @@
-import { makeAutoObservable } from 'mobx';
-import { UserType } from '@/types/typeBundle';
-import { MobxStore } from '@/App';
 import _ from 'lodash';
+import { makeAutoObservable } from 'mobx';
+
+import { UserType } from '@/types/typeBundle';
+
+import { MobxStore } from '@/App';
 import { emptyUserInfo } from '@/constants/';
 
 export class AuthStore {

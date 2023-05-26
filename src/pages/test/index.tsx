@@ -1,10 +1,13 @@
-import { Routes, Route, Navigate } from 'react-router-dom';
+import { Navigate, Route, Routes } from 'react-router-dom';
+
+import { subMenusType } from '@/types/typeBundle';
+
+import Error from '@/pages/error';
+
 import TestManagement from './PRO10102101P';
 import TestCase from './PRO10102106P';
 import CreateTestCase from './PRO10102109P';
 import History from './PRO10102119P';
-import { subMenusType } from '@/types/typeBundle';
-import Error from '@/pages/error';
 
 const Test = ({ subMenus }: { subMenus: subMenusType }) => (
   <Routes>

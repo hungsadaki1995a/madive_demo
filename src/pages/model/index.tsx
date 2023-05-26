@@ -1,7 +1,10 @@
-import { Routes, Route, Navigate } from 'react-router-dom';
-import Dbio from './PRO20202201P';
+import { Navigate, Route, Routes } from 'react-router-dom';
+
 import { subMenusType } from '@/types/typeBundle';
+
 import Error from '@/pages/error';
+
+import Dbio from './PRO20202201P';
 
 const Model = ({ subMenus }: { subMenus: subMenusType }) => (
   <Routes>

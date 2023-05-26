@@ -1,5 +1,6 @@
-import UserModel from '@/types/models/userModel';
 import { makeAutoObservable } from 'mobx';
+
+import UserModel from '@/types/models/userModel';
 
 export class UserStore {
   users: UserModel[] = [];

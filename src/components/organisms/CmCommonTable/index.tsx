@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { ICommonTable, IPlainObject, ISortInfo } from './types';
+
 import TableLayoutDefault from './layout/TableLayoutDefault';
+import { ICommonTable, IPlainObject, ISortInfo } from './types';
 
 export type CommonTableRefType = {
   resetSelectedRows: () => void;
