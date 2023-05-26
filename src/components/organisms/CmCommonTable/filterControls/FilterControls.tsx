@@ -5,6 +5,9 @@ import { IFilterConfig, IFilterElementType } from '../types';
 import DropdownFilterInput from './DropdownFilterInput';
 import SimpleFilterInput from './SimpleFilterInput';
 
+import { CmButton } from '@/components/atoms/CmButton';
+import { ReactComponent as DeleteIcon } from '@/stylesheets/images/cmCardDelIcon.svg';
+
 interface IFilterControlsProps {
   filterConfig: IFilterConfig;
   onTriggerQuery: (filterValues: { [key: string]: any }) => void;
@@ -63,8 +66,13 @@ const FilterControls = ({ filterConfig, onTriggerQuery }: IFilterControlsProps) 
     <>
       <Stack
         direction="row"
-        spacing={4}
+        spacing={2}
       >
+        <CmButton
+          variant="contained"
+          startIcon={<DeleteIcon />}
+          btnTitle="Contained"
+        />
         {filterConfig?.filters?.map((filterItem) => {
           return renderFilterComponentBaseType(filterItem);
         })}

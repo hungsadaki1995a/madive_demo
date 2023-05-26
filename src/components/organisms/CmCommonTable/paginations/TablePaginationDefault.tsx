@@ -2,7 +2,26 @@ import { useCallback } from 'react';
 
 import { TablePagination } from '@mui/material';
 
+import makeStyles from '@mui/styles/makeStyles';
 import { IPaginationConfig } from '../types';
+
+// Styled
+const useStyles = makeStyles(() => ({
+  tPagination: {
+    marginTop: '12px',
+    '& .MuiToolbar-root': {
+      minHeight: 'unset',
+    },
+    '& .MuiToolbar-root *': {
+      fontSize: '12px',
+      color: '#1C293E',
+    },
+    '& p': {
+      marginTop: '0',
+      marginBottom: '0',
+    },
+  },
+}));
 
 const TablePaginationDefault = ({
   totalCount,
@@ -14,6 +33,7 @@ const TablePaginationDefault = ({
 }: IPaginationConfig & {
   rowsPerPageOptions?: number[];
 }) => {
+  const classes = useStyles();
   const handlePageChange = useCallback(
     (event: React.MouseEvent<HTMLButtonElement, MouseEvent> | null, newPageIndex: number) => {
       onPageChange?.(newPageIndex);
@@ -27,6 +47,7 @@ const TablePaginationDefault = ({
 
   return (
     <TablePagination
+      className={classes.tPagination}
       rowsPerPageOptions={rowsPerPageOptions}
       component="div"
       count={totalCount}
