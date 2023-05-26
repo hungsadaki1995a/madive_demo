@@ -4,6 +4,6 @@ type propsType = {
 
 function CreateTestCase(props: propsType) {
   const { title } = props;
-  return <>{title} - Table Data Area</>;
+  return <>{title}</>;
 }
 export default CreateTestCase;
