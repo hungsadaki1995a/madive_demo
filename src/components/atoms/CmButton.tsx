@@ -8,11 +8,11 @@
  * ====================================================
  * 2023.05.12   김정아 차장   최초 작성
  ******************************************************/
-import React from 'react';
-
-import { Button, IconButton, Tooltip } from '@mui/material';
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import { Button, IconButton, Menu, MenuItem, Tooltip } from '@mui/material';
 import { OverridableStringUnion } from '@mui/types';
-
+import React from 'react';
+import { IButtonMenuConfig } from '../organisms/CmCommonTable/types';
 import { CmButtonStyle } from './Atoms.Styled';
 
 type btnPropsType = {
@@ -84,4 +84,60 @@ function CmIconButton(props: icoBtnPropsType) {
     </CmButtonStyle>
   );
 }
-export { CmButton, CmIconButton };
+
+type ButtonMenuPropsType = {
+  config: IButtonMenuConfig;
+  onChange: (value: any) => void;
+};
+
+function CmButtonDropdownMenu({ config, onChange }: ButtonMenuPropsType) {
+  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const open = Boolean(anchorEl);
+  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+  const onChangeMenuItem = (value: any) => {
+    handleClose();
+    onChange(value);
+  };
+  return (
+    <div>
+      <Button
+        id="basic-button"
+        aria-controls={open ? 'basic-menu' : undefined}
+        aria-haspopup="true"
+        aria-expanded={open ? 'true' : undefined}
+        variant="contained"
+        onClick={handleClick}
+        endIcon={<KeyboardArrowDownIcon />}
+      >
+        {config.placeholder}
+      </Button>
+      <Menu
+        id="basic-menu"
+        anchorEl={anchorEl}
+        open={open}
+        onClose={handleClose}
+        MenuListProps={{
+          'aria-labelledby': 'basic-button',
+        }}
+      >
+        {config.options.map(({ label, value }) => {
+          return (
+            <MenuItem
+              key={value}
+              onClick={() => onChangeMenuItem(value)}
+            >
+              {label}
+            </MenuItem>
+          );
+        })}
+      </Menu>
+    </div>
+  );
+}
+
+export { CmButton, CmIconButton, CmButtonDropdownMenu };

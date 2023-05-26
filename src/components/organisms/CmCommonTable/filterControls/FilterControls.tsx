@@ -1,8 +1,7 @@
+import { Button, Stack } from '@mui/material';
 import React, { useCallback, useState } from 'react';
-
-import { Button } from '@mui/material';
-
-import { IFilterConfig } from '../types';
+import { FilterTypes, SubmitActionTypes } from '../const';
+import { IFilterConfig, IFilterElementType } from '../types';
 import DropdownFilterInput from './DropdownFilterInput';
 import SimpleFilterInput from './SimpleFilterInput';
 
@@ -27,38 +26,50 @@ const FilterControls = ({ filterConfig, onTriggerQuery }: IFilterControlsProps) 
     onTriggerQuery(filterValues);
   }, [onTriggerQuery, filterValues]);
 
+  const renderFilterComponentBaseType = (filterItemConfig: IFilterElementType) => {
+    switch (filterItemConfig.type) {
+      case FilterTypes.DROPDOWN:
+        return (
+          <DropdownFilterInput
+            key={filterItemConfig.name}
+            filterInfo={filterItemConfig}
+            onChange={handleChange}
+          />
+        );
+      case FilterTypes.SIMPLE:
+        return (
+          <SimpleFilterInput
+            key={filterItemConfig.name}
+            filterInfo={filterItemConfig}
+            onChange={handleChange}
+            onTriggerQuery={filterConfig.submitBy === SubmitActionTypes.ENTER ? handleTriggerQuery : undefined}
+          />
+        );
+      case FilterTypes.ACTION_SELECTION:
+        return (
+          <DropdownFilterInput
+            key={filterItemConfig.name}
+            filterInfo={filterItemConfig}
+            onChange={handleChange}
+            onTriggerQuery={handleTriggerQuery}
+          />
+        );
+      default:
+        return null;
+    }
+  };
+
   return (
     <>
-      {filterConfig?.filters?.map((item) => {
-        if (item.type === 'dropdown') {
-          return (
-            <DropdownFilterInput
-              key={item.name}
-              filterInfo={item}
-              onChange={handleChange}
-            />
-          );
-        } else if (item.type === 'simple') {
-          return (
-            <SimpleFilterInput
-              key={item.name}
-              filterInfo={item}
-              onChange={handleChange}
-              onTriggerQuery={filterConfig.submitBy === 'enter' ? handleTriggerQuery : undefined}
-            />
-          );
-        } else if (item.type === 'action-selection') {
-          return (
-            <DropdownFilterInput
-              key={item.name}
-              filterInfo={item}
-              onChange={handleChange}
-              onTriggerQuery={handleTriggerQuery}
-            />
-          );
-        } else return null;
-      })}
-      {filterConfig.submitBy === 'button' && (
+      <Stack
+        direction="row"
+        spacing={4}
+      >
+        {filterConfig?.filters?.map((filterItem) => {
+          return renderFilterComponentBaseType(filterItem);
+        })}
+      </Stack>
+      {filterConfig.submitBy === SubmitActionTypes.BUTTON && (
         <Button
           size="small"
           variant="contained"
