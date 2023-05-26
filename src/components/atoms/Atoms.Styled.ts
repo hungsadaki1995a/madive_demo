@@ -5,7 +5,7 @@ import '@/stylesheets/font/stylesheet.css';
 
 // Common Button
 const CmButtonStyle = styled.label`
-  button {
+  /* button {
     font: 13px / 1.5 ${CmStyle.notoSansDJKFont.light};
     padding: 2.5px 8px;
     line-height: 20px;
@@ -132,7 +132,7 @@ const CmButtonStyle = styled.label`
         fill: ${CmStyle.color.colorT00};
       }
     }
-  }
+  } */
 `;
 
 // Common Card
@@ -325,6 +325,76 @@ const CmModalStyle = styled.div`
       padding-bottom: 30px;
       margin: 0;
     }
+    .detailEditor {
+      width: 100%;
+      .MuiGrid-root {
+        padding: 15px;
+        font: 13px/ 1.5 ${CmStyle.notoSansDJKFont.regular};
+        color: ${CmStyle.color.colorBtnString};
+        .MuiPaper-root {
+          color: ${CmStyle.color.colorT01};
+          background: #f5f6f7;
+          border: 1px solid #d3d5da;
+          margin-top: 8px;
+          border-radius: 5px;
+          box-shadow: none;
+          /* padding: 5px; */
+          display: flex;
+          flex-direction: column;
+          align-items: flex-start;
+          padding: 4px 8px;
+          gap: 4px;
+          * {
+            padding: 0;
+            margin: 0;
+            line-height: 180%;
+          }
+        }
+      }
+    }
+
+    table {
+      * {
+        font: 13px / 1 ${CmStyle.notoSansDJKFont.regular};
+      }
+      th,
+      td {
+        padding: 8px;
+        height: 44px;
+      }
+      &.addRow {
+        thead th {
+          background: ${CmStyle.color.colorBtnSecondaryBg01};
+          border: 1px solid ${CmStyle.color.colorBtnSecondaryBg03};
+          color: ${CmStyle.color.colorT05};
+          &.iconBtn {
+            width: 35px;
+          }
+        }
+        tbody {
+          * {
+            color: ${CmStyle.color.colorT01};
+          }
+          td {
+            border: 1px solid ${CmStyle.color.colorBtnSecondaryBg03};
+          }
+        }
+      }
+      // TextField
+      .MuiOutlinedInput-input {
+        height: 27px;
+        padding: 1px 8px 2px;
+        font: 13px/ 1.5 ${CmStyle.notoSansDJKFont.light};
+        &.Mui-disabled {
+          -webkit-text-fill-color: unset;
+          color: ${CmStyle.color.colorT01};
+        }
+        .Mui-disabled .MuiOutlinedInput-notchedOutline {
+          color: ${CmStyle.color.colorBtnDisabledText};
+          background-color: rgba(0, 0, 0, 0.03);
+        }
+      }
+    }
 
     .labelFormArea,
     .inputArea {
@@ -405,7 +475,7 @@ const CmModalStyle = styled.div`
     display: flex;
     align-items: center;
 
-    label + label {
+    button + button {
       margin-left: 8px;
     }
 

@@ -10,14 +10,15 @@
  ******************************************************/
 import { useRef, useState } from 'react';
 
-import { Stack, TextField } from '@mui/material';
+import { Grid, Paper, Stack, Table, TableBody, TableCell, TableHead, TableRow, TextField } from '@mui/material';
 
 // Common Atoms
-import { CmButton } from '@/components/atoms/CmButton';
+import { CmButton, CmIconButton } from '@/components/atoms/CmButton';
 import CmModal from '@/components/atoms/CmModal';
 
 // img, icon
 import { ReactComponent as ModalAdd } from '@/stylesheets/images/cmModalAdd.svg';
+import { ReactComponent as ModalDelIcon } from '@/stylesheets/images/cmModalDelIcon.svg';
 
 import { ModalStyled } from './CmCpst.Styled';
 
@@ -165,7 +166,31 @@ function Modal() {
           />
         </label>
 
-        <p>테이블 구조 이슈 완료후 작업 예정</p>
+        <Table className="addRow">
+          <TableHead>
+            <TableRow>
+              <TableCell>Physical Name</TableCell>
+              <TableCell>Logical Name</TableCell>
+              <TableCell className="iconBtn"> </TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            <TableRow>
+              <TableCell>Header</TableCell>
+              <TableCell>
+                <TextField
+                  hiddenLabel
+                  fullWidth
+                  size="small"
+                  defaultValue="Logical name text"
+                />
+              </TableCell>
+              <TableCell align="center">
+                <CmIconButton iconName={<ModalDelIcon />} />
+              </TableCell>
+            </TableRow>
+          </TableBody>
+        </Table>
       </CmModal>
 
       {/* Delete Application - Modal */}
@@ -273,7 +298,32 @@ function Modal() {
           </label>
         </Stack>
 
-        <p>JSON Editor 적용 예정</p>
+        <Grid
+          container
+          className="detailEditor"
+        >
+          <Grid xs={4}>
+            Header Data
+            <Paper>
+              <p>1234</p>
+              <p>1234</p>
+              <p>1234</p>
+              <p>1234</p>
+              <p>1234</p>
+              <p>1234</p>
+              <p>1234</p>
+              <p>1234</p>
+            </Paper>
+          </Grid>
+          <Grid xs={4}>
+            InputData
+            <Paper>1234</Paper>
+          </Grid>
+          <Grid xs={4}>
+            Output Data
+            <Paper>1234</Paper>
+          </Grid>
+        </Grid>
       </CmModal>
     </ModalStyled>
   );

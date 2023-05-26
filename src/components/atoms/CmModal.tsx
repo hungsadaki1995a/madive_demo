@@ -85,6 +85,15 @@ function CmModal(props: propsType) {
                   color="info"
                   onClick={onClick}
                 />
+                <CmButton
+                  id=""
+                  variant="contained"
+                  btnTitle="Delete"
+                  startIcon={<></>}
+                  className=""
+                  color="error"
+                  // onClick={onClick}
+                />
               </Box>
             </>
           )}
