@@ -8,7 +8,7 @@ function TestCase(props: propsType) {
   const { title } = props;
   return (
     <>
-      <TestCaseDataTable />;
+      <TestCaseDataTable />
     </>
   );
 }

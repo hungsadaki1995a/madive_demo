@@ -46,9 +46,11 @@ export interface IFilterActionSelection extends IFilterBase {
   }[];
 }
 
+export type IFilterElementType = IFilterSimple | IFilterDropdown | IFilterActionSelection;
+
 export interface IFilterConfigBase {
   submitBy: SubmitFilterType;
-  filters: (IFilterSimple | IFilterDropdown | IFilterActionSelection)[];
+  filters: IFilterElementType[];
 }
 
 export interface IFilterConfigSubmitByButton extends IFilterConfigBase {
@@ -111,7 +113,7 @@ export interface ICommonTable<TRowDataType extends IPlainObject> {
   columnsConfig: ICommonTableColumn<TRowDataType>[];
   rows: TRowDataType[];
   //
-  hasSelectionRows: boolean;
+  hasSelectionRows?: boolean;
   onSelectedRows?: (selectedRows: TRowDataType[]) => void;
   //
   topActionConfig?: ITopAction;
@@ -127,7 +129,7 @@ export interface ICommonTable<TRowDataType extends IPlainObject> {
   //
   showResultCount?: boolean;
   //
-  bottomActionsConfig: IBottomAction<TRowDataType>[];
+  bottomActionsConfig?: IBottomAction<TRowDataType>[];
 }
 
 export type TableLayoutProps<TRowDataType extends IPlainObject> = Pick<
@@ -152,3 +154,11 @@ export type TableLayoutProps<TRowDataType extends IPlainObject> = Pick<
   };
   selectedRows: TRowDataType[];
 };
+
+export interface IButtonMenuConfig {
+  placeholder: string;
+  options: {
+    label: string;
+    value: string;
+  }[];
+}
