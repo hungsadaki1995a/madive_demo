@@ -1,7 +1,8 @@
-import { TableCell, styled } from '@mui/material';
-import CheckBox from '@mui/material/Checkbox';
 import React from 'react';
 import { ChangeEvent } from 'react';
+
+import { styled, TableCell } from '@mui/material';
+import CheckBox from '@mui/material/Checkbox';
 
 const StyledTableCell = styled(TableCell)`
   width: 24px;

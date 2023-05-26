@@ -1,5 +1,7 @@
-import { Box } from '@mui/material';
 import React from 'react';
+
+import { Box } from '@mui/material';
+
 import BottomButtons from '../bottomButtons/BottomButtons';
 import FilterControls from '../filterControls/FilterControls';
 import TablePaginationDefault from '../paginations/TablePaginationDefault';

@@ -8,30 +8,29 @@
  * ====================================================
  * 2023.05.23   김정아 차장   최초 작성
  ******************************************************/
-import React, { useEffect, useState, useRef } from 'react';
-import { Box, TextField, Button, IconButton, Snackbar, Alert } from '@mui/material';
-import { OverviewStyled } from './Overview.Styled';
+import { useRef, useState } from 'react';
+
+import { Alert, Box, Button, IconButton, Snackbar, TextField } from '@mui/material';
+import makeStyles from '@mui/styles/makeStyles';
 
 // Common Atoms
 import { CmCard, CmCardAdd } from '@/components/atoms/CmCard';
-import { CmButton } from '@/components/atoms/CmButton';
 import CmModal from '@/components/atoms/CmModal';
-
+import { CmPageTitle } from '@/components/templates/CmPageTitle';
 // Templates
 import CmSearch from '@/components/templates/CmSearch';
-import {CmPageTitle} from '@/components/templates/CmPageTitle';
 
+import * as CmStyle from '@/stylesheets/common';
 // img, icon
-import { ReactComponent as ModalAdd } from '@/stylesheets/images/cmModalAdd.svg';
 import { ReactComponent as CloseIcon } from '@/stylesheets/images/SnackCloseIcon.svg';
 import { ReactComponent as SuccessIcon } from '@/stylesheets/images/SnackSuccessIcon.svg';
+
+import { OverviewStyled } from './Overview.Styled';
 
 type propsType = {
   title: string;
 };
 
-import * as CmStyle from '@/stylesheets/common';
-import makeStyles from '@mui/styles/makeStyles';
 // Styled
 const useStyles = makeStyles(() => ({
   lbSnack: {
@@ -172,19 +171,37 @@ function AppSG(props: propsType) {
         {/* contents */}
         <label className="labelFormArea">
           <span>Physical Name</span>
-          <TextField className="labelTextField" defaultValue="Luke Test" size="small" />
+          <TextField
+            className="labelTextField"
+            defaultValue="Luke Test"
+            size="small"
+          />
         </label>
         <label className="labelFormArea">
           <span>Logical Name</span>
-          <TextField className="labelTextField" defaultValue="1" type="password" size="small" />
+          <TextField
+            className="labelTextField"
+            defaultValue="1"
+            type="password"
+            size="small"
+          />
         </label>
         <label className="labelFormArea">
           <span>Package</span>
-          <TextField className="labelTextField" defaultValue="test" size="small" />
+          <TextField
+            className="labelTextField"
+            defaultValue="test"
+            size="small"
+          />
         </label>
         <label className="labelFormArea">
           <span>Description</span>
-          <TextField className="labelTextField" multiline rows={4} defaultValue="Default Value" />
+          <TextField
+            className="labelTextField"
+            multiline
+            rows={4}
+            defaultValue="Default Value"
+          />
         </label>
       </CmModal>
 
@@ -200,8 +217,17 @@ function AppSG(props: propsType) {
         <p className="pointTxt">Are you sure to delete this application ?</p>
       </CmModal>
 
-      <Snackbar className={classes.lbSnack} open={successOpen} autoHideDuration={993000} onClose={handleSnackBarClose}>
-        <Alert icon={<SuccessIcon />} variant="filled" severity="success">
+      <Snackbar
+        className={classes.lbSnack}
+        open={successOpen}
+        autoHideDuration={993000}
+        onClose={handleSnackBarClose}
+      >
+        <Alert
+          icon={<SuccessIcon />}
+          variant="filled"
+          severity="success"
+        >
           success 텍스트 영역
           <Box className="alignR">
             <Button variant="text">txt-txt</Button>

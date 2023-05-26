@@ -1,5 +1,6 @@
-import UserModel from '@/types/models/userModel';
 import axios, { AxiosError } from 'axios';
+
+import UserModel from '@/types/models/userModel';
 
 const { NODE_ENV, REACT_APP_BACKEND_URL } = process.env;
 const BASE_URL = NODE_ENV === 'development' ? REACT_APP_BACKEND_URL : '/proobject-devserver';

@@ -1,7 +1,8 @@
-import { IBottomAction, IPlainObject } from '../types';
-
 import React, { useCallback, useMemo } from 'react';
+
 import { Button, Stack } from '@mui/material';
+
+import { IBottomAction, IPlainObject } from '../types';
 
 const TBottomButton = <TRowDataType extends IPlainObject>({
   label,

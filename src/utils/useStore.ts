@@ -1,4 +1,5 @@
 import { createContext, useContext } from 'react';
+
 import { type RootStore } from '@/stores';
 
 type StoreType = Record<'MobxStore', RootStore>;

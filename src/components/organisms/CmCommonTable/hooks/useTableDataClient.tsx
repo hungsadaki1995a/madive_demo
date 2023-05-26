@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
+
 import { IPaginationConfig, IPaginationParams, IPlainObject, ISortInfo } from '../types';
 import usePaginationClient from './usePaginationClient';
 

@@ -8,17 +8,18 @@
  * ====================================================
  * 2023.05.23   김정아 차장   최초 작성
  ******************************************************/
-import React, { useEffect, useState } from 'react';
-import { Paper, Typography, Box } from '@mui/material';
-import Select, { SelectChangeEvent } from '@mui/material/Select';
-import { TestStyled } from './Test.Styled';
+import CmDataSearch from '@/components/atoms/CmDataSearch';
+import { Box, Paper, Typography } from '@mui/material';
+import { SelectChangeEvent } from '@mui/material/Select';
+import { useState } from 'react';
 
 // Common Atoms
 import { CmButton } from '@/components/atoms/CmButton';
 
 // Templates
 import { CmPageTselectVtc } from '@/components/templates/CmPageTitle';
-import CmDataSearch from '@/components/atoms/CmDataSearch';
+
+import { TestStyled } from './Test.Styled';
 
 // img, icon
 import StarsIcon from '@mui/icons-material/StarsOutlined';
@@ -81,7 +82,7 @@ function Test(props: propsType) {
               <figcaption>SHDO</figcaption>
             </figure>
             <figure>
-              <span>Input DO</span>
+              <span>Input</span>
               <figcaption>com.tmax.dto.SHDO</figcaption>
             </figure>
             <figure>

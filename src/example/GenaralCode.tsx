@@ -1,12 +1,10 @@
 /** @format */
-
-import * as MaterialIcon from '@mui/icons-material';
-import { ReactComponent as Overview } from '@/stylesheets/images/lnbOverview.svg';
 import { ReactComponent as Node } from '@/stylesheets/images/lnbNode.svg';
-import { ReactComponent as Test } from '@/stylesheets/images/lnbTest.svg';
+import { ReactComponent as Overview } from '@/stylesheets/images/lnbOverview.svg';
 import { ReactComponent as Prominer } from '@/stylesheets/images/lnbProminer.svg';
-import { ReactComponent as SystemContext } from '@/stylesheets/images/lnbSystemcontext.svg';
 import { ReactComponent as Resource } from '@/stylesheets/images/lnbResource.svg';
+import { ReactComponent as SystemContext } from '@/stylesheets/images/lnbSystemcontext.svg';
+import { ReactComponent as Test } from '@/stylesheets/images/lnbTest.svg';
 import { ReactComponent as SubIcon } from '@/stylesheets/images/lnbTwoDepthIcon.svg';
 
 export const LNB_LIST = [

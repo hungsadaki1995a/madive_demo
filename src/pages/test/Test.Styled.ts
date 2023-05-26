@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+
 import * as CmStyle from '@/stylesheets/common';
 import '@/stylesheets/font/stylesheet.css';
 
@@ -30,6 +31,7 @@ const TestStyled = styled.div`
         p.MuiTypography-root {
           margin-bottom: 20px;
         }
+<<<<<<< HEAD
         & ~ *:not(.flexEnd) {
           margin-top: 35px;
         }
@@ -83,7 +85,34 @@ const TestStyled = styled.div`
       }
       & ~ .MuiPaper-root {
         width: calc(100% - 456px);
+=======
+
+        // Form
+        .MuiInputBase-root {
+          margin-left: auto;
+          width: 230px;
+          padding: 0;
+
+          // .MuiSelect-select {
+          //   font: 13px/ 2 ${CmStyle.notoSansDJKFont.regular};
+          //   color: ${CmStyle.color.colorT01};
+          //   padding-top: 1px;
+          //   padding-bottom: 1px;
+
+          //   em {
+          //     font-style: normal;
+          //   }
+        }
       }
+
+      & + .formArea {
+        margin-top: 20px;
+>>>>>>> a77c164e0003ade1250f6e1489bdc1ce78036e61
+      }
+    }
+
+    & ~ .MuiPaper-root {
+      width: calc(100% - 456px);
     }
   }
 `;

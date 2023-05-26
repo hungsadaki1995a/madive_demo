@@ -8,10 +8,9 @@
  * ====================================================
  * 2023.05.17   김정아 차장   최초 작성
  ******************************************************/
-import React, { useEffect, useRef, useState } from 'react';
-import { TextField, Stack } from '@mui/material';
+import { useRef, useState } from 'react';
 
-import { ModalStyled } from './CmCpst.Styled';
+import { Stack, TextField } from '@mui/material';
 
 // Common Atoms
 import { CmButton } from '@/components/atoms/CmButton';
@@ -19,6 +18,8 @@ import CmModal from '@/components/atoms/CmModal';
 
 // img, icon
 import { ReactComponent as ModalAdd } from '@/stylesheets/images/cmModalAdd.svg';
+
+import { ModalStyled } from './CmCpst.Styled';
 
 function Modal() {
   const [open, setOpen] = useState(false);

@@ -1,11 +1,14 @@
-import { Routes, Route, Navigate } from 'react-router-dom';
+import { Navigate, Route, Routes } from 'react-router-dom';
+
+import { subMenusType } from '@/types/typeBundle';
+
+import Error from '@/pages/error';
+
 import Resource from './PRO10103101P';
 import ViewResourceDetail from './PRO10103102P';
 import Method from './PRO10103103P';
 import Field from './PRO10103105P';
 import Varible from './PRO10103106P';
-import { subMenusType } from '@/types/typeBundle';
-import Error from '@/pages/error';
 
 const Prominer = ({ subMenus }: { subMenus: subMenusType }) => (
   <Routes>

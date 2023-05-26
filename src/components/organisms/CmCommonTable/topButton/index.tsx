@@ -1,14 +1,14 @@
-import { ITopAction } from '../types';
 import React, { useState } from 'react';
-import { Button, Divider, Select, MenuItem, OutlinedInput, SelectChangeEvent } from '@mui/material';
-import { useTheme } from '@mui/material/styles';
 
 // Icon
-import ArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-import { ReactComponent as Arrow } from '@/stylesheets/images/keyboardArrow.svg';
+import { Button, Divider, MenuItem, OutlinedInput, Select, SelectChangeEvent } from '@mui/material';
+import { useTheme } from '@mui/material/styles';
+import makeStyles from '@mui/styles/makeStyles';
 
 import * as CmStyle from '@/stylesheets/common';
-import makeStyles from '@mui/styles/makeStyles';
+import { ReactComponent as Arrow } from '@/stylesheets/images/keyboardArrow.svg';
+
+import { ITopAction } from '../types';
 
 const useStyles = makeStyles(() => ({
   button: {
@@ -97,10 +97,19 @@ const TopButton = ({ topAction }: { topAction: ITopAction }) => {
 
   return (
     <div>
-      <Button className={classes.button} onClick={topAction.onClick} variant="text" startIcon={topAction.icon ?? null}>
+      <Button
+        className={classes.button}
+        onClick={topAction.onClick}
+        variant="text"
+        startIcon={topAction.icon ?? null}
+      >
         {topAction.label}
       </Button>
-      <Divider className={classes.divider} orientation="vertical" flexItem />
+      <Divider
+        className={classes.divider}
+        orientation="vertical"
+        flexItem
+      />
       <Select
         className={classes.select}
         size="small"
@@ -120,7 +129,11 @@ const TopButton = ({ topAction }: { topAction: ITopAction }) => {
         inputProps={{ 'aria-label': 'Without label' }}
       >
         {names.map((name) => (
-          <MenuItem key={name} value={name} style={getStyles(name, personName, theme)}>
+          <MenuItem
+            key={name}
+            value={name}
+            style={getStyles(name, personName, theme)}
+          >
             {name}
           </MenuItem>
         ))}

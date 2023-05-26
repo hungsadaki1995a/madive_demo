@@ -1,9 +1,12 @@
-import { Routes, Route, Navigate } from 'react-router-dom';
-import AppSG from './PRO10100101P';
+import { Navigate, Route, Routes } from 'react-router-dom';
+
+import { subMenusType } from '@/types/typeBundle';
+
+import Error from '@/pages/error';
+
 import Meta from './meta/PRO10100106P';
 import MetaHistory from './meta/PRO10100110P';
-import { subMenusType } from '@/types/typeBundle';
-import Error from '@/pages/error';
+import AppSG from './PRO10100101P';
 
 const Overview = ({ subMenus }: { subMenus: subMenusType }) => (
   <Routes>
