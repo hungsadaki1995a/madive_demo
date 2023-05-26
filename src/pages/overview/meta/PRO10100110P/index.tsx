@@ -1,9 +1,15 @@
+import MetaHistoryDataTable from './DataTable';
+
 type propsType = {
   title: string;
 };
 
 function MetaHistory(props: propsType) {
   const { title } = props;
-  return <>{title} - Table Data Area</>;
+  return (
+    <>
+      <MetaHistoryDataTable />;
+    </>
+  );
 }
 export default MetaHistory;

@@ -14,8 +14,12 @@ export default styled.div`
   .MuiFormControl-root {
     margin: -5px 0 0 0;
     min-width: 160px;
+    margin-left: 10px;
     * {
       font: 13px / 1.5 ${CmStyle.notoSansDJKFont.regular};
+    }
+    .MuiInputBase-formControl .MuiInputAdornment-positionEnd button {
+      padding: 0;
     }
 
     .MuiSelect-select {

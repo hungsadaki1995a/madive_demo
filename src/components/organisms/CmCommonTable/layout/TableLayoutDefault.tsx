@@ -1,7 +1,5 @@
 import React from 'react';
 
-import { Box } from '@mui/material';
-
 import BottomButtons from '../bottomButtons/BottomButtons';
 import FilterControls from '../filterControls/FilterControls';
 import TablePaginationDefault from '../paginations/TablePaginationDefault';
@@ -54,16 +52,6 @@ const TableLayoutDefault = <TRowDataType extends IPlainObject>({
               }}
             />
           )}
-          {!!paginationConfig && (
-            <PaginationComponent
-              rowsPerPageOptions={paginationConfig.rowsPerPageOptions}
-              totalCount={paginationConfig.totalCount}
-              rowsPerPage={paginationConfig.rowsPerPage}
-              currentPage={paginationConfig.currentPage}
-              onPageChange={paginationConfig.onPageChange}
-              onRowsPerPageChange={paginationConfig.onRowsPerPageChange}
-            />
-          )}
         </FilterSection>
       </HeaderSection>
 
@@ -81,6 +69,16 @@ const TableLayoutDefault = <TRowDataType extends IPlainObject>({
           sortInfo={sortInfo}
         />
       </TableSection>
+      {!!paginationConfig && (
+        <PaginationComponent
+          rowsPerPageOptions={paginationConfig.rowsPerPageOptions}
+          totalCount={paginationConfig.totalCount}
+          rowsPerPage={paginationConfig.rowsPerPage}
+          currentPage={paginationConfig.currentPage}
+          onPageChange={paginationConfig.onPageChange}
+          onRowsPerPageChange={paginationConfig.onRowsPerPageChange}
+        />
+      )}
 
       {!!bottomActionsConfig && (
         <BottomSection>

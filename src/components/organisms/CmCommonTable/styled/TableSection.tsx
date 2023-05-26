@@ -1,3 +1,4 @@
+import * as CmStyle from '@/stylesheets/common';
 import styled from 'styled-components';
 
 export default styled.div`
@@ -10,19 +11,21 @@ export default styled.div`
   & div {
     box-shadow: none;
   }
-  & thead tr {
-    position: sticky;
-    top: 0;
-    z-index: 1;
-  }
-  & thead tr th {
-    font-size: 12;
-    font-weight: 600;
-    background-color: #f4f7fc;
-    white-space: nowrap;
-    padding: 12;
-    & span {
-      padding: 0;
+  & thead {
+    border-bottom: 2px solid #d3d5da;
+    tr {
+      position: sticky;
+      top: 0;
+      z-index: 1;
+    }
+    th {
+      font: 13px / 1.5 ${CmStyle.notoSansDJKFont.medium};
+      color: #7a828e;
+      white-space: nowrap;
+      padding: 10px;
+      & span {
+        padding: 0;
+      }
     }
   }
   & tbody {
@@ -30,19 +33,143 @@ export default styled.div`
     background-color: #fff;
     & tr:hover {
       background-color: #e6f4ff;
-      & td {
-        font-weight: 600;
-        color: #000;
-      }
     }
     & td {
-      padding: 12;
-      font-size: 12;
+      font: 13px / 1.5 ${CmStyle.notoSansDJKFont.regular};
+      color: #1c293e;
+      padding: 5px;
       white-space: nowrap;
-      font-weight: 450;
-      color: #888;
       & span {
         padding: 0;
+      }
+
+      button {
+        font: 13px / 1.5 ${CmStyle.notoSansDJKFont.light};
+        padding: 2.5px 8px;
+        line-height: 20px;
+        align-items: center;
+        min-width: 20px;
+        min-height: 28px;
+        text-transform: none;
+        box-shadow: none !important;
+
+        .MuiButton-startIcon {
+          margin: 0;
+          padding: 2.5px 0 2px 0;
+          svg {
+            font-size: 18px;
+            // height: 18.5px;
+            path {
+              width: 15px;
+              height: 15px;
+            }
+          }
+        }
+        span:not([class*='Mui']) {
+          padding: 0 4px;
+          font: 13px / 1.5 ${CmStyle.notoSansDJKFont.light};
+        }
+
+        // Primary - Filled
+        &.MuiButton-containedPrimary:not([class*='-disabled']) {
+          color: ${CmStyle.color.colorBg02};
+          background: ${CmStyle.color.colorBtnPrimary};
+
+          &:hover {
+            background: ${CmStyle.color.colorBtnPrimaryHover};
+          }
+          &:active {
+            background: ${CmStyle.color.colorBtnPrimaryActive};
+          }
+        }
+        &.MuiButton-containedPrimary.Mui-disabled {
+          color: ${CmStyle.color.colorBtnDisabledText};
+          background: ${CmStyle.color.colorBtnDisabled};
+          &:hover {
+            background: ${CmStyle.color.colorBtnDisabled};
+          }
+        }
+
+        // Text - Ghost (No Background)
+        &.MuiButton-textPrimary:not([class*='-disabled']) {
+          color: ${CmStyle.color.colorT01};
+          // &.underLink {
+          //     text-decoration: underline;
+          //     padding: 0;
+          // }
+          &:hover {
+            background: ${CmStyle.color.colorBtnSecondaryBg01};
+          }
+        }
+        &.MuiButton-textPrimary.Mui-disabled {
+          color: ${CmStyle.color.colorBtnDisabledText};
+          &:hover {
+            background: none;
+          }
+        }
+
+        // String - Ghost (Background)
+        &.tBtnBg:not([class*='-disabled']) {
+          color: ${CmStyle.color.colorT01};
+          background: ${CmStyle.color.colorBtnSecondaryBg01};
+
+          &:hover {
+            background: ${CmStyle.color.colorBtnSecondaryBg02};
+          }
+          &:active {
+            background: ${CmStyle.color.colorBtnSecondaryBg03};
+          }
+        }
+        &.tBtnBg.Mui-disabled {
+          color: ${CmStyle.color.colorBtnDisabledText};
+          background: ${CmStyle.color.colorBtnDisabled};
+        }
+
+        // Outline - Login button
+        &.MuiButton-outlinedPrimary:not([class*='-disabled']) {
+          color: ${CmStyle.color.colorBg02};
+          background: ${CmStyle.color.colorBtnTextBg01};
+          padding: 5px 8px;
+          border: 0;
+          .MuiButton-startIcon svg {
+            width: 15px;
+            height: 15px;
+          }
+          &:hover {
+            background: ${CmStyle.color.colorBtnTextBg02};
+          }
+          &:active {
+            background: ${CmStyle.color.colorBtnTextBg03};
+          }
+        }
+        &.MuiButton-outlinedPrimary.Mui-disabled {
+          color: ${CmStyle.color.colorT03};
+          background: ${CmStyle.color.colorBtnTextBg04};
+          padding: 5px 8px;
+          border: 0;
+          .MuiButton-startIcon svg {
+            width: 15px;
+            height: 15px;
+          }
+          &:hover {
+            background: none;
+          }
+        }
+      }
+
+      // IconButton
+      .MuiIconButton-root {
+        min-width: unset;
+        padding: 2px;
+        margin-left: 3px;
+        &:hover,
+        &:active {
+          background: none;
+          svg path {
+            transition: fill 250ms;
+            fill: ${CmStyle.color.colorT00};
+          }
+        }
       }
     }
   }
