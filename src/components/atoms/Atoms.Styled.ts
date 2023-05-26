@@ -136,16 +136,14 @@ const CmButtonStyle = styled.label`
 `;
 
 // Common Card
-const CmCardStyle = styled.label`
+const CmCardStyle = styled.div`
   font: 13px / 1.5 ${CmStyle.notoSansDJKFont.regular};
-  min-height: 270px;
-  & ~ label {
-    margin-left: 23px;
-  }
+  display: inline-block;
+  padding: 0 20px 20px 0;
   .MuiCard-root {
-    width: calc(20% - 19px);
+    width: 305px;
     min-height: 270px;
-    display: inline-block;
+    /* display: inline-block; */
     padding: 14px;
 
     // cardTitle

@@ -5,6 +5,11 @@ import '@/stylesheets/font/stylesheet.css';
 
 // OverviewStyled
 const OverviewStyled = styled.div`
+  .cardArea {
+    display: flex;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+  }
   .MuiPaper-root {
     padding: 20px;
     margin-bottom: 10px;

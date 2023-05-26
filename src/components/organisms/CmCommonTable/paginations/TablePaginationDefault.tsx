@@ -1,7 +1,6 @@
 import { useCallback } from 'react';
 
 import { TablePagination } from '@mui/material';
-
 import makeStyles from '@mui/styles/makeStyles';
 import { IPaginationConfig } from '../types';
 
@@ -15,6 +14,7 @@ const useStyles = makeStyles(() => ({
     '& .MuiToolbar-root *': {
       fontSize: '12px',
       color: '#1C293E',
+      fontFamily: 'NotoSansCJKRegular',
     },
     '& p': {
       marginTop: '0',
