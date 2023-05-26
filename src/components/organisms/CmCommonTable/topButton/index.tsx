@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 
 // Icon
-import ArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { Button, Divider, MenuItem, OutlinedInput, Select, SelectChangeEvent } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import makeStyles from '@mui/styles/makeStyles';

@@ -31,9 +31,9 @@ const useStyles = makeStyles(() => ({
 
 function CmDataSearch() {
   const classes = useStyles();
-  const handleDelete = () => {
-    console.info('You clicked the delete icon.');
-  };
+  // const handleDelete = () => {
+  //   console.info('You clicked the delete icon.');
+  // };
 
   return (
     <OutlinedInput
