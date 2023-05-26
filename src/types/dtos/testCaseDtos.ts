@@ -4,6 +4,7 @@ export type TestCaseDto = {
   testcase_id: string;
   testcase_name: string;
   resource_id: string;
+  node_id: string;
   physical_name: string;
   service_name: string;
   service_group_name: string;
@@ -12,6 +13,11 @@ export type TestCaseDto = {
   creator: string;
   create_time: string;
   update_time: string;
+  header_data: string;
+  input_data: string;
+  input_dto_name: string;
+  node_name: string;
+  output_data: string;
 };
 
 export type TestCaseListResponseDto = {
@@ -20,6 +26,13 @@ export type TestCaseListResponseDto = {
     pageInfoDto: PageInfoDto;
     pagingResultDto: PagingResultDto;
   };
+};
+
+export type TestCaseDeleteResponseDto = {
+  dto: {
+    value: string;
+  };
+  header: any;
 };
 
 export type TestCaseFilterDto = {
@@ -35,4 +48,19 @@ export type TestCaseFilterDto = {
     key: string;
     value: string;
   }[];
+};
+
+export type TestCaseRequestDto = {
+  resource_id: string;
+  node_id: string;
+};
+
+export type TestCaseDetailResponseDto = {
+  dto: {
+    deploy_finish_time: string;
+    node_http_port: string;
+    node_id: string;
+    node_ip: string;
+    resource_id: string;
+  };
 };

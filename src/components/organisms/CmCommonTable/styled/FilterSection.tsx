@@ -3,6 +3,9 @@ import * as CmStyle from '@/stylesheets/common';
 
 export default styled.div`
   display: flex;
+  min-width: 160px;
+  align-items: center;
+
   > *:not(:first-child) {
     margin-left: 10px;
     margin-right: 10px;
@@ -23,8 +26,6 @@ export default styled.div`
       font-size: 1.3rem;
     }
   }
-
-  min-width: 160px;
 
   *:hover,
   *:focus {

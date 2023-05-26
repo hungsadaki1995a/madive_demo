@@ -1,118 +1,177 @@
+import { ICommonTableColumn, IFilterConfig, ITopAction } from '@/components/organisms/CmCommonTable/types';
 import { useStore } from '@/utils';
-import { observer } from 'mobx-react';
-import { useEffect, useMemo } from 'react';
-import {
-  IBottomAction,
-  ICommonTableColumn,
-  IFilterConfig,
-  ITopAction,
-} from '@/components/organisms/CmCommonTable/types';
 import { Paper } from '@mui/material';
+import { observer } from 'mobx-react';
+import { useEffect, useMemo, useState } from 'react';
 
-import SearchIcon from '@mui/icons-material/Search';
-import AddIcon from '@mui/icons-material/Add';
-import CommonTable from '@/components/organisms/CmCommonTable';
-import { TestCaseDto } from '@/types/dtos/testCaseDtos';
-import useTableDataServer from '@/components/organisms/CmCommonTable/hooks/useTableDataServer';
 import { TestCaseApi } from '@/apis';
+import { CmButtonDropdownMenu } from '@/components/atoms/CmButton';
+import CommonTable from '@/components/organisms/CmCommonTable';
+import { SortDirectionTypes } from '@/components/organisms/CmCommonTable/const';
+import useTableDataServer from '@/components/organisms/CmCommonTable/hooks/useTableDataServer';
+import {
+  TestCaseDeleteResponseDto,
+  TestCaseDetailResponseDto,
+  TestCaseDto,
+  TestCaseListResponseDto,
+  TestCaseRequestDto,
+} from '@/types/dtos/testCaseDtos';
+import AddIcon from '@mui/icons-material/Add';
+import SearchIcon from '@mui/icons-material/Search';
+import {
+  TestCaseActionEnum,
+  defaultFilterField,
+  paginationDefaultValues,
+  sortDefaultValues,
+  testCaseActionsConfig,
+  testCaseColumnsDefault,
+  testCaseDetailDefault,
+} from './const';
+import TestCaseDeleteModal from './modal/TestCaseDeleteModal';
+import TestCaseDetailModal from './modal/TestCaseDetailModal';
+import { ITestCaseDetail } from './types';
+
+const filterConfig: IFilterConfig = {
+  submitBy: 'enter',
+  filters: [
+    {
+      type: 'dropdown',
+      name: 'filterFieldName',
+      options: [
+        {
+          label: 'TestCase Name',
+          value: 'testcase_name',
+        },
+        {
+          label: 'Resource Name',
+          value: 'physical_name',
+        },
+        {
+          label: 'ServiceGroup Name',
+          value: 'service_group_name',
+        },
+        {
+          label: 'Creator',
+          value: 'creator',
+        },
+        {
+          label: 'Create Time',
+          value: 'create_time',
+        },
+        {
+          label: 'Update Time',
+          value: 'update_time',
+        },
+      ],
+    },
+    {
+      type: 'simple',
+      name: 'search',
+      icon: <SearchIcon />,
+    },
+  ],
+};
 
 function TestCaseDataTable() {
   const { TestCaseStore, AlertStore } = useStore();
+  const [isOpenModalDetail, setIsOpenModalDetail] = useState<boolean>(false);
+  const [isOpenDeleteModal, setIsOpenDeleteModal] = useState<boolean>(false);
+  const [testCaseDetailSelected, setTestCaseDetailSelected] = useState<ITestCaseDetail | TestCaseDto>(
+    testCaseDetailDefault
+  );
+
+  const requestResourceDetail = async (testCaseData: TestCaseDto) => {
+    const {
+      node_id,
+      resource_id,
+      create_time,
+      header_data,
+      input_data,
+      input_dto_name,
+      node_name,
+      output_data,
+      physical_name,
+      service_group_name,
+      testcase_name,
+    } = testCaseData;
+    const testCaseRequestDto: TestCaseRequestDto = {
+      node_id,
+      resource_id,
+    };
+    const response: TestCaseDetailResponseDto = await TestCaseApi.getTestCaseResourceInfo(testCaseRequestDto);
+    if (response?.dto) {
+      const { node_http_port, node_ip } = response.dto;
+      setTestCaseDetailSelected({
+        node_ip,
+        node_http_port,
+        create_time,
+        header_data,
+        input_data,
+        input_dto_name,
+        node_name,
+        output_data,
+        physical_name,
+        service_group_name,
+        testcase_name,
+      });
+      setIsOpenModalDetail(true);
+    }
+  };
+
+  const requestDeleteResource = async (testCaseId: string) => {
+    const response: TestCaseDeleteResponseDto = await TestCaseApi.deleteTestCase(testCaseId);
+    if (response?.dto) {
+      AlertStore.openApiAlert('success', 'Success');
+    }
+    pagination.currentPage = 0;
+    fetchTestCaseList();
+  };
+
+  const handleActionChange = (testCaseData: TestCaseDto, actionType: TestCaseActionEnum) => {
+    // eslint-disable-next-line no-debugger
+    debugger;
+    switch (actionType) {
+      case TestCaseActionEnum.DETAIL:
+        return requestResourceDetail(testCaseData);
+      case TestCaseActionEnum.DELETE:
+        setTestCaseDetailSelected(testCaseData);
+        return setIsOpenDeleteModal(true);
+      default:
+        return null;
+    }
+  };
+
+  const onCloseDetailModal = () => {
+    setIsOpenModalDetail(false);
+  };
+
+  const onCloseDeleteModal = (confirmed = false) => {
+    if (confirmed) {
+      requestDeleteResource(testCaseDetailSelected.testcase_id || '');
+    }
+    setIsOpenDeleteModal(false);
+  };
+
+  const columnsConfig: ICommonTableColumn<TestCaseDto>[] = [
+    ...testCaseColumnsDefault,
+    {
+      field: 'action',
+      label: 'Action',
+      type: undefined,
+      sortable: false,
+      valueRenderAs: (testCaseData: TestCaseDto) => {
+        return (
+          <CmButtonDropdownMenu
+            config={testCaseActionsConfig}
+            onChange={(action) => handleActionChange(testCaseData, action)}
+          />
+        );
+      },
+    },
+  ];
 
   // -----------------------------------
   // Config table
-  const columnsConfig = useMemo<ICommonTableColumn<TestCaseDto>[]>(() => {
-    return [
-      {
-        field: 'testcase_name',
-        label: 'TestCase Name',
-        type: 'text',
-        sortable: true,
-      },
-      {
-        field: 'physical_name',
-        label: 'Resource Name',
-        type: 'text',
-        sortable: true,
-      },
-      {
-        field: 'service_group_name',
-        label: 'ServiceGroup Name',
-        type: 'text',
-        sortable: true,
-      },
-      {
-        field: 'application_name',
-        label: 'Application Name',
-        type: 'text',
-        sortable: true,
-      },
-      {
-        field: 'creator',
-        label: 'Creator',
-        type: 'text',
-        sortable: true,
-      },
-      {
-        field: 'create_time',
-        label: 'Create Time',
-        type: 'text',
-        sortable: true,
-      },
-      {
-        field: 'update_time',
-        label: 'Update Time',
-        type: 'text',
-        sortable: true,
-      },
-    ];
-  }, []);
-
-  const filterConfig = useMemo<IFilterConfig>(() => {
-    return {
-      submitBy: 'enter',
-      submitLabel: 'Search',
-      filters: [
-        {
-          type: 'dropdown',
-          name: 'filterFieldName',
-          options: [
-            {
-              label: 'TestCase Name',
-              value: 'testcase_name',
-            },
-            {
-              label: 'Resource Name',
-              value: 'physical_name',
-            },
-            {
-              label: 'ServiceGroup Name',
-              value: 'service_group_name',
-            },
-            {
-              label: 'Creator',
-              value: 'creator',
-            },
-            {
-              label: 'Create Time',
-              value: 'create_time',
-            },
-            {
-              label: 'Update Time',
-              value: 'update_time',
-            },
-          ],
-        },
-        {
-          type: 'simple',
-          name: 'search',
-          // className: '',
-          // label: 'Keyword',
-          icon: <SearchIcon />,
-        },
-      ],
-    };
-  }, []);
 
   const topActionConfig = useMemo<ITopAction>(() => {
     return {
@@ -124,25 +183,27 @@ function TestCaseDataTable() {
     };
   }, []);
 
-  const bottomActionsConfig = useMemo<IBottomAction<TestCaseDto>[]>((): IBottomAction<TestCaseDto>[] => {
-    return [];
-  }, []);
-
   // ------------------------------------------------------------------------------------
   // Handle Data
 
-  const { fetch, rows, sort, filter, pagination } = useTableDataServer<TestCaseDto>({
+  const {
+    fetch: fetchTestCaseList,
+    rows,
+    sort,
+    filter,
+    pagination,
+  } = useTableDataServer<TestCaseDto>({
     queryFn: async ({ filter, pagination, sort }) => {
       try {
         TestCaseStore.setIsFetching(true);
-        const data = await TestCaseApi.getTestCases({
+        const response: TestCaseListResponseDto = await TestCaseApi.getTestCases({
           app_resource_id: '0000d8a6e0bd0004b35b8c00dcf79930', // hard code for test
           pageInfoDto: {
             pageLength: pagination.rowsPerPage.toString(),
             pageNum: pagination.currentPage + 1,
             sort: true,
-            sortField: `${sort.field || 'testcase_name'}`,
-            sortingType: sort.direction || 'asc',
+            sortField: sort.field || defaultFilterField,
+            sortingType: sort.direction || SortDirectionTypes.ASC,
           },
           conditionDto: [
             {
@@ -151,8 +212,9 @@ function TestCaseDataTable() {
             },
           ],
         });
+        const { TestCaseDto, pagingResultDto } = response?.dto || {};
         TestCaseStore.setIsFetching(false);
-        TestCaseStore.setTestCases(data?.dto?.TestCaseDto, data?.dto?.pagingResultDto.totalNum);
+        TestCaseStore.setTestCases(TestCaseDto, pagingResultDto.totalNum);
       } catch (e) {
         AlertStore.openApiAlert('error', 'Fetch data failed');
       }
@@ -161,20 +223,12 @@ function TestCaseDataTable() {
       data: TestCaseStore.testCases,
       total: TestCaseStore.total,
     },
-    paginationParamsDefault: {
-      rowsPerPageOptions: [3, 5, 10],
-      currentPage: 0,
-      rowsPerPage: 3,
-      totalCount: 0,
-    },
-    sortInfoDefault: {
-      field: 'testcase_name',
-      direction: 'desc',
-    },
+    paginationParamsDefault: paginationDefaultValues,
+    sortInfoDefault: sortDefaultValues,
   });
 
   useEffect(() => {
-    fetch();
+    fetchTestCaseList();
   }, []);
 
   return (
@@ -185,22 +239,30 @@ function TestCaseDataTable() {
         fieldAsRowId="email"
         columnsConfig={columnsConfig}
         rows={rows}
-        hasSelectionRows
-        onSelectedRows={(selectedRows) => {
-          //
-        }}
         topActionConfig={topActionConfig}
         filterConfig={filterConfig}
         onFilterTriggerQuery={filter}
         sortDefault={{
-          field: 'testcase_name',
-          direction: 'asc',
+          field: defaultFilterField,
+          direction: SortDirectionTypes.DESC,
         }}
         onSortChange={sort}
         paginationConfig={pagination}
         // renderPaginationAs={TablePaginationCustom}
-        bottomActionsConfig={bottomActionsConfig}
       />
+      {isOpenModalDetail && (
+        <TestCaseDetailModal
+          isOpen={isOpenModalDetail}
+          handleClose={onCloseDetailModal}
+          testCaseDetail={testCaseDetailSelected as ITestCaseDetail}
+        />
+      )}
+      {isOpenDeleteModal && (
+        <TestCaseDeleteModal
+          isOpen={isOpenDeleteModal}
+          handleClose={onCloseDeleteModal}
+        />
+      )}
     </Paper>
   );
 }

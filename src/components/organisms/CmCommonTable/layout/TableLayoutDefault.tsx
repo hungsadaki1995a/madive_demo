@@ -52,6 +52,16 @@ const TableLayoutDefault = <TRowDataType extends IPlainObject>({
               }}
             />
           )}
+          {!!paginationConfig && (
+            <PaginationComponent
+              rowsPerPageOptions={paginationConfig.rowsPerPageOptions}
+              totalCount={paginationConfig.totalCount}
+              rowsPerPage={paginationConfig.rowsPerPage}
+              currentPage={paginationConfig.currentPage}
+              onPageChange={paginationConfig.onPageChange}
+              onRowsPerPageChange={paginationConfig.onRowsPerPageChange}
+            />
+          )}
         </FilterSection>
       </HeaderSection>
 
@@ -70,32 +80,14 @@ const TableLayoutDefault = <TRowDataType extends IPlainObject>({
         />
       </TableSection>
 
-      <div>
-        {!!paginationConfig && (
-          <Box
-            sx={{
-              paddingTop: '1rem',
-            }}
-          >
-            <PaginationComponent
-              rowsPerPageOptions={paginationConfig.rowsPerPageOptions}
-              totalCount={paginationConfig.totalCount}
-              rowsPerPage={paginationConfig.rowsPerPage}
-              currentPage={paginationConfig.currentPage}
-              onPageChange={paginationConfig.onPageChange}
-              onRowsPerPageChange={paginationConfig.onRowsPerPageChange}
-            />
-          </Box>
-        )}
-        {!!bottomActionsConfig && (
-          <BottomSection>
-            <BottomButtons
-              actions={bottomActionsConfig}
-              selectedRows={selectedRows}
-            />
-          </BottomSection>
-        )}
-      </div>
+      {!!bottomActionsConfig && (
+        <BottomSection>
+          <BottomButtons
+            actions={bottomActionsConfig}
+            selectedRows={selectedRows}
+          />
+        </BottomSection>
+      )}
     </div>
   );
 };

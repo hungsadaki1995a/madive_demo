@@ -24,10 +24,11 @@ type propsType = {
   onClose: () => void;
   content?: JSX.Element;
   children: React.ReactNode;
+  footerRenderAs?: () => React.ReactNode;
 };
 
 function CmModal(props: propsType) {
-  const { className, title, visible, onClick, onClose, content, children } = props;
+  const { className, title, visible, onClick, onClose, content, children, footerRenderAs } = props;
 
   return (
     <Modal open={visible}>
@@ -47,37 +48,43 @@ function CmModal(props: propsType) {
 
         {/* Footer */}
         <Box className="footer">
-          {/* Left Btn */}
-          <CmButton
-            id="leftBtn"
-            variant="text"
-            btnTitle="Test"
-            startIcon={<></>}
-            className=""
-            color="info"
-          />
+          {footerRenderAs ? (
+            footerRenderAs()
+          ) : (
+            <>
+              {/* Left Btn */}
+              <CmButton
+                id="leftBtn"
+                variant="text"
+                btnTitle="Test"
+                startIcon={<></>}
+                className=""
+                color="info"
+              />
 
-          {/* Right Btn */}
-          <Box className="alignL">
-            <CmButton
-              id="rightBtn1"
-              variant="text"
-              btnTitle="Cancel"
-              startIcon={<></>}
-              className=""
-              color="info"
-              onClick={onClose}
-            />
-            <CmButton
-              id="rightBtn2"
-              variant="contained"
-              btnTitle="Save"
-              startIcon={<></>}
-              className=""
-              color="info"
-              onClick={onClick}
-            />
-          </Box>
+              {/* Right Btn */}
+              <Box className="alignL">
+                <CmButton
+                  id="rightBtn1"
+                  variant="text"
+                  btnTitle="Cancel"
+                  startIcon={<></>}
+                  className=""
+                  color="info"
+                  onClick={onClose}
+                />
+                <CmButton
+                  id="rightBtn2"
+                  variant="contained"
+                  btnTitle="Save"
+                  startIcon={<></>}
+                  className=""
+                  color="info"
+                  onClick={onClick}
+                />
+              </Box>
+            </>
+          )}
         </Box>
       </CmModalStyle>
     </Modal>
