@@ -1,4 +1,9 @@
-import { Routes, Route, Navigate } from 'react-router-dom';
+import { Navigate, Route, Routes } from 'react-router-dom';
+
+import { subMenusType } from '@/types/typeBundle';
+
+import Error from '@/pages/error';
+
 import UserManagement from './PRO20201201P';
 import History from './PRO20201204P';
 import GroupManagement from './PRO20201205P';
@@ -6,8 +11,6 @@ import RoleManagement from './PRO20201208P';
 import UserGroupAssign from './PRO20201211P';
 import GroupRoleAssign from './PRO20201212P';
 import RolePermissionAssign from './PRO20201213P';
-import { subMenusType } from '@/types/typeBundle';
-import Error from '@/pages/error';
 
 const User = ({ subMenus }: { subMenus: subMenusType }) => (
   <Routes>

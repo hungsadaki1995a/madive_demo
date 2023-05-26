@@ -1,5 +1,7 @@
-import { Button } from '@mui/material';
 import React, { useCallback, useState } from 'react';
+
+import { Button } from '@mui/material';
+
 import { IFilterConfig } from '../types';
 import DropdownFilterInput from './DropdownFilterInput';
 import SimpleFilterInput from './SimpleFilterInput';

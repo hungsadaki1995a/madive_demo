@@ -8,17 +8,17 @@
  * ====================================================
  * 2023.05.23   김정아 차장   최초 작성
  ******************************************************/
-import React, { useEffect, useState } from 'react';
-import { Paper, Typography, MenuItem } from '@mui/material';
-import Select, { SelectChangeEvent } from '@mui/material/Select';
-import { TestStyled } from './Test.Styled';
+import { useState } from 'react';
 
+import { Paper, Typography } from '@mui/material';
+import { SelectChangeEvent } from '@mui/material/Select';
+
+import CmDataSearch from '@/components/atoms/CmDataSearch';
 // Common Atoms
-import { CmSelect } from '@/components/atoms/CmSelect';
-
 // Templates
 import { CmPageTselectVtc } from '@/components/templates/CmPageTitle';
-import CmDataSearch from '@/components/atoms/CmDataSearch';
+
+import { TestStyled } from './Test.Styled';
 
 type propsType = {
   title: string;
@@ -50,7 +50,6 @@ function Test(props: propsType) {
           <span>Resource Name</span>
           <CmDataSearch />
         </label>
-
       </Paper>
 
       <Paper>

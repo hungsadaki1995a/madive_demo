@@ -1,7 +1,10 @@
-import { Routes, Route, Navigate } from 'react-router-dom';
-import LogManagement from './PRO20203201P';
+import { Navigate, Route, Routes } from 'react-router-dom';
+
 import { subMenusType } from '@/types/typeBundle';
+
 import Error from '@/pages/error';
+
+import LogManagement from './PRO20203201P';
 
 const LogControl = ({ subMenus }: { subMenus: subMenusType }) => (
   <Routes>

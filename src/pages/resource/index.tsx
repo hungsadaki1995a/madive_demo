@@ -1,7 +1,10 @@
-import { Routes, Route, Navigate } from 'react-router-dom';
-import LockAndUnlock from './PRO10105101P';
+import { Navigate, Route, Routes } from 'react-router-dom';
+
 import { subMenusType } from '@/types/typeBundle';
+
 import Error from '@/pages/error';
+
+import LockAndUnlock from './PRO10105101P';
 
 const Resource = ({ subMenus }: { subMenus: subMenusType }) => (
   <Routes>

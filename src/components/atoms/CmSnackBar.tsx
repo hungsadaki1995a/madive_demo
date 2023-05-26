@@ -8,17 +8,16 @@
  * ====================================================
  * 2023.05.25   김정아 차장   최초 작성
  ******************************************************/
-import React, { useEffect, useState } from 'react';
-import { Stack, Box, Button, IconButton, Snackbar, Alert, SnackbarCloseReason } from '@mui/material';
-import * as CmStyle from '@/stylesheets/common';
-import makeStyles from '@mui/styles/makeStyles';
-
-// img, icon
-import { ReactComponent as CloseIcon } from '@/stylesheets/images/SnackCloseIcon.svg';
-import { ReactComponent as SuccessIcon } from '@/stylesheets/images/SnackSuccessIcon.svg';
 // import { ReactComponent as WarningIcon } from '@/stylesheets/images/SnackWarningIcon.svg' - svg 오류로 인해 불러올 수 없습니다.
 import WarningIcon from '@mui/icons-material/WarningAmber';
+import { Alert, Box, Button, IconButton, Snackbar } from '@mui/material';
+import makeStyles from '@mui/styles/makeStyles';
+
+import * as CmStyle from '@/stylesheets/common';
+// img, icon
+import { ReactComponent as CloseIcon } from '@/stylesheets/images/SnackCloseIcon.svg';
 import { ReactComponent as ErrorIcon } from '@/stylesheets/images/SnackErrorIcon.svg';
+import { ReactComponent as SuccessIcon } from '@/stylesheets/images/SnackSuccessIcon.svg';
 
 // Styled
 const useStyles = makeStyles(() => ({

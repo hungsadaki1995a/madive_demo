@@ -1,5 +1,7 @@
-import { TablePagination } from '@mui/material';
 import { useCallback } from 'react';
+
+import { TablePagination } from '@mui/material';
+
 import { IPaginationConfig } from '../types';
 
 const TablePaginationDefault = ({

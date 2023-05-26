@@ -1,5 +1,7 @@
-import { FormControl, MenuItem, Select, SelectChangeEvent } from '@mui/material';
 import React, { useCallback, useEffect, useState } from 'react';
+
+import { FormControl, MenuItem, Select, SelectChangeEvent } from '@mui/material';
+
 import { FilterOnChangeType, IFilterActionSelection, IFilterDropdown } from '../types';
 
 // Filter type: Simple Input

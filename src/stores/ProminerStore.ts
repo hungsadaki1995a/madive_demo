@@ -1,5 +1,6 @@
 import { makeAutoObservable } from 'mobx';
-import { DependencyResponseType, ResourceResponseType, DependencyOptionsType } from '@/types/typeBundle';
+
+import { DependencyOptionsType, DependencyResponseType, ResourceResponseType } from '@/types/typeBundle';
 
 export class ProminerStore {
   dependencyValue: DependencyResponseType = {

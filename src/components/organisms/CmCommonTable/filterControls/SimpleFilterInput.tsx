@@ -1,5 +1,7 @@
-import { FormControl, IconButton, Input, InputAdornment, InputLabel, OutlinedInput } from '@mui/material';
 import React, { useCallback, useRef } from 'react';
+
+import { FormControl, IconButton, Input, InputAdornment, InputLabel, OutlinedInput } from '@mui/material';
+
 import { FilterOnChangeType, IFilterSimple } from '../types';
 
 interface ISimpleFilterInputProps {
