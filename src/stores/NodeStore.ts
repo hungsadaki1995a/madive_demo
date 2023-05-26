@@ -1,4 +1,5 @@
 import { makeAutoObservable } from 'mobx';
+
 import { NodeType } from '@/types/typeBundle';
 
 export class NodeStore {

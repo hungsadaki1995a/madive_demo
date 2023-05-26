@@ -1,10 +1,14 @@
-import { ITopAction } from '../types';
-import React from 'react';
-import { Button } from '@mui/material';
+import React, { useState } from 'react';
+
+// Icon
+import { Button, Divider, MenuItem, OutlinedInput, Select, SelectChangeEvent } from '@mui/material';
+import { useTheme } from '@mui/material/styles';
+import makeStyles from '@mui/styles/makeStyles';
 
 import * as CmStyle from '@/stylesheets/common';
-import makeStyles from '@mui/styles/makeStyles';
-import { notoSansDJKFont } from '@/stylesheets/common';
+import { ReactComponent as Arrow } from '@/stylesheets/images/keyboardArrow.svg';
+
+import { ITopAction } from '../types';
 
 const useStyles = makeStyles(() => ({
   button: {
@@ -25,13 +29,74 @@ const useStyles = makeStyles(() => ({
       background: CmStyle.color.colorBtnSecondaryBg03,
     },
   },
+  divider: {
+    width: '1px',
+    height: '24px',
+    borderColor: CmStyle.color.colorBtnSecondaryBg02,
+    display: 'inline',
+    verticalAlign: 'middle',
+    margin: 'auto 8px',
+  },
+
+  select: {
+    minWidth: '160px',
+    fontFamily: CmStyle.notoSansDJKFont.regular,
+    fontSize: '13px',
+    color: CmStyle.color.colorT01,
+    '& .MuiSelect-select': {
+      padding: '5px 32px 5px 8px',
+    },
+
+    '& em': {
+      fontStyle: 'normal',
+    },
+
+    '& svg': {
+      top: 'calc(50% - 0.3em)',
+      '&.MuiSelect-iconOpen path': {
+        fill: CmStyle.color.colorBtnPrimary,
+      },
+    },
+  },
 }));
+
+const ITEM_HEIGHT = 28;
+const ITEM_PADDING_TOP = 8;
+const MenuProps = {
+  PaperProps: {
+    style: {
+      maxHeight: ITEM_HEIGHT * 8 + ITEM_PADDING_TOP,
+      // width: 250,
+    },
+  },
+};
+
+function getStyles(name: string, personName: string, theme: any) {
+  return {
+    fontFamily: 'NotoSansCJKRegular',
+    fontSize: 13,
+    fontWeight:
+      personName.indexOf(name) === -1 ? theme.typography.fontWeightRegular : theme.typography.fontWeightMedium,
+  };
+}
+
+const names = ['TEST', 'RUNTIME', 'MASTER'];
 
 const TopButton = ({ topAction }: { topAction: ITopAction }) => {
   const classes = useStyles();
+  const theme = useTheme();
+  const [personName, setPersonName] = useState<any>([]);
+
+  const handleChange = (e: SelectChangeEvent<any>) => {
+    const {
+      target: { value },
+    } = e;
+    // setPersonName(typeof value === 'string' ? value.split(',') : value);
+    setPersonName(value);
+  };
 
   return (
-    <>
+    <div>
       <Button
         className={classes.button}
         onClick={topAction.onClick}
@@ -40,7 +105,40 @@ const TopButton = ({ topAction }: { topAction: ITopAction }) => {
       >
         {topAction.label}
       </Button>
-    </>
+      <Divider
+        className={classes.divider}
+        orientation="vertical"
+        flexItem
+      />
+      <Select
+        className={classes.select}
+        size="small"
+        displayEmpty
+        value={personName}
+        onChange={handleChange}
+        input={<OutlinedInput />}
+        IconComponent={Arrow}
+        renderValue={(selected) => {
+          if (selected.length === 0) {
+            return <em>All</em>;
+          }
+
+          return selected.join(', ');
+        }}
+        MenuProps={MenuProps}
+        inputProps={{ 'aria-label': 'Without label' }}
+      >
+        {names.map((name) => (
+          <MenuItem
+            key={name}
+            value={name}
+            style={getStyles(name, personName, theme)}
+          >
+            {name}
+          </MenuItem>
+        ))}
+      </Select>
+    </div>
   );
 };
 

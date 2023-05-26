@@ -9,12 +9,15 @@
  * 2023.05.17   김정아 차장   최초 작성
  ******************************************************/
 import React from 'react';
-import { Box, Typography, Modal } from '@mui/material';
-import { CmModalStyle } from './Atoms.Styled';
+
+import { Box, Modal, Typography } from '@mui/material';
 
 // Common Atoms
 import { CmButton, CmIconButton } from '@/components/atoms/CmButton';
+
 import { ReactComponent as ModalClose } from '@/stylesheets/images/modalClose.svg';
+
+import { CmModalStyle } from './Atoms.Styled';
 
 type propsType = {
   className: string;

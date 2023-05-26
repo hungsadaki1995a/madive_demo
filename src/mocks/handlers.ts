@@ -1,6 +1,7 @@
 import { rest } from 'msw';
-import nodeList from './nodeList.json';
+
 import metaList from './metaList.json';
+import nodeList from './nodeList.json';
 
 export const handlers = [
   rest.post('/nodeList', async (req, res, ctx) => {

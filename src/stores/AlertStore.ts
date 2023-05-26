@@ -1,4 +1,5 @@
 import { makeAutoObservable } from 'mobx';
+
 import { ApiAlertType } from '@/types/typeBundle';
 
 export class AlertStore {

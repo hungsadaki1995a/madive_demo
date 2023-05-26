@@ -1,19 +1,19 @@
 /******************************************************
  * Program ID : src/componetnts/templates/CmSearch.js
- * Program Name : 현재 검색 영역 템플릿
+ * Program Name : 상단 페이지 검색 영역 템플릿
  * Create On : 2023.05.19
- * 개 요 : 현재 검색 영역 템플릿
+ * 개 요 : 상단 페이지 검색 영역 템플릿
  * ====================================================
  * 변경 이력     수정자      내용
  * ====================================================
  * 2023.05.19   김정아 차장   최초 작성
  ******************************************************/
 // import React, { useEffect, useState } from 'react';
-import { Paper, InputBase, Stack, Chip } from '@mui/material';
-import { CmSearchStyle } from './Templates.Styled';
-
 // icon
 import SearchIcon from '@mui/icons-material/SearchOutlined';
+import { Chip, InputBase, Paper, Stack } from '@mui/material';
+
+import { CmSearchStyle } from './Templates.Styled';
 
 function CmSearch() {
   const handleDelete = () => {

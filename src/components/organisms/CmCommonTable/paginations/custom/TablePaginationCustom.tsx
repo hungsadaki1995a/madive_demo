@@ -2,10 +2,10 @@ import FirstPage from '@mui/icons-material/FirstPage';
 import LastPage from '@mui/icons-material/LastPage';
 import NavigateBefore from '@mui/icons-material/NavigateBefore';
 import NavigateNext from '@mui/icons-material/NavigateNext';
-import { IPaginationConfig } from '../../types';
-
 import { IconButton, MenuItem, Select, SelectChangeEvent, TableCell } from '@mui/material';
 import makeStyles from '@mui/styles/makeStyles';
+
+import { IPaginationConfig } from '../../types';
 
 const useStyles = makeStyles(() => ({
   alignFlex: {

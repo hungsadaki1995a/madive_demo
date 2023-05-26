@@ -1,11 +1,13 @@
 import styled from 'styled-components';
+
 import * as CmStyle from '@/stylesheets/common';
 import '@/stylesheets/font/stylesheet.css';
 
 // TestStyled
 const TestStyled = styled.div`
   display: flex;
-  flexwrap: wrap;
+  flex-wrap: wrap;
+  align-items: flex-start;
   font: 13px/ 1.5 ${CmStyle.notoSansDJKFont.regular};
 
   // Title
@@ -25,41 +27,92 @@ const TestStyled = styled.div`
       width: 440px;
       margin-right: 16px;
 
-      .labelFormArea {
-        width: 100%;
-        padding-bottom: 20px;
-        display: flex;
-        align-items: center;
-
-        // label
-        > span {
-          font: 13px/ 1.5 ${CmStyle.notoSansDJKFont.regular};
-          color: ${CmStyle.color.colorBtnString};
-          padding-top: 4px;
+      .formBox {
+        p.MuiTypography-root {
+          margin-bottom: 20px;
         }
+<<<<<<< HEAD
+        & ~ *:not(.flexEnd) {
+          margin-top: 35px;
+        }
+        .labelFormArea {
+          width: 100%;
+          display: flex;
+          align-items: center;
+          // label
+          > span {
+            font: 13px/ 1.5 ${CmStyle.notoSansDJKFont.regular};
+            color: ${CmStyle.color.colorBtnString};
+            padding-top: 4px;
+          }
+          // Form
+          .MuiInputBase-root {
+            margin-left: auto;
+            width: 230px;
+            padding: 0;
+          }
+          & + .formArea {
+            margin-top: 20px;
+          }
+          & ~ .labelFormArea {
+            margin-top: 20px;
+          }
+        }
+      }
+      // Test Infomation
+      .formInfo {
+        .infoBox {
+          background: ${CmStyle.color.colorDef};
+          box-shadow: none;
+          figure {
+            width: 100%;
+            margin: 0;
+            color: ${CmStyle.color.colorBtnString};
+            figcaption {
+              color: ${CmStyle.color.colorT01};
+              padding: 12px 5px;
+              margin: 0;
+              overflow: hidden;
+              white-space: nowrap;
+              text-overflow: ellipsis;
+              word-break: break-all;
+            }
+            & ~ * {
+              margin-top: 10px;
+            }
+          }
+        }
+      }
+      & ~ .MuiPaper-root {
+        width: calc(100% - 456px);
+=======
 
         // Form
         .MuiInputBase-root {
           margin-left: auto;
-          width: 55%;
+          width: 230px;
           padding: 0;
 
-          .MuiSelect-select {
-            font: 13px/ 2 ${CmStyle.notoSansDJKFont.regular};
-            color: ${CmStyle.color.colorT01};
-            padding-top: 1px;
-            padding-bottom: 1px;
+          // .MuiSelect-select {
+          //   font: 13px/ 2 ${CmStyle.notoSansDJKFont.regular};
+          //   color: ${CmStyle.color.colorT01};
+          //   padding-top: 1px;
+          //   padding-bottom: 1px;
 
-            em {
-              font-style: normal;
-            }
-          }
-        }
-
-        & + .formArea {
-          margin-top: 20px;
+          //   em {
+          //     font-style: normal;
+          //   }
         }
       }
+
+      & + .formArea {
+        margin-top: 20px;
+>>>>>>> a77c164e0003ade1250f6e1489bdc1ce78036e61
+      }
+    }
+
+    & ~ .MuiPaper-root {
+      width: calc(100% - 456px);
     }
   }
 `;

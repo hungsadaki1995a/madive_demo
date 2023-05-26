@@ -8,22 +8,15 @@
  * ====================================================
  * 2023.05.21   김정아 차장   최초 작성
  ******************************************************/
-import React, { useEffect, useState } from 'react';
+// img, icon
 import { Paper } from '@mui/material';
-import { TableStyled } from './CmCpst.Styled';
 
 // Common Atoms
-import { CmButton, CmIconButton } from '@/components/atoms/CmButton';
-
+import { CmPageTitle } from '@/components/templates/CmPageTitle';
 // Templates
 import CmSearch from '@/components/templates/CmSearch';
-import CmPageTitle from '@/components/templates/CmPageTitle';
 
-// img, icon
-import StarsIcon from '@mui/icons-material/StarsOutlined';
-import UploadIcon from '@mui/icons-material/UploadOutlined';
-import FilterAltIcon from '@mui/icons-material/FilterAltOutlined';
-import LogoutIcon from '@mui/icons-material/Logout';
+import { TableStyled } from './CmCpst.Styled';
 
 function Table() {
   return (

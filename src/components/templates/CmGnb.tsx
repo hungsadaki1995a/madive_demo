@@ -10,13 +10,15 @@
  ******************************************************/
 import React, { useState } from 'react';
 
-import { AppBar, Box, Toolbar, Typography, Menu, Button, MenuItem } from '@mui/material';
-import { CmGnbStyle } from './Templates.Styled';
+import { AppBar, Box, Button, Menu, MenuItem, Toolbar, Typography } from '@mui/material';
+
 // Common Atoms
 import { CmButton } from '@/components/atoms/CmButton';
 
 // img, icon
 import { ReactComponent as LogoutIcon } from '@/stylesheets/images/logout.svg';
+
+import { CmGnbStyle } from './Templates.Styled';
 
 const pages = ['Development', 'Configuration'];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];

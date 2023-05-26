@@ -1,6 +1,8 @@
-import { TableCell, TableSortLabel } from '@mui/material';
 import React from 'react';
 import { useCallback } from 'react';
+
+import { TableCell, TableSortLabel } from '@mui/material';
+
 import { ICommonTableColumn, IPlainObject, ISortInfo } from '../types';
 
 interface ITableHeaderCellProps<TRowDataType extends IPlainObject> {

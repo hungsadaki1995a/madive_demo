@@ -15,7 +15,6 @@ dist-ssr
 .pnp.js
 
 # Editor directories and files
-.vscode/*
 !.vscode/extensions.json
 .idea
 .DS_Store
@@ -38,3 +37,4 @@ dist-ssr
 .env.development.local
 .env.test.local
 .env.production.local
+.eslintrc.cjs

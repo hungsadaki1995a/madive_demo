@@ -1,9 +1,10 @@
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
+
 import { IPlainObject, TableLayoutProps } from '../types';
 import BodyCheckBoxCell from './BodyCheckBoxCell';
 import HeaderCheckBoxCell from './HeaderCheckBoxCell';
-import TableHeaderCell from './TableHeaderCell';
 import TableEmpty from './TableEmpty';
+import TableHeaderCell from './TableHeaderCell';
 
 type TableGridProps<TRowDataType extends IPlainObject> = Pick<
   TableLayoutProps<TRowDataType>,

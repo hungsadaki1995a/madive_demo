@@ -1,9 +1,9 @@
 import { Button, Stack } from '@mui/material';
 import React, { useCallback, useState } from 'react';
+import { FilterTypes, SubmitActionTypes } from '../const';
 import { IFilterConfig, IFilterElementType } from '../types';
 import DropdownFilterInput from './DropdownFilterInput';
 import SimpleFilterInput from './SimpleFilterInput';
-import { FilterTypes, SubmitActionTypes } from '../const';
 
 interface IFilterControlsProps {
   filterConfig: IFilterConfig;

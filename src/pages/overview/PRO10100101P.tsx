@@ -8,27 +8,97 @@
  * ====================================================
  * 2023.05.23   김정아 차장   최초 작성
  ******************************************************/
-import React, { useEffect, useState, useRef } from 'react';
-import { Box, TextField, Button, IconButton, Snackbar, Alert } from '@mui/material';
-import { OverviewStyled } from './Overview.Styled';
+import { useRef, useState } from 'react';
+
+import { Alert, Box, Button, IconButton, Snackbar, TextField } from '@mui/material';
+import makeStyles from '@mui/styles/makeStyles';
 
 // Common Atoms
 import { CmCard, CmCardAdd } from '@/components/atoms/CmCard';
-import { CmButton } from '@/components/atoms/CmButton';
 import CmModal from '@/components/atoms/CmModal';
-
+import { CmPageTitle } from '@/components/templates/CmPageTitle';
 // Templates
 import CmSearch from '@/components/templates/CmSearch';
-import CmPageTitle from '@/components/templates/CmPageTitle';
 
+import * as CmStyle from '@/stylesheets/common';
 // img, icon
-import { ReactComponent as ModalAdd } from '@/stylesheets/images/cmModalAdd.svg';
 import { ReactComponent as CloseIcon } from '@/stylesheets/images/SnackCloseIcon.svg';
 import { ReactComponent as SuccessIcon } from '@/stylesheets/images/SnackSuccessIcon.svg';
+
+import { OverviewStyled } from './Overview.Styled';
 
 type propsType = {
   title: string;
 };
+
+// Styled
+const useStyles = makeStyles(() => ({
+  lbSnack: {
+    '& .MuiPaper-root.MuiAlert-root': {
+      width: '400px',
+      height: '52px',
+      alignItems: 'center',
+      padding: '0 16px',
+      margin: 0,
+      // Icon
+      '& .MuiAlert-icon': {
+        width: '22px',
+        justifyContent: 'center',
+        marginRight: '8px',
+      },
+
+      // Message
+      '& .MuiAlert-message': {
+        width: 'calc(100% - 28px)',
+        display: 'flex',
+        alignItems: 'center',
+        fontSize: '13px',
+        fontFamily: CmStyle.notoSansDJKFont.regular,
+        color: CmStyle.color.colorT04,
+
+        '& .alignR.MuiBox-root': {
+          display: 'flex',
+          alignItems: 'center',
+          '& button': {
+            fontSize: '13px',
+            fontFamily: CmStyle.notoSansDJKFont.regular,
+            color: CmStyle.color.colorT01,
+            textDecoration: 'underline',
+            '&:hover': {
+              background: 'none',
+            },
+          },
+        },
+      },
+
+      // Success
+      '&.MuiAlert-filledSuccess': {
+        background: CmStyle.color.colorSuccessBg,
+      },
+      // Info
+      '&.MuiAlert-filledInfo': {
+        background: CmStyle.color.colorInfoBg,
+      },
+      // Warning
+      '&.MuiAlert-filledWarning': {
+        background: CmStyle.color.colorWarningBg,
+      },
+      // Error
+      '& .MuiAlert-filledError': {
+        background: CmStyle.color.colorErrorBg,
+
+        '& .MuiAlert-message': {
+          color: CmStyle.color.colorBg02,
+        },
+      },
+
+      // Right Text
+      '& .alignR.MuiBox-root button': {
+        color: CmStyle.color.colorBg02,
+      },
+    },
+  },
+}));
 
 function AppSG(props: propsType) {
   const { title } = props;
@@ -70,6 +140,8 @@ function AppSG(props: propsType) {
   const handleSnackBarClose = () => {
     setSuccessOpen(!successOpen);
   };
+
+  const classes = useStyles();
 
   return (
     <OverviewStyled>
@@ -146,8 +218,9 @@ function AppSG(props: propsType) {
       </CmModal>
 
       <Snackbar
+        className={classes.lbSnack}
         open={successOpen}
-        autoHideDuration={3000}
+        autoHideDuration={993000}
         onClose={handleSnackBarClose}
       >
         <Alert
