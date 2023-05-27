@@ -140,6 +140,9 @@ const useStyles = makeStyles(() => ({
     '&.MuiButton-containedError': {
       background: '#D93E2E',
     },
+    '& ~ .MuiButtonBase-root': {
+      marginLeft: '10px',
+    },
   },
 
   // IconButton

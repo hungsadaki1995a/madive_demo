@@ -6,7 +6,7 @@
  * ====================================================
  * 변경 이력     수정자      내용
  * ====================================================
- * 2023.05.23   김정아 차장   최초 작성
+ * 2023.05.27   김정아 차장   최초 작성
  ******************************************************/
 import CmDataSearch from '@/components/atoms/CmDataSearch';
 import { TreeItem, TreeView } from '@mui/lab';
@@ -28,7 +28,7 @@ import { SelectChangeEvent } from '@mui/material/Select';
 import { useState } from 'react';
 
 // Common Atoms
-import { CmButton, CmIconButton } from '@/components/atoms/CmButton';
+import { CmButton } from '@/components/atoms/CmButton';
 
 // Templates
 import { CmPageTselectVtc } from '@/components/templates/CmPageTitle';
@@ -36,7 +36,6 @@ import { CmPageTselectVtc } from '@/components/templates/CmPageTitle';
 import { TestStyled } from './Test.Styled';
 
 // img, icon
-import { ReactComponent as ModalDelIcon } from '@/stylesheets/images/cmModalDelIcon.svg';
 import StarsIcon from '@mui/icons-material/StarsOutlined';
 
 type propsType = {
@@ -181,11 +180,11 @@ function Test(props: propsType) {
             index={0}
             className="panel"
           >
-            {/* TreeView */}
             <Grid
               container
               spacing={0}
             >
+              {/* TreeView */}
               <Grid className="treeBox">
                 <TreeView
                   aria-label="file system navigator"
@@ -195,11 +194,113 @@ function Test(props: propsType) {
                 >
                   <TreeItem
                     nodeId="1"
-                    label="Applications"
+                    label="Header1"
                   >
                     <TreeItem
                       nodeId="2"
                       label="Calendar"
+                    />
+                  </TreeItem>
+                  <TreeItem
+                    nodeId="5"
+                    label="Header222"
+                  >
+                    <TreeItem
+                      nodeId="10"
+                      label="OSS"
+                    />
+                    <TreeItem
+                      nodeId="6"
+                      label="MUI"
+                    >
+                      <TreeItem
+                        nodeId="8"
+                        label="index.js"
+                      />
+                    </TreeItem>
+                  </TreeItem>
+                </TreeView>
+              </Grid>
+              {/* Table */}
+              <Grid className="tableBox">
+                <Table className="addRow">
+                  <TableHead>
+                    <TableRow>
+                      <TableCell>Header</TableCell>
+                      <TableCell>Header</TableCell>
+                      <TableCell>Header</TableCell>
+                      <TableCell>Header</TableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    <TableRow>
+                      <TableCell rowSpan={3}>Header</TableCell>
+                      <TableCell>Header</TableCell>
+                      <TableCell>String</TableCell>
+                      <TableCell>
+                        <TextField
+                          hiddenLabel
+                          fullWidth
+                          size="small"
+                          defaultValue="Undefine"
+                        />
+                      </TableCell>
+                    </TableRow>
+                    <TableRow>
+                      <TableCell>Header</TableCell>
+                      <TableCell>String</TableCell>
+                      <TableCell>
+                        <CmButton
+                          variant="contained"
+                          btnTitle="+"
+                        />
+                        <CmButton
+                          variant="contained"
+                          btnTitle="-"
+                        />
+                      </TableCell>
+                    </TableRow>
+                    <TableRow>
+                      <TableCell>Header</TableCell>
+                      <TableCell>String</TableCell>
+                      <TableCell>
+                        <TextField
+                          hiddenLabel
+                          fullWidth
+                          size="small"
+                          defaultValue="Undefine"
+                        />
+                      </TableCell>
+                    </TableRow>
+                  </TableBody>
+                </Table>
+              </Grid>
+            </Grid>
+          </TabPanel>
+          <TabPanel
+            value={value}
+            index={1}
+            className="panel"
+          >
+            <Grid
+              container
+              spacing={0}
+            >
+              {/* TreeView */}
+              <Grid className="treeBox">
+                <TreeView
+                  aria-label="file system navigator"
+                  defaultCollapseIcon={<StarsIcon />}
+                  defaultExpandIcon={<StarsIcon />}
+                  sx={{ height: 240, flexGrow: 1, maxWidth: 400, overflowY: 'auto' }}
+                >
+                  <TreeItem
+                    nodeId="1"
+                    label="Input Do1"
+                  >
+                    <TreeItem
+                      nodeId="2"
+                      label="Input Do1-1"
                     />
                   </TreeItem>
                   <TreeItem
@@ -227,42 +328,56 @@ function Test(props: propsType) {
                 <Table className="addRow">
                   <TableHead>
                     <TableRow>
-                      <TableCell>Physical Name</TableCell>
-                      <TableCell>Logical Name</TableCell>
-                      <TableCell className="iconBtn"> </TableCell>
+                      <TableCell>Input Do</TableCell>
+                      <TableCell>Input Do</TableCell>
+                      <TableCell>Input Do</TableCell>
+                      <TableCell>Input Do</TableCell>
                     </TableRow>
                   </TableHead>
                   <TableBody>
                     <TableRow>
-                      <TableCell>Header</TableCell>
+                      <TableCell rowSpan={3}>Input Do</TableCell>
+                      <TableCell>Input Do</TableCell>
+                      <TableCell>String</TableCell>
                       <TableCell>
                         <TextField
                           hiddenLabel
                           fullWidth
                           size="small"
-                          defaultValue="Logical name text"
+                          defaultValue="Undefine"
                         />
                       </TableCell>
-                      <TableCell align="center">
-                        <CmIconButton iconName={<ModalDelIcon />} />
+                    </TableRow>
+                    <TableRow>
+                      <TableCell>Header</TableCell>
+                      <TableCell>String</TableCell>
+                      <TableCell>
+                        <CmButton
+                          variant="contained"
+                          btnTitle="+"
+                        />
+                        <CmButton
+                          variant="contained"
+                          btnTitle="-"
+                        />
+                      </TableCell>
+                    </TableRow>
+                    <TableRow>
+                      <TableCell>Header</TableCell>
+                      <TableCell>String</TableCell>
+                      <TableCell>
+                        <TextField
+                          hiddenLabel
+                          fullWidth
+                          size="small"
+                          defaultValue="Undefine"
+                        />
                       </TableCell>
                     </TableRow>
                   </TableBody>
                 </Table>
               </Grid>
             </Grid>
-          </TabPanel>
-          <TabPanel
-            value={value}
-            index={1}
-          >
-            Item Two
-          </TabPanel>
-          <TabPanel
-            value={value}
-            index={2}
-          >
-            Item Three
           </TabPanel>
         </Box>
       </Paper>

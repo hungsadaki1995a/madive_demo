@@ -125,10 +125,8 @@ const TestStyled = styled.div`
                 }
               }
               tbody {
-                * {
-                  color: ${CmStyle.color.colorT01};
-                }
                 td {
+                  color: ${CmStyle.color.colorT01};
                   border: 1px solid ${CmStyle.color.colorBtnSecondaryBg03};
                 }
               }
