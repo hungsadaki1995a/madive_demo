@@ -13,15 +13,36 @@ import { Box, Typography } from '@mui/material';
 import makeStyles from '@mui/styles/makeStyles';
 
 // Common Atoms
-import { CmSelect } from '@/components/atoms/CmSelect';
+import { CmDataSelect } from '@/components/atoms/CmDataInput';
 
 import * as CmStyle from '@/stylesheets/common';
 
-import { CmPageTitleStyle } from './Templates.Styled';
-
 // Styled
 const useStyles = makeStyles(() => ({
-  tSelect: {
+  tSelectBtw: {
+    // width: '100%',
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: '20px',
+    '& .MuiTypography-root': {
+      fontSize: '15px',
+      fontFamily: CmStyle.notoSansDJKFont.bold,
+      color: '#1c293e',
+      '& span.naviSubConut': {
+        color: '#1898F5',
+      },
+      '& span.naviSubText': {
+        paddingLeft: '20px',
+        fontFamily: CmStyle.notoSansDJKFont.light,
+        fontSize: '13px',
+      },
+    },
+    '&.MuiPaper-root ~ .tSelectBtw': {
+      paddingTop: '12px',
+    },
+  },
+  tSelectColum: {
     width: '100%',
     marginBottom: '22px',
     '& .MuiTypography-root': {
@@ -33,43 +54,43 @@ const useStyles = makeStyles(() => ({
 }));
 
 // Overview - App&SG
-function CmPageTitle() {
+function CmPageTselectBtw() {
+  const classes = useStyles();
   const naviSubConut = 5;
   const naviSubTitle = ['subTitleText'];
-  const naviSubText = ['(Dev Server​101.101.209.11​ /​14000​ )'];
+  const naviSubText = ['(Dev Server 101.101.209.11 /14000 )'];
 
   return (
-    <CmPageTitleStyle>
-      <Box className="subTitle">
-        <Typography variant="subtitle1">
-          {naviSubConut > 0 && !!naviSubConut !== undefined ? (
-            <>
-              <span className="naviSubConut">{naviSubConut}</span> Application(s)
-            </>
-          ) : (
-            naviSubTitle
-          )}
-          <span className="naviSubText">{naviSubText}</span>
-        </Typography>
+    <Box className={classes.tSelectBtw}>
+      <Typography>
+        {naviSubConut > 0 && !!naviSubConut !== undefined ? (
+          <>
+            <span className="naviSubConut">{naviSubConut}</span> Application(s)
+          </>
+        ) : (
+          naviSubTitle
+        )}
+        <span className="naviSubText">{naviSubText}</span>
+      </Typography>
 
-        {/* Select */}
-        <CmSelect className="subTselect" /* value="test" */ />
-      </Box>
-    </CmPageTitleStyle>
+      {/* Select */}
+      <CmDataSelect />
+      {/* <CmSelect className="subTselect" value="test" /> */}
+    </Box>
   );
 }
 
 // Test - Test
-function CmPageTselectVtc() {
+function CmPageTselectColum() {
   const classes = useStyles();
 
   return (
-    <Box className={classes.tSelect}>
+    <Box className={classes.tSelectColum}>
       <Typography>Select Application</Typography>
 
       {/* Select */}
-      <CmSelect className="" /* value="test" */ />
+      <CmDataSelect />
     </Box>
   );
 }
-export { CmPageTitle, CmPageTselectVtc };
+export { CmPageTselectBtw, CmPageTselectColum };

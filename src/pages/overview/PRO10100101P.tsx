@@ -16,7 +16,7 @@ import makeStyles from '@mui/styles/makeStyles';
 // Common Atoms
 import { CmCard, CmCardAdd } from '@/components/atoms/CmCard';
 import CmModal from '@/components/atoms/CmModal';
-import { CmPageTitle } from '@/components/templates/CmPageTitle';
+import { CmPageTselectBtw } from '@/components/templates/CmPageTitle';
 // Templates
 import CmSearch from '@/components/templates/CmSearch';
 
@@ -149,7 +149,7 @@ function AppSG(props: propsType) {
       <CmSearch />
 
       {/* SubTitle */}
-      <CmPageTitle />
+      <CmPageTselectBtw />
 
       {/* Card */}
       <Box className="cardArea">

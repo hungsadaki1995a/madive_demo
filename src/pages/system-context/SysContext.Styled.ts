@@ -4,7 +4,7 @@ import * as CmStyle from '@/stylesheets/common';
 import '@/stylesheets/font/stylesheet.css';
 
 // TestStyled
-const TestStyled = styled.div`
+const SysContextStyled = styled.div`
   display: flex;
   flex-wrap: wrap;
   align-items: flex-start;
@@ -152,4 +152,4 @@ const TestStyled = styled.div`
   }
 `;
 
-export { TestStyled };
+export { SysContextStyled };

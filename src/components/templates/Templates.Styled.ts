@@ -51,15 +51,15 @@ const CmGnbStyle = styled.div`
 `;
 
 const CmLnbStyle = styled.div`
-* {
+  * {
     font: 16px / 1.5 ${CmStyle.notoSansDJKFont.regular};
-}
-min-height: 100vh;
-width: 240px;
-background: ${CmStyle.color.colorBg02};
-box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.2);
+  }
+  min-height: 100vh;
+  width: 240px;
+  background: ${CmStyle.color.colorBg02};
+  box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.2);
 
-.logo {
+  .logo {
     height: 54px;
     margin: 0;
     display: flex;
@@ -69,92 +69,88 @@ box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.2);
     background: ${CmStyle.color.colorBg01};
 
     img {
-        width: 164px;
+      width: 164px;
     }
-}
+  }
 
-.lnbMenuBox {
+  .lnbMenuBox {
     > .MuiTreeItem-root {
-        padding: 7.5px 0;
+      padding: 7.5px 0;
 
-        > .MuiTreeItem-content {
-            padding: 9px 15px;
-            border-radius: 5px;
-            flex-direction: row-reverse;
-    
-            &.Mui-expanded { // focus
-                background: ${CmStyle.color.colorBg05};
-            }
-    
-            // Arrow Icon
-            .MuiTreeItem-iconContainer svg {
-                font: 14px / 1.5 ${CmStyle.notoSansDJKFont.light};
-                color: ${CmStyle.color.colorT00};
-            }
-    
-    
-            // 1DepthMenu
-            .MuiTreeItem-label {
-                padding-left: 0;
-                .MuiBox-root {
-                    display: flex;
-                    align-items: center;
-                    svg {
-                      width: 20px;
-                      font-size: 15px;
-                      margin-right: 15px;
-                    }
-    
-                    p.MuiTypography-root {
-                        font: 15px / 1 ${CmStyle.notoSansDJKFont.bold};
-                        margin-left: 13px;
-                    }
-                }
-            } 
-            &:hover, &.Mui-selected {
-                background: ${CmStyle.color.colorBg04};
-            }
-            
+      > .MuiTreeItem-content {
+        padding: 9px 15px;
+        border-radius: 5px;
+        flex-direction: row-reverse;
 
-            // 2 Depth
-            & ~ .MuiTreeItem-group {
-                margin-top: 8px;
-                .MuiTreeItem-root .MuiTreeItem-content {
-                    padding: 12px 25px 12px 0;
-                    border-radius: 5px;
-
-                    .MuiTreeItem-iconContainer {
-                        width: 0;
-                    }
-                    .MuiTreeItem-label .MuiBox-root {
-                        padding-left: 5px;
-                        font: 13px / 1 ${CmStyle.notoSansDJKFont.light};
-
-                        svg {
-                          font-size: 13px;
-                          margin-right: 10px;
-                          opacity: 0;
-                        }
-                        &:hover {
-                          
-                        }
-                    }
-                    &.Mui-selected {
-                      color: ${CmStyle.color.colorBtnPrimary};
-                      background: none;
-                      .MuiTreeItem-label .MuiBox-root svg {
-                        opacity:1;
-                        transition: opacity 250ms;
-                      }
-                      }
-
-                    }
-                }
-            }
+        &.Mui-expanded {
+          // focus
+          background: ${CmStyle.color.colorBg05};
         }
-    } 
-}
 
+        // Arrow Icon
+        .MuiTreeItem-iconContainer svg {
+          font: 14px / 1.5 ${CmStyle.notoSansDJKFont.light};
+          color: ${CmStyle.color.colorT00};
+        }
+
+        // 1DepthMenu
+        .MuiTreeItem-label {
+          padding-left: 0;
+          .MuiBox-root {
+            display: flex;
+            align-items: center;
+            svg {
+              width: 20px;
+              font-size: 15px;
+              margin-right: 15px;
+            }
+
+            p.MuiTypography-root {
+              font: 15px / 1 ${CmStyle.notoSansDJKFont.bold};
+              margin-left: 13px;
+            }
+          }
+        }
+        &:hover,
+        &.Mui-selected {
+          background: ${CmStyle.color.colorBg04};
+        }
+
+        // 2 Depth
+        & ~ .MuiTreeItem-group {
+          margin-top: 8px;
+          .MuiTreeItem-root .MuiTreeItem-content {
+            padding: 12px 25px 12px 0;
+            border-radius: 5px;
+
+            .MuiTreeItem-iconContainer {
+              width: 0;
+            }
+            .MuiTreeItem-label .MuiBox-root {
+              padding-left: 5px;
+              font: 13px / 1 ${CmStyle.notoSansDJKFont.light};
+
+              svg {
+                font-size: 13px;
+                margin-right: 10px;
+                opacity: 0;
+              }
+              &:hover {
+              }
+            }
+            &.Mui-selected {
+              color: ${CmStyle.color.colorBtnPrimary};
+              background: none;
+              .MuiTreeItem-label .MuiBox-root svg {
+                opacity: 1;
+                transition: opacity 250ms;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
 `;
 
 // Common Breadcrumbs
@@ -237,7 +233,7 @@ const CmSearchStyle = styled.div`
 
 // Common CmPageTitle
 const CmPageTitleStyle = styled.div`
-  * {
+  /* * {
     font: 13px / 1.5 ${CmStyle.notoSansDJKFont.regular};
   }
 
@@ -267,7 +263,7 @@ const CmPageTitleStyle = styled.div`
 
   .MuiPaper-root ~ .subTitle {
     padding-top: 12px;
-  }
+  } */
 `;
 
 export { CmGnbStyle, CmBreadcrumbsStyle, CmLnbStyle, CmSearchStyle, CmPageTitleStyle };
