@@ -36,6 +36,7 @@ const color = {
   colorT02: '#B9BDC3',
   colorT03: '#9EA4AC',
   colorT04: '#0F1722',
+  colorT05: '#7B838F',
 
   colorSuccessBg: '#30BE8B',
   colorInfoBg: '#FEB72C',
