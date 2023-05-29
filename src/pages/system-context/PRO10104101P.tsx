@@ -8,12 +8,11 @@
  * ====================================================
  * 2023.05.27   김정아 차장   최초 작성
  ******************************************************/
-import { CmDataSearch } from '@/components/atoms/CmDataInput';
 import { Box, Paper, Typography } from '@mui/material';
 
+import { CmDataSearch } from '@/components/atoms/CmDataInput';
 // Common Atoms
 import { CmDataSelect } from '@/components/atoms/CmDataInput';
-
 // Templates
 import { CmPageTselectColum } from '@/components/templates/CmPageTitle';
 

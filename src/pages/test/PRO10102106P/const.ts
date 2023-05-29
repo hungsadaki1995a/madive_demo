@@ -2,13 +2,15 @@ import { SortDirectionTypes } from '@/components/organisms/CmCommonTable/const';
 import {
   IButtonMenuConfig,
   ICommonTableColumn,
-  IFilterActionSelection,
   IPaginationParams,
   ISortInfo,
 } from '@/components/organisms/CmCommonTable/types';
-import { FormElementType } from '@/constants/form';
+
 import { TestCaseDto } from '@/types/dtos/testCaseDtos';
-import { ITestCaseDetailField, ITestCaseDetail } from './types';
+
+import { FormElementType } from '@/constants/form';
+
+import { ITestCaseDetail, ITestCaseDetailField } from './types';
 
 export const paginationDefaultValues: IPaginationParams = {
   rowsPerPageOptions: [10, 25, 50, 100],

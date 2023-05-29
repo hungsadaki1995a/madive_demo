@@ -2,6 +2,7 @@ import { useCallback } from 'react';
 
 import { TablePagination } from '@mui/material';
 import makeStyles from '@mui/styles/makeStyles';
+
 import { IPaginationConfig } from '../types';
 
 // Styled
