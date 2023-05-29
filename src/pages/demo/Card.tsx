@@ -12,7 +12,7 @@ import { Box } from '@mui/material';
 
 // Common Atoms
 import { CmCard, CmCardAdd } from '@/components/atoms/CmCard';
-import { CmPageTitle } from '@/components/templates/CmPageTitle';
+import { CmPageTselectBtw } from '@/components/templates/CmPageTitle';
 // Templates
 import CmSearch from '@/components/templates/CmSearch';
 
@@ -25,7 +25,7 @@ function Card() {
       <CmSearch />
 
       {/* SubTitle */}
-      <CmPageTitle />
+      <CmPageTselectBtw />
 
       {/* Card */}
       <Box className="cardArea">

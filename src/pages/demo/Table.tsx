@@ -12,7 +12,7 @@
 import { Paper } from '@mui/material';
 
 // Common Atoms
-import { CmPageTitle } from '@/components/templates/CmPageTitle';
+import { CmPageTselectBtw } from '@/components/templates/CmPageTitle';
 // Templates
 import CmSearch from '@/components/templates/CmSearch';
 
@@ -25,7 +25,7 @@ function Table() {
       <CmSearch />
 
       {/* SubTitle */}
-      <CmPageTitle />
+      <CmPageTselectBtw />
 
       {/* ButtonComponent */}
       <Paper>테이블</Paper>

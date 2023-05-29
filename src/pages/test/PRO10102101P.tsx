@@ -8,7 +8,7 @@
  * ====================================================
  * 2023.05.27   김정아 차장   최초 작성
  ******************************************************/
-import CmDataSearch from '@/components/atoms/CmDataSearch';
+import { CmDataSearch } from '@/components/atoms/CmDataInput';
 import { TreeItem, TreeView } from '@mui/lab';
 import {
   Box,
@@ -25,13 +25,13 @@ import {
   Typography,
 } from '@mui/material';
 import { SelectChangeEvent } from '@mui/material/Select';
-import { useState } from 'react';
+import { SyntheticEvent, useState } from 'react';
 
 // Common Atoms
 import { CmButton } from '@/components/atoms/CmButton';
 
 // Templates
-import { CmPageTselectVtc } from '@/components/templates/CmPageTitle';
+import { CmPageTselectColum } from '@/components/templates/CmPageTitle';
 
 import { TestStyled } from './Test.Styled';
 
@@ -90,7 +90,7 @@ function Test(props: propsType) {
   return (
     <TestStyled>
       {/* {title} */}
-      <CmPageTselectVtc />
+      <CmPageTselectColum />
 
       <Paper className="selectBox">
         {/* Select For Test */}
@@ -178,7 +178,6 @@ function Test(props: propsType) {
           <TabPanel
             value={value}
             index={0}
-            className="panel"
           >
             <Grid
               container
@@ -280,7 +279,6 @@ function Test(props: propsType) {
           <TabPanel
             value={value}
             index={1}
-            className="panel"
           >
             <Grid
               container

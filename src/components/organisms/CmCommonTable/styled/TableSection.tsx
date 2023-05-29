@@ -7,6 +7,18 @@ export default styled.div`
   overflow-y: auto;
   & table {
     table-layout: fixed;
+    th,
+    td {
+      /* width: unset; */
+      white-space: nowrap;
+      padding: 6px 8px;
+      & span {
+        padding: 0;
+        &.MuiCheckbox-root {
+          display: flex;
+        }
+      }
+    }
   }
   & div {
     box-shadow: none;
@@ -14,6 +26,7 @@ export default styled.div`
   & thead {
     border-bottom: 2px solid #d3d5da;
     tr {
+      width: 30px;
       position: sticky;
       top: 0;
       z-index: 1;
@@ -21,11 +34,6 @@ export default styled.div`
     th {
       font: 13px / 1.5 ${CmStyle.notoSansDJKFont.medium};
       color: #7a828e;
-      white-space: nowrap;
-      padding: 10px;
-      & span {
-        padding: 0;
-      }
     }
   }
   & tbody {
@@ -37,11 +45,6 @@ export default styled.div`
     & td {
       font: 13px / 1.5 ${CmStyle.notoSansDJKFont.regular};
       color: #1c293e;
-      padding: 5px;
-      white-space: nowrap;
-      & span {
-        padding: 0;
-      }
 
       button {
         font: 13px / 1.5 ${CmStyle.notoSansDJKFont.light};

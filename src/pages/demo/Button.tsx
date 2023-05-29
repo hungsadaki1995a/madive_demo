@@ -18,7 +18,7 @@ import UploadIcon from '@mui/icons-material/UploadOutlined';
 
 // Common Atoms
 import { CmButton, CmIconButton } from '@/components/atoms/CmButton';
-import { CmPageTitle } from '@/components/templates/CmPageTitle';
+import { CmPageTselectBtw } from '@/components/templates/CmPageTitle';
 // Templates
 import CmSearch from '@/components/templates/CmSearch';
 
@@ -33,7 +33,7 @@ function Button() {
       <CmSearch />
 
       {/* SubTitle */}
-      <CmPageTitle />
+      <CmPageTselectBtw />
 
       {/* ButtonComponent */}
       <Paper>
