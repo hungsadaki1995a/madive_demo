@@ -45,6 +45,9 @@ const SysContextStyled = styled.div`
             padding-top: 4px;
           }
           // Form
+          .MuiFormControl-root {
+            width: 100%;
+          }
           .MuiInputBase-root {
             margin-left: auto;
             width: 230px;

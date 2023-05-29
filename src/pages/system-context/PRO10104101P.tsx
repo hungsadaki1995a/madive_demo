@@ -38,8 +38,7 @@ function SystemContextManagement(props: propsType) {
           {/* FormBox */}
           <label className="labelFormArea">
             <span>Node</span>
-            <CmDataSelect />
-            {/* <CmSelect className="alignR" /> */}
+            <CmDataSelect className="" />
           </label>
 
           {/* FormBox */}

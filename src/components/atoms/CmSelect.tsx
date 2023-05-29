@@ -13,8 +13,9 @@ import { useState } from 'react';
 import ArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { FormControl, MenuItem, OutlinedInput, Select, SelectChangeEvent } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
+import makeStyles from '@mui/styles/makeStyles';
 
-import { CmSelectStyle } from './Atoms.Styled';
+import * as CmStyle from '@/stylesheets/common';
 
 const ITEM_HEIGHT = 28;
 const ITEM_PADDING_TOP = 8;
@@ -26,6 +27,20 @@ const MenuProps = {
     },
   },
 };
+// Styled
+const useStyles = makeStyles(() => ({
+  topSelBox: {
+    width: '500px',
+    '& .MuiOutlinedInput-input': {
+      padding: '2.5px 14px',
+      fontSize: '13px',
+      fontFamily: CmStyle.notoSansDJKFont.regular,
+      '& em': {
+        fontStyle: 'normal',
+      },
+    },
+  },
+}));
 
 const names = [
   'Oliver Hansen',
@@ -54,8 +69,9 @@ type propsType = {
 };
 
 function CmSelect(props: propsType) {
-  const { className } = props;
+  const classes = useStyles();
   const theme = useTheme();
+  const { className } = props;
   const [personName, setPersonName] = useState<any>([]);
 
   const handleChange = (e: SelectChangeEvent<any>) => {
@@ -67,37 +83,35 @@ function CmSelect(props: propsType) {
   };
 
   return (
-    <CmSelectStyle>
-      <FormControl size="small">
-        <Select
-          className={className}
-          displayEmpty
-          value={personName}
-          onChange={handleChange}
-          input={<OutlinedInput />}
-          IconComponent={ArrowDownIcon}
-          renderValue={(selected) => {
-            if (selected.length === 0) {
-              return <em>Placeholder</em>;
-            }
+    <FormControl className={classes.topSelBox}>
+      <Select
+        className={className}
+        displayEmpty
+        value={personName}
+        onChange={handleChange}
+        input={<OutlinedInput />}
+        IconComponent={ArrowDownIcon}
+        renderValue={(selected) => {
+          if (selected.length === 0) {
+            return <em>Placeholder</em>;
+          }
 
-            return selected.join(', ');
-          }}
-          MenuProps={MenuProps}
-          inputProps={{ 'aria-label': 'Without label' }}
-        >
-          {names.map((name) => (
-            <MenuItem
-              key={name}
-              value={name}
-              style={getStyles(name, personName, theme)}
-            >
-              {name}
-            </MenuItem>
-          ))}
-        </Select>
-      </FormControl>
-    </CmSelectStyle>
+          return selected.join(', ');
+        }}
+        MenuProps={MenuProps}
+        inputProps={{ 'aria-label': 'Without label' }}
+      >
+        {names.map((name) => (
+          <MenuItem
+            key={name}
+            value={name}
+            style={getStyles(name, personName, theme)}
+          >
+            {name}
+          </MenuItem>
+        ))}
+      </Select>
+    </FormControl>
   );
 }
 export { CmSelect };

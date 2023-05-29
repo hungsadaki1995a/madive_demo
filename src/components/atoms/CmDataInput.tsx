@@ -9,7 +9,7 @@
  * 2023.05.19   김정아 차장   최초 작성
  ******************************************************/
 import ArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-import { MenuItem, OutlinedInput, Select, SelectChangeEvent } from '@mui/material';
+import { FormControl, MenuItem, OutlinedInput, Select, SelectChangeEvent } from '@mui/material';
 import IconButton from '@mui/material/IconButton';
 import { useTheme } from '@mui/material/styles';
 import makeStyles from '@mui/styles/makeStyles';
@@ -31,8 +31,6 @@ const MenuProps = {
   },
 };
 
-const names = ['Test01', 'Test02', 'Test03', 'Test04', 'Test05', 'Test06', 'Test07'];
-
 function getStyles(name: string, personName: string, theme: any) {
   return {
     fontFamily: 'NotoSansCJKRegular',
@@ -41,6 +39,11 @@ function getStyles(name: string, personName: string, theme: any) {
       personName.indexOf(name) === -1 ? theme.typography.fontWeightRegular : theme.typography.fontWeightMedium,
   };
 }
+
+const names = ['Test01', 'Test02', 'Test03', 'Test04', 'Test05', 'Test06', 'Test07'];
+type propsType = {
+  className: string;
+};
 
 // Styled
 const useStyles = makeStyles(() => ({
@@ -53,6 +56,9 @@ const useStyles = makeStyles(() => ({
         fontStyle: 'normal',
       },
     },
+  },
+  topSelBox: {
+    width: '500px',
   },
 }));
 
@@ -85,9 +91,9 @@ function CmTextInput() {
   );
 }
 
-function CmDataSelect() {
+function CmDataSelect(props: propsType) {
   const classes = useStyles();
-  // const { className } = props;
+  const { className } = props;
   const theme = useTheme();
   const [personName, setPersonName] = useState<any>([]);
 
@@ -99,34 +105,35 @@ function CmDataSelect() {
     setPersonName(value);
   };
   return (
-    <Select
-      className={classes.dataForm}
-      // className={className}
-      displayEmpty
-      value={personName}
-      onChange={handleChange}
-      input={<OutlinedInput />}
-      IconComponent={ArrowDownIcon}
-      renderValue={(selected) => {
-        if (selected.length === 0) {
-          return <em>Select For Menu</em>;
-        }
+    <FormControl className={classes.dataForm}>
+      <Select
+        className={className}
+        displayEmpty
+        value={personName}
+        onChange={handleChange}
+        input={<OutlinedInput />}
+        IconComponent={ArrowDownIcon}
+        renderValue={(selected) => {
+          if (selected.length === 0) {
+            return <em>Select For Menu</em>;
+          }
 
-        return selected.join(', ');
-      }}
-      MenuProps={MenuProps}
-      inputProps={{ 'aria-label': 'Without label' }}
-    >
-      {names.map((name) => (
-        <MenuItem
-          key={name}
-          value={name}
-          style={getStyles(name, personName, theme)}
-        >
-          {name}
-        </MenuItem>
-      ))}
-    </Select>
+          return selected.join(', ');
+        }}
+        MenuProps={MenuProps}
+        inputProps={{ 'aria-label': 'Without label' }}
+      >
+        {names.map((name) => (
+          <MenuItem
+            key={name}
+            value={name}
+            style={getStyles(name, personName, theme)}
+          >
+            {name}
+          </MenuItem>
+        ))}
+      </Select>
+    </FormControl>
   );
 }
 export { CmDataSearch, CmTextInput, CmDataSelect };

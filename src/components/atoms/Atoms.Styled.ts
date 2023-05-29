@@ -239,7 +239,7 @@ const CmCardStyle = styled.div`
 
 // Common Select
 const CmSelectStyle = styled.label`
-  .MuiFormControl-root {
+  /* .MuiFormControl-root {
     margin: -5px 0 0 0;
     min-width: 160px;
     * {
@@ -282,7 +282,7 @@ const CmSelectStyle = styled.label`
         border-color: ${CmStyle.color.colorBtnPrimary};
       }
     }
-  }
+  } */
 `;
 
 // Common Modal

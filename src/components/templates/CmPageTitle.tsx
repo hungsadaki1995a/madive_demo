@@ -45,6 +45,9 @@ const useStyles = makeStyles(() => ({
   tSelectColum: {
     width: '100%',
     marginBottom: '22px',
+    '& .MuiFormControl-root': {
+      width: '500px',
+    },
     '& .MuiTypography-root': {
       fontSize: '15px',
       fontFamily: CmStyle.notoSansDJKFont.bold,
@@ -74,8 +77,7 @@ function CmPageTselectBtw() {
       </Typography>
 
       {/* Select */}
-      <CmDataSelect />
-      {/* <CmSelect className="subTselect" value="test" /> */}
+      <CmDataSelect className="" />
     </Box>
   );
 }
@@ -89,7 +91,7 @@ function CmPageTselectColum() {
       <Typography>Select Application</Typography>
 
       {/* Select */}
-      <CmDataSelect />
+      <CmDataSelect className="" />
     </Box>
   );
 }
