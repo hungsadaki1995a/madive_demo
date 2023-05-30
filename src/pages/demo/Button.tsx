@@ -8,23 +8,23 @@
  * ====================================================
  * 2023.05.09   김정아 차장   최초 작성
  ******************************************************/
-import { Paper, Stack } from '@mui/material';
-import { ButtonStyled } from './CmCpst.Styled';
-
 // img, icon
 import FilterAltIcon from '@mui/icons-material/FilterAltOutlined';
 import StarsIcon from '@mui/icons-material/StarsOutlined';
 import UploadIcon from '@mui/icons-material/UploadOutlined';
+import { Paper, Stack } from '@mui/material';
 
 // Common Atoms
 import { CmButton, CmIconButton } from '@/components/atoms/CmButton';
-import { CmPageTselectBtw } from '@/components/templates/CmPageTitle';
 // Templates
+import { CmPageTselectBtw } from '@/components/templates/CmPageTitle';
 import CmSearch from '@/components/templates/CmSearch';
 
 import { ReactComponent as DeleteIcon } from '@/stylesheets/images/cmCardDelIcon.svg';
 import { ReactComponent as EditIcon } from '@/stylesheets/images/cmCardEditIcon.svg';
 import { ReactComponent as LogoutIcon } from '@/stylesheets/images/logout.svg';
+
+import { ButtonStyled } from './CmCpst.Styled';
 
 function Button() {
   return (
@@ -36,7 +36,7 @@ function Button() {
       <CmPageTselectBtw />
 
       {/* ButtonComponent */}
-      <Paper>
+      <Paper className="demo">
         <p>Primary - Filled / Disable </p>
         <Stack
           direction="row"
@@ -87,7 +87,7 @@ function Button() {
         </Stack>
       </Paper>
 
-      <Paper>
+      <Paper className="demo">
         <p>Text - Ghost / Disable (No Background)</p>
         <Stack
           direction="row"
@@ -149,7 +149,7 @@ function Button() {
         </Stack>
       </Paper>
 
-      <Paper>
+      <Paper className="demo">
         <p>Text .tBtnBg - Ghost / Disable (Background)</p>
         <Stack
           direction="row"
@@ -206,7 +206,7 @@ function Button() {
         </Stack>
       </Paper>
 
-      <Paper>
+      <Paper className="demo">
         <p>Outline - Login button / Disable</p>
         <Stack
           direction="row"

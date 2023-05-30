@@ -8,12 +8,13 @@
  * ====================================================
  * 2023.05.19   김정아 차장   최초 작성
  ******************************************************/
+import { useState } from 'react';
+
 import ArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { FormControl, MenuItem, OutlinedInput, Select, SelectChangeEvent } from '@mui/material';
 import IconButton from '@mui/material/IconButton';
 import { useTheme } from '@mui/material/styles';
 import makeStyles from '@mui/styles/makeStyles';
-import { useState } from 'react';
 
 // import { CmSearchStyle } from './Templates.Styled';
 import * as CmStyle from '@/stylesheets/common';
@@ -52,7 +53,7 @@ const useStyles = makeStyles(() => ({
       padding: '2.5px 14px',
       fontSize: '13px',
       fontFamily: CmStyle.notoSansDJKFont.regular,
-      color: '#fff',
+      background: '#fff',
       '& em': {
         fontStyle: 'normal',
       },

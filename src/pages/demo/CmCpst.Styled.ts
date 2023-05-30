@@ -27,7 +27,7 @@ const ButtonStyled = styled.div`
     }
   }
 
-  .MuiPaper-root {
+  .demo {
     padding: 20px;
     margin-bottom: 10px;
     box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.2);
