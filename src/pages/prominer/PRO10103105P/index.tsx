@@ -1,9 +1,15 @@
+import ProminerFieldDataTable from './DataTable';
+
 type propsType = {
   title: string;
 };
 
 function Field(props: propsType) {
   const { title } = props;
-  return <>{title} - Table Data Area</>;
+  return (
+    <>
+      <ProminerFieldDataTable />
+    </>
+  );
 }
 export default Field;
