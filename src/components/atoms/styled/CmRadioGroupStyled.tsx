@@ -1,7 +1,7 @@
-import { FormControl, FormControlLabel, FormLabel, RadioGroup, styled } from '@mui/material';
+import { FormControl, FormHelperText, FormLabel, styled } from '@mui/material';
 
 interface ICmRadioGroup {
-  width?: string;
+  width?: number;
 }
 
 const CmRadioGroupStyled = styled(FormControl)(() => ({
@@ -11,13 +11,18 @@ const CmRadioGroupStyled = styled(FormControl)(() => ({
 }));
 
 const CmRadioGroupLabelStyled = styled(FormLabel)<ICmRadioGroup>(({ width }) => ({
-  width: width ? width : '100%',
+  width: width && Number(width) < 100 ? width + '%' : '100%',
 }));
 
-const CmRadioGroupButtonsStyled = styled(RadioGroup)<ICmRadioGroup>(({ width }) => ({
-  width: width ? width : '100%',
+const CmRadioGroupWrapperStyled = styled('div')(() => ({
+  flexGrow: 1,
+  display: 'flex',
+  flexDirection: 'column',
 }));
 
-const CmRadioItemStyled = styled(FormControlLabel)();
+const CmRadioHelperTextStyled = styled(FormHelperText)(() => ({
+  margin: 0,
+  padding: 0,
+}));
 
-export { CmRadioGroupStyled, CmRadioGroupLabelStyled, CmRadioGroupButtonsStyled, CmRadioItemStyled };
+export { CmRadioGroupStyled, CmRadioGroupLabelStyled, CmRadioGroupWrapperStyled, CmRadioHelperTextStyled };
