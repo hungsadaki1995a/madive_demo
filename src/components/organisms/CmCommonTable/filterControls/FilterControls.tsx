@@ -59,7 +59,7 @@ const useStyles = makeStyles(() => ({
       },
     },
     '& .MuiOutlinedInput-input': {
-      padding: '2.5px 35px 2.5px 14px !important',
+      padding: '1px 35px 1px 14px !important',
       fontSize: '13px',
       fontFamily: CmStyle.notoSansDJKFont.regular,
       background: '#fff',
