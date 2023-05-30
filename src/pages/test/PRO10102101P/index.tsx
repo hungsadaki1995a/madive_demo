@@ -8,7 +8,10 @@
  * ====================================================
  * 2023.05.27   김정아 차장   최초 작성
  ******************************************************/
-import { CmDataSearch } from '@/components/atoms/CmDataInput';
+import { SyntheticEvent, useState } from 'react';
+
+// img, icon
+import StarsIcon from '@mui/icons-material/StarsOutlined';
 import { TreeItem, TreeView } from '@mui/lab';
 import {
   Box,
@@ -25,18 +28,18 @@ import {
   Typography,
 } from '@mui/material';
 import { SelectChangeEvent } from '@mui/material/Select';
-import { SyntheticEvent, useState } from 'react';
 
 // Common Atoms
 import { CmButton } from '@/components/atoms/CmButton';
-
+import { CmDataSearch } from '@/components/atoms/CmDataInput';
 // Templates
 import { CmPageTselectColum } from '@/components/templates/CmPageTitle';
 
-import { TestStyled } from './Test.Styled';
-
-// img, icon
-import StarsIcon from '@mui/icons-material/StarsOutlined';
+import { TestStyled } from '../Test.Styled';
+import SelectTargetDataModal from './modal/PRO10102102M';
+import SelectResourceDataModal from './modal/PRO10102103M';
+import ViewTestResultModal from './modal/PRO10102104M';
+import SaveTestResultModal from './modal/PRO10102105M';
 
 type propsType = {
   title: string;
@@ -77,6 +80,50 @@ function Test(props: propsType) {
   const { title } = props;
 
   const [value, setValue] = useState(0);
+  const [isSelectTargetDataModalVisible, setIsSelectTargetDataModalVisible] = useState(false);
+  const [isSelectResourceDataModalVisible, setIsSelectResourceDataModalVisible] = useState(false);
+  const [isViewTestResultModalVisible, setIsViewTestResultModalVisible] = useState(false);
+  const [isSaveTestResultModalVisible, setIsSaveTestResultModalVisible] = useState(false);
+
+  // Select Target Modal Open
+  const handleSelectTargetModalOpen = () => {
+    setIsSelectTargetDataModalVisible(true);
+  };
+
+  // Select Target Modal Close
+  const handleSelectTargetModalClose = () => {
+    setIsSelectTargetDataModalVisible(false);
+  };
+
+  // Select Resource Modal Open
+  const handleSelectResourceModalOpen = () => {
+    setIsSelectResourceDataModalVisible(true);
+  };
+
+  // Select Resource Modal Close
+  const handleSelectResourceModalClose = () => {
+    setIsSelectResourceDataModalVisible(false);
+  };
+
+  // View Test Result Modal Open
+  const handleViewTestResultModalOpen = () => {
+    setIsViewTestResultModalVisible(true);
+  };
+
+  // View Test Result Modal Close
+  const handleViewTestResultModalClose = () => {
+    setIsViewTestResultModalVisible(false);
+  };
+
+  // Save Test Result Modal Open
+  const handleSaveTestResultModalOpen = () => {
+    setIsSaveTestResultModalVisible(true);
+  };
+
+  // Save Test Result Modal Close
+  const handleSaveTestResultModalClose = () => {
+    setIsSaveTestResultModalVisible(false);
+  };
 
   const handleTabChange = (event: SyntheticEvent, newValue: number) => {
     setValue(newValue);
@@ -379,6 +426,30 @@ function Test(props: propsType) {
           </TabPanel>
         </Box>
       </Paper>
+
+      {/* Select Target Data - Modal */}
+      <SelectTargetDataModal
+        visible={isSelectTargetDataModalVisible}
+        handleClose={handleSelectTargetModalClose}
+      />
+
+      {/* Select Resource Data - Modal */}
+      <SelectResourceDataModal
+        visible={isSelectResourceDataModalVisible}
+        handleClose={handleSelectResourceModalClose}
+      />
+
+      {/* View Test Result - Modal */}
+      <ViewTestResultModal
+        visible={isViewTestResultModalVisible}
+        handleClose={handleViewTestResultModalClose}
+      />
+
+      {/* Save Test Result - Modal */}
+      <SaveTestResultModal
+        visible={isSaveTestResultModalVisible}
+        handleClose={handleSaveTestResultModalClose}
+      />
     </TestStyled>
   );
 }
