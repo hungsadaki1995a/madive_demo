@@ -1,4 +1,4 @@
-import { useEffect, useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 
 import AddIcon from '@mui/icons-material/Add';
 import SearchIcon from '@mui/icons-material/Search';
@@ -18,8 +18,21 @@ import { TestCaseApi } from '@/apis';
 import { TestCaseDto } from '@/types/dtos/testCaseDtos';
 import { useStore } from '@/utils';
 
+import CreateNodeModal from './modal/PRO10101102M';
+
 function NodeManagementDataTable() {
   const { TestCaseStore, AlertStore } = useStore();
+  const [isCreateNodeModalVisible, setIsCreateNodeModalVisible] = useState(false);
+
+  // Create Meta Modal Open
+  const handleCreateNodeModalOpen = () => {
+    setIsCreateNodeModalVisible(true);
+  };
+
+  // Create Meta Modal Close
+  const handleCreateNodeModalClose = () => {
+    setIsCreateNodeModalVisible(false);
+  };
 
   // -----------------------------------
   // Config table
@@ -140,9 +153,9 @@ function NodeManagementDataTable() {
 
   const topActionConfig = useMemo<ITopAction>(() => {
     return {
-      label: 'Create New Node Management',
+      label: 'Create New Node',
       onClick: () => {
-        /** */
+        handleCreateNodeModalOpen();
       },
       icon: <AddIcon />,
     };
@@ -224,6 +237,12 @@ function NodeManagementDataTable() {
         paginationConfig={pagination}
         // renderPaginationAs={TablePaginationCustom}
         bottomActionsConfig={bottomActionsConfig}
+      />
+
+      {/* Create Meta - Modal */}
+      <CreateNodeModal
+        visible={isCreateNodeModalVisible}
+        handleClose={handleCreateNodeModalClose}
       />
     </Paper>
   );
