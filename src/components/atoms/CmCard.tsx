@@ -9,11 +9,11 @@
  * 2023.05.13   김정아 차장   최초 작성
  ******************************************************/
 // import React, { useEffect, useState } from 'react';
-import { notoSansDJKFont } from '@/stylesheets/common';
-
 import AddCircleIcon from '@mui/icons-material/AddCircleOutlineOutlined';
 import { Button, Card, CardContent, CardHeader, Link, List, ListItem, ListItemText, Typography } from '@mui/material';
+import makeStyles from '@mui/styles/makeStyles';
 
+import { notoSansDJKFont } from '@/stylesheets/common';
 // icon
 import { ReactComponent as DeleteIcon } from '@/stylesheets/images/cmCardDelIcon.svg';
 import { ReactComponent as EditIcon } from '@/stylesheets/images/cmCardEditIcon.svg';
@@ -21,7 +21,6 @@ import { ReactComponent as SubIcon } from '@/stylesheets/images/cmCardSubIcon.sv
 
 import { CARD_DATA } from '@/example/GenaralCode';
 
-import makeStyles from '@mui/styles/makeStyles';
 // Common Component
 import { CmIconButton } from './CmButton';
 
@@ -207,11 +206,20 @@ function CmCard(props: propsType) {
   );
 }
 
-function CmCardAdd() {
+type CmCardAddProps = {
+  onClick?: () => void;
+};
+
+function CmCardAdd(props: CmCardAddProps) {
   const classes = useStyles();
+  const { onClick } = props;
+
+  const handleClick = () => {
+    typeof onClick === 'function' && onClick();
+  };
   return (
     <Card className={classes.addCard}>
-      <Button>
+      <Button onClick={() => handleClick()}>
         <AddCircleIcon />
         Create New Application
       </Button>

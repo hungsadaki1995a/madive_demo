@@ -27,6 +27,7 @@ import { ReactComponent as SuccessIcon } from '@/stylesheets/images/SnackSuccess
 
 import { OverviewStyled } from '../Overview.Styled';
 // Modals
+import CreateApplicationModal from './modal/PRO10100102M';
 import EditApplicationModal from './modal/PRO10100103M';
 
 type propsType = {
@@ -104,6 +105,7 @@ const useStyles = makeStyles(() => ({
 
 function AppSG(props: propsType) {
   const { title } = props;
+  const [isCreateApplicationModalVisible, setIsCreateApplicationModalVisible] = useState(false);
   const [isEditApplicationModalVisible, setIsEditApplicationModalVisible] = useState(false);
   const [isDelVisible, setIsDelVisible] = useState(false);
   const [successOpen, setSuccessOpen] = useState(false);
@@ -112,9 +114,20 @@ function AppSG(props: propsType) {
   // 초기화
   const handleInit = () => {
     boardId.current = undefined;
+    setIsCreateApplicationModalVisible(false);
     setIsEditApplicationModalVisible(false);
     setIsDelVisible(false);
     //setSuccessOpen(false);
+  };
+
+  // Create Application Modal Open
+  const handleCreateApplicationModalOpen = () => {
+    setIsCreateApplicationModalVisible(true);
+  };
+
+  // Create Application Modal Close
+  const handleCreateApplicationModalClose = () => {
+    setIsCreateApplicationModalVisible(false);
   };
 
   // 수정 모달 팝업 이동
@@ -159,8 +172,14 @@ function AppSG(props: propsType) {
         <CmCard onClick={(e) => handleModify(e)} />
         <CmCard onClick={(e) => handleModify(e)} />
         <CmCard onClick={(e) => handleModify(e)} />
-        <CmCardAdd />
+        <CmCardAdd onClick={() => handleCreateApplicationModalOpen()} />
       </Box>
+
+      {/* Create Application - Modal */}
+      <CreateApplicationModal
+        visible={isCreateApplicationModalVisible}
+        handleClose={handleCreateApplicationModalClose}
+      />
 
       {/* Edit Application - Modal */}
       <EditApplicationModal
