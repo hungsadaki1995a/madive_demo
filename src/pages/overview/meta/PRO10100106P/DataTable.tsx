@@ -1,4 +1,4 @@
-import { useEffect, useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 
 import AddIcon from '@mui/icons-material/Add';
 import SearchIcon from '@mui/icons-material/Search';
@@ -18,8 +18,21 @@ import { TestCaseApi } from '@/apis';
 import { TestCaseDto } from '@/types/dtos/testCaseDtos';
 import { useStore } from '@/utils';
 
+import CreateMetaModal from './modal/PRO10100107M';
+
 function MetaDataTable() {
   const { TestCaseStore, AlertStore } = useStore();
+  const [isCreateMetaModalVisible, setIsCreateMetaModalVisible] = useState(false);
+
+  // Create Meta Modal Open
+  const handleCreateMetaModalOpen = () => {
+    setIsCreateMetaModalVisible(true);
+  };
+
+  // Create Meta Modal Close
+  const handleCreateMetaModalClose = () => {
+    setIsCreateMetaModalVisible(false);
+  };
 
   // -----------------------------------
   // Config table
@@ -130,7 +143,7 @@ function MetaDataTable() {
     return {
       label: 'Create New Meta',
       onClick: () => {
-        /** */
+        handleCreateMetaModalOpen();
       },
       icon: <AddIcon />,
     };
@@ -212,6 +225,12 @@ function MetaDataTable() {
         paginationConfig={pagination}
         // renderPaginationAs={TablePaginationCustom}
         bottomActionsConfig={bottomActionsConfig}
+      />
+
+      {/* Create Meta - Modal */}
+      <CreateMetaModal
+        visible={isCreateMetaModalVisible}
+        handleClose={handleCreateMetaModalClose}
       />
     </Paper>
   );
