@@ -1,14 +1,17 @@
-import { ICommonTableColumn, IFilterConfig, ITopAction } from '@/components/organisms/CmCommonTable/types';
-import { useStore } from '@/utils';
-import { Paper } from '@mui/material';
-import { observer } from 'mobx-react';
 import { useEffect, useMemo, useState } from 'react';
 
-import { TestCaseApi } from '@/apis';
+import AddIcon from '@mui/icons-material/Add';
+import SearchIcon from '@mui/icons-material/Search';
+import { Paper } from '@mui/material';
+import { observer } from 'mobx-react';
+
 import { CmButtonDropdownMenu } from '@/components/atoms/CmButton';
 import CommonTable from '@/components/organisms/CmCommonTable';
 import { SortDirectionTypes } from '@/components/organisms/CmCommonTable/const';
 import useTableDataServer from '@/components/organisms/CmCommonTable/hooks/useTableDataServer';
+import { ICommonTableColumn, IFilterConfig, ITopAction } from '@/components/organisms/CmCommonTable/types';
+
+import { TestCaseApi } from '@/apis';
 import {
   TestCaseDeleteResponseDto,
   TestCaseDetailResponseDto,
@@ -16,19 +19,19 @@ import {
   TestCaseListResponseDto,
   TestCaseRequestDto,
 } from '@/types/dtos/testCaseDtos';
-import AddIcon from '@mui/icons-material/Add';
-import SearchIcon from '@mui/icons-material/Search';
+import { useStore } from '@/utils';
+
 import {
-  TestCaseActionEnum,
   defaultFilterField,
   paginationDefaultValues,
   sortDefaultValues,
+  TestCaseActionEnum,
   testCaseActionsConfig,
   testCaseColumnsDefault,
   testCaseDetailDefault,
 } from './const';
+import TestCaseDetailModal from './modal/PRO10102108M';
 import TestCaseDeleteModal from './modal/TestCaseDeleteModal';
-import TestCaseDetailModal from './modal/TestCaseDetailModal';
 import { ITestCaseDetail } from './types';
 
 const filterConfig: IFilterConfig = {
