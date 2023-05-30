@@ -10,7 +10,7 @@
  ******************************************************/
 import { useRef, useState } from 'react';
 
-import { Alert, Box, Button, IconButton, Snackbar, TextField } from '@mui/material';
+import { Alert, Box, Button, IconButton, Snackbar } from '@mui/material';
 import makeStyles from '@mui/styles/makeStyles';
 
 // Common Atoms
@@ -26,6 +26,8 @@ import { ReactComponent as CloseIcon } from '@/stylesheets/images/SnackCloseIcon
 import { ReactComponent as SuccessIcon } from '@/stylesheets/images/SnackSuccessIcon.svg';
 
 import { OverviewStyled } from '../Overview.Styled';
+// Modals
+import EditApplicationModal from './modal/PRO10100103M';
 
 type propsType = {
   title: string;
@@ -102,7 +104,7 @@ const useStyles = makeStyles(() => ({
 
 function AppSG(props: propsType) {
   const { title } = props;
-  const [isModifyVisible, setIsModifyVisible] = useState(false);
+  const [isEditApplicationModalVisible, setIsEditApplicationModalVisible] = useState(false);
   const [isDelVisible, setIsDelVisible] = useState(false);
   const [successOpen, setSuccessOpen] = useState(false);
   const boardId = useRef();
@@ -110,7 +112,7 @@ function AppSG(props: propsType) {
   // 초기화
   const handleInit = () => {
     boardId.current = undefined;
-    setIsModifyVisible(false);
+    setIsEditApplicationModalVisible(false);
     setIsDelVisible(false);
     //setSuccessOpen(false);
   };
@@ -119,7 +121,7 @@ function AppSG(props: propsType) {
   const handleModify = (e: string) => {
     console.log('AppSG handleClick', e);
     if (e === 'I' || e === 'E') {
-      setIsModifyVisible(!isModifyVisible);
+      setIsEditApplicationModalVisible(!isEditApplicationModalVisible);
     } else {
       setIsDelVisible(!isDelVisible);
     }
@@ -161,55 +163,17 @@ function AppSG(props: propsType) {
       </Box>
 
       {/* Edit Application - Modal */}
-      <CmModal
-        title="Edit Application"
-        visible={isModifyVisible}
-        onClick={handleSave}
-        onClose={handleClose}
-        className="medium"
-      >
-        {/* contents */}
-        <label className="labelFormArea">
-          <span>Physical Name</span>
-          <TextField
-            className="labelTextField"
-            defaultValue="Luke Test"
-            size="small"
-          />
-        </label>
-        <label className="labelFormArea">
-          <span>Logical Name</span>
-          <TextField
-            className="labelTextField"
-            defaultValue="1"
-            type="password"
-            size="small"
-          />
-        </label>
-        <label className="labelFormArea">
-          <span>Package</span>
-          <TextField
-            className="labelTextField"
-            defaultValue="test"
-            size="small"
-          />
-        </label>
-        <label className="labelFormArea">
-          <span>Description</span>
-          <TextField
-            className="labelTextField"
-            multiline
-            rows={4}
-            defaultValue="Default Value"
-          />
-        </label>
-      </CmModal>
+      <EditApplicationModal
+        visible={isEditApplicationModalVisible}
+        handleSave={handleSave}
+        handleClose={handleClose}
+      />
 
       {/* Delete Application - Modal */}
       <CmModal
         title="Delete Application"
         visible={isDelVisible}
-        onClick={handleSave}
+        onSave={handleSave}
         onClose={handleClose}
         className="medium"
       >
