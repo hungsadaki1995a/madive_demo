@@ -82,7 +82,7 @@ export const LNB_LIST = [
         url: '/development/test/edit-test-case',
       },
       {
-        id: '3-4',
+        id: '3-5',
         label: 'History',
         icon: <SubIcon />,
         url: '/development/test/history',
