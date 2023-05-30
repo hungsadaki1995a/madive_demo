@@ -52,6 +52,7 @@ const useStyles = makeStyles(() => ({
       padding: '2.5px 14px',
       fontSize: '13px',
       fontFamily: CmStyle.notoSansDJKFont.regular,
+      color: '#fff',
       '& em': {
         fontStyle: 'normal',
       },

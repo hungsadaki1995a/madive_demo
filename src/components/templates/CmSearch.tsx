@@ -9,39 +9,89 @@
  * 2023.05.19   김정아 차장   최초 작성
  ******************************************************/
 // import React, { useEffect, useState } from 'react';
-// icon
+import { notoSansDJKFont } from '@/stylesheets/common';
 import SearchIcon from '@mui/icons-material/SearchOutlined';
-import { Chip, InputBase, Paper, Stack } from '@mui/material';
+import { Button, Chip, Paper, Stack, TextField } from '@mui/material';
+import makeStyles from '@mui/styles/makeStyles';
 
-import { CmSearchStyle } from './Templates.Styled';
+// Styled
+const useStyles = makeStyles(() => ({
+  topSearchBar: {
+    display: 'flex',
+    alignItems: 'center',
+    padding: '4px 8px',
+    marginBottom: '20px !important',
+    '& *:not(svg)': {
+      fontFamily: notoSansDJKFont.regular,
+      fontSize: '13px',
+    },
+    '& svg': {
+      marginRight: '.4em',
+    },
+    '& .MuiStack-root': {
+      display: 'flex',
+      flexDirection: 'row',
+      alignItems: 'center',
+      '& >:not(style)+:not(style)': {
+        marginTop: 0,
+        marginLeft: '10px',
+      },
+    },
+    // Chip
+    '& .MuiChip-root': {
+      height: '24px',
+      '& .MuiChip-label': {
+        lineHeight: 1,
+      },
+    },
+    // TextField
+    '& .MuiOutlinedInput-root': {
+      margin: 'auto 10px',
+      '& .MuiInputBase-input': {
+        padding: 0,
+      },
+      '& .MuiOutlinedInput-notchedOutline': {
+        border: 0,
+      },
+    },
+
+    // RightBtn
+    '& .MuiButton-text': {
+      padding: 0,
+      color: '#1898F5',
+    },
+  },
+}));
 
 function CmSearch() {
+  const classes = useStyles();
   const handleDelete = () => {
     console.info('You clicked the delete icon.');
   };
 
   return (
-    <CmSearchStyle>
-      {/* Search */}
-      <Paper title="search">
-        <SearchIcon />
-        <Stack
-          direction="row"
-          spacing={1}
-        >
-          <Chip
-            label="Deletable"
-            onDelete={handleDelete}
-          />
-          <Chip
-            label="Deletable"
-            variant="outlined"
-            onDelete={handleDelete}
-          />
-        </Stack>
-        <InputBase placeholder="검색할 항목을 입력해 주세요." />
-      </Paper>
-    </CmSearchStyle>
+    <Paper className={classes.topSearchBar}>
+      <SearchIcon />
+      <Stack spacing={1}>
+        <Chip
+          label="Deletable"
+          onDelete={handleDelete}
+        />
+        <Chip
+          label="Deletable"
+          onDelete={handleDelete}
+        />
+      </Stack>
+      <TextField
+        fullWidth
+        hiddenLabel
+        placeholder="검색할 항목을 입력해 주세요."
+      />
+      <Stack spacing={1}>
+        <Button variant="text">전체 삭제</Button>
+        <Button variant="text">전체 삭제</Button>
+      </Stack>
+    </Paper>
   );
 }
 export default CmSearch;
