@@ -256,6 +256,12 @@ export const LNB_LIST = [
         icon: <SubIcon />,
         url: '/cm/table',
       },
+      {
+        id: '10-6',
+        label: 'CM Radio Group',
+        icon: <SubIcon />,
+        url: '/cm/radio-group',
+      },
     ],
   },
 ];
