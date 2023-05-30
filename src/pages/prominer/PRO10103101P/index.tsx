@@ -1,9 +1,15 @@
+import PorminerResourceDataTable from './DataTable';
+
 type propsType = {
   title: string;
 };
 
 function Resource(props: propsType) {
   const { title } = props;
-  return <>{title} - Table Data Area</>;
+  return (
+    <>
+      <PorminerResourceDataTable />
+    </>
+  );
 }
 export default Resource;
