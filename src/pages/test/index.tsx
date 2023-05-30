@@ -7,6 +7,7 @@ import Error from '@/pages/error';
 import TestManagement from './PRO10102101P';
 import TestCase from './PRO10102106P';
 import CreateTestCase from './PRO10102109P';
+import EditTestCase from './PRO10102114P';
 import History from './PRO10102119P';
 
 const Test = ({ subMenus }: { subMenus: subMenusType }) => (
@@ -22,6 +23,10 @@ const Test = ({ subMenus }: { subMenus: subMenusType }) => (
     <Route
       path="/create-test-case"
       element={<CreateTestCase title={subMenus['CreateTestCase'].title} />}
+    />
+    <Route
+      path="/edit-test-case"
+      element={<EditTestCase title={subMenus['EditTestCase'].title} />}
     />
     <Route
       path="/history"

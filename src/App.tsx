@@ -156,6 +156,7 @@ const menus = {
       AppAndSg: { title: 'APP&SG', to: '/development/overview/app-and-sg' },
       Meta: { title: 'Meta', to: '/development/overview/meta/management' },
       MetaHistory: { title: 'Meta History', to: '/development/overview/meta/history' },
+      DoInfo: { title: 'Do Info', to: '/development/overview/do-info' },
     },
   },
   Node: {
@@ -168,6 +169,7 @@ const menus = {
       Test: { title: 'Test', to: '/development/test/management' },
       TestCase: { title: 'TestCase', to: '/development/test/test-case' },
       CreateTestCase: { title: 'Create TestCase', to: '/development/test/create-test-case' },
+      EditTestCase: { title: 'Edit TestCase', to: '/development/test/edit-test-case' },
       History: { title: 'History', to: '/development/test/history' },
     },
   },
