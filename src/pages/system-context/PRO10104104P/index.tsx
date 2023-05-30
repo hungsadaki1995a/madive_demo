@@ -8,16 +8,16 @@
  * ====================================================
  * 2023.05.29   김정아 차장   최초 작성
  ******************************************************/
-import { CmDataSearch } from '@/components/atoms/CmDataInput';
 import { Box, Paper, Typography } from '@mui/material';
 
+import { CmDataSearch } from '@/components/atoms/CmDataInput';
 // Common Atoms
 import { CmDataSelect } from '@/components/atoms/CmDataInput';
-
 // Templates
 import { CmPageTselectColum } from '@/components/templates/CmPageTitle';
 
-import { SysContextStyled } from './SysContext.Styled';
+import { SysContextStyled } from '../SysContext.Styled';
+import SystemContextDatasourceDataTable from './DataTable';
 
 // img, icon
 
@@ -48,7 +48,9 @@ function Datasource(props: propsType) {
         </Box>
       </Paper>
 
-      <Paper className="inputDataBox">DataTeble Area</Paper>
+      <Paper className="inputDataBox">
+        <SystemContextDatasourceDataTable />
+      </Paper>
     </SysContextStyled>
   );
 }
