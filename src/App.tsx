@@ -6,6 +6,7 @@ import { ErrorBoundary } from 'react-error-boundary';
 import { Navigate, Route, Routes } from 'react-router-dom';
 
 import CssBaseline from '@mui/material/CssBaseline';
+import { ThemeProvider } from '@mui/material/styles';
 import Grid from '@mui/material/Unstable_Grid2';
 
 import CmBreadcrumbs from '@/components/templates/CmBreadcrumbs';
@@ -31,6 +32,7 @@ import Test from '@/pages/test';
 import User from '@/pages/user';
 
 import CmContainer from './App.Styled';
+import theme from './styles/theme';
 
 // 100vh - 스크롤 오류
 const vh = window.innerHeight * 0.01;
@@ -40,112 +42,114 @@ export const MobxStore = new RootStore();
 
 const App = () => (
   <CreateStore.Provider value={{ MobxStore }}>
-    <ErrorBoundary FallbackComponent={ErrorFallback}>
-      <CmContainer>
-        <CssBaseline />
-        <Grid
-          container
-          className="gridContainer"
-        >
-          {/* LNB */}
-          <CmLnb />
-          <Grid className="conArea">
-            {/* topNav */}
-            <CmGnb />
-            {/* Breadcrumbs */}
-            <CmBreadcrumbs />
-            {/* Main */}
-            <main>
-              <Routes>
-                {/* Login */}
-                <Route
-                  path="/login"
-                  element={<Login />}
-                />
-                {/* Development */}
-                <Route
-                  path="/development/overview/*"
-                  element={<Overview subMenus={menus['Overview'].subMenus} />}
-                />
-                <Route
-                  path="/development/node/*"
-                  element={<Node subMenus={menus['Node'].subMenus} />}
-                />
-                <Route
-                  path="/development/test/*"
-                  element={<Test subMenus={menus['Test'].subMenus} />}
-                />
-                <Route
-                  path="/development/prominer/*"
-                  element={<Prominer subMenus={menus['Prominer'].subMenus} />}
-                />
-                <Route
-                  path="/development/system-context/*"
-                  element={<SystemContext subMenus={menus['SystemContext'].subMenus} />}
-                />
-                <Route
-                  path="/development/resource/*"
-                  element={<Resource subMenus={menus['Resource'].subMenus} />}
-                />
-                <Route
-                  path="/development"
-                  element={<Navigate to="/development/overview" />}
-                />
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <ErrorBoundary FallbackComponent={ErrorFallback}>
+        <CmContainer>
+          <Grid
+            container
+            className="gridContainer"
+          >
+            {/* LNB */}
+            <CmLnb />
+            <Grid className="conArea">
+              {/* topNav */}
+              <CmGnb />
+              {/* Breadcrumbs */}
+              <CmBreadcrumbs />
+              {/* Main */}
+              <main>
+                <Routes>
+                  {/* Login */}
+                  <Route
+                    path="/login"
+                    element={<Login />}
+                  />
+                  {/* Development */}
+                  <Route
+                    path="/development/overview/*"
+                    element={<Overview subMenus={menus['Overview'].subMenus} />}
+                  />
+                  <Route
+                    path="/development/node/*"
+                    element={<Node subMenus={menus['Node'].subMenus} />}
+                  />
+                  <Route
+                    path="/development/test/*"
+                    element={<Test subMenus={menus['Test'].subMenus} />}
+                  />
+                  <Route
+                    path="/development/prominer/*"
+                    element={<Prominer subMenus={menus['Prominer'].subMenus} />}
+                  />
+                  <Route
+                    path="/development/system-context/*"
+                    element={<SystemContext subMenus={menus['SystemContext'].subMenus} />}
+                  />
+                  <Route
+                    path="/development/resource/*"
+                    element={<Resource subMenus={menus['Resource'].subMenus} />}
+                  />
+                  <Route
+                    path="/development"
+                    element={<Navigate to="/development/overview" />}
+                  />
 
-                {/* Configuration */}
-                <Route
-                  path="/configuration/user/*"
-                  element={<User subMenus={menus['User'].subMenus} />}
-                />
-                <Route
-                  path="/configuration/model/*"
-                  element={<Model subMenus={menus['Model'].subMenus} />}
-                />
-                <Route
-                  path="/configuration/log-control/*"
-                  element={<LogControl subMenus={menus['LogControl'].subMenus} />}
-                />
-                <Route
-                  path="/configuration"
-                  element={<Navigate to="configuration/user" />}
-                />
+                  {/* Configuration */}
+                  <Route
+                    path="/configuration/user/*"
+                    element={<User subMenus={menus['User'].subMenus} />}
+                  />
+                  <Route
+                    path="/configuration/model/*"
+                    element={<Model subMenus={menus['Model'].subMenus} />}
+                  />
+                  <Route
+                    path="/configuration/log-control/*"
+                    element={<LogControl subMenus={menus['LogControl'].subMenus} />}
+                  />
+                  <Route
+                    path="/configuration"
+                    element={<Navigate to="configuration/user" />}
+                  />
 
-                {/* 공통 컴포넌트 구성 Sample Page (참고) */}
-                <Route
-                  path="/cm/button"
-                  element={<Button />}
-                />
-                <Route
-                  path="/cm/card"
-                  element={<Card />}
-                />
-                <Route
-                  path="/cm/modal"
-                  element={<Modal />}
-                />
-                <Route
-                  path="/cm/snackbar"
-                  element={<SnackBar />}
-                />
-                <Route
-                  path="/cm/table"
-                  element={<Table />}
-                />
+                  {/* 공통 컴포넌트 구성 Sample Page (참고) */}
+                  <Route
+                    path="/cm/button"
+                    element={<Button />}
+                  />
+                  <Route
+                    path="/cm/card"
+                    element={<Card />}
+                  />
+                  <Route
+                    path="/cm/modal"
+                    element={<Modal />}
+                  />
+                  <Route
+                    path="/cm/snackbar"
+                    element={<SnackBar />}
+                  />
+                  <Route
+                    path="/cm/table"
+                    element={<Table />}
+                  />
 
-                <Route
-                  path="/"
-                  element={<Navigate to="/login" />}
-                />
-                <Route
-                  path="/*"
-                  element={<Error />}
-                />
-              </Routes>
-            </main>
+                  <Route
+                    path="/"
+                    element={<Navigate to="/login" />}
+                  />
+                  <Route
+                    path="/*"
+                    element={<Error />}
+                  />
+                </Routes>
+              </main>
+            </Grid>
           </Grid>
-        </Grid>
-      </CmContainer>
-    </ErrorBoundary>
+        </CmContainer>
+      </ErrorBoundary>
+    </ThemeProvider>
   </CreateStore.Provider>
 );
 
