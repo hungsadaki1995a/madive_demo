@@ -25,7 +25,7 @@ import * as CmStyle from '@/stylesheets/common';
 import { ReactComponent as CloseIcon } from '@/stylesheets/images/SnackCloseIcon.svg';
 import { ReactComponent as SuccessIcon } from '@/stylesheets/images/SnackSuccessIcon.svg';
 
-import { OverviewStyled } from './Overview.Styled';
+import { OverviewStyled } from '../Overview.Styled';
 
 type propsType = {
   title: string;
