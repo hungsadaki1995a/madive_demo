@@ -9,11 +9,11 @@
  * 2023.05.13   김정아 차장   최초 작성
  ******************************************************/
 // import React, { useEffect, useState } from 'react';
-import { notoSansDJKFont } from '@/stylesheets/common';
-
 import AddCircleIcon from '@mui/icons-material/AddCircleOutlineOutlined';
 import { Button, Card, CardContent, CardHeader, Link, List, ListItem, ListItemText, Typography } from '@mui/material';
+import makeStyles from '@mui/styles/makeStyles';
 
+import { notoSansDJKFont } from '@/stylesheets/common';
 // icon
 import { ReactComponent as DeleteIcon } from '@/stylesheets/images/cmCardDelIcon.svg';
 import { ReactComponent as EditIcon } from '@/stylesheets/images/cmCardEditIcon.svg';
@@ -21,12 +21,11 @@ import { ReactComponent as SubIcon } from '@/stylesheets/images/cmCardSubIcon.sv
 
 import { CARD_DATA } from '@/example/GenaralCode';
 
-import makeStyles from '@mui/styles/makeStyles';
 // Common Component
 import { CmIconButton } from './CmButton';
 
 // Styled
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles((theme) => ({
   card: {
     fontFamily: notoSansDJKFont.regular,
     fontSize: '13px',
@@ -82,10 +81,11 @@ const useStyles = makeStyles(() => ({
       '& .conTitle': {
         display: 'flex',
         alignItems: 'center',
-        fontFamily: notoSansDJKFont.medium,
+        fontWeight: 500,
         fontSize: '15px',
         lineHeight: '1.5',
         marginBottom: '18px',
+        color: theme.palette.success.main,
 
         '& svg': {
           marginRight: '10px',
