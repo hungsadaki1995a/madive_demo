@@ -1,15 +1,15 @@
 import CmModal from '@/components/atoms/CmModal';
 
-type CreateMetaModalProps = {
+type ImportExcelModalProps = {
   visible: boolean;
   handleSave?: () => void;
   handleClose: () => void;
 };
 
-export default function CreateMetaModal({ visible, handleSave, handleClose }: CreateMetaModalProps) {
+export default function ImportExcelModal({ visible, handleSave, handleClose }: ImportExcelModalProps) {
   return (
     <CmModal
-      title="Create Meta"
+      title="Import Excel"
       visible={visible}
       onSave={handleSave}
       onClose={handleClose}

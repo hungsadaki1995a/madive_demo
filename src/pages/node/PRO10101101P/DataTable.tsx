@@ -19,10 +19,12 @@ import { TestCaseDto } from '@/types/dtos/testCaseDtos';
 import { useStore } from '@/utils';
 
 import CreateNodeModal from './modal/PRO10101102M';
+import EditNodeModal from './modal/PRO10101103M';
 
 function NodeManagementDataTable() {
   const { TestCaseStore, AlertStore } = useStore();
   const [isCreateNodeModalVisible, setIsCreateNodeModalVisible] = useState(false);
+  const [isEditNodeModalVisible, setIsEditNodeModalVisible] = useState(false);
 
   // Create Meta Modal Open
   const handleCreateNodeModalOpen = () => {
@@ -32,6 +34,16 @@ function NodeManagementDataTable() {
   // Create Meta Modal Close
   const handleCreateNodeModalClose = () => {
     setIsCreateNodeModalVisible(false);
+  };
+
+  // Edit Meta Modal Open
+  const handleEditNodeModalOpen = () => {
+    setIsEditNodeModalVisible(true);
+  };
+
+  // Edit Meta Modal Close
+  const handleEditNodeModalClose = () => {
+    setIsEditNodeModalVisible(false);
   };
 
   // -----------------------------------
@@ -243,6 +255,12 @@ function NodeManagementDataTable() {
       <CreateNodeModal
         visible={isCreateNodeModalVisible}
         handleClose={handleCreateNodeModalClose}
+      />
+
+      {/* Edit Meta - Modal */}
+      <EditNodeModal
+        visible={isEditNodeModalVisible}
+        handleClose={handleEditNodeModalClose}
       />
     </Paper>
   );

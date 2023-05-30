@@ -1,15 +1,15 @@
 import CmModal from '@/components/atoms/CmModal';
 
-type CreateMetaModalProps = {
+type EditNodeModalProps = {
   visible: boolean;
   handleSave?: () => void;
   handleClose: () => void;
 };
 
-export default function CreateMetaModal({ visible, handleSave, handleClose }: CreateMetaModalProps) {
+export default function EditNodeModal({ visible, handleSave, handleClose }: EditNodeModalProps) {
   return (
     <CmModal
-      title="Create Meta"
+      title="Edit Node"
       visible={visible}
       onSave={handleSave}
       onClose={handleClose}

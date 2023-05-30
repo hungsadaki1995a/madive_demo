@@ -19,10 +19,14 @@ import { TestCaseDto } from '@/types/dtos/testCaseDtos';
 import { useStore } from '@/utils';
 
 import CreateMetaModal from './modal/PRO10100107M';
+import EditMetaModal from './modal/PRO10100108M';
+import ImportExcelModal from './modal/PRO10100109M';
 
 function MetaDataTable() {
   const { TestCaseStore, AlertStore } = useStore();
   const [isCreateMetaModalVisible, setIsCreateMetaModalVisible] = useState(false);
+  const [isEditMetaModalVisible, setIsEditMetaModalVisible] = useState(false);
+  const [isImportExcelModalVisible, setImportExcelModalVisible] = useState(false);
 
   // Create Meta Modal Open
   const handleCreateMetaModalOpen = () => {
@@ -32,6 +36,26 @@ function MetaDataTable() {
   // Create Meta Modal Close
   const handleCreateMetaModalClose = () => {
     setIsCreateMetaModalVisible(false);
+  };
+
+  // Edit Meta Modal Open
+  const handleEditMetaModalOpen = () => {
+    setIsEditMetaModalVisible(true);
+  };
+
+  // Edit Meta Modal Close
+  const handleEditMetaModalClose = () => {
+    setIsEditMetaModalVisible(false);
+  };
+
+  // Import Excel Modal Open
+  const handleImportExcelModalOpen = () => {
+    setImportExcelModalVisible(true);
+  };
+
+  // Import Excel Modal Close
+  const handleImportExcelModalClose = () => {
+    setImportExcelModalVisible(false);
   };
 
   // -----------------------------------
@@ -231,6 +255,18 @@ function MetaDataTable() {
       <CreateMetaModal
         visible={isCreateMetaModalVisible}
         handleClose={handleCreateMetaModalClose}
+      />
+
+      {/* Edit Meta - Modal */}
+      <EditMetaModal
+        visible={isEditMetaModalVisible}
+        handleClose={handleEditMetaModalClose}
+      />
+
+      {/* Immort Excel - Modal */}
+      <ImportExcelModal
+        visible={isImportExcelModalVisible}
+        handleClose={handleImportExcelModalClose}
       />
     </Paper>
   );

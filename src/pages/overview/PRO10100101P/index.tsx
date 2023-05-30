@@ -29,6 +29,8 @@ import { OverviewStyled } from '../Overview.Styled';
 // Modals
 import CreateApplicationModal from './modal/PRO10100102M';
 import EditApplicationModal from './modal/PRO10100103M';
+import AddServiceGroupModal from './modal/PRO10100104M';
+import EditServiceGroupModal from './modal/PRO10100105M';
 
 type propsType = {
   title: string;
@@ -107,6 +109,8 @@ function AppSG(props: propsType) {
   const { title } = props;
   const [isCreateApplicationModalVisible, setIsCreateApplicationModalVisible] = useState(false);
   const [isEditApplicationModalVisible, setIsEditApplicationModalVisible] = useState(false);
+  const [isAddServiceGroupModalVisible, setIsAddServiceGroupModalVisible] = useState(false);
+  const [isEditServiceGroupModalVisible, setIsEditServiceGroupModalVisible] = useState(false);
   const [isDelVisible, setIsDelVisible] = useState(false);
   const [successOpen, setSuccessOpen] = useState(false);
   const boardId = useRef();
@@ -128,6 +132,26 @@ function AppSG(props: propsType) {
   // Create Application Modal Close
   const handleCreateApplicationModalClose = () => {
     setIsCreateApplicationModalVisible(false);
+  };
+
+  // Add Service Group Modal Open
+  const handleAddServiceGroupModalOpen = () => {
+    setIsAddServiceGroupModalVisible(true);
+  };
+
+  // Add Service Group Modal Close
+  const handleAddServiceGroupModalClose = () => {
+    setIsAddServiceGroupModalVisible(false);
+  };
+
+  // Edit Service Group Modal Open
+  const handleEditServiceGroupModalOpen = () => {
+    setIsEditServiceGroupModalVisible(true);
+  };
+
+  // Edit Service Group Modal Close
+  const handleEditServiceGroupModalClose = () => {
+    setIsEditServiceGroupModalVisible(false);
   };
 
   // 수정 모달 팝업 이동
@@ -199,6 +223,20 @@ function AppSG(props: propsType) {
         {/* contents */}
         <p className="pointTxt">Are you sure to delete this application ?</p>
       </CmModal>
+
+      {/* Add Service Group - Modal */}
+      <AddServiceGroupModal
+        visible={isAddServiceGroupModalVisible}
+        handleSave={handleSave}
+        handleClose={handleAddServiceGroupModalClose}
+      />
+
+      {/* Edit Service Group - Modal */}
+      <EditServiceGroupModal
+        visible={isEditServiceGroupModalVisible}
+        handleSave={handleSave}
+        handleClose={handleEditServiceGroupModalClose}
+      />
 
       <Snackbar
         className={classes.lbSnack}

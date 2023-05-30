@@ -1,15 +1,15 @@
 import CmModal from '@/components/atoms/CmModal';
 
-type CreateMetaModalProps = {
+type EditServiceGroupModalProps = {
   visible: boolean;
   handleSave?: () => void;
   handleClose: () => void;
 };
 
-export default function CreateMetaModal({ visible, handleSave, handleClose }: CreateMetaModalProps) {
+export default function EditServiceGroupModal({ visible, handleSave, handleClose }: EditServiceGroupModalProps) {
   return (
     <CmModal
-      title="Create Meta"
+      title="Edit Service Group"
       visible={visible}
       onSave={handleSave}
       onClose={handleClose}
