@@ -194,7 +194,7 @@ const CmBreadcrumbsStyle = styled.div`
 `;
 // Common CmSearch
 const CmSearchStyle = styled.div`
-  * {
+  /* * {
     font: 13px / 1.5 ${CmStyle.notoSansDJKFont.regular};
   }
   margin-bottom: 20px;
@@ -228,7 +228,7 @@ const CmSearchStyle = styled.div`
     .MuiStack-root ~ .MuiInputBase-root {
       padding-left: 15px;
     }
-  }
+  } */
 `;
 
 // Common CmPageTitle
