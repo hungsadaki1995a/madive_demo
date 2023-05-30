@@ -13,7 +13,6 @@ import AddCircleIcon from '@mui/icons-material/AddCircleOutlineOutlined';
 import { Button, Card, CardContent, CardHeader, Link, List, ListItem, ListItemText, Typography } from '@mui/material';
 import makeStyles from '@mui/styles/makeStyles';
 
-import { notoSansDJKFont } from '@/stylesheets/common';
 // icon
 import { ReactComponent as DeleteIcon } from '@/stylesheets/images/cmCardDelIcon.svg';
 import { ReactComponent as EditIcon } from '@/stylesheets/images/cmCardEditIcon.svg';
@@ -25,9 +24,9 @@ import { CARD_DATA } from '@/example/GenaralCode';
 import { CmIconButton } from './CmButton';
 
 // Styled
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(({ palette, typography }) => ({
   card: {
-    fontFamily: notoSansDJKFont.regular,
+    fontWeight: typography.fontWeightRegular,
     fontSize: '13px',
     lineHeight: '1.5',
     display: 'inline-block',
@@ -40,10 +39,10 @@ const useStyles = makeStyles((theme) => ({
     // cardTitle
     '& .MuiCardHeader-root': {
       padding: '0 5px 14px 5px',
-      borderBottom: '1px solid #D3D5DA',
+      borderBottom: `1px solid ${palette.grey[100]}`,
 
       '& span.MuiCardHeader-title': {
-        fontFamily: notoSansDJKFont.medium,
+        fontWeight: typography.fontWeightMedium,
         fontSize: '15px',
         lineHeight: '20px',
       },
@@ -64,11 +63,11 @@ const useStyles = makeStyles((theme) => ({
       '& .MuiCardHeader-root .MuiCardHeader-action': {
         opacity: '1',
         '& path': {
-          fill: '#9EA4AC',
+          fill: palette.grey[300],
         },
 
         '& .MuiIconButton-root:hover path': {
-          fill: '#000',
+          fill: palette.common.black,
         },
       },
     },
@@ -81,11 +80,10 @@ const useStyles = makeStyles((theme) => ({
       '& .conTitle': {
         display: 'flex',
         alignItems: 'center',
-        fontWeight: 500,
+        fontWeight: typography.fontWeightMedium,
         fontSize: '15px',
         lineHeight: '1.5',
         marginBottom: '18px',
-        color: theme.palette.success.main,
 
         '& svg': {
           marginRight: '10px',
@@ -97,7 +95,7 @@ const useStyles = makeStyles((theme) => ({
         padding: 0,
         '& *': {
           padding: 0,
-          fontFamily: notoSansDJKFont.regular,
+          fontWeight: typography.fontWeightRegular,
           fontSize: '13px',
           lineHeight: '24px',
         },
@@ -105,7 +103,7 @@ const useStyles = makeStyles((theme) => ({
           width: '20%',
 
           '& a.MuiLink-root': {
-            color: '#1898F5',
+            color: palette.info.main,
           },
         },
       },
@@ -113,7 +111,7 @@ const useStyles = makeStyles((theme) => ({
   },
   // addCard
   addCard: {
-    fontFamily: notoSansDJKFont.regular,
+    fontWeight: typography.fontWeightRegular,
     fontSize: '13px',
     lineHeight: '1.5',
     display: 'inline-block',
@@ -127,10 +125,10 @@ const useStyles = makeStyles((theme) => ({
       width: '100%',
       padding: '65px 0',
       margin: 'auto 0',
-      fontFamily: notoSansDJKFont.regular,
+      fontWeight: typography.fontWeightRegular,
       fontSize: '16px',
       lineHeight: '1.5',
-      color: '#000',
+      color: palette.common.black,
 
       '& svg': {
         fontSize: '49px',

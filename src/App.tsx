@@ -6,8 +6,8 @@ import { ErrorBoundary } from 'react-error-boundary';
 import { Navigate, Route, Routes } from 'react-router-dom';
 
 import CssBaseline from '@mui/material/CssBaseline';
+import { ThemeProvider } from '@mui/material/styles';
 import Grid from '@mui/material/Unstable_Grid2';
-import { ThemeProvider } from 'styled-components';
 
 import CmBreadcrumbs from '@/components/templates/CmBreadcrumbs';
 // Common Templates
