@@ -20,3 +20,9 @@ export interface ITestCaseDetailField {
   label: string;
   type: FormElementType;
 }
+
+export interface ITestCaseExecResult {
+  success: boolean;
+  stackTrace?: string;
+  responseCode?: string;
+}

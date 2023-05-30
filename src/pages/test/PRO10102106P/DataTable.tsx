@@ -1,14 +1,17 @@
-import { ICommonTableColumn, IFilterConfig, ITopAction } from '@/components/organisms/CmCommonTable/types';
-import { useStore } from '@/utils';
-import { Paper } from '@mui/material';
-import { observer } from 'mobx-react';
 import { useEffect, useMemo, useState } from 'react';
 
-import { TestCaseApi } from '@/apis';
+import AddIcon from '@mui/icons-material/Add';
+import SearchIcon from '@mui/icons-material/Search';
+import { Paper } from '@mui/material';
+import { observer } from 'mobx-react';
+
 import { CmButtonDropdownMenu } from '@/components/atoms/CmButton';
 import CommonTable from '@/components/organisms/CmCommonTable';
 import { SortDirectionTypes } from '@/components/organisms/CmCommonTable/const';
 import useTableDataServer from '@/components/organisms/CmCommonTable/hooks/useTableDataServer';
+import { ICommonTableColumn, IFilterConfig, ITopAction } from '@/components/organisms/CmCommonTable/types';
+
+import { TestCaseApi } from '@/apis';
 import {
   TestCaseDeleteResponseDto,
   TestCaseDetailResponseDto,
@@ -16,20 +19,21 @@ import {
   TestCaseListResponseDto,
   TestCaseRequestDto,
 } from '@/types/dtos/testCaseDtos';
-import AddIcon from '@mui/icons-material/Add';
-import SearchIcon from '@mui/icons-material/Search';
+import { useStore } from '@/utils';
+
 import {
-  TestCaseActionEnum,
   defaultFilterField,
   paginationDefaultValues,
   sortDefaultValues,
+  TestCaseActionEnum,
   testCaseActionsConfig,
   testCaseColumnsDefault,
   testCaseDetailDefault,
 } from './const';
+import TestCaseExecResultModal from './modal/PRO10102107M';
 import TestCaseDeleteModal from './modal/TestCaseDeleteModal';
 import TestCaseDetailModal from './modal/TestCaseDetailModal';
-import { ITestCaseDetail } from './types';
+import { ITestCaseDetail, ITestCaseExecResult } from './types';
 
 const filterConfig: IFilterConfig = {
   submitBy: 'enter',
@@ -76,6 +80,12 @@ function TestCaseDataTable() {
   const { TestCaseStore, AlertStore } = useStore();
   const [isOpenModalDetail, setIsOpenModalDetail] = useState<boolean>(false);
   const [isOpenDeleteModal, setIsOpenDeleteModal] = useState<boolean>(false);
+  const [isOpenViewTestResultModal, setIsOpenViewTestResultModal] = useState<boolean>(false);
+  const [viewTestResultData, setViewStateResultData] = useState<ITestCaseExecResult>({
+    success: false,
+    responseCode: '',
+    stackTrace: '',
+  });
   const [testCaseDetailSelected, setTestCaseDetailSelected] = useState<ITestCaseDetail | TestCaseDto>(
     testCaseDetailDefault
   );
@@ -127,15 +137,28 @@ function TestCaseDataTable() {
     fetchTestCaseList();
   };
 
+  const requestRunTestCase = async (testCaseData: ITestCaseDetail | TestCaseDto) => {
+    const response = await TestCaseApi.runTestCase(testCaseData as TestCaseDto);
+    setIsOpenViewTestResultModal(true);
+    if (response?.dto) {
+      //TODO: Handle display result;
+    } else if (response?.exception) {
+      setViewStateResultData({ ...response.exception, success: false });
+    }
+  };
+
   const handleActionChange = (testCaseData: TestCaseDto, actionType: TestCaseActionEnum) => {
-    // eslint-disable-next-line no-debugger
-    debugger;
     switch (actionType) {
       case TestCaseActionEnum.DETAIL:
         return requestResourceDetail(testCaseData);
       case TestCaseActionEnum.DELETE:
         setTestCaseDetailSelected(testCaseData);
         return setIsOpenDeleteModal(true);
+      case TestCaseActionEnum.TEST:
+        setTestCaseDetailSelected(testCaseData);
+        requestRunTestCase(testCaseData);
+        return;
+      // return setIsOpenDeleteModal(true);
       default:
         return null;
     }
@@ -197,7 +220,7 @@ function TestCaseDataTable() {
       try {
         TestCaseStore.setIsFetching(true);
         const response: TestCaseListResponseDto = await TestCaseApi.getTestCases({
-          app_resource_id: '0000d8a6e0bd0004b35b8c00dcf79930', // hard code for test
+          app_resource_id: '0000002740920048b959ef00dcf79930', // hard code for test
           pageInfoDto: {
             pageLength: pagination.rowsPerPage.toString(),
             pageNum: pagination.currentPage + 1,
@@ -261,6 +284,13 @@ function TestCaseDataTable() {
         <TestCaseDeleteModal
           isOpen={isOpenDeleteModal}
           handleClose={onCloseDeleteModal}
+        />
+      )}
+      {isOpenViewTestResultModal && (
+        <TestCaseExecResultModal
+          isOpen={isOpenDeleteModal}
+          handleClose={onCloseDeleteModal}
+          resultData={viewTestResultData}
         />
       )}
     </Paper>

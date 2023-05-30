@@ -1,11 +1,13 @@
+import axios, { AxiosError } from 'axios';
+
 import {
   TestCaseDeleteResponseDto,
   TestCaseDetailResponseDto,
+  TestCaseDto,
   TestCaseFilterDto,
   TestCaseListResponseDto,
   TestCaseRequestDto,
 } from '@/types/dtos/testCaseDtos';
-import axios, { AxiosError } from 'axios';
 
 const TestCaseApi = {
   getTestCases: async (filterDto: TestCaseFilterDto): Promise<TestCaseListResponseDto | any> => {
@@ -56,6 +58,20 @@ const TestCaseApi = {
       return data;
     } catch (error: unknown) {
       return error instanceof AxiosError ? error.response : error;
+    }
+  },
+  runTestCase: async (testCaseData: TestCaseDto) => {
+    try {
+      const { data } = await axios.post(
+        `http://101.101.209.11:14000/${testCaseData.application_name}/${testCaseData.service_group_name}/${testCaseData.service_name}?action=`,
+        {
+          dto: JSON.parse(testCaseData.input_data),
+          header: JSON.parse(testCaseData.header_data),
+        }
+      );
+      return data;
+    } catch (error: unknown) {
+      return error instanceof AxiosError ? error.response?.data : error;
     }
   },
 };
