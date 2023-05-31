@@ -1,6 +1,5 @@
 import { useEffect, useMemo } from 'react';
 
-import AddIcon from '@mui/icons-material/Add';
 import SearchIcon from '@mui/icons-material/Search';
 import { Paper } from '@mui/material';
 import { observer } from 'mobx-react';
@@ -11,22 +10,48 @@ import {
   IBottomAction,
   ICommonTableColumn,
   IFilterConfig,
-  ITopAction,
+  IPlainObject,
 } from '@/components/organisms/CmCommonTable/types';
 
-import { TestCaseApi } from '@/apis';
-import { TestCaseDto } from '@/types/dtos/testCaseDtos';
 import { useStore } from '@/utils';
 
 function PorminerResourceDataTable() {
-  const { TestCaseStore, AlertStore } = useStore();
+  const { AlertStore } = useStore();
+
+  // -----------------------------------
+  // Sample Data
+
+  const sampleRows = [
+    {
+      calldepth: 3,
+      recycled_bo: 0,
+      recycled_so: 0,
+      recycled: 0,
+      logical_name: 'SHBO',
+      resource_type: 'BIZ_OBJECT',
+      resource_path: 'com.tmax.bo',
+      physical_name: 'SHBO',
+      declaring_class: '',
+    },
+    {
+      calldepth: 1,
+      recycled_bo: 1,
+      recycled_so: 2,
+      recycled: 6,
+      logical_name: 'SHBO',
+      resource_type: 'DTO',
+      resource_path: 'com.tmax.dto',
+      physical_name: 'SHDO',
+      declaring_class: '',
+    },
+  ];
 
   // -----------------------------------
   // Config table
-  const columnsConfig = useMemo<ICommonTableColumn<TestCaseDto>[]>(() => {
+  const columnsConfig = useMemo<ICommonTableColumn<IPlainObject>[]>(() => {
     return [
       {
-        field: 'testcase_name',
+        field: 'logical_name',
         label: 'Logical Name',
         type: 'text',
         sortable: true,
@@ -38,37 +63,37 @@ function PorminerResourceDataTable() {
         sortable: true,
       },
       {
-        field: 'service_group_name',
+        field: 'resource_type',
         label: 'Resource Type',
         type: 'text',
         sortable: true,
       },
       {
-        field: 'application_name',
+        field: 'resource_path',
         label: 'Resource Path',
         type: 'text',
         sortable: true,
       },
       {
-        field: 'creator',
+        field: 'recycled',
         label: 'Recycled',
         type: 'text',
         sortable: true,
       },
       {
-        field: 'create_time',
+        field: 'recycled_so',
         label: 'Recycled SOs',
         type: 'text',
         sortable: true,
       },
       {
-        field: 'update_time',
+        field: 'recycled_bo',
         label: 'Recycled BOs',
         type: 'text',
         sortable: true,
       },
       {
-        field: 'physical_name',
+        field: 'calldepth',
         label: 'Call-Depth',
         type: 'text',
         sortable: true,
@@ -87,7 +112,7 @@ function PorminerResourceDataTable() {
           options: [
             {
               label: 'Logical Name',
-              value: 'testcase_name',
+              value: 'logical_name',
             },
             {
               label: 'Physical Name',
@@ -95,23 +120,23 @@ function PorminerResourceDataTable() {
             },
             {
               label: 'Resource Type',
-              value: 'service_group_name',
+              value: 'resource_type',
             },
             {
               label: 'Resource Path',
-              value: 'application_name',
+              value: 'resource_path',
             },
             {
               label: 'Recycled',
-              value: 'creator',
+              value: 'recycled',
             },
             {
               label: 'Recycled SOs',
-              value: 'create_time',
+              value: 'recycled_so',
             },
             {
               label: 'Recycled BOs',
-              value: 'update_time',
+              value: 'recycled_bo',
             },
           ],
         },
@@ -126,52 +151,24 @@ function PorminerResourceDataTable() {
     };
   }, []);
 
-  const topActionConfig = useMemo<ITopAction>(() => {
-    return {
-      label: 'Create New Prominer Resource',
-      onClick: () => {
-        /** */
-      },
-      icon: <AddIcon />,
-    };
-  }, []);
-
-  const bottomActionsConfig = useMemo<IBottomAction<TestCaseDto>[]>((): IBottomAction<TestCaseDto>[] => {
+  const bottomActionsConfig = useMemo<IBottomAction<IPlainObject>[]>((): IBottomAction<IPlainObject>[] => {
     return [];
   }, []);
 
   // ------------------------------------------------------------------------------------
   // Handle Data
 
-  const { fetch, rows, sort, filter, pagination } = useTableDataServer<TestCaseDto>({
+  const { fetch, rows, sort, filter, pagination } = useTableDataServer<IPlainObject>({
     queryFn: async ({ filter, pagination, sort }) => {
       try {
-        TestCaseStore.setIsFetching(true);
-        const data = await TestCaseApi.getTestCases({
-          app_resource_id: '0000d8a6e0bd0004b35b8c00dcf79930', // hard code for test
-          pageInfoDto: {
-            pageLength: pagination.rowsPerPage.toString(),
-            pageNum: pagination.currentPage + 1,
-            sort: true,
-            sortField: `${sort.field || 'testcase_name'}`,
-            sortingType: sort.direction || 'asc',
-          },
-          conditionDto: [
-            {
-              key: filter['filterFieldName'] || 'testcase_name',
-              value: filter['search'] || '',
-            },
-          ],
-        });
-        TestCaseStore.setIsFetching(false);
-        TestCaseStore.setTestCases(data?.dto?.TestCaseDto, data?.dto?.pagingResultDto.totalNum);
+        //
       } catch (e) {
         AlertStore.openApiAlert('error', 'Fetch data failed');
       }
     },
     queryResult: {
-      data: TestCaseStore.testCases,
-      total: TestCaseStore.total,
+      data: sampleRows,
+      total: sampleRows.length,
     },
     paginationParamsDefault: {
       rowsPerPageOptions: [3, 5, 10],
@@ -180,19 +177,19 @@ function PorminerResourceDataTable() {
       totalCount: 0,
     },
     sortInfoDefault: {
-      field: 'testcase_name',
+      field: 'logical_name',
       direction: 'desc',
     },
   });
 
   useEffect(() => {
-    fetch();
+    //fetch();
   }, []);
 
   return (
     <Paper style={{ padding: '20px' }}>
       <CommonTable
-        tableName="testcase-management"
+        tableName="prominer-resource-table"
         // renderLayoutAs={TableLayoutCustom}
         fieldAsRowId="email"
         columnsConfig={columnsConfig}
@@ -201,11 +198,11 @@ function PorminerResourceDataTable() {
         onSelectedRows={(selectedRows) => {
           //
         }}
-        topActionConfig={topActionConfig}
+        //topActionConfig={topActionConfig}
         filterConfig={filterConfig}
         onFilterTriggerQuery={filter}
         sortDefault={{
-          field: 'testcase_name',
+          field: 'logical_name',
           direction: 'asc',
         }}
         onSortChange={sort}
