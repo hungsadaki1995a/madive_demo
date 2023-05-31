@@ -4,6 +4,6 @@ type propsType = {
 
 function ViewResourceDetail(props: propsType) {
   const { title } = props;
-  return <>{title} - AS-IS, Figma 정보 없음.</>;
+  return <>{title}</>;
 }
 export default ViewResourceDetail;

@@ -8,52 +8,67 @@
  * ====================================================
  * 2023.05.31   김정아 차장   최초 작성
  ******************************************************/
-import { Box, Paper, Typography } from '@mui/material';
+import { Box, Grid, Paper, Typography } from '@mui/material';
 
-import { CmDataSearch } from '@/components/atoms/CmDataInput';
 // Common Atoms
-import { CmDataSelect } from '@/components/atoms/CmDataInput';
+import { CmButton } from '@/components/atoms/CmButton';
 // Templates
 import { CmPageTselectColum } from '@/components/templates/CmPageTitle';
 
+// Icon
+// import { ReactComponent as arrLeftIcon } from '@/stylesheets/images/arrLeftIcon.svg';
+// import { ReactComponent as arrRightIcon } from '@/stylesheets/images/arrRightIcon.svg';
 import { UserStyled } from './User.Styled';
 
 type propsType = {
   title: string;
 };
-
 function UserGroupAssign(props: propsType) {
-  const { title } = props;
+  const customList = () => (
+    <Box sx={{ width: 600, height: 230, overflow: 'auto' }}>
+      <Typography>Table Title Area</Typography>
+      Table List Area
+    </Box>
+  );
   return (
     <UserStyled>
       {/* {title} */}
       <CmPageTselectColum />
 
-      <Paper className="selectBox">
-        {/* Group List */}
-        <Box className="formBox">
-          <Typography>Group List</Typography>
-          {/* FormBox */}
-          <label className="labelFormArea">
-            <span>Group</span>
-            <CmDataSelect className="" />
-          </label>
+      <Paper className="transferBox">
+        <Grid
+          container
+          className="transferGrid"
+        >
+          <Grid item>{customList()}</Grid>
+          <Grid className="btnCenter">
+            <Grid
+              container
+              direction="column"
+              alignItems="center"
+            >
+              <CmButton
+                variant="contained"
+                // startIcon={<arrLeftIcon />}
+                btnTitle="Add Role"
+              />
+              <CmButton
+                variant="contained"
+                // startIcon={<arrRightIcon />}
+                btnTitle="Delete Role"
+              />
+            </Grid>
+          </Grid>
+          <Grid item>{customList()}</Grid>
+        </Grid>
 
-          {/* FormBox */}
-          <label className="labelFormArea">
-            <span>Application</span>
-            <CmDataSearch />
-          </label>
-
-          {/* FormBox */}
-          <label className="labelFormArea">
-            <span>Context</span>
-            <CmDataSearch />
-          </label>
+        <Box className="flexEnd">
+          <CmButton
+            variant="contained"
+            btnTitle="Save"
+          />
         </Box>
       </Paper>
-
-      <Paper className="inputDataBox">Table</Paper>
     </UserStyled>
   );
 }

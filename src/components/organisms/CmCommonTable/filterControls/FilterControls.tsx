@@ -151,7 +151,7 @@ const FilterControls = ({ filterConfig, onTriggerQuery }: IFilterControlsProps) 
       >
         <CmButton
           variant="contained"
-          startIcon={<SearchIcon />}
+          startIcon={<DeleteIcon />}
           btnTitle="Contained"
         />
         {filterConfig?.filters?.map((filterItem) => {

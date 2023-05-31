@@ -30,7 +30,6 @@ const useStyles = makeStyles(() => ({
       marginRight: '.4em',
     },
     '& .MuiStack-root': {
-      // marginLeft: 'auto',
       display: 'flex',
       flexDirection: 'row',
       alignItems: 'center',
@@ -45,34 +44,19 @@ const useStyles = makeStyles(() => ({
       '& .MuiChip-label': {
         lineHeight: 1,
       },
-      '& .MuiSvgIcon-root': {
-        opacity: 0,
-        transition: 'opacity 250ms',
-      },
-      '&:hover .MuiSvgIcon-root': {
-        opacity: 1,
-      },
     },
     // TextField
-    '& .MuiTextField-root': {
-      display: 'contents',
-      '& .MuiOutlinedInput-root': {
-        width: '100%',
-        padding: '0 10px',
-        '& .MuiInputBase-input': {
-          padding: 0,
-        },
-        '& .MuiOutlinedInput-notchedOutline': {
-          border: 0,
-        },
+    '& .MuiOutlinedInput-root': {
+      margin: 'auto 10px',
+      '& .MuiInputBase-input': {
+        padding: 0,
+      },
+      '& .MuiOutlinedInput-notchedOutline': {
+        border: 0,
       },
     },
-  },
-  // RightBtn
-  rBtn: {
-    width: '270px',
-    // marginLeft: 'auto',
-    justifyContent: 'flex-end',
+
+    // RightBtn
     '& .MuiButton-text': {
       padding: 0,
       color: '#1898F5',
@@ -91,24 +75,21 @@ function CmSearch() {
       <SearchIcon />
       <Stack spacing={1}>
         <Chip
-          label="Property 1 : Value 2"
+          label="Deletable"
           onDelete={handleDelete}
         />
         <Chip
-          label="Property 2 : Value 3"
+          label="Deletable"
           onDelete={handleDelete}
         />
       </Stack>
       <TextField
-        // fullWidth
+        fullWidth
         hiddenLabel
         placeholder="검색할 항목을 입력해 주세요."
       />
-      <Stack
-        className={classes.rBtn}
-        spacing={1}
-      >
-        <Button variant="text">검색조건 저장</Button>
+      <Stack spacing={1}>
+        <Button variant="text">전체 삭제</Button>
         <Button variant="text">전체 삭제</Button>
       </Stack>
     </Paper>

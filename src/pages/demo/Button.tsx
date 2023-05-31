@@ -16,8 +16,8 @@ import { Paper, Stack } from '@mui/material';
 
 // Common Atoms
 import { CmButton, CmIconButton } from '@/components/atoms/CmButton';
-// Templates
 import { CmPageTselectBtw } from '@/components/templates/CmPageTitle';
+// Templates
 import CmSearch from '@/components/templates/CmSearch';
 
 import { ReactComponent as DeleteIcon } from '@/stylesheets/images/cmCardDelIcon.svg';
@@ -36,7 +36,7 @@ function Button() {
       <CmPageTselectBtw />
 
       {/* ButtonComponent */}
-      <Paper className="demo">
+      <Paper>
         <p>Primary - Filled / Disable </p>
         <Stack
           direction="row"
@@ -87,7 +87,7 @@ function Button() {
         </Stack>
       </Paper>
 
-      <Paper className="demo">
+      <Paper>
         <p>Text - Ghost / Disable (No Background)</p>
         <Stack
           direction="row"
@@ -149,7 +149,7 @@ function Button() {
         </Stack>
       </Paper>
 
-      <Paper className="demo">
+      <Paper>
         <p>Text .tBtnBg - Ghost / Disable (Background)</p>
         <Stack
           direction="row"
@@ -206,7 +206,7 @@ function Button() {
         </Stack>
       </Paper>
 
-      <Paper className="demo">
+      <Paper>
         <p>Outline - Login button / Disable</p>
         <Stack
           direction="row"

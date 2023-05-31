@@ -23,14 +23,31 @@ const UserStyled = styled.div`
     margin-bottom: 10px;
     box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.2);
 
-    &.selectBox {
-      width: 440px;
-      margin-right: 16px;
-
-      .formBox {
+    &.transferBox {
+      .transferGrid {
+        justify-content: center;
+        align-items: center;
         p.MuiTypography-root {
           margin-bottom: 20px;
         }
+        .MuiGrid-root {
+          width: 45%;
+        }
+        .btnCenter {
+          min-width: 70px;
+          width: 10%;
+          display: flex;
+          justify-content: center;
+          .MuiGrid-root {
+            width: 100%;
+
+            button {
+              margin: 3px 0;
+            }
+          }
+        }
+      }
+      .formBox {
         & ~ *:not(.flexEnd) {
           margin-top: 35px;
         }
