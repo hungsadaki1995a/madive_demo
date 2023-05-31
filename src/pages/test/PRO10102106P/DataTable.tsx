@@ -30,9 +30,9 @@ import {
   testCaseColumnsDefault,
   testCaseDetailDefault,
 } from './const';
-import TestCaseExecResultModal from './modal/PRO10102107M';
+import ViewTestResultModal from './modal/PRO10102107M';
+import TestCaseDetailModal from './modal/PRO10102108M';
 import TestCaseDeleteModal from './modal/TestCaseDeleteModal';
-import TestCaseDetailModal from './modal/TestCaseDetailModal';
 import { ITestCaseDetail, ITestCaseExecResult } from './types';
 
 const filterConfig: IFilterConfig = {
@@ -78,6 +78,7 @@ const filterConfig: IFilterConfig = {
 
 function TestCaseDataTable() {
   const { TestCaseStore, AlertStore } = useStore();
+  const [isViewTestResultModalVisible, setIsViewTestResultModalVisible] = useState<boolean>(false);
   const [isOpenModalDetail, setIsOpenModalDetail] = useState<boolean>(false);
   const [isOpenDeleteModal, setIsOpenDeleteModal] = useState<boolean>(false);
   const [isOpenViewTestResultModal, setIsOpenViewTestResultModal] = useState<boolean>(false);
@@ -149,6 +150,8 @@ function TestCaseDataTable() {
 
   const handleActionChange = (testCaseData: TestCaseDto, actionType: TestCaseActionEnum) => {
     switch (actionType) {
+      // case TestCaseActionEnum.TEST:
+      //   return handleViewTestResultModalOpen();
       case TestCaseActionEnum.DETAIL:
         return requestResourceDetail(testCaseData);
       case TestCaseActionEnum.DELETE:
@@ -162,6 +165,16 @@ function TestCaseDataTable() {
       default:
         return null;
     }
+  };
+
+  // View Test Result Modal Open
+  const handleViewTestResultModalOpen = () => {
+    setIsViewTestResultModalVisible(true);
+  };
+
+  // View Test Result Modal Close
+  const handleViewTestResultModalClose = () => {
+    setIsViewTestResultModalVisible(false);
   };
 
   const onCloseDetailModal = () => {
@@ -286,11 +299,16 @@ function TestCaseDataTable() {
           handleClose={onCloseDeleteModal}
         />
       )}
-      {isOpenViewTestResultModal && (
+      {/* {isOpenViewTestResultModal && (
         <TestCaseExecResultModal
           isOpen={isOpenDeleteModal}
           handleClose={onCloseDeleteModal}
           resultData={viewTestResultData}
+      )} */}
+      {isViewTestResultModalVisible && (
+        <ViewTestResultModal
+          visible={isViewTestResultModalVisible}
+          handleClose={handleViewTestResultModalClose}
         />
       )}
     </Paper>

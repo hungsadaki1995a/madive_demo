@@ -1,4 +1,4 @@
-import { useEffect, useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 
 import AddIcon from '@mui/icons-material/Add';
 import SearchIcon from '@mui/icons-material/Search';
@@ -18,8 +18,33 @@ import { TestCaseApi } from '@/apis';
 import { TestCaseDto } from '@/types/dtos/testCaseDtos';
 import { useStore } from '@/utils';
 
+import CreateDatasourceModal from './modal/PRO10104105M';
+import EditDatasourceModal from './modal/PRO10104106M';
+
 function SystemContextDatasourceDataTable() {
   const { TestCaseStore, AlertStore } = useStore();
+  const [isCreateDatasourceModalVisible, setIsCreateDatasourceModalVisible] = useState(false);
+  const [isEditDatasourceModalVisible, setIsEditDatasourceModalVisible] = useState(false);
+
+  // Create Datasource Modal Open
+  const handleCreateDatasourceModalOpen = () => {
+    setIsCreateDatasourceModalVisible(true);
+  };
+
+  // Create Datasource Modal Close
+  const handleCreateDatasourceModalClose = () => {
+    setIsCreateDatasourceModalVisible(false);
+  };
+
+  // Edit Datasource Modal Open
+  const handleEditDatasourceModalOpen = () => {
+    setIsEditDatasourceModalVisible(true);
+  };
+
+  // Edit Datasource Modal Close
+  const handleEditDatasourceModalClose = () => {
+    setIsEditDatasourceModalVisible(false);
+  };
 
   // -----------------------------------
   // Config table
@@ -166,6 +191,18 @@ function SystemContextDatasourceDataTable() {
         paginationConfig={pagination}
         // renderPaginationAs={TablePaginationCustom}
         bottomActionsConfig={bottomActionsConfig}
+      />
+
+      {/* Create Datasource - Modal */}
+      <CreateDatasourceModal
+        visible={isCreateDatasourceModalVisible}
+        handleClose={handleCreateDatasourceModalClose}
+      />
+
+      {/* Edit Datasource - Modal */}
+      <EditDatasourceModal
+        visible={isEditDatasourceModalVisible}
+        handleClose={handleEditDatasourceModalClose}
       />
     </Paper>
   );

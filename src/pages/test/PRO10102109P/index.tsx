@@ -1,14 +1,17 @@
 /******************************************************
- * Program ID : src/pages/test/TestManagement.tsx
- * Program Name : Test
- * Create On : 2023.05.23
- * 개 요 : TestManagement.tsx
+ * Program ID : src/pages/test/CreateTestCase.tsx
+ * Program Name : Create Test Case
+ * Create On : 2023.05.27
+ * 개 요 : CreateTestCase.tsx
  * ====================================================
  * 변경 이력     수정자      내용
  * ====================================================
  * 2023.05.27   김정아 차장   최초 작성
  ******************************************************/
-import { CmDataSearch } from '@/components/atoms/CmDataInput';
+import { SyntheticEvent, useState } from 'react';
+
+// img, icon
+import StarsIcon from '@mui/icons-material/StarsOutlined';
 import { TreeItem, TreeView } from '@mui/lab';
 import {
   Box,
@@ -25,18 +28,18 @@ import {
   Typography,
 } from '@mui/material';
 import { SelectChangeEvent } from '@mui/material/Select';
-import { SyntheticEvent, useState } from 'react';
 
 // Common Atoms
 import { CmButton } from '@/components/atoms/CmButton';
-
+import { CmDataSearch, CmTextInput } from '@/components/atoms/CmDataInput';
 // Templates
 import { CmPageTselectColum } from '@/components/templates/CmPageTitle';
 
-import { TestStyled } from './Test.Styled';
-
-// img, icon
-import StarsIcon from '@mui/icons-material/StarsOutlined';
+import { TestStyled } from '../Test.Styled';
+import SelectTargetDataModal from './modal/PRO10102110M';
+import SelectResourceDataModal from './modal/PRO10102111M';
+import ViewTestResultModal from './modal/PRO10102112M';
+import SaveTestCaseModal from './modal/PRO10102113M';
 
 type propsType = {
   title: string;
@@ -73,20 +76,64 @@ function a11yProps(index: number) {
   };
 }
 
-function Test(props: propsType) {
+function CreateTestCase(props: propsType) {
   const { title } = props;
 
   const [value, setValue] = useState(0);
+  const [test, setTest] = useState('');
+  const [isSelectTargetDataModalVisible, setIsSelectTargetDataModalVisible] = useState(false);
+  const [isSelectResourceDataModalVisible, setIsSelectResourceDataModalVisible] = useState(false);
+  const [isViewTestResultModalVisible, setIsViewTestResultModalVisible] = useState(false);
+  const [isSaveTestCaseModalVisible, setIsSaveTestCaseModalVisible] = useState(false);
 
   const handleTabChange = (event: SyntheticEvent, newValue: number) => {
     setValue(newValue);
   };
 
-  const [test, setTest] = useState('');
-
   const handleChange = (event: SelectChangeEvent) => {
     setTest(event.target.value);
   };
+
+  // Select Target Data Modal Open
+  const handleSelectTargetDataModalOpen = () => {
+    setIsSelectTargetDataModalVisible(true);
+  };
+
+  // Select Target Data Modal Close
+  const handleSelectTargetDataModalClose = () => {
+    setIsSelectTargetDataModalVisible(false);
+  };
+
+  // Select Resource Data Modal Open
+  const handleSelectResourceDataModalOpen = () => {
+    setIsSelectResourceDataModalVisible(true);
+  };
+
+  // Select Resource Data Modal Close
+  const handleSelectResourceDataModalClose = () => {
+    setIsSelectResourceDataModalVisible(false);
+  };
+
+  // View Test Result Modal Open
+  const handleViewTestResultModalOpen = () => {
+    setIsViewTestResultModalVisible(true);
+  };
+
+  // View Test Result Modal Close
+  const handleViewTestResultModalClose = () => {
+    setIsViewTestResultModalVisible(false);
+  };
+
+  // Save Test Case Modal Open
+  const handleSaveTestCaseModalOpen = () => {
+    setIsSaveTestCaseModalVisible(true);
+  };
+
+  // Save Test Case Modal Close
+  const handleSaveTestCaseModalClose = () => {
+    setIsSaveTestCaseModalVisible(false);
+  };
+
   return (
     <TestStyled>
       {/* {title} */}
@@ -96,6 +143,12 @@ function Test(props: propsType) {
         {/* Select For Test */}
         <Box className="formBox">
           <Typography>Select For Test</Typography>
+          {/* FormBox */}
+          <label className="labelFormArea">
+            <span>Test Case Name</span>
+            <CmTextInput />
+          </label>
+
           {/* FormBox */}
           <label className="labelFormArea">
             <span>Target Node</span>
@@ -379,7 +432,31 @@ function Test(props: propsType) {
           </TabPanel>
         </Box>
       </Paper>
+
+      {/* Select Target Data - Modal */}
+      <SelectTargetDataModal
+        visible={isSelectTargetDataModalVisible}
+        handleClose={handleSelectTargetDataModalClose}
+      />
+
+      {/* Select Resource Data - Modal */}
+      <SelectResourceDataModal
+        visible={isSelectResourceDataModalVisible}
+        handleClose={handleSelectResourceDataModalClose}
+      />
+
+      {/* View Test Result - Modal */}
+      <ViewTestResultModal
+        visible={isViewTestResultModalVisible}
+        handleClose={handleViewTestResultModalClose}
+      />
+
+      {/* Save Test Case - Modal */}
+      <SaveTestCaseModal
+        visible={isSaveTestCaseModalVisible}
+        handleClose={handleSaveTestCaseModalClose}
+      />
     </TestStyled>
   );
 }
-export default Test;
+export default CreateTestCase;
