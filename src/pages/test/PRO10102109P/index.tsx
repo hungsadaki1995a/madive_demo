@@ -38,6 +38,8 @@ import { CmPageTselectColum } from '@/components/templates/CmPageTitle';
 import { TestStyled } from '../Test.Styled';
 import SelectTargetDataModal from './modal/PRO10102110M';
 import SelectResourceDataModal from './modal/PRO10102111M';
+import ViewTestResultModal from './modal/PRO10102112M';
+import SaveTestCaseModal from './modal/PRO10102113M';
 
 type propsType = {
   title: string;
@@ -81,6 +83,8 @@ function CreateTestCase(props: propsType) {
   const [test, setTest] = useState('');
   const [isSelectTargetDataModalVisible, setIsSelectTargetDataModalVisible] = useState(false);
   const [isSelectResourceDataModalVisible, setIsSelectResourceDataModalVisible] = useState(false);
+  const [isViewTestResultModalVisible, setIsViewTestResultModalVisible] = useState(false);
+  const [isSaveTestCaseModalVisible, setIsSaveTestCaseModalVisible] = useState(false);
 
   const handleTabChange = (event: SyntheticEvent, newValue: number) => {
     setValue(newValue);
@@ -108,6 +112,26 @@ function CreateTestCase(props: propsType) {
   // Select Resource Data Modal Close
   const handleSelectResourceDataModalClose = () => {
     setIsSelectResourceDataModalVisible(false);
+  };
+
+  // View Test Result Modal Open
+  const handleViewTestResultModalOpen = () => {
+    setIsViewTestResultModalVisible(true);
+  };
+
+  // View Test Result Modal Close
+  const handleViewTestResultModalClose = () => {
+    setIsViewTestResultModalVisible(false);
+  };
+
+  // Save Test Case Modal Open
+  const handleSaveTestCaseModalOpen = () => {
+    setIsSaveTestCaseModalVisible(true);
+  };
+
+  // Save Test Case Modal Close
+  const handleSaveTestCaseModalClose = () => {
+    setIsSaveTestCaseModalVisible(false);
   };
 
   return (
@@ -419,6 +443,18 @@ function CreateTestCase(props: propsType) {
       <SelectResourceDataModal
         visible={isSelectResourceDataModalVisible}
         handleClose={handleSelectResourceDataModalClose}
+      />
+
+      {/* View Test Result - Modal */}
+      <ViewTestResultModal
+        visible={isViewTestResultModalVisible}
+        handleClose={handleViewTestResultModalClose}
+      />
+
+      {/* Save Test Case - Modal */}
+      <SaveTestCaseModal
+        visible={isSaveTestCaseModalVisible}
+        handleClose={handleSaveTestCaseModalClose}
       />
     </TestStyled>
   );

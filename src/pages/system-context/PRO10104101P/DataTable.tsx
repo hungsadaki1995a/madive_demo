@@ -1,4 +1,4 @@
-import { useEffect, useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 
 import AddIcon from '@mui/icons-material/Add';
 import SearchIcon from '@mui/icons-material/Search';
@@ -18,8 +18,33 @@ import { TestCaseApi } from '@/apis';
 import { TestCaseDto } from '@/types/dtos/testCaseDtos';
 import { useStore } from '@/utils';
 
+import AddSystemContextModal from './modal/PRO10104102M';
+import EditSystemContextModal from './modal/PRO10104103M';
+
 function SystemContextManagementDataTable() {
   const { TestCaseStore, AlertStore } = useStore();
+  const [isAddSystemContextModalVisible, setIsAddSystemContextModalVisible] = useState(false);
+  const [isEditSystemContextModalVisible, setIsEditSystemContextModalVisible] = useState(false);
+
+  // Add System Context Modal Open
+  const handleAddSystemContextModalOpen = () => {
+    setIsAddSystemContextModalVisible(true);
+  };
+
+  // Add System Context Modal Close
+  const handleAddSystemContextModalClose = () => {
+    setIsAddSystemContextModalVisible(false);
+  };
+
+  // Edit System Context Modal Open
+  const handleEditSystemContextModalOpen = () => {
+    setIsEditSystemContextModalVisible(true);
+  };
+
+  // Edit System Context Modal Close
+  const handleEditSystemContextModalClose = () => {
+    setIsEditSystemContextModalVisible(false);
+  };
 
   // -----------------------------------
   // Config table
@@ -166,6 +191,18 @@ function SystemContextManagementDataTable() {
         paginationConfig={pagination}
         // renderPaginationAs={TablePaginationCustom}
         bottomActionsConfig={bottomActionsConfig}
+      />
+
+      {/* Add System Context - Modal */}
+      <AddSystemContextModal
+        visible={isAddSystemContextModalVisible}
+        handleClose={handleAddSystemContextModalClose}
+      />
+
+      {/* Edit System Context - Modal */}
+      <EditSystemContextModal
+        visible={isEditSystemContextModalVisible}
+        handleClose={handleEditSystemContextModalClose}
       />
     </Paper>
   );

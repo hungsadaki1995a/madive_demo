@@ -1,4 +1,4 @@
-import { useEffect, useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 
 import AddIcon from '@mui/icons-material/Add';
 import SearchIcon from '@mui/icons-material/Search';
@@ -18,8 +18,21 @@ import { TestCaseApi } from '@/apis';
 import { TestCaseDto } from '@/types/dtos/testCaseDtos';
 import { useStore } from '@/utils';
 
+import ViewDetailModal from './modal/PRO10102120M';
+
 function TestHistoryDataTable() {
   const { TestCaseStore, AlertStore } = useStore();
+  const [isViewDetailModalVisible, setIsViewDetailModalVisible] = useState(false);
+
+  // View Detail Modal Open
+  const handleViewDetailModalOpen = () => {
+    setIsViewDetailModalVisible(true);
+  };
+
+  // View Detail Modal Close
+  const handleViewDetailModalClose = () => {
+    setIsViewDetailModalVisible(false);
+  };
 
   // -----------------------------------
   // Config table
@@ -212,6 +225,12 @@ function TestHistoryDataTable() {
         paginationConfig={pagination}
         // renderPaginationAs={TablePaginationCustom}
         bottomActionsConfig={bottomActionsConfig}
+      />
+
+      {/* View Detail - Modal */}
+      <ViewDetailModal
+        visible={isViewDetailModalVisible}
+        handleClose={handleViewDetailModalClose}
       />
     </Paper>
   );
