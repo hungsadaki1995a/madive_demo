@@ -12,8 +12,7 @@ import CmLnb from '@/components/templates/CmLnb';
 import { RootStore } from '@/stores';
 import CreateStore from '@/utils/useStore';
 
-import { Button, Card, Modal, SnackBar, Table } from '@/pages/demo';
-import RadioGroup from '@/pages/demo/RadioGroup';
+import { Button, Card, Dialog, Modal, RadioGroup, SnackBar, Table, TextFieldDemo } from '@/pages/demo';
 import Error from '@/pages/error';
 import ErrorFallback from '@/pages/error/ErrorFallback';
 import LogControl from '@/pages/log-control';
@@ -28,7 +27,6 @@ import Test from '@/pages/test';
 import User from '@/pages/user';
 
 import CmContainer from './App.Styled';
-import TextFieldDemo from './pages/demo/TextFieldDemo';
 import theme from './styles/theme';
 
 // 100vh - 스크롤 오류
@@ -139,6 +137,10 @@ const App = () => (
                   <Route
                     path="/cm/textfield"
                     element={<TextFieldDemo />}
+                  />
+                  <Route
+                    path="/cm/dialog"
+                    element={<Dialog />}
                   />
                   <Route
                     path="/"

@@ -280,6 +280,12 @@ export const LNB_LIST = [
         icon: <SubIcon />,
         url: '/cm/textfield',
       },
+      {
+        id: '10-8',
+        label: 'CM Dialog',
+        icon: <SubIcon />,
+        url: '/cm/dialog',
+      },
     ],
   },
 ];
