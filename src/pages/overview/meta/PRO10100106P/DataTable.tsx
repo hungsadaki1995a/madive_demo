@@ -11,11 +11,10 @@ import {
   IBottomAction,
   ICommonTableColumn,
   IFilterConfig,
+  IPlainObject,
   ITopAction,
 } from '@/components/organisms/CmCommonTable/types';
 
-import { TestCaseApi } from '@/apis';
-import { TestCaseDto } from '@/types/dtos/testCaseDtos';
 import { useStore } from '@/utils';
 
 import CreateMetaModal from './modal/PRO10100107M';
@@ -23,7 +22,7 @@ import EditMetaModal from './modal/PRO10100108M';
 import ImportExcelModal from './modal/PRO10100109M';
 
 function MetaDataTable() {
-  const { TestCaseStore, AlertStore } = useStore();
+  const { AlertStore } = useStore();
   const [isCreateMetaModalVisible, setIsCreateMetaModalVisible] = useState(false);
   const [isEditMetaModalVisible, setIsEditMetaModalVisible] = useState(false);
   const [isImportExcelModalVisible, setImportExcelModalVisible] = useState(false);
@@ -59,11 +58,39 @@ function MetaDataTable() {
   };
 
   // -----------------------------------
+  // Sample Data
+
+  const sampleRows = [
+    {
+      resource_id: 'c3871e70a298e4449fcb72b7e9cafb3',
+      meta_type: 'non-persistent',
+      physical_name: 'tst',
+      logical_name: 'tst',
+      resource_group: 'gcm',
+      field_type: 'char',
+      length: '20',
+      update_time: '2023-05-30 19:33:38',
+      comments: 'comment',
+    },
+    {
+      resource_id: 'e5814ae80a298e444cbeb41987a1e179',
+      meta_type: 'persistent',
+      physical_name: 'trx_dt',
+      logical_name: 'Transaction Date',
+      resource_group: 'gcm',
+      field_type: 'double',
+      length: '20',
+      update_time: '2023-05-04 15:44:28',
+      comments: 'Tran Date',
+    },
+  ];
+
+  // -----------------------------------
   // Config table
-  const columnsConfig = useMemo<ICommonTableColumn<TestCaseDto>[]>(() => {
+  const columnsConfig = useMemo<ICommonTableColumn<IPlainObject>[]>(() => {
     return [
       {
-        field: 'testcase_name',
+        field: 'meta_type',
         label: 'Meta Type',
         type: 'text',
         sortable: true,
@@ -75,25 +102,25 @@ function MetaDataTable() {
         sortable: true,
       },
       {
-        field: 'service_group_name',
+        field: 'logical_name',
         label: 'Logical Name',
         type: 'text',
         sortable: true,
       },
       {
-        field: 'application_name',
+        field: 'resource_group',
         label: 'Resource Group',
         type: 'text',
         sortable: true,
       },
       {
-        field: 'creator',
+        field: 'field_type',
         label: 'Field Type',
         type: 'text',
         sortable: true,
       },
       {
-        field: 'create_time',
+        field: 'length',
         label: 'Length',
         type: 'text',
         sortable: true,
@@ -105,7 +132,7 @@ function MetaDataTable() {
         sortable: true,
       },
       {
-        field: 'physical_name',
+        field: 'comments',
         label: 'Comments',
         type: 'text',
         sortable: true,
@@ -124,7 +151,7 @@ function MetaDataTable() {
           options: [
             {
               label: 'Meta Type',
-              value: 'testcase_name',
+              value: 'meta_type',
             },
             {
               label: 'Physical Name',
@@ -132,19 +159,19 @@ function MetaDataTable() {
             },
             {
               label: 'Logical Name',
-              value: 'service_group_name',
+              value: 'logical_name',
             },
             {
               label: 'Resource Group',
-              value: 'application_name',
+              value: 'resource_group',
             },
             {
               label: 'Field Type',
-              value: 'creator',
+              value: 'field_type',
             },
             {
               label: 'Length',
-              value: 'create_time',
+              value: 'length',
             },
             {
               label: 'Update Time',
@@ -173,42 +200,24 @@ function MetaDataTable() {
     };
   }, []);
 
-  const bottomActionsConfig = useMemo<IBottomAction<TestCaseDto>[]>((): IBottomAction<TestCaseDto>[] => {
+  const bottomActionsConfig = useMemo<IBottomAction<IPlainObject>[]>((): IBottomAction<IPlainObject>[] => {
     return [];
   }, []);
 
   // ------------------------------------------------------------------------------------
   // Handle Data
 
-  const { fetch, rows, sort, filter, pagination } = useTableDataServer<TestCaseDto>({
+  const { fetch, rows, sort, filter, pagination } = useTableDataServer<IPlainObject>({
     queryFn: async ({ filter, pagination, sort }) => {
       try {
-        TestCaseStore.setIsFetching(true);
-        const data = await TestCaseApi.getTestCases({
-          app_resource_id: '0000d8a6e0bd0004b35b8c00dcf79930', // hard code for test
-          pageInfoDto: {
-            pageLength: pagination.rowsPerPage.toString(),
-            pageNum: pagination.currentPage + 1,
-            sort: true,
-            sortField: `${sort.field || 'testcase_name'}`,
-            sortingType: sort.direction || 'asc',
-          },
-          conditionDto: [
-            {
-              key: filter['filterFieldName'] || 'testcase_name',
-              value: filter['search'] || '',
-            },
-          ],
-        });
-        TestCaseStore.setIsFetching(false);
-        TestCaseStore.setTestCases(data?.dto?.TestCaseDto, data?.dto?.pagingResultDto.totalNum);
+        //
       } catch (e) {
         AlertStore.openApiAlert('error', 'Fetch data failed');
       }
     },
     queryResult: {
-      data: TestCaseStore.testCases,
-      total: TestCaseStore.total,
+      data: sampleRows,
+      total: sampleRows.length,
     },
     paginationParamsDefault: {
       rowsPerPageOptions: [3, 5, 10],
@@ -217,23 +226,23 @@ function MetaDataTable() {
       totalCount: 0,
     },
     sortInfoDefault: {
-      field: 'testcase_name',
+      field: 'meta_type',
       direction: 'desc',
     },
   });
 
   useEffect(() => {
-    fetch();
+    //fetch();
   }, []);
 
   return (
     <Paper style={{ padding: '20px' }}>
       <CommonTable
-        tableName="testcase-management"
+        tableName="meta-table"
         // renderLayoutAs={TableLayoutCustom}
         fieldAsRowId="email"
         columnsConfig={columnsConfig}
-        rows={rows}
+        rows={sampleRows}
         hasSelectionRows
         onSelectedRows={(selectedRows) => {
           //
@@ -242,7 +251,7 @@ function MetaDataTable() {
         filterConfig={filterConfig}
         onFilterTriggerQuery={filter}
         sortDefault={{
-          field: 'testcase_name',
+          field: 'meta_type',
           direction: 'asc',
         }}
         onSortChange={sort}
