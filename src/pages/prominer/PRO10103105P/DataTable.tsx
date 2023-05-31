@@ -1,6 +1,5 @@
 import { useEffect, useMemo } from 'react';
 
-import AddIcon from '@mui/icons-material/Add';
 import SearchIcon from '@mui/icons-material/Search';
 import { Paper } from '@mui/material';
 import { observer } from 'mobx-react';
@@ -11,46 +10,64 @@ import {
   IBottomAction,
   ICommonTableColumn,
   IFilterConfig,
-  ITopAction,
+  IPlainObject,
 } from '@/components/organisms/CmCommonTable/types';
 
-import { TestCaseApi } from '@/apis';
-import { TestCaseDto } from '@/types/dtos/testCaseDtos';
 import { useStore } from '@/utils';
 
 function ProminerFieldDataTable() {
-  const { TestCaseStore, AlertStore } = useStore();
+  const { AlertStore } = useStore();
+
+  // -----------------------------------
+  // Sample Data
+
+  const sampleRows = [
+    {
+      declared_type: 'com.tmax.dof.SHDOF',
+      field_type: 'DATA_OBJECT_FACTORY',
+      field_name: 'dof',
+      service_group_name: 'SHSG',
+      declaring_class: 'com.tmax.bo.SHBO',
+    },
+    {
+      declared_type: 'com.tmax.dof.SHDO',
+      field_type: 'DATA_OBJECT',
+      field_name: 'input',
+      service_group_name: 'SHSG',
+      declaring_class: 'com.tmax.so.SHDeferredSO',
+    },
+  ];
 
   // -----------------------------------
   // Config table
-  const columnsConfig = useMemo<ICommonTableColumn<TestCaseDto>[]>(() => {
+  const columnsConfig = useMemo<ICommonTableColumn<IPlainObject>[]>(() => {
     return [
       {
-        field: 'testcase_name',
+        field: 'field_name',
         label: 'Field Name',
         type: 'text',
         sortable: true,
       },
       {
-        field: 'physical_name',
+        field: 'declared_type',
         label: 'Declared Type',
         type: 'text',
         sortable: true,
       },
       {
-        field: 'service_group_name',
+        field: 'declaring_class',
         label: 'Class Name',
         type: 'text',
         sortable: true,
       },
       {
-        field: 'application_name',
+        field: 'service_group_name',
         label: 'SG Name',
         type: 'text',
         sortable: true,
       },
       {
-        field: 'creator',
+        field: 'field_type',
         label: 'Field Type',
         type: 'text',
         sortable: true,
@@ -69,23 +86,23 @@ function ProminerFieldDataTable() {
           options: [
             {
               label: 'Field Name',
-              value: 'testcase_name',
+              value: 'field_name',
             },
             {
               label: 'Declared Type',
-              value: 'physical_name',
+              value: 'declared_type',
             },
             {
               label: 'Class Name',
-              value: 'service_group_name',
+              value: 'declaring_class',
             },
             {
               label: 'SG Name',
-              value: 'application_name',
+              value: 'service_group_name',
             },
             {
               label: 'Field Type',
-              value: 'creator',
+              value: 'field_type',
             },
           ],
         },
@@ -100,52 +117,24 @@ function ProminerFieldDataTable() {
     };
   }, []);
 
-  const topActionConfig = useMemo<ITopAction>(() => {
-    return {
-      label: 'Create New Prominer Field',
-      onClick: () => {
-        /** */
-      },
-      icon: <AddIcon />,
-    };
-  }, []);
-
-  const bottomActionsConfig = useMemo<IBottomAction<TestCaseDto>[]>((): IBottomAction<TestCaseDto>[] => {
+  const bottomActionsConfig = useMemo<IBottomAction<IPlainObject>[]>((): IBottomAction<IPlainObject>[] => {
     return [];
   }, []);
 
   // ------------------------------------------------------------------------------------
   // Handle Data
 
-  const { fetch, rows, sort, filter, pagination } = useTableDataServer<TestCaseDto>({
+  const { fetch, rows, sort, filter, pagination } = useTableDataServer<IPlainObject>({
     queryFn: async ({ filter, pagination, sort }) => {
       try {
-        TestCaseStore.setIsFetching(true);
-        const data = await TestCaseApi.getTestCases({
-          app_resource_id: '0000d8a6e0bd0004b35b8c00dcf79930', // hard code for test
-          pageInfoDto: {
-            pageLength: pagination.rowsPerPage.toString(),
-            pageNum: pagination.currentPage + 1,
-            sort: true,
-            sortField: `${sort.field || 'testcase_name'}`,
-            sortingType: sort.direction || 'asc',
-          },
-          conditionDto: [
-            {
-              key: filter['filterFieldName'] || 'testcase_name',
-              value: filter['search'] || '',
-            },
-          ],
-        });
-        TestCaseStore.setIsFetching(false);
-        TestCaseStore.setTestCases(data?.dto?.TestCaseDto, data?.dto?.pagingResultDto.totalNum);
+        //
       } catch (e) {
         AlertStore.openApiAlert('error', 'Fetch data failed');
       }
     },
     queryResult: {
-      data: TestCaseStore.testCases,
-      total: TestCaseStore.total,
+      data: sampleRows,
+      total: sampleRows.length,
     },
     paginationParamsDefault: {
       rowsPerPageOptions: [3, 5, 10],
@@ -154,19 +143,19 @@ function ProminerFieldDataTable() {
       totalCount: 0,
     },
     sortInfoDefault: {
-      field: 'testcase_name',
+      field: 'field_name',
       direction: 'desc',
     },
   });
 
   useEffect(() => {
-    fetch();
+    //fetch();
   }, []);
 
   return (
     <Paper style={{ padding: '20px' }}>
       <CommonTable
-        tableName="testcase-management"
+        tableName="prominer-field-table"
         // renderLayoutAs={TableLayoutCustom}
         fieldAsRowId="email"
         columnsConfig={columnsConfig}
@@ -175,11 +164,11 @@ function ProminerFieldDataTable() {
         onSelectedRows={(selectedRows) => {
           //
         }}
-        topActionConfig={topActionConfig}
+        //topActionConfig={topActionConfig}
         filterConfig={filterConfig}
         onFilterTriggerQuery={filter}
         sortDefault={{
-          field: 'testcase_name',
+          field: 'field_name',
           direction: 'asc',
         }}
         onSortChange={sort}

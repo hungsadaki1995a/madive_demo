@@ -211,7 +211,7 @@ function TestHistoryDataTable() {
   return (
     <Paper style={{ padding: '20px' }}>
       <CommonTable
-        tableName="testcase-management"
+        tableName="test-history-table"
         // renderLayoutAs={TableLayoutCustom}
         fieldAsRowId="email"
         columnsConfig={columnsConfig}
