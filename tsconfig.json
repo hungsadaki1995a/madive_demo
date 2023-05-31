@@ -19,5 +19,5 @@
     "strictPropertyInitialization": false,
     "experimentalDecorators": true
   },
-  "include": ["src"]
+  "include": ["src", "**/*.d.ts"]
 }

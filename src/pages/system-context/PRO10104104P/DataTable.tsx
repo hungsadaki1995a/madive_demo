@@ -18,32 +18,32 @@ import { TestCaseApi } from '@/apis';
 import { TestCaseDto } from '@/types/dtos/testCaseDtos';
 import { useStore } from '@/utils';
 
-import CreateNodeModal from './modal/PRO10101102M';
-import EditNodeModal from './modal/PRO10101103M';
+import CreateDatasourceModal from './modal/PRO10104105M';
+import EditDatasourceModal from './modal/PRO10104106M';
 
-function NodeManagementDataTable() {
+function SystemContextDatasourceDataTable() {
   const { TestCaseStore, AlertStore } = useStore();
-  const [isCreateNodeModalVisible, setIsCreateNodeModalVisible] = useState(false);
-  const [isEditNodeModalVisible, setIsEditNodeModalVisible] = useState(false);
+  const [isCreateDatasourceModalVisible, setIsCreateDatasourceModalVisible] = useState(false);
+  const [isEditDatasourceModalVisible, setIsEditDatasourceModalVisible] = useState(false);
 
-  // Create Meta Modal Open
-  const handleCreateNodeModalOpen = () => {
-    setIsCreateNodeModalVisible(true);
+  // Create Datasource Modal Open
+  const handleCreateDatasourceModalOpen = () => {
+    setIsCreateDatasourceModalVisible(true);
   };
 
-  // Create Meta Modal Close
-  const handleCreateNodeModalClose = () => {
-    setIsCreateNodeModalVisible(false);
+  // Create Datasource Modal Close
+  const handleCreateDatasourceModalClose = () => {
+    setIsCreateDatasourceModalVisible(false);
   };
 
-  // Edit Meta Modal Open
-  const handleEditNodeModalOpen = () => {
-    setIsEditNodeModalVisible(true);
+  // Edit Datasource Modal Open
+  const handleEditDatasourceModalOpen = () => {
+    setIsEditDatasourceModalVisible(true);
   };
 
-  // Edit Meta Modal Close
-  const handleEditNodeModalClose = () => {
-    setIsEditNodeModalVisible(false);
+  // Edit Datasource Modal Close
+  const handleEditDatasourceModalClose = () => {
+    setIsEditDatasourceModalVisible(false);
   };
 
   // -----------------------------------
@@ -52,60 +52,18 @@ function NodeManagementDataTable() {
     return [
       {
         field: 'testcase_name',
-        label: 'Node Name',
+        label: 'System Context Name',
         type: 'text',
         sortable: true,
       },
       {
         field: 'physical_name',
-        label: 'Node ID',
+        label: 'Datasource',
         type: 'text',
         sortable: true,
       },
       {
         field: 'service_group_name',
-        label: 'IP',
-        type: 'text',
-        sortable: true,
-      },
-      {
-        field: 'application_name',
-        label: 'File Port',
-        type: 'text',
-        sortable: true,
-      },
-      {
-        field: 'creator',
-        label: 'Http Port',
-        type: 'text',
-        sortable: true,
-      },
-      {
-        field: 'create_time',
-        label: 'ProObject Port',
-        type: 'text',
-        sortable: true,
-      },
-      {
-        field: 'update_time',
-        label: 'SSL',
-        type: 'text',
-        sortable: true,
-      },
-      {
-        field: 'physical_name',
-        label: 'Admin',
-        type: 'text',
-        sortable: true,
-      },
-      {
-        field: 'physical_name',
-        label: 'Node Type',
-        type: 'text',
-        sortable: true,
-      },
-      {
-        field: 'physical_name',
         label: 'Action',
         type: 'text',
         sortable: true,
@@ -123,32 +81,16 @@ function NodeManagementDataTable() {
           name: 'filterFieldName',
           options: [
             {
-              label: 'Node Name',
+              label: 'System Context Name',
               value: 'testcase_name',
             },
             {
-              label: 'Node ID',
+              label: 'Datasource',
               value: 'physical_name',
             },
             {
-              label: 'IP',
+              label: 'Action',
               value: 'service_group_name',
-            },
-            {
-              label: 'File Port',
-              value: 'application_name',
-            },
-            {
-              label: 'Http Port',
-              value: 'creator',
-            },
-            {
-              label: 'ProObject Port',
-              value: 'create_time',
-            },
-            {
-              label: 'SSL',
-              value: 'update_time',
             },
           ],
         },
@@ -165,9 +107,9 @@ function NodeManagementDataTable() {
 
   const topActionConfig = useMemo<ITopAction>(() => {
     return {
-      label: 'Create New Node',
+      label: 'Create New System Context Datasource',
       onClick: () => {
-        handleCreateNodeModalOpen();
+        /** */
       },
       icon: <AddIcon />,
     };
@@ -251,18 +193,18 @@ function NodeManagementDataTable() {
         bottomActionsConfig={bottomActionsConfig}
       />
 
-      {/* Create Meta - Modal */}
-      <CreateNodeModal
-        visible={isCreateNodeModalVisible}
-        handleClose={handleCreateNodeModalClose}
+      {/* Create Datasource - Modal */}
+      <CreateDatasourceModal
+        visible={isCreateDatasourceModalVisible}
+        handleClose={handleCreateDatasourceModalClose}
       />
 
-      {/* Edit Meta - Modal */}
-      <EditNodeModal
-        visible={isEditNodeModalVisible}
-        handleClose={handleEditNodeModalClose}
+      {/* Edit Datasource - Modal */}
+      <EditDatasourceModal
+        visible={isEditDatasourceModalVisible}
+        handleClose={handleEditDatasourceModalClose}
       />
     </Paper>
   );
 }
-export default observer(NodeManagementDataTable);
+export default observer(SystemContextDatasourceDataTable);

@@ -7,6 +7,7 @@ import Error from '@/pages/error';
 import Meta from './meta/PRO10100106P';
 import MetaHistory from './meta/PRO10100110P';
 import AppSG from './PRO10100101P';
+import DoInfo from './PRO10100111P';
 
 const Overview = ({ subMenus }: { subMenus: subMenusType }) => (
   <Routes>
@@ -21,6 +22,10 @@ const Overview = ({ subMenus }: { subMenus: subMenusType }) => (
     <Route
       path="/meta/history"
       element={<MetaHistory title={subMenus['MetaHistory'].title} />}
+    />
+    <Route
+      path="/do-info"
+      element={<DoInfo title={subMenus['DoInfo'].title} />}
     />
     <Route
       path="/"

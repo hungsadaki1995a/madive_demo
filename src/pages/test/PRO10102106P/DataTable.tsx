@@ -1,14 +1,17 @@
-import { ICommonTableColumn, IFilterConfig, ITopAction } from '@/components/organisms/CmCommonTable/types';
-import { useStore } from '@/utils';
-import { Paper } from '@mui/material';
-import { observer } from 'mobx-react';
 import { useEffect, useMemo, useState } from 'react';
 
-import { TestCaseApi } from '@/apis';
+import AddIcon from '@mui/icons-material/Add';
+import SearchIcon from '@mui/icons-material/Search';
+import { Paper } from '@mui/material';
+import { observer } from 'mobx-react';
+
 import { CmButtonDropdownMenu } from '@/components/atoms/CmButton';
 import CommonTable from '@/components/organisms/CmCommonTable';
 import { SortDirectionTypes } from '@/components/organisms/CmCommonTable/const';
 import useTableDataServer from '@/components/organisms/CmCommonTable/hooks/useTableDataServer';
+import { ICommonTableColumn, IFilterConfig, ITopAction } from '@/components/organisms/CmCommonTable/types';
+
+import { TestCaseApi } from '@/apis';
 import {
   TestCaseDeleteResponseDto,
   TestCaseDetailResponseDto,
@@ -16,19 +19,20 @@ import {
   TestCaseListResponseDto,
   TestCaseRequestDto,
 } from '@/types/dtos/testCaseDtos';
-import AddIcon from '@mui/icons-material/Add';
-import SearchIcon from '@mui/icons-material/Search';
+import { useStore } from '@/utils';
+
 import {
-  TestCaseActionEnum,
   defaultFilterField,
   paginationDefaultValues,
   sortDefaultValues,
+  TestCaseActionEnum,
   testCaseActionsConfig,
   testCaseColumnsDefault,
   testCaseDetailDefault,
 } from './const';
+import ViewTestResultModal from './modal/PRO10102107M';
+import TestCaseDetailModal from './modal/PRO10102108M';
 import TestCaseDeleteModal from './modal/TestCaseDeleteModal';
-import TestCaseDetailModal from './modal/TestCaseDetailModal';
 import { ITestCaseDetail } from './types';
 
 const filterConfig: IFilterConfig = {
@@ -74,6 +78,7 @@ const filterConfig: IFilterConfig = {
 
 function TestCaseDataTable() {
   const { TestCaseStore, AlertStore } = useStore();
+  const [isViewTestResultModalVisible, setIsViewTestResultModalVisible] = useState<boolean>(false);
   const [isOpenModalDetail, setIsOpenModalDetail] = useState<boolean>(false);
   const [isOpenDeleteModal, setIsOpenDeleteModal] = useState<boolean>(false);
   const [testCaseDetailSelected, setTestCaseDetailSelected] = useState<ITestCaseDetail | TestCaseDto>(
@@ -131,6 +136,8 @@ function TestCaseDataTable() {
     // eslint-disable-next-line no-debugger
     debugger;
     switch (actionType) {
+      case TestCaseActionEnum.TEST:
+        return handleViewTestResultModalOpen();
       case TestCaseActionEnum.DETAIL:
         return requestResourceDetail(testCaseData);
       case TestCaseActionEnum.DELETE:
@@ -139,6 +146,16 @@ function TestCaseDataTable() {
       default:
         return null;
     }
+  };
+
+  // View Test Result Modal Open
+  const handleViewTestResultModalOpen = () => {
+    setIsViewTestResultModalVisible(true);
+  };
+
+  // View Test Result Modal Close
+  const handleViewTestResultModalClose = () => {
+    setIsViewTestResultModalVisible(false);
   };
 
   const onCloseDetailModal = () => {
@@ -261,6 +278,12 @@ function TestCaseDataTable() {
         <TestCaseDeleteModal
           isOpen={isOpenDeleteModal}
           handleClose={onCloseDeleteModal}
+        />
+      )}
+      {isViewTestResultModalVisible && (
+        <ViewTestResultModal
+          visible={isViewTestResultModalVisible}
+          handleClose={handleViewTestResultModalClose}
         />
       )}
     </Paper>
