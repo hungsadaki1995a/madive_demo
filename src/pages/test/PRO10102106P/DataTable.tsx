@@ -284,7 +284,6 @@ function TestCaseDataTable() {
         }}
         onSortChange={sort}
         paginationConfig={pagination}
-        // renderPaginationAs={TablePaginationCustom}
       />
       {isOpenModalDetail && (
         <TestCaseDetailModal

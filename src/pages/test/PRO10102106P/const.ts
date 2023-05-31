@@ -2,19 +2,22 @@ import { SortDirectionTypes } from '@/components/organisms/CmCommonTable/const';
 import {
   IButtonMenuConfig,
   ICommonTableColumn,
-  IFilterActionSelection,
   IPaginationParams,
   ISortInfo,
 } from '@/components/organisms/CmCommonTable/types';
-import { FormElementType } from '@/constants/form';
+
 import { TestCaseDto } from '@/types/dtos/testCaseDtos';
-import { ITestCaseDetailField, ITestCaseDetail } from './types';
+
+import { FormElementType } from '@/constants/form';
+
+import { ITestCaseDetail, ITestCaseDetailField } from './types';
 
 export const paginationDefaultValues: IPaginationParams = {
   rowsPerPageOptions: [10, 25, 50, 100],
   currentPage: 0,
   rowsPerPage: 10,
   totalCount: 0,
+  rowsPerPagePosition: 'last',
 };
 
 export const defaultFilterField = 'update_time';
@@ -169,4 +172,9 @@ export const testCaseDetailDefault: ITestCaseDetail = {
   node_name: '',
   service_group_name: '',
   physical_name: '',
+};
+
+export const testCasePaginationConfig = {
+  rowsPerPageOptions: [10, 25, 50, 100],
+  isRowsPerPageLastItem: true,
 };
