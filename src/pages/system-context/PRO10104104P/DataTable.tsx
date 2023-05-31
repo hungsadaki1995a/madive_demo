@@ -2,7 +2,6 @@ import { useEffect, useMemo, useState } from 'react';
 
 import AddIcon from '@mui/icons-material/Add';
 import SearchIcon from '@mui/icons-material/Search';
-import { Paper } from '@mui/material';
 import { observer } from 'mobx-react';
 
 import CommonTable from '@/components/organisms/CmCommonTable';
@@ -169,7 +168,7 @@ function SystemContextDatasourceDataTable() {
   }, []);
 
   return (
-    <Paper style={{ padding: '20px' }}>
+    <>
       <CommonTable
         tableName="testcase-management"
         // renderLayoutAs={TableLayoutCustom}
@@ -204,7 +203,7 @@ function SystemContextDatasourceDataTable() {
         visible={isEditDatasourceModalVisible}
         handleClose={handleEditDatasourceModalClose}
       />
-    </Paper>
+    </>
   );
 }
 export default observer(SystemContextDatasourceDataTable);
