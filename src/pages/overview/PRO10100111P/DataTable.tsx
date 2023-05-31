@@ -1,120 +1,106 @@
 import { useEffect, useMemo } from 'react';
 
-import SearchIcon from '@mui/icons-material/Search';
 import { Paper } from '@mui/material';
 import { observer } from 'mobx-react';
 
 import CommonTable from '@/components/organisms/CmCommonTable';
 import useTableDataServer from '@/components/organisms/CmCommonTable/hooks/useTableDataServer';
-import {
-  IBottomAction,
-  ICommonTableColumn,
-  IFilterConfig,
-  IPlainObject,
-} from '@/components/organisms/CmCommonTable/types';
+import { IBottomAction, ICommonTableColumn, IPlainObject } from '@/components/organisms/CmCommonTable/types';
 
 import { useStore } from '@/utils';
 
-function ProminerMethodDataTable() {
+function DoInfoDataTable() {
   const { AlertStore } = useStore();
-
-  // -----------------------------------
-  // Sample Data
-
-  const sampleRows = [
-    {
-      return_type: 'void',
-      method_name: 'TEST()',
-      declaring_class: 'com.tmax.bo.SHBO',
-      service_group_name: 'SHSG',
-      loc: 29,
-    },
-    {
-      return_type: 'com.tmax.dto.SHDO',
-      method_name: 'service(java.lang.Object arg0)',
-      declaring_class: 'com.tmax.so.SHDeferredSO',
-      service_group_name: 'SHSG',
-      loc: 32,
-    },
-  ];
 
   // -----------------------------------
   // Config table
   const columnsConfig = useMemo<ICommonTableColumn<IPlainObject>[]>(() => {
     return [
       {
-        field: 'method_name',
-        label: 'Method Name',
+        field: 'seq',
+        label: 'Seq',
         type: 'text',
         sortable: true,
       },
       {
-        field: 'return_type',
-        label: 'Return Type',
+        field: 'do_name',
+        label: 'Do Name',
         type: 'text',
         sortable: true,
       },
       {
-        field: 'declaring_class',
-        label: 'Class Name',
+        field: 'depth',
+        label: 'Depth',
         type: 'text',
         sortable: true,
       },
       {
-        field: 'service_group_name',
-        label: 'SG Name',
+        field: 'field_type',
+        label: 'Field Type',
         type: 'text',
         sortable: true,
       },
       {
-        field: 'loc',
-        label: 'LOC',
+        field: 'logical_name',
+        label: 'Logical_Name',
+        type: 'text',
+        sortable: true,
+      },
+      {
+        field: 'physical_name',
+        label: 'Physical Name',
+        type: 'text',
+        sortable: true,
+      },
+      {
+        field: 'length',
+        label: 'Length',
+        type: 'text',
+        sortable: true,
+      },
+      {
+        field: 'array',
+        label: 'Array',
+        type: 'text',
+        sortable: true,
+      },
+      {
+        field: 'comments',
+        label: 'Comments',
+        type: 'text',
+        sortable: true,
+      },
+      {
+        field: 'allow_null',
+        label: 'Allow Null',
+        type: 'text',
+        sortable: true,
+      },
+      {
+        field: 'default_value',
+        label: 'Default Value',
+        type: 'text',
+        sortable: true,
+      },
+      {
+        field: 'masking',
+        label: 'Masking',
+        type: 'text',
+        sortable: true,
+      },
+      {
+        field: 'decimal_size',
+        label: 'Decimal Size',
+        type: 'text',
+        sortable: true,
+      },
+      {
+        field: 'include_info',
+        label: 'Include Info',
         type: 'text',
         sortable: true,
       },
     ];
-  }, []);
-
-  const filterConfig = useMemo<IFilterConfig>(() => {
-    return {
-      submitBy: 'enter',
-      submitLabel: 'Search',
-      filters: [
-        {
-          type: 'dropdown',
-          name: 'filterFieldName',
-          options: [
-            {
-              label: 'Method Name',
-              value: 'method_name',
-            },
-            {
-              label: 'Return Type',
-              value: 'return_type',
-            },
-            {
-              label: 'Class Name',
-              value: 'declaring_class',
-            },
-            {
-              label: 'SG Name',
-              value: 'service_group_name',
-            },
-            {
-              label: 'LOC',
-              value: 'loc',
-            },
-          ],
-        },
-        {
-          type: 'simple',
-          name: 'search',
-          // className: '',
-          // label: 'Keyword',
-          icon: <SearchIcon />,
-        },
-      ],
-    };
   }, []);
 
   const bottomActionsConfig = useMemo<IBottomAction<IPlainObject>[]>((): IBottomAction<IPlainObject>[] => {
@@ -133,8 +119,8 @@ function ProminerMethodDataTable() {
       }
     },
     queryResult: {
-      data: sampleRows,
-      total: sampleRows.length,
+      data: [],
+      total: 0,
     },
     paginationParamsDefault: {
       rowsPerPageOptions: [3, 5, 10],
@@ -143,7 +129,7 @@ function ProminerMethodDataTable() {
       totalCount: 0,
     },
     sortInfoDefault: {
-      field: 'method_name',
+      field: 'seq',
       direction: 'desc',
     },
   });
@@ -155,7 +141,7 @@ function ProminerMethodDataTable() {
   return (
     <Paper style={{ padding: '20px' }}>
       <CommonTable
-        tableName="prominer-method-table"
+        tableName="do-info-table"
         // renderLayoutAs={TableLayoutCustom}
         fieldAsRowId="email"
         columnsConfig={columnsConfig}
@@ -164,11 +150,9 @@ function ProminerMethodDataTable() {
         onSelectedRows={(selectedRows) => {
           //
         }}
-        //topActionConfig={topActionConfig}
-        filterConfig={filterConfig}
         onFilterTriggerQuery={filter}
         sortDefault={{
-          field: 'method_name',
+          field: 'seq',
           direction: 'asc',
         }}
         onSortChange={sort}
@@ -179,4 +163,4 @@ function ProminerMethodDataTable() {
     </Paper>
   );
 }
-export default observer(ProminerMethodDataTable);
+export default observer(DoInfoDataTable);

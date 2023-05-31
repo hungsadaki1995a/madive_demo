@@ -1,12 +1,15 @@
-import { Button, Stack } from '@mui/material';
 import React, { useCallback, useState } from 'react';
+
+import { Button, Stack } from '@mui/material';
+
+import { CmButton } from '@/components/atoms/CmButton';
+
+import { ReactComponent as DeleteIcon } from '@/stylesheets/images/cmCardDelIcon.svg';
+
 import { FilterTypes, SubmitActionTypes } from '../const';
 import { IFilterConfig, IFilterElementType } from '../types';
 import DropdownFilterInput from './DropdownFilterInput';
 import SimpleFilterInput from './SimpleFilterInput';
-
-import { CmButton } from '@/components/atoms/CmButton';
-import { ReactComponent as DeleteIcon } from '@/stylesheets/images/cmCardDelIcon.svg';
 
 interface IFilterControlsProps {
   filterConfig: IFilterConfig;

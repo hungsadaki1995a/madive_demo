@@ -1,8 +1,4 @@
 import { ErrorBoundary } from 'react-error-boundary';
-// import ArticleIcon from '@mui/icons-material/Article';
-// import AutoAwesomeMotionIcon from '@mui/icons-material/AutoAwesomeMotion';
-// import PersonIcon from '@mui/icons-material/Person';
-// import TokenIcon from '@mui/icons-material/Token';
 import { Navigate, Route, Routes } from 'react-router-dom';
 
 import CssBaseline from '@mui/material/CssBaseline';
@@ -10,14 +6,13 @@ import { ThemeProvider } from '@mui/material/styles';
 import Grid from '@mui/material/Unstable_Grid2';
 
 import CmBreadcrumbs from '@/components/templates/CmBreadcrumbs';
-// Common Templates
 import CmGnb from '@/components/templates/CmGnb';
 import CmLnb from '@/components/templates/CmLnb';
 
 import { RootStore } from '@/stores';
 import CreateStore from '@/utils/useStore';
 
-import { Button, Card, Modal, SnackBar, Table } from '@/pages/demo';
+import { Button, Card, Dialog, Modal, RadioGroup, SnackBar, Table, TextFieldDemo } from '@/pages/demo';
 import Error from '@/pages/error';
 import ErrorFallback from '@/pages/error/ErrorFallback';
 import LogControl from '@/pages/log-control';
@@ -135,6 +130,18 @@ const App = () => (
                     element={<Table />}
                   />
 
+                  <Route
+                    path="/cm/radio-group"
+                    element={<RadioGroup />}
+                  />
+                  <Route
+                    path="/cm/textfield"
+                    element={<TextFieldDemo />}
+                  />
+                  <Route
+                    path="/cm/dialog"
+                    element={<Dialog />}
+                  />
                   <Route
                     path="/"
                     element={<Navigate to="/login" />}

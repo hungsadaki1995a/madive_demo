@@ -268,6 +268,24 @@ export const LNB_LIST = [
         icon: <SubIcon />,
         url: '/cm/table',
       },
+      {
+        id: '10-6',
+        label: 'CM Radio Group',
+        icon: <SubIcon />,
+        url: '/cm/radio-group',
+      },
+      {
+        id: '10-7',
+        label: 'CM Text Field',
+        icon: <SubIcon />,
+        url: '/cm/textfield',
+      },
+      {
+        id: '10-8',
+        label: 'CM Dialog',
+        icon: <SubIcon />,
+        url: '/cm/dialog',
+      },
     ],
   },
 ];
