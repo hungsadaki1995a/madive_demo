@@ -8,7 +8,7 @@ function Meta(props: propsType) {
   const { title } = props;
   return (
     <>
-      <MetaDataTable />;
+      <MetaDataTable />
     </>
   );
 }

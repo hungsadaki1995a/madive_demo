@@ -31,6 +31,12 @@ export const LNB_LIST = [
         icon: <SubIcon />,
         url: '/development/overview/meta/history',
       },
+      {
+        id: '1-4',
+        label: 'Do Info',
+        icon: <SubIcon />,
+        url: '/development/overview/do-info',
+      },
     ],
   },
   {
@@ -71,6 +77,12 @@ export const LNB_LIST = [
       },
       {
         id: '3-4',
+        label: 'Edit TestCase',
+        icon: <SubIcon />,
+        url: '/development/test/edit-test-case',
+      },
+      {
+        id: '3-5',
         label: 'History',
         icon: <SubIcon />,
         url: '/development/test/history',

@@ -19,8 +19,8 @@ import UserApi2 from '@/apis/UserApi';
 import UserModel from '@/types/models/userModel';
 import { useStore } from '@/utils';
 
-import CreateModal from './modals/CreateModal';
-import UpdateModal from './modals/UpdateModal';
+import CreateModal from './modals/PRO20201202M';
+import UpdateModal from './modals/PRO20201203M';
 import { UserFormRefType } from './modals/UserForm';
 
 function UserManagementDataTable() {

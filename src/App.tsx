@@ -2,7 +2,7 @@ import { ErrorBoundary } from 'react-error-boundary';
 import { Navigate, Route, Routes } from 'react-router-dom';
 
 import CssBaseline from '@mui/material/CssBaseline';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { ThemeProvider } from '@mui/material/styles';
 import Grid from '@mui/material/Unstable_Grid2';
 
 import CmBreadcrumbs from '@/components/templates/CmBreadcrumbs';
@@ -28,6 +28,7 @@ import Test from '@/pages/test';
 import User from '@/pages/user';
 
 import CmContainer from './App.Styled';
+import theme from './styles/theme';
 
 // 100vh - 스크롤 오류
 const vh = window.innerHeight * 0.01;
@@ -35,16 +36,12 @@ document.documentElement.style.setProperty('--vh', `${vh}px`);
 
 export const MobxStore = new RootStore();
 
-const theme = createTheme({
-  // Override or create new styles, colors, palettes...
-});
-
 const App = () => (
   <CreateStore.Provider value={{ MobxStore }}>
     <ThemeProvider theme={theme}>
+      <CssBaseline />
       <ErrorBoundary FallbackComponent={ErrorFallback}>
         <CmContainer>
-          <CssBaseline />
           <Grid
             container
             className="gridContainer"
@@ -163,6 +160,7 @@ const menus = {
       AppAndSg: { title: 'APP&SG', to: '/development/overview/app-and-sg' },
       Meta: { title: 'Meta', to: '/development/overview/meta/management' },
       MetaHistory: { title: 'Meta History', to: '/development/overview/meta/history' },
+      DoInfo: { title: 'Do Info', to: '/development/overview/do-info' },
     },
   },
   Node: {
@@ -175,6 +173,7 @@ const menus = {
       Test: { title: 'Test', to: '/development/test/management' },
       TestCase: { title: 'TestCase', to: '/development/test/test-case' },
       CreateTestCase: { title: 'Create TestCase', to: '/development/test/create-test-case' },
+      EditTestCase: { title: 'Edit TestCase', to: '/development/test/edit-test-case' },
       History: { title: 'History', to: '/development/test/history' },
     },
   },
