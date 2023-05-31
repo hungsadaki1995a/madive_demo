@@ -98,6 +98,7 @@ export interface IPaginationParams {
   totalCount: number;
   rowsPerPage: number;
   currentPage: number;
+  rowsPerPagePosition?: 'first' | 'last';
 }
 
 export interface IPaginationConfig extends IPaginationParams {

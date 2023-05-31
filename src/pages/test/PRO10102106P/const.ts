@@ -17,6 +17,7 @@ export const paginationDefaultValues: IPaginationParams = {
   currentPage: 0,
   rowsPerPage: 10,
   totalCount: 0,
+  rowsPerPagePosition: 'last',
 };
 
 export const defaultFilterField = 'update_time';
