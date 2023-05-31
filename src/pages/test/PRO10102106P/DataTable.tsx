@@ -150,17 +150,17 @@ function TestCaseDataTable() {
 
   const handleActionChange = (testCaseData: TestCaseDto, actionType: TestCaseActionEnum) => {
     switch (actionType) {
-      // case TestCaseActionEnum.TEST:
-      //   return handleViewTestResultModalOpen();
+      case TestCaseActionEnum.TEST:
+        return handleViewTestResultModalOpen();
       case TestCaseActionEnum.DETAIL:
         return requestResourceDetail(testCaseData);
       case TestCaseActionEnum.DELETE:
         setTestCaseDetailSelected(testCaseData);
         return setIsOpenDeleteModal(true);
-      case TestCaseActionEnum.TEST:
-        setTestCaseDetailSelected(testCaseData);
-        requestRunTestCase(testCaseData);
-        return;
+      // case TestCaseActionEnum.TEST:
+      //   setTestCaseDetailSelected(testCaseData);
+      //   requestRunTestCase(testCaseData);
+      //   return;
       // return setIsOpenDeleteModal(true);
       default:
         return null;
