@@ -274,6 +274,12 @@ export const LNB_LIST = [
         icon: <SubIcon />,
         url: '/cm/radio-group',
       },
+      {
+        id: '10-7',
+        label: 'CM Text Field',
+        icon: <SubIcon />,
+        url: '/cm/textfield',
+      },
     ],
   },
 ];

@@ -7,7 +7,7 @@ import {
   CmRadioGroupStyled,
   CmRadioGroupWrapperStyled,
   CmRadioHelperTextStyled,
-} from './styled/CmRadioGroupStyled';
+} from './styled/CmRadioGroup.styled';
 
 export type RadioItemProps<TValue extends string | number | boolean> = IOption<TValue> & {
   disabled?: boolean;

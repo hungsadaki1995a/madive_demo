@@ -28,6 +28,7 @@ import Test from '@/pages/test';
 import User from '@/pages/user';
 
 import CmContainer from './App.Styled';
+import TextFieldDemo from './pages/demo/TextFieldDemo';
 import theme from './styles/theme';
 
 // 100vh - 스크롤 오류
@@ -115,10 +116,6 @@ const App = () => (
                     element={<Button />}
                   />
                   <Route
-                    path="/cm/radio-group"
-                    element={<RadioGroup />}
-                  />
-                  <Route
                     path="/cm/card"
                     element={<Card />}
                   />
@@ -135,6 +132,14 @@ const App = () => (
                     element={<Table />}
                   />
 
+                  <Route
+                    path="/cm/radio-group"
+                    element={<RadioGroup />}
+                  />
+                  <Route
+                    path="/cm/textfield"
+                    element={<TextFieldDemo />}
+                  />
                   <Route
                     path="/"
                     element={<Navigate to="/login" />}
