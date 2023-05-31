@@ -10,7 +10,25 @@
  ******************************************************/
 import { useRef, useState } from 'react';
 
-import { Grid, Paper, Stack, Table, TableBody, TableCell, TableHead, TableRow, TextField } from '@mui/material';
+import {
+  FormControl,
+  FormControlLabel,
+  Grid,
+  MenuItem,
+  Paper,
+  Radio,
+  RadioGroup,
+  Select,
+  Stack,
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableRow,
+  TextField,
+  ToggleButton,
+  ToggleButtonGroup,
+} from '@mui/material';
 
 // Common Atoms
 import { CmButton, CmIconButton } from '@/components/atoms/CmButton';
@@ -99,13 +117,12 @@ function Modal() {
       </Stack>
 
       {/* Edit Application - Modal */}
-      <CmModal
+      {/* <CmModal
         title="Edit Application"
         visible={isModifyVisible}
         onClose={handleClose}
         className="medium"
       >
-        {/* contents */}
         <label className="labelFormArea">
           <span>Physical Name</span>
           <TextField
@@ -113,7 +130,6 @@ function Modal() {
             defaultValue="Luke Test"
             size="small"
           />
-          {/* <TextField disabled defaultValue="Luke Test" hiddenLabel size="small" /> */}
         </label>
         <label className="labelFormArea">
           <span>Logical Name</span>
@@ -131,6 +147,122 @@ function Modal() {
             defaultValue="test"
             size="small"
           />
+        </label>
+        <label className="labelFormArea">
+          <span>Description</span>
+          <TextField
+            className="labelTextField"
+            multiline
+            rows={4}
+            defaultValue="Default Value"
+          />
+        </label>
+      </CmModal> */}
+
+      {/* Edit Application - Modal */}
+      <CmModal
+        title="Create Meta Field"
+        visible={isModifyVisible}
+        onClose={handleClose}
+        className="medium"
+      >
+        {/* contents */}
+        <label className="labelFormArea">
+          <span>Physical Name</span>
+          <TextField
+            className="labelTextField"
+            defaultValue="1"
+            type="password"
+            size="small"
+          />
+        </label>
+        <label className="labelFormArea">
+          <span>Logical Name</span>
+          <TextField
+            className="labelTextField"
+            defaultValue="1"
+            type="password"
+            size="small"
+          />
+        </label>
+        <label className="labelFormArea">
+          <span>Resource Group</span>
+          <TextField
+            className="labelTextField"
+            size="small"
+          />
+        </label>
+        <label className="labelFormArea">
+          <span>Comments</span>
+          <TextField
+            className="labelTextField"
+            size="small"
+          />
+        </label>
+        <label className="labelFormArea">
+          <span>Field Type</span>
+          <FormControl>
+            <Select>
+              <MenuItem value={10}>Ten</MenuItem>
+              <MenuItem value={20}>Twenty</MenuItem>
+              <MenuItem value={30}>Thirty</MenuItem>
+            </Select>
+          </FormControl>
+        </label>
+        <label className="labelFormArea">
+          <span>Length</span>
+          <TextField
+            className="labelTextField"
+            multiline
+            rows={4}
+            defaultValue="Default Value"
+          />
+        </label>
+        <label className="labelFormArea">
+          <span>Type</span>
+          <TextField
+            className="labelTextField"
+            size="small"
+          />
+          <ToggleButtonGroup exclusive>
+            <ToggleButton value="left">Decimal</ToggleButton>
+            <ToggleButton
+              value="justify"
+              aria-label="centered"
+            >
+              NoDecimal
+            </ToggleButton>
+          </ToggleButtonGroup>
+        </label>
+        <label className="labelFormArea">
+          <span>Description</span>
+          <RadioGroup
+            row
+            aria-labelledby="demo-row-radio-buttons-group-label"
+            name="row-radio-buttons-group"
+          >
+            <FormControlLabel
+              value="female"
+              control={<Radio />}
+              label="Female"
+            />
+            <FormControlLabel
+              value="male"
+              control={<Radio />}
+              label="Male"
+            />
+            <FormControlLabel
+              value="other"
+              control={<Radio />}
+              label="Other"
+            />
+            <FormControlLabel
+              value="disabled"
+              disabled
+              control={<Radio />}
+              label="other"
+            />
+          </RadioGroup>
         </label>
         <label className="labelFormArea">
           <span>Description</span>

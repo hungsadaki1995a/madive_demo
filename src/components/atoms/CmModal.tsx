@@ -10,7 +10,8 @@
  ******************************************************/
 import React from 'react';
 
-import { Box, Modal, Typography } from '@mui/material';
+import { Checkbox } from '@material-ui/core';
+import { Box, FormControlLabel, FormGroup, Modal, Typography } from '@mui/material';
 
 // Common Atoms
 import { CmButton, CmIconButton } from '@/components/atoms/CmButton';
@@ -64,6 +65,12 @@ function CmModal(props: propsType) {
                 className=""
                 color="info"
               />
+              <FormGroup>
+                <FormControlLabel
+                  control={<Checkbox />}
+                  label="Keep Open"
+                />
+              </FormGroup>
 
               {/* Right Btn */}
               <Box className="alignL">

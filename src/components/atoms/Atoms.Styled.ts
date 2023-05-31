@@ -448,6 +448,21 @@ const CmModalStyle = styled.div`
           }
         }
       }
+      // Select
+      .MuiFormControl-root {
+        margin-left: auto;
+        width: 65%;
+        .MuiSelect-outlined {
+          width: 100%;
+        }
+        .MuiOutlinedInput-input {
+          padding: 2.5px 14px;
+          font-size: 13px;
+          em {
+            font-style: normal;
+          }
+        }
+      }
 
       & + .formArea {
         margin-top: 20px;
@@ -475,8 +490,21 @@ const CmModalStyle = styled.div`
     margin-top: 20px;
     display: flex;
     align-items: center;
+    .MuiFormControlLabel-root {
+      margin: 0;
+      .MuiCheckbox-root {
+        padding: 0;
+      }
+      .MuiFormControlLabel-label {
+        margin-left: 5px;
+        font: 13px/ 1.5 ${CmStyle.notoSansDJKFont.regular};
+      }
+      .MuiCheckbox-colorSecondary.Mui-checked {
+        color: ${CmStyle.color.colorBtnPrimary};
+      }
+    }
 
-    button + button {
+    button + * {
       margin-left: 8px;
     }
 
