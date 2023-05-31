@@ -1,3 +1,4 @@
+import { DialogTitle } from '@mui/material';
 import styled from 'styled-components';
 
 import * as CmStyle from '@/stylesheets/common';
@@ -532,4 +533,8 @@ const CmTableStyle = styled.div`
   }
 `;
 
-export { CmButtonStyle, CmCardStyle, CmSelectStyle, CmModalStyle, CmTableStyle };
+const DialogTitleStyled = styled(DialogTitle)(() => ({
+  paddingBottom: 0,
+}));
+
+export { CmButtonStyle, CmCardStyle, CmSelectStyle, CmModalStyle, CmTableStyle, DialogTitleStyled };
