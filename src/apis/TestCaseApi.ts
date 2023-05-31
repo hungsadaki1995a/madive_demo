@@ -1,3 +1,5 @@
+import axios, { AxiosError } from 'axios';
+
 import {
   TestCaseDeleteResponseDto,
   TestCaseDetailResponseDto,
@@ -5,7 +7,6 @@ import {
   TestCaseListResponseDto,
   TestCaseRequestDto,
 } from '@/types/dtos/testCaseDtos';
-import axios, { AxiosError } from 'axios';
 
 const TestCaseApi = {
   getTestCases: async (filterDto: TestCaseFilterDto): Promise<TestCaseListResponseDto | any> => {

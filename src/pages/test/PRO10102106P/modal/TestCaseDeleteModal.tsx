@@ -1,6 +1,7 @@
+import { Box } from '@mui/material';
+
 import { CmButton } from '@/components/atoms/CmButton';
 import CmModal from '@/components/atoms/CmModal';
-import { Box } from '@mui/material';
 
 type TestCaseDeleteModalProps = {
   isOpen: boolean;
