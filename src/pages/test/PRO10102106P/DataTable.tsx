@@ -233,7 +233,7 @@ function TestCaseDataTable() {
       try {
         TestCaseStore.setIsFetching(true);
         const response: TestCaseListResponseDto = await TestCaseApi.getTestCases({
-          app_resource_id: '0000002740920048b959ef00dcf79930', // hard code for test
+          app_resource_id: '0000d8a6e0bd0004b35b8c00dcf79930', // hard code for test
           pageInfoDto: {
             pageLength: pagination.rowsPerPage.toString(),
             pageNum: pagination.currentPage + 1,
