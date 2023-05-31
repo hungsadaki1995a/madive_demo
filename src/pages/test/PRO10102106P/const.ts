@@ -173,8 +173,3 @@ export const testCaseDetailDefault: ITestCaseDetail = {
   service_group_name: '',
   physical_name: '',
 };
-
-export const testCasePaginationConfig = {
-  rowsPerPageOptions: [10, 25, 50, 100],
-  isRowsPerPageLastItem: true,
-};
