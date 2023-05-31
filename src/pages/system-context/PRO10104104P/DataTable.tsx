@@ -11,11 +11,10 @@ import {
   IBottomAction,
   ICommonTableColumn,
   IFilterConfig,
+  IPlainObject,
   ITopAction,
 } from '@/components/organisms/CmCommonTable/types';
 
-import { TestCaseApi } from '@/apis';
-import { TestCaseDto } from '@/types/dtos/testCaseDtos';
 import { useStore } from '@/utils';
 
 import CreateDatasourceModal from './modal/PRO10104105M';
@@ -47,23 +46,33 @@ function SystemContextDatasourceDataTable() {
   };
 
   // -----------------------------------
+  // Sample Data
+
+  const sampleRows = [
+    {
+      key_parameter: 'SYSTEM_CONTEXT_TEST',
+      property_value: 'tibero6_dev',
+    },
+  ];
+
+  // -----------------------------------
   // Config table
-  const columnsConfig = useMemo<ICommonTableColumn<TestCaseDto>[]>(() => {
+  const columnsConfig = useMemo<ICommonTableColumn<IPlainObject>[]>(() => {
     return [
       {
-        field: 'testcase_name',
+        field: 'key_parameter',
         label: 'System Context Name',
         type: 'text',
         sortable: true,
       },
       {
-        field: 'physical_name',
+        field: 'property_value',
         label: 'Datasource',
         type: 'text',
         sortable: true,
       },
       {
-        field: 'service_group_name',
+        field: '',
         label: 'Action',
         type: 'text',
         sortable: true,
@@ -82,15 +91,15 @@ function SystemContextDatasourceDataTable() {
           options: [
             {
               label: 'System Context Name',
-              value: 'testcase_name',
+              value: 'key_parameter',
             },
             {
               label: 'Datasource',
-              value: 'physical_name',
+              value: 'property_value',
             },
             {
               label: 'Action',
-              value: 'service_group_name',
+              value: '',
             },
           ],
         },
@@ -115,42 +124,24 @@ function SystemContextDatasourceDataTable() {
     };
   }, []);
 
-  const bottomActionsConfig = useMemo<IBottomAction<TestCaseDto>[]>((): IBottomAction<TestCaseDto>[] => {
+  const bottomActionsConfig = useMemo<IBottomAction<IPlainObject>[]>((): IBottomAction<IPlainObject>[] => {
     return [];
   }, []);
 
   // ------------------------------------------------------------------------------------
   // Handle Data
 
-  const { fetch, rows, sort, filter, pagination } = useTableDataServer<TestCaseDto>({
+  const { fetch, rows, sort, filter, pagination } = useTableDataServer<IPlainObject>({
     queryFn: async ({ filter, pagination, sort }) => {
       try {
-        TestCaseStore.setIsFetching(true);
-        const data = await TestCaseApi.getTestCases({
-          app_resource_id: '0000d8a6e0bd0004b35b8c00dcf79930', // hard code for test
-          pageInfoDto: {
-            pageLength: pagination.rowsPerPage.toString(),
-            pageNum: pagination.currentPage + 1,
-            sort: true,
-            sortField: `${sort.field || 'testcase_name'}`,
-            sortingType: sort.direction || 'asc',
-          },
-          conditionDto: [
-            {
-              key: filter['filterFieldName'] || 'testcase_name',
-              value: filter['search'] || '',
-            },
-          ],
-        });
-        TestCaseStore.setIsFetching(false);
-        TestCaseStore.setTestCases(data?.dto?.TestCaseDto, data?.dto?.pagingResultDto.totalNum);
+        //
       } catch (e) {
         AlertStore.openApiAlert('error', 'Fetch data failed');
       }
     },
     queryResult: {
-      data: TestCaseStore.testCases,
-      total: TestCaseStore.total,
+      data: sampleRows,
+      total: sampleRows.length,
     },
     paginationParamsDefault: {
       rowsPerPageOptions: [3, 5, 10],
@@ -159,19 +150,19 @@ function SystemContextDatasourceDataTable() {
       totalCount: 0,
     },
     sortInfoDefault: {
-      field: 'testcase_name',
+      field: 'key_parameter',
       direction: 'desc',
     },
   });
 
   useEffect(() => {
-    fetch();
+    //fetch();
   }, []);
 
   return (
     <Paper style={{ padding: '20px' }}>
       <CommonTable
-        tableName="testcase-management"
+        tableName="system-context-datasource-table"
         // renderLayoutAs={TableLayoutCustom}
         fieldAsRowId="email"
         columnsConfig={columnsConfig}
@@ -184,7 +175,7 @@ function SystemContextDatasourceDataTable() {
         filterConfig={filterConfig}
         onFilterTriggerQuery={filter}
         sortDefault={{
-          field: 'testcase_name',
+          field: 'key_parameter',
           direction: 'asc',
         }}
         onSortChange={sort}
