@@ -2,7 +2,9 @@ import axios, { AxiosError } from 'axios';
 
 const apiClient = axios.create();
 
-apiClient.defaults.baseURL = 'http://101.101.209.11:14000/proobject/proobject-manager';
+const { REACT_APP_BACKEND_URL } = process.env;
+
+apiClient.defaults.baseURL = REACT_APP_BACKEND_URL ?? 'http://101.101.209.11:14000/proobject/proobject-manager';
 
 apiClient.interceptors.response.use(
   (response) => {
