@@ -11,18 +11,17 @@ import {
   IBottomAction,
   ICommonTableColumn,
   IFilterConfig,
+  IPlainObject,
   ITopAction,
 } from '@/components/organisms/CmCommonTable/types';
 
-import { TestCaseApi } from '@/apis';
-import { TestCaseDto } from '@/types/dtos/testCaseDtos';
 import { useStore } from '@/utils';
 
 import CreateNodeModal from './modal/PRO10101102M';
 import EditNodeModal from './modal/PRO10101103M';
 
 function NodeManagementDataTable() {
-  const { TestCaseStore, AlertStore } = useStore();
+  const { AlertStore } = useStore();
   const [isCreateNodeModalVisible, setIsCreateNodeModalVisible] = useState(false);
   const [isEditNodeModalVisible, setIsEditNodeModalVisible] = useState(false);
 
@@ -47,65 +46,97 @@ function NodeManagementDataTable() {
   };
 
   // -----------------------------------
+  // Sample Data
+
+  const sampleRows = [
+    {
+      node_id: '27ed7eef630d391a47f7a82c73a9cabe',
+      node_type: 'TEST',
+      node_name: 'nODE',
+      node_ip: '192.168.57.34',
+      node_file_port: '8243',
+      node_tcp_port: '8081',
+      node_path: '',
+      node_admin: 'admin',
+      node_http_port: '8080',
+      node_is_ssl: 'FALSE',
+      description: 'This is Test',
+    },
+    {
+      node_id: '2865bb541acc31267a5b86c61445149a',
+      node_type: 'TEST',
+      node_name: 'dd',
+      node_ip: '3',
+      node_file_port: '4',
+      node_tcp_port: '3',
+      node_path: '',
+      node_admin: 'admin',
+      node_http_port: '333',
+      node_is_ssl: 'FALSE',
+      description: 'This is Test',
+    },
+  ];
+
+  // -----------------------------------
   // Config table
-  const columnsConfig = useMemo<ICommonTableColumn<TestCaseDto>[]>(() => {
+  const columnsConfig = useMemo<ICommonTableColumn<IPlainObject>[]>(() => {
     return [
       {
-        field: 'testcase_name',
+        field: 'node_name',
         label: 'Node Name',
         type: 'text',
         sortable: true,
       },
       {
-        field: 'physical_name',
+        field: 'node_id',
         label: 'Node ID',
         type: 'text',
         sortable: true,
       },
       {
-        field: 'service_group_name',
+        field: 'node_ip',
         label: 'IP',
         type: 'text',
         sortable: true,
       },
       {
-        field: 'application_name',
+        field: 'node_file_port',
         label: 'File Port',
         type: 'text',
         sortable: true,
       },
       {
-        field: 'creator',
+        field: 'node_http_port',
         label: 'Http Port',
         type: 'text',
         sortable: true,
       },
       {
-        field: 'create_time',
+        field: 'node_tcp_port',
         label: 'ProObject Port',
         type: 'text',
         sortable: true,
       },
       {
-        field: 'update_time',
+        field: 'node_is_ssl',
         label: 'SSL',
         type: 'text',
         sortable: true,
       },
       {
-        field: 'physical_name',
+        field: 'node_admin',
         label: 'Admin',
         type: 'text',
         sortable: true,
       },
       {
-        field: 'physical_name',
+        field: 'node_type',
         label: 'Node Type',
         type: 'text',
         sortable: true,
       },
       {
-        field: 'physical_name',
+        field: 'description',
         label: 'Action',
         type: 'text',
         sortable: true,
@@ -124,27 +155,27 @@ function NodeManagementDataTable() {
           options: [
             {
               label: 'Node Name',
-              value: 'testcase_name',
+              value: 'node_name',
             },
             {
               label: 'Node ID',
-              value: 'physical_name',
+              value: 'node_id',
             },
             {
               label: 'IP',
-              value: 'service_group_name',
+              value: 'node_ip',
             },
             {
               label: 'File Port',
-              value: 'application_name',
+              value: 'node_file_port',
             },
             {
               label: 'Http Port',
-              value: 'creator',
+              value: 'node_http_port',
             },
             {
               label: 'ProObject Port',
-              value: 'create_time',
+              value: 'node_tcp_port',
             },
             {
               label: 'SSL',
@@ -173,42 +204,24 @@ function NodeManagementDataTable() {
     };
   }, []);
 
-  const bottomActionsConfig = useMemo<IBottomAction<TestCaseDto>[]>((): IBottomAction<TestCaseDto>[] => {
+  const bottomActionsConfig = useMemo<IBottomAction<IPlainObject>[]>((): IBottomAction<IPlainObject>[] => {
     return [];
   }, []);
 
   // ------------------------------------------------------------------------------------
   // Handle Data
 
-  const { fetch, rows, sort, filter, pagination } = useTableDataServer<TestCaseDto>({
+  const { fetch, rows, sort, filter, pagination } = useTableDataServer<IPlainObject>({
     queryFn: async ({ filter, pagination, sort }) => {
       try {
-        TestCaseStore.setIsFetching(true);
-        const data = await TestCaseApi.getTestCases({
-          app_resource_id: '0000d8a6e0bd0004b35b8c00dcf79930', // hard code for test
-          pageInfoDto: {
-            pageLength: pagination.rowsPerPage.toString(),
-            pageNum: pagination.currentPage + 1,
-            sort: true,
-            sortField: `${sort.field || 'testcase_name'}`,
-            sortingType: sort.direction || 'asc',
-          },
-          conditionDto: [
-            {
-              key: filter['filterFieldName'] || 'testcase_name',
-              value: filter['search'] || '',
-            },
-          ],
-        });
-        TestCaseStore.setIsFetching(false);
-        TestCaseStore.setTestCases(data?.dto?.TestCaseDto, data?.dto?.pagingResultDto.totalNum);
+        //
       } catch (e) {
         AlertStore.openApiAlert('error', 'Fetch data failed');
       }
     },
     queryResult: {
-      data: TestCaseStore.testCases,
-      total: TestCaseStore.total,
+      data: sampleRows,
+      total: sampleRows.length,
     },
     paginationParamsDefault: {
       rowsPerPageOptions: [3, 5, 10],
@@ -217,13 +230,13 @@ function NodeManagementDataTable() {
       totalCount: 0,
     },
     sortInfoDefault: {
-      field: 'testcase_name',
+      field: 'node_name',
       direction: 'desc',
     },
   });
 
   useEffect(() => {
-    fetch();
+    //fetch();
   }, []);
 
   return (
@@ -233,7 +246,7 @@ function NodeManagementDataTable() {
         // renderLayoutAs={TableLayoutCustom}
         fieldAsRowId="email"
         columnsConfig={columnsConfig}
-        rows={rows}
+        rows={sampleRows}
         hasSelectionRows
         onSelectedRows={(selectedRows) => {
           //
@@ -242,7 +255,7 @@ function NodeManagementDataTable() {
         filterConfig={filterConfig}
         onFilterTriggerQuery={filter}
         sortDefault={{
-          field: 'testcase_name',
+          field: 'node_name',
           direction: 'asc',
         }}
         onSortChange={sort}
