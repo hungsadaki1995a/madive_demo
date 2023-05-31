@@ -1,8 +1,11 @@
-import CmModal from '@/components/atoms/CmModal';
-import { Box, Grid, Stack, TextField, TextareaAutosize } from '@mui/material';
-import { testCaseDetailModalFields } from '../const';
+import { Box, Grid, TextareaAutosize, TextField } from '@mui/material';
+
 import { CmButton } from '@/components/atoms/CmButton';
+import CmModal from '@/components/atoms/CmModal';
+
 import { FormElementType } from '@/constants/form';
+
+import { testCaseDetailModalFields } from '../const';
 import { ITestCaseDetail } from '../types';
 
 type TestCaseDetailModalProps = {

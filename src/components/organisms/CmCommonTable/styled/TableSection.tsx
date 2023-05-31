@@ -1,5 +1,6 @@
-import * as CmStyle from '@/stylesheets/common';
 import styled from 'styled-components';
+
+import * as CmStyle from '@/stylesheets/common';
 
 export default styled.div`
   padding: 12;
