@@ -35,10 +35,11 @@ import { CmDataSearch, CmTextInput } from '@/components/atoms/CmDataInput';
 import { CmPageTselectColum } from '@/components/templates/CmPageTitle';
 
 import { TestStyled } from '../Test.Styled';
-import SelectTargetDataModal from './modal/PRO10102110M';
-import SelectResourceDataModal from './modal/PRO10102111M';
-import ViewTestResultModal from './modal/PRO10102112M';
-import SaveTestCaseModal from './modal/PRO10102113M';
+
+// import SelectTargetDataModal from './modal/PRO10102110M';
+// import SelectResourceDataModal from './modal/PRO10102111M';
+// import ViewTestResultModal from './modal/PRO10102112M';
+// import SaveTestCaseModal from './modal/PRO10102113M';
 
 type propsType = {
   title: string;
@@ -128,28 +129,28 @@ function EditTestCase(props: propsType) {
       {title}
 
       {/* Select Target Data - Modal */}
-      <SelectTargetDataModal
+      {/* <SelectTargetDataModal
         visible={isSelectTargetDataModalVisible}
         handleClose={handleSelectTargetDataModalClose}
-      />
+      /> */}
 
       {/* Select Resource Data - Modal */}
-      <SelectResourceDataModal
+      {/* <SelectResourceDataModal
         visible={isSelectResourceDataModalVisible}
         handleClose={handleSelectResourceDataModalClose}
-      />
+      /> */}
 
       {/* View Test Result - Modal */}
-      <ViewTestResultModal
+      {/* <ViewTestResultModal
         visible={isViewTestResultModalVisible}
         handleClose={handleViewTestResultModalClose}
-      />
+      /> */}
 
       {/* Save Test Case - Modal */}
-      <SaveTestCaseModal
+      {/* <SaveTestCaseModal
         visible={isSaveTestCaseModalVisible}
         handleClose={handleSaveTestCaseModalClose}
-      />
+      /> */}
 
       {/* ///////////////////////////////////////// */}
       <TestStyled>
@@ -209,8 +210,8 @@ function EditTestCase(props: propsType) {
           <Box sx={{ width: '100%' }}>
             <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
               <Tabs
-                value={value}
-                onChange={handleTabChange}
+                // value={value}
+                // onChange={handleTabChange}
                 aria-label="basic tabs example"
               >
                 <Tab
@@ -325,7 +326,7 @@ function EditTestCase(props: propsType) {
               </Grid>
             </TabPanel>
             <TabPanel
-              value={value}
+              // value={value}
               index={1}
             >
               <Grid
@@ -429,28 +430,28 @@ function EditTestCase(props: propsType) {
         </Paper>
 
         {/* Select Target Data - Modal */}
-        <SelectTargetDataModal
+        {/* <SelectTargetDataModal
           visible={isSelectTargetDataModalVisible}
           handleClose={handleSelectTargetDataModalClose}
-        />
+        /> */}
 
         {/* Select Resource Data - Modal */}
-        <SelectResourceDataModal
+        {/* <SelectResourceDataModal
           visible={isSelectResourceDataModalVisible}
           handleClose={handleSelectResourceDataModalClose}
-        />
+        /> */}
 
         {/* View Test Result - Modal */}
-        <ViewTestResultModal
+        {/* <ViewTestResultModal
           visible={isViewTestResultModalVisible}
           handleClose={handleViewTestResultModalClose}
-        />
+        /> */}
 
         {/* Save Test Case - Modal */}
-        <SaveTestCaseModal
+        {/* <SaveTestCaseModal
           visible={isSaveTestCaseModalVisible}
           handleClose={handleSaveTestCaseModalClose}
-        />
+        /> */}
       </TestStyled>
     </>
   );
