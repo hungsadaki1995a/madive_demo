@@ -1,6 +1,7 @@
 import { TextField, TextFieldProps } from '@mui/material';
 
-import { CmContentFieldLabel, CmTextFieldWrapper } from './styled/CmTextField.styled';
+import { CmFieldLabel } from './Atoms.Styled';
+import { CmTextFieldWrapper } from './styled/CmTextField.styled';
 
 type CmTextFieldProps = Omit<TextFieldProps, 'error' | 'label' | 'helperText' | 'type' | 'width' | 'margin'> & {
   type?: 'inside' | 'outside';
@@ -43,7 +44,7 @@ export const CmTextField = ({
 
       {type === 'outside' && (
         <>
-          <CmContentFieldLabel width={labelWidth}>{label}</CmContentFieldLabel>
+          <CmFieldLabel width={labelWidth}>{label}</CmFieldLabel>
           <TextField
             {...textFieldProps}
             spellCheck="false"

@@ -12,7 +12,7 @@ import CmLnb from '@/components/templates/CmLnb';
 import { RootStore } from '@/stores';
 import CreateStore from '@/utils/useStore';
 
-import { Button, Card, Dialog, Modal, RadioGroup, SnackBar, Table, TextFieldDemo } from '@/pages/demo';
+import { Button, Card, Dialog, DropDown, Modal, RadioGroup, SnackBar, Table, TextFieldDemo } from '@/pages/demo';
 import Error from '@/pages/error';
 import ErrorFallback from '@/pages/error/ErrorFallback';
 import LogControl from '@/pages/log-control';
@@ -141,6 +141,10 @@ const App = () => (
                   <Route
                     path="/cm/dialog"
                     element={<Dialog />}
+                  />
+                  <Route
+                    path="/cm/dropdown"
+                    element={<DropDown />}
                   />
                   <Route
                     path="/"
