@@ -127,7 +127,7 @@ function SystemContextManagementDataTable() {
 
   const topActionConfig = useMemo<ITopAction>(() => {
     return {
-      label: 'Create New System Context Management',
+      label: 'Create New Management',
       onClick: () => {
         /** */
       },
