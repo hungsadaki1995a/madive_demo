@@ -1,7 +1,7 @@
 import { Controller, useForm } from 'react-hook-form';
 
 import { classValidatorResolver } from '@hookform/resolvers/class-validator';
-import { TextField } from '@mui/material';
+import { Box, TextField } from '@mui/material';
 import { IsNotEmpty } from 'class-validator';
 
 import { CmDataSelect } from '@/components/atoms/CmDataInput';
@@ -23,6 +23,30 @@ const data2: RadioItemProps<string | number | boolean>[] = [
   {
     value: 'yes',
     label: 'yes',
+    disabled: true,
+  },
+  {
+    value: 'no',
+    label: 'no',
+    disabled: true,
+  },
+];
+const data3: RadioItemProps<string | number | boolean>[] = [
+  {
+    value: 'Use',
+    label: 'Use',
+    disabled: true,
+  },
+  {
+    value: 'Unuse',
+    label: 'Unuse',
+    disabled: true,
+  },
+];
+const data4: RadioItemProps<string | number | boolean>[] = [
+  {
+    value: 'yes',
+    label: 'yes',
   },
   {
     value: 'no',
@@ -34,6 +58,9 @@ class RadioDTO {
   @IsNotEmpty({ message: 'This field cannot blank' })
   Type: string;
   Primary: string;
+  Masking: string;
+  Encrypt: string;
+  Use: string;
 }
 
 const resolver = classValidatorResolver(RadioDTO);
@@ -54,6 +81,9 @@ export default function CreateMetaModal({ visible, handleSave, handleClose }: Cr
     values: {
       Type: '',
       Primary: '',
+      Masking: '',
+      Encrypt: '',
+      Use: '',
     },
     resolver,
   });
@@ -120,7 +150,6 @@ export default function CreateMetaModal({ visible, handleSave, handleClose }: Cr
           control={control}
           render={({ field: { onChange, value } }) => (
             <CmRadioGroup
-              // title={'Gender'}
               data={data1}
               value={value}
               onRadioChange={onChange}
@@ -137,7 +166,6 @@ export default function CreateMetaModal({ visible, handleSave, handleClose }: Cr
           control={control}
           render={({ field: { onChange, value } }) => (
             <CmRadioGroup
-              // title={'Gender'}
               data={data2}
               value={value}
               onRadioChange={onChange}
@@ -148,20 +176,83 @@ export default function CreateMetaModal({ visible, handleSave, handleClose }: Cr
         />
       </label>
       <label className="labelFormArea">
-        <span>Package</span>
+        <span>DataSource</span>
         <TextField
           className="labelTextField"
-          defaultValue="test"
+          size="small"
+          disabled
+        />
+      </label>
+      <label className="labelFormArea">
+        <span>Table</span>
+        <TextField
+          className="labelTextField"
+          size="small"
+          disabled
+        />
+      </label>
+      <label className="labelFormArea">
+        <span>Column</span>
+        <TextField
+          className="labelTextField"
+          size="small"
+          disabled
+        />
+      </label>
+      <label className="labelFormArea">
+        <span>Masking</span>
+        <Controller
+          name={'Masking'}
+          control={control}
+          render={({ field: { onChange, value } }) => (
+            <CmRadioGroup
+              data={data3}
+              value={value}
+              onRadioChange={onChange}
+              error={!!errors.Masking}
+              helperText={errors.Masking?.message?.toString()}
+            />
+          )}
+        />
+        <Box>Range</Box>
+      </label>
+      <label className="labelFormArea">
+        <span>Encrypt</span>
+        <Controller
+          name={'Encrypt'}
+          control={control}
+          render={({ field: { onChange, value } }) => (
+            <CmRadioGroup
+              data={data3}
+              value={value}
+              onRadioChange={onChange}
+              error={!!errors.Encrypt}
+              helperText={errors.Encrypt?.message?.toString()}
+            />
+          )}
+        />
+      </label>
+      <label className="labelFormArea">
+        <span>Default Value</span>
+        <TextField
+          className="labelTextField"
           size="small"
         />
       </label>
       <label className="labelFormArea">
-        <span>Description</span>
-        <TextField
-          className="labelTextField"
-          multiline
-          rows={4}
-          defaultValue="Default Value"
+        <span>Use</span>
+        <Controller
+          name={'Use'}
+          control={control}
+          render={({ field: { onChange, value } }) => (
+            <CmRadioGroup
+              data={data4}
+              value={value}
+              onRadioChange={onChange}
+              error={!!errors.Use}
+              helperText={errors.Use?.message?.toString()}
+            />
+          )}
         />
       </label>
     </CmModal>

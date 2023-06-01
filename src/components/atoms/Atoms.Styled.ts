@@ -416,7 +416,7 @@ const CmModalStyle = styled.div`
           padding: 1px 8px 2px;
           font: 13px/ 1.5 ${CmStyle.notoSansDJKFont.light};
           &.Mui-disabled {
-            -webkit-text-fill-color: unset;
+            background: rgba(0, 0, 0, 0.05);
             color: ${CmStyle.color.colorT01};
           }
           .Mui-disabled .MuiOutlinedInput-notchedOutline {
