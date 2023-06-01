@@ -1,9 +1,15 @@
+import HistoryDataTable from './DataTable';
+
 type propsType = {
   title: string;
 };
 
 function History(props: propsType) {
   const { title } = props;
-  return <>{title}</>;
+  return (
+    <>
+      <HistoryDataTable />
+    </>
+  );
 }
 export default History;

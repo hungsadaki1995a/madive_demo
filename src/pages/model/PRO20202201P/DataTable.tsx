@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from 'react';
 
 import AddIcon from '@mui/icons-material/Add';
 import SearchIcon from '@mui/icons-material/Search';
+import { Paper } from '@mui/material';
 import { observer } from 'mobx-react';
 
 import CommonTable from '@/components/organisms/CmCommonTable';
@@ -16,32 +17,32 @@ import {
 
 import { useStore } from '@/utils';
 
-import CreateDatasourceModal from './modal/PRO10104105M';
-import EditDatasourceModal from './modal/PRO10104106M';
+import CreateDbioModal from './modal/PRO20202202M';
+import EditDbioModal from './modal/PRO20202203M';
 
-function SystemContextDatasourceDataTable() {
-  const { TestCaseStore, AlertStore } = useStore();
-  const [isCreateDatasourceModalVisible, setIsCreateDatasourceModalVisible] = useState(false);
-  const [isEditDatasourceModalVisible, setIsEditDatasourceModalVisible] = useState(false);
+function DbioDataTable() {
+  const { AlertStore } = useStore();
+  const [isCreateDbioModalVisible, setIsCreateDbioModalVisible] = useState(false);
+  const [isEditDbioModalVisible, setIsEditDbioModalVisible] = useState(false);
 
-  // Create Datasource Modal Open
-  const handleCreateDatasourceModalOpen = () => {
-    setIsCreateDatasourceModalVisible(true);
+  // Create Dbio Modal Open
+  const handleCreateDbioModalOpen = () => {
+    setIsCreateDbioModalVisible(true);
   };
 
-  // Create Datasource Modal Close
-  const handleCreateDatasourceModalClose = () => {
-    setIsCreateDatasourceModalVisible(false);
+  // Create Dbio Modal Close
+  const handleCreateDbioModalClose = () => {
+    setIsCreateDbioModalVisible(false);
   };
 
-  // Edit Datasource Modal Open
-  const handleEditDatasourceModalOpen = () => {
-    setIsEditDatasourceModalVisible(true);
+  // Edit Dbio Modal Open
+  const handleEditDbioModalOpen = () => {
+    setIsEditDbioModalVisible(true);
   };
 
-  // Edit Datasource Modal Close
-  const handleEditDatasourceModalClose = () => {
-    setIsEditDatasourceModalVisible(false);
+  // Edit Dbio Modal Close
+  const handleEditDbioModalClose = () => {
+    setIsEditDbioModalVisible(false);
   };
 
   // -----------------------------------
@@ -49,8 +50,20 @@ function SystemContextDatasourceDataTable() {
 
   const sampleRows = [
     {
-      key_parameter: 'SYSTEM_CONTEXT_TEST',
-      property_value: 'tibero6_dev',
+      vender: 'ORACLE',
+      alias: 'ORACLE',
+      id: 'ORACLE',
+      pw: '123',
+      ip: '10.10.10.10',
+      port: '8003',
+    },
+    {
+      vender: 'NQT',
+      alias: '22113185',
+      id: '4185',
+      pw: '3185',
+      ip: '1111',
+      port: '11111',
     },
   ];
 
@@ -59,20 +72,32 @@ function SystemContextDatasourceDataTable() {
   const columnsConfig = useMemo<ICommonTableColumn<IPlainObject>[]>(() => {
     return [
       {
-        field: 'key_parameter',
-        label: 'System Context Name',
+        field: 'vender',
+        label: 'Vender',
         type: 'text',
         sortable: true,
       },
       {
-        field: 'property_value',
-        label: 'Datasource',
+        field: 'alias',
+        label: 'Alias',
         type: 'text',
         sortable: true,
       },
       {
-        field: '',
-        label: 'Action',
+        field: 'id',
+        label: 'ID',
+        type: 'text',
+        sortable: true,
+      },
+      {
+        field: 'ip',
+        label: 'IP',
+        type: 'text',
+        sortable: true,
+      },
+      {
+        field: 'port',
+        label: 'Port',
         type: 'text',
         sortable: true,
       },
@@ -89,16 +114,24 @@ function SystemContextDatasourceDataTable() {
           name: 'filterFieldName',
           options: [
             {
-              label: 'System Context Name',
-              value: 'key_parameter',
+              label: 'Vender',
+              value: 'vender',
             },
             {
-              label: 'Datasource',
-              value: 'property_value',
+              label: 'Alias',
+              value: 'alias',
             },
             {
-              label: 'Action',
-              value: '',
+              label: 'ID',
+              value: 'id',
+            },
+            {
+              label: 'IP',
+              value: 'ip',
+            },
+            {
+              label: 'Port',
+              value: 'port',
             },
           ],
         },
@@ -115,9 +148,9 @@ function SystemContextDatasourceDataTable() {
 
   const topActionConfig = useMemo<ITopAction>(() => {
     return {
-      label: 'Create New System Context Datasource',
+      label: 'Create New DBIO',
       onClick: () => {
-        /** */
+        handleCreateDbioModalOpen();
       },
       icon: <AddIcon />,
     };
@@ -149,7 +182,7 @@ function SystemContextDatasourceDataTable() {
       totalCount: 0,
     },
     sortInfoDefault: {
-      field: 'key_parameter',
+      field: 'vender',
       direction: 'desc',
     },
   });
@@ -159,13 +192,13 @@ function SystemContextDatasourceDataTable() {
   }, []);
 
   return (
-    <>
+    <Paper style={{ padding: '20px' }}>
       <CommonTable
-        tableName="system-context-datasource-table"
+        tableName="dbio-table"
         // renderLayoutAs={TableLayoutCustom}
         fieldAsRowId="email"
         columnsConfig={columnsConfig}
-        rows={rows}
+        rows={sampleRows}
         hasSelectionRows
         onSelectedRows={(selectedRows) => {
           //
@@ -174,7 +207,7 @@ function SystemContextDatasourceDataTable() {
         filterConfig={filterConfig}
         onFilterTriggerQuery={filter}
         sortDefault={{
-          field: 'key_parameter',
+          field: 'vender',
           direction: 'asc',
         }}
         onSortChange={sort}
@@ -183,18 +216,18 @@ function SystemContextDatasourceDataTable() {
         bottomActionsConfig={bottomActionsConfig}
       />
 
-      {/* Create Datasource - Modal */}
-      <CreateDatasourceModal
-        visible={isCreateDatasourceModalVisible}
-        handleClose={handleCreateDatasourceModalClose}
+      {/* Create Dbio - Modal */}
+      <CreateDbioModal
+        visible={isCreateDbioModalVisible}
+        handleClose={handleCreateDbioModalClose}
       />
 
-      {/* Edit Datasource - Modal */}
-      <EditDatasourceModal
-        visible={isEditDatasourceModalVisible}
-        handleClose={handleEditDatasourceModalClose}
+      {/* Edit Dbio - Modal */}
+      <EditDbioModal
+        visible={isEditDbioModalVisible}
+        handleClose={handleEditDbioModalClose}
       />
-    </>
+    </Paper>
   );
 }
-export default observer(SystemContextDatasourceDataTable);
+export default observer(DbioDataTable);

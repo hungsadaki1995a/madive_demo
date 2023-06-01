@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from 'react';
 
 import AddIcon from '@mui/icons-material/Add';
 import SearchIcon from '@mui/icons-material/Search';
+import { Paper } from '@mui/material';
 import { observer } from 'mobx-react';
 
 import CommonTable from '@/components/organisms/CmCommonTable';
@@ -16,32 +17,32 @@ import {
 
 import { useStore } from '@/utils';
 
-import CreateDatasourceModal from './modal/PRO10104105M';
-import EditDatasourceModal from './modal/PRO10104106M';
+import CreateRoleModal from './modal/PRO20201209M';
+import EditRoleModal from './modal/PRO20201210M';
 
-function SystemContextDatasourceDataTable() {
-  const { TestCaseStore, AlertStore } = useStore();
-  const [isCreateDatasourceModalVisible, setIsCreateDatasourceModalVisible] = useState(false);
-  const [isEditDatasourceModalVisible, setIsEditDatasourceModalVisible] = useState(false);
+function RoleManagementDataTable() {
+  const { AlertStore } = useStore();
+  const [isCreateRoleModalVisible, setIsCreateRoleModalVisible] = useState(false);
+  const [isEditRoleModalVisible, setIsEditRoleModalVisible] = useState(false);
 
-  // Create Datasource Modal Open
-  const handleCreateDatasourceModalOpen = () => {
-    setIsCreateDatasourceModalVisible(true);
+  // Create Role Modal Open
+  const handleCreateRoleModalOpen = () => {
+    setIsCreateRoleModalVisible(true);
   };
 
-  // Create Datasource Modal Close
-  const handleCreateDatasourceModalClose = () => {
-    setIsCreateDatasourceModalVisible(false);
+  // Create Role Modal Close
+  const handleCreateRoleModalClose = () => {
+    setIsCreateRoleModalVisible(false);
   };
 
-  // Edit Datasource Modal Open
-  const handleEditDatasourceModalOpen = () => {
-    setIsEditDatasourceModalVisible(true);
+  // Edit Role Modal Open
+  const handleEditRoleModalOpen = () => {
+    setIsEditRoleModalVisible(true);
   };
 
-  // Edit Datasource Modal Close
-  const handleEditDatasourceModalClose = () => {
-    setIsEditDatasourceModalVisible(false);
+  // Edit Role Modal Close
+  const handleEditRoleModalClose = () => {
+    setIsEditRoleModalVisible(false);
   };
 
   // -----------------------------------
@@ -49,8 +50,14 @@ function SystemContextDatasourceDataTable() {
 
   const sampleRows = [
     {
-      key_parameter: 'SYSTEM_CONTEXT_TEST',
-      property_value: 'tibero6_dev',
+      role_id: 'AdminRole',
+      role_name: 'AdminRole',
+      description: 'AdminRole',
+    },
+    {
+      role_id: 'AdminRole2',
+      role_name: 'AdminRole2',
+      description: 'AdminRole2',
     },
   ];
 
@@ -59,20 +66,20 @@ function SystemContextDatasourceDataTable() {
   const columnsConfig = useMemo<ICommonTableColumn<IPlainObject>[]>(() => {
     return [
       {
-        field: 'key_parameter',
-        label: 'System Context Name',
+        field: 'role_id',
+        label: 'Role ID',
         type: 'text',
         sortable: true,
       },
       {
-        field: 'property_value',
-        label: 'Datasource',
+        field: 'role_name',
+        label: 'Role Name',
         type: 'text',
         sortable: true,
       },
       {
-        field: '',
-        label: 'Action',
+        field: 'description',
+        label: 'Description',
         type: 'text',
         sortable: true,
       },
@@ -89,16 +96,16 @@ function SystemContextDatasourceDataTable() {
           name: 'filterFieldName',
           options: [
             {
-              label: 'System Context Name',
-              value: 'key_parameter',
+              label: 'Role ID',
+              value: 'role_id',
             },
             {
-              label: 'Datasource',
-              value: 'property_value',
+              label: 'Role Name',
+              value: 'role_name',
             },
             {
-              label: 'Action',
-              value: '',
+              label: 'Description',
+              value: 'description',
             },
           ],
         },
@@ -115,9 +122,9 @@ function SystemContextDatasourceDataTable() {
 
   const topActionConfig = useMemo<ITopAction>(() => {
     return {
-      label: 'Create New System Context Datasource',
+      label: 'Create New Role',
       onClick: () => {
-        /** */
+        handleCreateRoleModalOpen();
       },
       icon: <AddIcon />,
     };
@@ -149,7 +156,7 @@ function SystemContextDatasourceDataTable() {
       totalCount: 0,
     },
     sortInfoDefault: {
-      field: 'key_parameter',
+      field: 'role_id',
       direction: 'desc',
     },
   });
@@ -159,13 +166,13 @@ function SystemContextDatasourceDataTable() {
   }, []);
 
   return (
-    <>
+    <Paper style={{ padding: '20px' }}>
       <CommonTable
-        tableName="system-context-datasource-table"
+        tableName="role-management-table"
         // renderLayoutAs={TableLayoutCustom}
         fieldAsRowId="email"
         columnsConfig={columnsConfig}
-        rows={rows}
+        rows={sampleRows}
         hasSelectionRows
         onSelectedRows={(selectedRows) => {
           //
@@ -174,7 +181,7 @@ function SystemContextDatasourceDataTable() {
         filterConfig={filterConfig}
         onFilterTriggerQuery={filter}
         sortDefault={{
-          field: 'key_parameter',
+          field: 'role_id',
           direction: 'asc',
         }}
         onSortChange={sort}
@@ -183,18 +190,18 @@ function SystemContextDatasourceDataTable() {
         bottomActionsConfig={bottomActionsConfig}
       />
 
-      {/* Create Datasource - Modal */}
-      <CreateDatasourceModal
-        visible={isCreateDatasourceModalVisible}
-        handleClose={handleCreateDatasourceModalClose}
+      {/* Create Role - Modal */}
+      <CreateRoleModal
+        visible={isCreateRoleModalVisible}
+        handleClose={handleCreateRoleModalClose}
       />
 
-      {/* Edit Datasource - Modal */}
-      <EditDatasourceModal
-        visible={isEditDatasourceModalVisible}
-        handleClose={handleEditDatasourceModalClose}
+      {/* Edit Role - Modal */}
+      <EditRoleModal
+        visible={isEditRoleModalVisible}
+        handleClose={handleEditRoleModalClose}
       />
-    </>
+    </Paper>
   );
 }
-export default observer(SystemContextDatasourceDataTable);
+export default observer(RoleManagementDataTable);

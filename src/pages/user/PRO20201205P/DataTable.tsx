@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from 'react';
 
 import AddIcon from '@mui/icons-material/Add';
 import SearchIcon from '@mui/icons-material/Search';
+import { Paper } from '@mui/material';
 import { observer } from 'mobx-react';
 
 import CommonTable from '@/components/organisms/CmCommonTable';
@@ -16,32 +17,32 @@ import {
 
 import { useStore } from '@/utils';
 
-import CreateDatasourceModal from './modal/PRO10104105M';
-import EditDatasourceModal from './modal/PRO10104106M';
+import CreateGroupModal from './modal/PRO20201206M';
+import EditGroupModal from './modal/PRO20201207M';
 
-function SystemContextDatasourceDataTable() {
-  const { TestCaseStore, AlertStore } = useStore();
-  const [isCreateDatasourceModalVisible, setIsCreateDatasourceModalVisible] = useState(false);
-  const [isEditDatasourceModalVisible, setIsEditDatasourceModalVisible] = useState(false);
+function GroupManagementDataTable() {
+  const { AlertStore } = useStore();
+  const [isCreateGroupModalVisible, setIsCreateGroupModalVisible] = useState(false);
+  const [isEditGroupModalVisible, setIsEditGroupModalVisible] = useState(false);
 
-  // Create Datasource Modal Open
-  const handleCreateDatasourceModalOpen = () => {
-    setIsCreateDatasourceModalVisible(true);
+  // Create Group Modal Open
+  const handleCreateGroupModalOpen = () => {
+    setIsCreateGroupModalVisible(true);
   };
 
-  // Create Datasource Modal Close
-  const handleCreateDatasourceModalClose = () => {
-    setIsCreateDatasourceModalVisible(false);
+  // Create Group Modal Close
+  const handleCreateGroupModalClose = () => {
+    setIsCreateGroupModalVisible(false);
   };
 
-  // Edit Datasource Modal Open
-  const handleEditDatasourceModalOpen = () => {
-    setIsEditDatasourceModalVisible(true);
+  // Edit Group Modal Open
+  const handleEditGroupModalOpen = () => {
+    setIsEditGroupModalVisible(true);
   };
 
-  // Edit Datasource Modal Close
-  const handleEditDatasourceModalClose = () => {
-    setIsEditDatasourceModalVisible(false);
+  // Edit Group Modal Close
+  const handleEditGroupModalClose = () => {
+    setIsEditGroupModalVisible(false);
   };
 
   // -----------------------------------
@@ -49,8 +50,14 @@ function SystemContextDatasourceDataTable() {
 
   const sampleRows = [
     {
-      key_parameter: 'SYSTEM_CONTEXT_TEST',
-      property_value: 'tibero6_dev',
+      group_id: 'Group1',
+      group_name: 'Group1',
+      description: 'Group1',
+    },
+    {
+      group_id: 'Group2',
+      group_name: 'Group2',
+      description: 'Group2',
     },
   ];
 
@@ -59,20 +66,20 @@ function SystemContextDatasourceDataTable() {
   const columnsConfig = useMemo<ICommonTableColumn<IPlainObject>[]>(() => {
     return [
       {
-        field: 'key_parameter',
-        label: 'System Context Name',
+        field: 'group_id',
+        label: 'Group ID',
         type: 'text',
         sortable: true,
       },
       {
-        field: 'property_value',
-        label: 'Datasource',
+        field: 'group_name',
+        label: 'Group Name',
         type: 'text',
         sortable: true,
       },
       {
-        field: '',
-        label: 'Action',
+        field: 'description',
+        label: 'Description',
         type: 'text',
         sortable: true,
       },
@@ -89,16 +96,16 @@ function SystemContextDatasourceDataTable() {
           name: 'filterFieldName',
           options: [
             {
-              label: 'System Context Name',
-              value: 'key_parameter',
+              label: 'Group ID',
+              value: 'group_id',
             },
             {
-              label: 'Datasource',
-              value: 'property_value',
+              label: 'Group Name',
+              value: 'group_name',
             },
             {
-              label: 'Action',
-              value: '',
+              label: 'Description',
+              value: 'description',
             },
           ],
         },
@@ -115,9 +122,9 @@ function SystemContextDatasourceDataTable() {
 
   const topActionConfig = useMemo<ITopAction>(() => {
     return {
-      label: 'Create New System Context Datasource',
+      label: 'Create New Group',
       onClick: () => {
-        /** */
+        handleCreateGroupModalOpen();
       },
       icon: <AddIcon />,
     };
@@ -149,7 +156,7 @@ function SystemContextDatasourceDataTable() {
       totalCount: 0,
     },
     sortInfoDefault: {
-      field: 'key_parameter',
+      field: 'group_id',
       direction: 'desc',
     },
   });
@@ -159,13 +166,13 @@ function SystemContextDatasourceDataTable() {
   }, []);
 
   return (
-    <>
+    <Paper style={{ padding: '20px' }}>
       <CommonTable
-        tableName="system-context-datasource-table"
+        tableName="group-management-table"
         // renderLayoutAs={TableLayoutCustom}
         fieldAsRowId="email"
         columnsConfig={columnsConfig}
-        rows={rows}
+        rows={sampleRows}
         hasSelectionRows
         onSelectedRows={(selectedRows) => {
           //
@@ -174,7 +181,7 @@ function SystemContextDatasourceDataTable() {
         filterConfig={filterConfig}
         onFilterTriggerQuery={filter}
         sortDefault={{
-          field: 'key_parameter',
+          field: 'group_id',
           direction: 'asc',
         }}
         onSortChange={sort}
@@ -183,18 +190,18 @@ function SystemContextDatasourceDataTable() {
         bottomActionsConfig={bottomActionsConfig}
       />
 
-      {/* Create Datasource - Modal */}
-      <CreateDatasourceModal
-        visible={isCreateDatasourceModalVisible}
-        handleClose={handleCreateDatasourceModalClose}
+      {/* Create Group - Modal */}
+      <CreateGroupModal
+        visible={isCreateGroupModalVisible}
+        handleClose={handleCreateGroupModalClose}
       />
 
-      {/* Edit Datasource - Modal */}
-      <EditDatasourceModal
-        visible={isEditDatasourceModalVisible}
-        handleClose={handleEditDatasourceModalClose}
+      {/* Edit Group - Modal */}
+      <EditGroupModal
+        visible={isEditGroupModalVisible}
+        handleClose={handleEditGroupModalClose}
       />
-    </>
+    </Paper>
   );
 }
-export default observer(SystemContextDatasourceDataTable);
+export default observer(GroupManagementDataTable);

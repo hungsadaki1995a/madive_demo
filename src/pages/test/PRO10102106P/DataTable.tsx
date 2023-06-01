@@ -33,7 +33,7 @@ import {
 import ViewTestResultModal from './modal/PRO10102107M';
 import TestCaseDetailModal from './modal/PRO10102108M';
 import TestCaseDeleteModal from './modal/TestCaseDeleteModal';
-import { ITestCaseDetail } from './types';
+import { ITestCaseDetail, ITestCaseExecResult } from './types';
 
 const filterConfig: IFilterConfig = {
   submitBy: 'enter',
@@ -81,6 +81,12 @@ function TestCaseDataTable() {
   const [isViewTestResultModalVisible, setIsViewTestResultModalVisible] = useState<boolean>(false);
   const [isOpenModalDetail, setIsOpenModalDetail] = useState<boolean>(false);
   const [isOpenDeleteModal, setIsOpenDeleteModal] = useState<boolean>(false);
+  const [isOpenViewTestResultModal, setIsOpenViewTestResultModal] = useState<boolean>(false);
+  const [viewTestResultData, setViewStateResultData] = useState<ITestCaseExecResult>({
+    success: false,
+    responseCode: '',
+    stackTrace: '',
+  });
   const [testCaseDetailSelected, setTestCaseDetailSelected] = useState<ITestCaseDetail | TestCaseDto>(
     testCaseDetailDefault
   );
@@ -132,9 +138,17 @@ function TestCaseDataTable() {
     fetchTestCaseList();
   };
 
+  const requestRunTestCase = async (testCaseData: ITestCaseDetail | TestCaseDto) => {
+    const response = await TestCaseApi.runTestCase(testCaseData as TestCaseDto);
+    setIsOpenViewTestResultModal(true);
+    if (response?.dto) {
+      //TODO: Handle display result;
+    } else if (response?.exception) {
+      setViewStateResultData({ ...response.exception, success: false });
+    }
+  };
+
   const handleActionChange = (testCaseData: TestCaseDto, actionType: TestCaseActionEnum) => {
-    // eslint-disable-next-line no-debugger
-    debugger;
     switch (actionType) {
       case TestCaseActionEnum.TEST:
         return handleViewTestResultModalOpen();
@@ -143,6 +157,11 @@ function TestCaseDataTable() {
       case TestCaseActionEnum.DELETE:
         setTestCaseDetailSelected(testCaseData);
         return setIsOpenDeleteModal(true);
+      // case TestCaseActionEnum.TEST:
+      //   setTestCaseDetailSelected(testCaseData);
+      //   requestRunTestCase(testCaseData);
+      //   return;
+      // return setIsOpenDeleteModal(true);
       default:
         return null;
     }
@@ -265,7 +284,6 @@ function TestCaseDataTable() {
         }}
         onSortChange={sort}
         paginationConfig={pagination}
-        // renderPaginationAs={TablePaginationCustom}
       />
       {isOpenModalDetail && (
         <TestCaseDetailModal
@@ -280,6 +298,12 @@ function TestCaseDataTable() {
           handleClose={onCloseDeleteModal}
         />
       )}
+      {/* {isOpenViewTestResultModal && (
+        <TestCaseExecResultModal
+          isOpen={isOpenDeleteModal}
+          handleClose={onCloseDeleteModal}
+          resultData={viewTestResultData}
+      )} */}
       {isViewTestResultModalVisible && (
         <ViewTestResultModal
           visible={isViewTestResultModalVisible}

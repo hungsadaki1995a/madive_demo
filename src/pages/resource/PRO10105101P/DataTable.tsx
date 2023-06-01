@@ -1,6 +1,5 @@
 import { useEffect, useMemo } from 'react';
 
-import AddIcon from '@mui/icons-material/Add';
 import SearchIcon from '@mui/icons-material/Search';
 import { Paper } from '@mui/material';
 import { observer } from 'mobx-react';
@@ -11,52 +10,65 @@ import {
   IBottomAction,
   ICommonTableColumn,
   IFilterConfig,
-  ITopAction,
+  IPlainObject,
 } from '@/components/organisms/CmCommonTable/types';
 
-import { TestCaseApi } from '@/apis';
-import { TestCaseDto } from '@/types/dtos/testCaseDtos';
 import { useStore } from '@/utils';
 
 function LockAndUnlockDataTable() {
-  const { TestCaseStore, AlertStore } = useStore();
+  const { AlertStore } = useStore();
+
+  // -----------------------------------
+  // Sample Data
+
+  const sampleRows = [
+    {
+      logical_name: 'AppSHDO',
+      resource_type: 'DTO',
+      resource_path: 'com/tmax/dto',
+      physical_name: 'AppSHDO',
+      resource_id: '000008f98c8e0033e4eb2100000109bf',
+      user_id: 'admin',
+      description: null,
+    },
+  ];
 
   // -----------------------------------
   // Config table
-  const columnsConfig = useMemo<ICommonTableColumn<TestCaseDto>[]>(() => {
+  const columnsConfig = useMemo<ICommonTableColumn<IPlainObject>[]>(() => {
     return [
       {
-        field: 'testcase_name',
+        field: 'resource_path',
         label: 'Package',
         type: 'text',
         sortable: true,
       },
       {
-        field: 'physical_name',
+        field: 'logical_name',
         label: 'Logical Name',
         type: 'text',
         sortable: true,
       },
       {
-        field: 'service_group_name',
+        field: 'physical_name',
         label: 'Physical Name',
         type: 'text',
         sortable: true,
       },
       {
-        field: 'application_name',
+        field: 'description',
         label: 'Description',
         type: 'text',
         sortable: true,
       },
       {
-        field: 'creator',
+        field: 'resource_type',
         label: 'Resource Type',
         type: 'text',
         sortable: true,
       },
       {
-        field: 'creator',
+        field: 'user_id',
         label: 'User',
         type: 'text',
         sortable: true,
@@ -75,23 +87,23 @@ function LockAndUnlockDataTable() {
           options: [
             {
               label: 'Package',
-              value: 'testcase_name',
+              value: 'resource_path',
             },
             {
               label: 'Logical Name',
-              value: 'physical_name',
+              value: 'logical_name',
             },
             {
               label: 'Physical Name',
-              value: 'service_group_name',
+              value: 'physical_name',
             },
             {
               label: 'Description',
-              value: 'application_name',
+              value: 'description',
             },
             {
               label: 'Resource Type',
-              value: 'creator',
+              value: 'resource_type',
             },
           ],
         },
@@ -106,52 +118,24 @@ function LockAndUnlockDataTable() {
     };
   }, []);
 
-  const topActionConfig = useMemo<ITopAction>(() => {
-    return {
-      label: 'Create New Lock&UnLock',
-      onClick: () => {
-        /** */
-      },
-      icon: <AddIcon />,
-    };
-  }, []);
-
-  const bottomActionsConfig = useMemo<IBottomAction<TestCaseDto>[]>((): IBottomAction<TestCaseDto>[] => {
+  const bottomActionsConfig = useMemo<IBottomAction<IPlainObject>[]>((): IBottomAction<IPlainObject>[] => {
     return [];
   }, []);
 
   // ------------------------------------------------------------------------------------
   // Handle Data
 
-  const { fetch, rows, sort, filter, pagination } = useTableDataServer<TestCaseDto>({
+  const { fetch, rows, sort, filter, pagination } = useTableDataServer<IPlainObject>({
     queryFn: async ({ filter, pagination, sort }) => {
       try {
-        TestCaseStore.setIsFetching(true);
-        const data = await TestCaseApi.getTestCases({
-          app_resource_id: '0000d8a6e0bd0004b35b8c00dcf79930', // hard code for test
-          pageInfoDto: {
-            pageLength: pagination.rowsPerPage.toString(),
-            pageNum: pagination.currentPage + 1,
-            sort: true,
-            sortField: `${sort.field || 'testcase_name'}`,
-            sortingType: sort.direction || 'asc',
-          },
-          conditionDto: [
-            {
-              key: filter['filterFieldName'] || 'testcase_name',
-              value: filter['search'] || '',
-            },
-          ],
-        });
-        TestCaseStore.setIsFetching(false);
-        TestCaseStore.setTestCases(data?.dto?.TestCaseDto, data?.dto?.pagingResultDto.totalNum);
+        //
       } catch (e) {
         AlertStore.openApiAlert('error', 'Fetch data failed');
       }
     },
     queryResult: {
-      data: TestCaseStore.testCases,
-      total: TestCaseStore.total,
+      data: sampleRows,
+      total: sampleRows.length,
     },
     paginationParamsDefault: {
       rowsPerPageOptions: [3, 5, 10],
@@ -160,32 +144,32 @@ function LockAndUnlockDataTable() {
       totalCount: 0,
     },
     sortInfoDefault: {
-      field: 'testcase_name',
+      field: 'resource_path',
       direction: 'desc',
     },
   });
 
   useEffect(() => {
-    fetch();
+    //fetch();
   }, []);
 
   return (
     <Paper style={{ padding: '20px' }}>
       <CommonTable
-        tableName="testcase-management"
+        tableName="lock-unlock-table"
         // renderLayoutAs={TableLayoutCustom}
         fieldAsRowId="email"
         columnsConfig={columnsConfig}
-        rows={rows}
+        rows={sampleRows}
         hasSelectionRows
         onSelectedRows={(selectedRows) => {
           //
         }}
-        topActionConfig={topActionConfig}
+        //topActionConfig={topActionConfig}
         filterConfig={filterConfig}
         onFilterTriggerQuery={filter}
         sortDefault={{
-          field: 'testcase_name',
+          field: 'resource_path',
           direction: 'asc',
         }}
         onSortChange={sort}

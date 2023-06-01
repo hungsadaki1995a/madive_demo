@@ -1,7 +1,7 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo } from 'react';
 
-import AddIcon from '@mui/icons-material/Add';
 import SearchIcon from '@mui/icons-material/Search';
+import { Paper } from '@mui/material';
 import { observer } from 'mobx-react';
 
 import CommonTable from '@/components/organisms/CmCommonTable';
@@ -11,46 +11,32 @@ import {
   ICommonTableColumn,
   IFilterConfig,
   IPlainObject,
-  ITopAction,
 } from '@/components/organisms/CmCommonTable/types';
 
 import { useStore } from '@/utils';
 
-import CreateDatasourceModal from './modal/PRO10104105M';
-import EditDatasourceModal from './modal/PRO10104106M';
-
-function SystemContextDatasourceDataTable() {
-  const { TestCaseStore, AlertStore } = useStore();
-  const [isCreateDatasourceModalVisible, setIsCreateDatasourceModalVisible] = useState(false);
-  const [isEditDatasourceModalVisible, setIsEditDatasourceModalVisible] = useState(false);
-
-  // Create Datasource Modal Open
-  const handleCreateDatasourceModalOpen = () => {
-    setIsCreateDatasourceModalVisible(true);
-  };
-
-  // Create Datasource Modal Close
-  const handleCreateDatasourceModalClose = () => {
-    setIsCreateDatasourceModalVisible(false);
-  };
-
-  // Edit Datasource Modal Open
-  const handleEditDatasourceModalOpen = () => {
-    setIsEditDatasourceModalVisible(true);
-  };
-
-  // Edit Datasource Modal Close
-  const handleEditDatasourceModalClose = () => {
-    setIsEditDatasourceModalVisible(false);
-  };
+function RolePermissionAssignDataTable() {
+  const { AlertStore } = useStore();
 
   // -----------------------------------
   // Sample Data
 
   const sampleRows = [
     {
-      key_parameter: 'SYSTEM_CONTEXT_TEST',
-      property_value: 'tibero6_dev',
+      menu_name: 'Overview/APP&SG',
+      on_off: 'on',
+    },
+    {
+      menu_name: 'Overview/Meta',
+      on_off: 'on',
+    },
+    {
+      menu_name: 'Overview/Do Info',
+      on_off: 'on',
+    },
+    {
+      menu_name: 'Node/Node Management',
+      on_off: 'on',
     },
   ];
 
@@ -59,20 +45,14 @@ function SystemContextDatasourceDataTable() {
   const columnsConfig = useMemo<ICommonTableColumn<IPlainObject>[]>(() => {
     return [
       {
-        field: 'key_parameter',
-        label: 'System Context Name',
+        field: 'menu_name',
+        label: 'Menu',
         type: 'text',
         sortable: true,
       },
       {
-        field: 'property_value',
-        label: 'Datasource',
-        type: 'text',
-        sortable: true,
-      },
-      {
-        field: '',
-        label: 'Action',
+        field: 'on_off',
+        label: 'Access',
         type: 'text',
         sortable: true,
       },
@@ -89,16 +69,12 @@ function SystemContextDatasourceDataTable() {
           name: 'filterFieldName',
           options: [
             {
-              label: 'System Context Name',
-              value: 'key_parameter',
+              label: 'Menu',
+              value: 'menu_name',
             },
             {
-              label: 'Datasource',
-              value: 'property_value',
-            },
-            {
-              label: 'Action',
-              value: '',
+              label: 'Access',
+              value: 'on_off',
             },
           ],
         },
@@ -110,16 +86,6 @@ function SystemContextDatasourceDataTable() {
           icon: <SearchIcon />,
         },
       ],
-    };
-  }, []);
-
-  const topActionConfig = useMemo<ITopAction>(() => {
-    return {
-      label: 'Create New System Context Datasource',
-      onClick: () => {
-        /** */
-      },
-      icon: <AddIcon />,
     };
   }, []);
 
@@ -149,7 +115,7 @@ function SystemContextDatasourceDataTable() {
       totalCount: 0,
     },
     sortInfoDefault: {
-      field: 'key_parameter',
+      field: 'menu_name',
       direction: 'desc',
     },
   });
@@ -159,22 +125,22 @@ function SystemContextDatasourceDataTable() {
   }, []);
 
   return (
-    <>
+    <Paper style={{ padding: '20px' }}>
       <CommonTable
-        tableName="system-context-datasource-table"
+        tableName="role-permission-assign-table"
         // renderLayoutAs={TableLayoutCustom}
         fieldAsRowId="email"
         columnsConfig={columnsConfig}
-        rows={rows}
+        rows={sampleRows}
         hasSelectionRows
         onSelectedRows={(selectedRows) => {
           //
         }}
-        topActionConfig={topActionConfig}
+        //topActionConfig={topActionConfig}
         filterConfig={filterConfig}
         onFilterTriggerQuery={filter}
         sortDefault={{
-          field: 'key_parameter',
+          field: 'menu_name',
           direction: 'asc',
         }}
         onSortChange={sort}
@@ -182,19 +148,7 @@ function SystemContextDatasourceDataTable() {
         // renderPaginationAs={TablePaginationCustom}
         bottomActionsConfig={bottomActionsConfig}
       />
-
-      {/* Create Datasource - Modal */}
-      <CreateDatasourceModal
-        visible={isCreateDatasourceModalVisible}
-        handleClose={handleCreateDatasourceModalClose}
-      />
-
-      {/* Edit Datasource - Modal */}
-      <EditDatasourceModal
-        visible={isEditDatasourceModalVisible}
-        handleClose={handleEditDatasourceModalClose}
-      />
-    </>
+    </Paper>
   );
 }
-export default observer(SystemContextDatasourceDataTable);
+export default observer(RolePermissionAssignDataTable);

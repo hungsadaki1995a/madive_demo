@@ -1,9 +1,15 @@
+import DbioDataTable from './DataTable';
+
 type propsType = {
   title: string;
 };
 
 function Dbio(props: propsType) {
   const { title } = props;
-  return <>{title}</>;
+  return (
+    <>
+      <DbioDataTable />
+    </>
+  );
 }
 export default Dbio;

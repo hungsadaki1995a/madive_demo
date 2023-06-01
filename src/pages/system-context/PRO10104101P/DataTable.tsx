@@ -10,18 +10,17 @@ import {
   IBottomAction,
   ICommonTableColumn,
   IFilterConfig,
+  IPlainObject,
   ITopAction,
 } from '@/components/organisms/CmCommonTable/types';
 
-import { TestCaseApi } from '@/apis';
-import { TestCaseDto } from '@/types/dtos/testCaseDtos';
 import { useStore } from '@/utils';
 
 import AddSystemContextModal from './modal/PRO10104102M';
 import EditSystemContextModal from './modal/PRO10104103M';
 
 function SystemContextManagementDataTable() {
-  const { TestCaseStore, AlertStore } = useStore();
+  const { AlertStore } = useStore();
   const [isAddSystemContextModalVisible, setIsAddSystemContextModalVisible] = useState(false);
   const [isEditSystemContextModalVisible, setIsEditSystemContextModalVisible] = useState(false);
 
@@ -46,23 +45,45 @@ function SystemContextManagementDataTable() {
   };
 
   // -----------------------------------
+  // Sample Data
+
+  const sampleRows = [
+    {
+      key: 'ㅎㄷㅎ',
+      value: 'ㅎㄷㅎ',
+    },
+    {
+      key: 'url',
+      value: 'http://192.168.57.34:80/',
+    },
+    {
+      key: 'hello',
+      value: '123',
+    },
+    {
+      key: 'QA',
+      value: 'TEST',
+    },
+  ];
+
+  // -----------------------------------
   // Config table
-  const columnsConfig = useMemo<ICommonTableColumn<TestCaseDto>[]>(() => {
+  const columnsConfig = useMemo<ICommonTableColumn<IPlainObject>[]>(() => {
     return [
       {
-        field: 'testcase_name',
+        field: 'key',
         label: 'Key',
         type: 'text',
         sortable: true,
       },
       {
-        field: 'physical_name',
+        field: 'value',
         label: 'Value',
         type: 'text',
         sortable: true,
       },
       {
-        field: 'service_group_name',
+        field: '',
         label: 'Action',
         type: 'text',
         sortable: true,
@@ -81,15 +102,15 @@ function SystemContextManagementDataTable() {
           options: [
             {
               label: 'Key',
-              value: 'testcase_name',
+              value: 'key',
             },
             {
               label: 'Value',
-              value: 'physical_name',
+              value: 'value',
             },
             {
               label: 'Action',
-              value: 'service_group_name',
+              value: '',
             },
           ],
         },
@@ -114,42 +135,24 @@ function SystemContextManagementDataTable() {
     };
   }, []);
 
-  const bottomActionsConfig = useMemo<IBottomAction<TestCaseDto>[]>((): IBottomAction<TestCaseDto>[] => {
+  const bottomActionsConfig = useMemo<IBottomAction<IPlainObject>[]>((): IBottomAction<IPlainObject>[] => {
     return [];
   }, []);
 
   // ------------------------------------------------------------------------------------
   // Handle Data
 
-  const { fetch, rows, sort, filter, pagination } = useTableDataServer<TestCaseDto>({
+  const { fetch, rows, sort, filter, pagination } = useTableDataServer<IPlainObject>({
     queryFn: async ({ filter, pagination, sort }) => {
       try {
-        TestCaseStore.setIsFetching(true);
-        const data = await TestCaseApi.getTestCases({
-          app_resource_id: '0000d8a6e0bd0004b35b8c00dcf79930', // hard code for test
-          pageInfoDto: {
-            pageLength: pagination.rowsPerPage.toString(),
-            pageNum: pagination.currentPage + 1,
-            sort: true,
-            sortField: `${sort.field || 'testcase_name'}`,
-            sortingType: sort.direction || 'asc',
-          },
-          conditionDto: [
-            {
-              key: filter['filterFieldName'] || 'testcase_name',
-              value: filter['search'] || '',
-            },
-          ],
-        });
-        TestCaseStore.setIsFetching(false);
-        TestCaseStore.setTestCases(data?.dto?.TestCaseDto, data?.dto?.pagingResultDto.totalNum);
+        //
       } catch (e) {
         AlertStore.openApiAlert('error', 'Fetch data failed');
       }
     },
     queryResult: {
-      data: TestCaseStore.testCases,
-      total: TestCaseStore.total,
+      data: sampleRows,
+      total: sampleRows.length,
     },
     paginationParamsDefault: {
       rowsPerPageOptions: [3, 5, 10],
@@ -158,23 +161,23 @@ function SystemContextManagementDataTable() {
       totalCount: 0,
     },
     sortInfoDefault: {
-      field: 'testcase_name',
+      field: 'key',
       direction: 'desc',
     },
   });
 
   useEffect(() => {
-    fetch();
+    //fetch();
   }, []);
 
   return (
     <>
       <CommonTable
-        tableName="testcase-management"
+        tableName="system-context-management-table"
         // renderLayoutAs={TableLayoutCustom}
         fieldAsRowId="email"
         columnsConfig={columnsConfig}
-        rows={rows}
+        rows={sampleRows}
         hasSelectionRows
         onSelectedRows={(selectedRows) => {
           //
@@ -183,7 +186,7 @@ function SystemContextManagementDataTable() {
         filterConfig={filterConfig}
         onFilterTriggerQuery={filter}
         sortDefault={{
-          field: 'testcase_name',
+          field: 'key',
           direction: 'asc',
         }}
         onSortChange={sort}
