@@ -31,6 +31,11 @@ const TableBodyComponent = styled(TableBody)(({ theme }) => ({
       padding: '5px 15px',
       fontSize: '12px',
       color: '#888888',
+      // ellipsis
+      overflow: 'hidden',
+      whiteSpace: 'nowrap',
+      textOverflow: 'ellipsis',
+      wordBreak: 'break-all',
     },
     '&:hover': {
       '& .MuiTableCell-body': {
