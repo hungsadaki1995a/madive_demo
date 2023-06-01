@@ -1,4 +1,4 @@
-import { DialogTitle } from '@mui/material';
+import { DialogTitle, InputLabel } from '@mui/material';
 import styled from 'styled-components';
 
 import * as CmStyle from '@/stylesheets/common';
@@ -537,4 +537,11 @@ const DialogTitleStyled = styled(DialogTitle)(() => ({
   paddingBottom: 0,
 }));
 
-export { CmButtonStyle, CmCardStyle, CmSelectStyle, CmModalStyle, CmTableStyle, DialogTitleStyled };
+//field label
+const CmFieldLabel = styled(InputLabel)(({ width }: { width?: string }) => ({
+  width: width || '35%',
+  display: 'flex',
+  alignItems: 'center',
+}));
+
+export { CmButtonStyle, CmCardStyle, CmSelectStyle, CmModalStyle, CmTableStyle, DialogTitleStyled, CmFieldLabel };

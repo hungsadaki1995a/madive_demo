@@ -1,7 +1,7 @@
 import { styled } from '@mui/material';
 
-//Text Field wrapper
-const CmTextFieldWrapper = styled('div')(
+//Drop Down wrapper
+const CmDropDownWrapper = styled('div')(
   ({ inputWidth, width, margin }: { inputWidth?: string; width?: string; margin?: string }) => ({
     display: 'flex',
     flexDirection: 'row',
@@ -15,18 +15,14 @@ const CmTextFieldWrapper = styled('div')(
 
     //Field input
     '& .MuiInputBase-input': {
-      padding: '5px 10px',
+      padding: '4px 10px',
       color: '#555',
-      fontSize: 10,
+      fontSize: 14,
     },
 
     // width of text field
     '& .MuiInputBase-root': {
       width: inputWidth ? inputWidth : '100%',
-    },
-
-    '& .MuiOutlinedInput-root': {
-      padding: '5px 10px',
     },
 
     //select text font size
@@ -38,7 +34,12 @@ const CmTextFieldWrapper = styled('div')(
     '& .Mui-disabled': {
       backgroundColor: '#f1f1f1',
     },
+
+    //
+    '& .MuiFormControl-root': {
+      width: inputWidth ? inputWidth : '100%',
+    },
   })
 );
 
-export { CmTextFieldWrapper };
+export { CmDropDownWrapper };

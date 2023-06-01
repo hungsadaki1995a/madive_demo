@@ -286,6 +286,12 @@ export const LNB_LIST = [
         icon: <SubIcon />,
         url: '/cm/dialog',
       },
+      {
+        id: '10-9',
+        label: 'CM Drop Down',
+        icon: <SubIcon />,
+        url: '/cm/dropdown',
+      },
     ],
   },
 ];
