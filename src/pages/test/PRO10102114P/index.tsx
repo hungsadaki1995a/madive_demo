@@ -162,44 +162,27 @@ function EditTestCase(props: propsType) {
           </label>
         </Box>
         {/* Test Information */}
-        <Box className="formInfo">
+        <Box className="formBox">
           <Typography>Test Information</Typography>
           {/* FormBox */}
-          <Paper className="infoBox">
-            <figure>
-              <span>Node Name</span>
-              <figcaption>DevServer</figcaption>
-            </figure>
-            <figure>
-              <span>Node ID</span>
-              <figcaption>ca0726f809bae66f33fb36c12a3596fc</figcaption>
-            </figure>
-            <figure>
-              <span>IP</span>
-              <figcaption>101.101.209.11</figcaption>
-            </figure>
-            <figure>
-              <span>Http Port</span>
-              <figcaption>14000</figcaption>
-            </figure>
-            <figure>
-              <span>Resource Name</span>
-              <figcaption>SHDO</figcaption>
-            </figure>
-            <figure>
-              <span>Input</span>
-              <figcaption>com.tmax.dto.SHDO</figcaption>
-            </figure>
-            <figure>
-              <span>Super DO</span>
-              <figcaption>-</figcaption>
-            </figure>
-            <figure>
-              <span>Custom Header</span>
-              <figcaption>-</figcaption>
-            </figure>
-          </Paper>
+          <label className="labelFormArea">
+            <span>Test Case Name</span>
+            <CmTextInput />
+          </label>
+
+          {/* FormBox */}
+          <label className="labelFormArea">
+            <span>Target Node</span>
+            <CmDataSearch />
+          </label>
+
+          {/* FormBox */}
+          <label className="labelFormArea">
+            <span>Resource Name</span>
+            <CmDataSearch />
+          </label>
         </Box>
+
         <Box className="flexEnd">
           <CmButton
             variant="contained"

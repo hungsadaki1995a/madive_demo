@@ -14,7 +14,8 @@ const TestStyled = styled.div`
   .MuiTypography-root {
     font: 15px/ 1.5 ${CmStyle.notoSansDJKFont.regular};
     color: ${CmStyle.color.colorT01};
-    margin-bottom: 25px;
+    display: block;
+    margin-bottom: 20px;
   }
 
   .MuiPaper-root {
@@ -31,8 +32,8 @@ const TestStyled = styled.div`
         p.MuiTypography-root {
           margin-bottom: 20px;
         }
-        & ~ *:not(.flexEnd) {
-          margin-top: 35px;
+        & ~ * {
+          margin-top: 40px;
         }
         .labelFormArea {
           width: 100%;
@@ -61,6 +62,7 @@ const TestStyled = styled.div`
       // Test Infomation
       .formInfo {
         .infoBox {
+          margin-top: 5px;
           background: ${CmStyle.color.colorDef};
           box-shadow: none;
           figure {
@@ -101,9 +103,13 @@ const TestStyled = styled.div`
           }
           .treeBox {
             width: 300px;
+            margin-right: 30px;
+            li.MuiTreeItem-root {
+              padding-bottom: 7px;
+            }
           }
           .tableBox {
-            width: calc(100% - 300px);
+            width: calc(100% - 330px);
           }
           /* Table */
           table {

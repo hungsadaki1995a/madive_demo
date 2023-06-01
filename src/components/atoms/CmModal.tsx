@@ -64,13 +64,7 @@ function CmModal(props: propsType) {
                 className=""
                 color="info"
               />
-              {/* <FormGroup>
-                <FormControlLabel
-                  control={<Checkbox />}
-                  label="Keep Open"
-                />
-              </FormGroup> */}
-              <label>
+              <label className="check">
                 <Checkbox />
                 <span>Keep Open</span>
               </label>

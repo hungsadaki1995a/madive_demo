@@ -490,12 +490,13 @@ const CmModalStyle = styled.div`
     margin-top: 20px;
     display: flex;
     align-items: center;
-    .MuiFormControlLabel-root {
-      margin: 0;
+    label.check {
+      display: flex;
+      align-items: center;
       .MuiCheckbox-root {
         padding: 0;
       }
-      .MuiFormControlLabel-label {
+      span:not(style) {
         margin-left: 5px;
         font: 13px/ 1.5 ${CmStyle.notoSansDJKFont.regular};
       }
