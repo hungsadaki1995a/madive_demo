@@ -4,7 +4,6 @@ import { Paper } from '@mui/material';
 import { observer } from 'mobx-react';
 
 import CommonTable from '@/components/organisms/CmCommonTable';
-import useTableDataServer from '@/components/organisms/CmCommonTable/hooks/useTableDataServer';
 import { IBottomAction, ICommonTableColumn, IPlainObject } from '@/components/organisms/CmCommonTable/types';
 
 import { useStore } from '@/utils';
@@ -110,30 +109,6 @@ function DoInfoDataTable() {
   // ------------------------------------------------------------------------------------
   // Handle Data
 
-  const { fetch, rows, sort, filter, pagination } = useTableDataServer<IPlainObject>({
-    queryFn: async ({ filter, pagination, sort }) => {
-      try {
-        //
-      } catch (e) {
-        AlertStore.openApiAlert('error', 'Fetch data failed');
-      }
-    },
-    queryResult: {
-      data: [],
-      total: 0,
-    },
-    paginationParamsDefault: {
-      rowsPerPageOptions: [3, 5, 10],
-      currentPage: 0,
-      rowsPerPage: 3,
-      totalCount: 0,
-    },
-    sortInfoDefault: {
-      field: 'seq',
-      direction: 'desc',
-    },
-  });
-
   useEffect(() => {
     //fetch();
   }, []);
@@ -145,18 +120,26 @@ function DoInfoDataTable() {
         // renderLayoutAs={TableLayoutCustom}
         fieldAsRowId="email"
         columnsConfig={columnsConfig}
-        rows={rows}
+        rows={[]}
         hasSelectionRows
         onSelectedRows={(selectedRows) => {
           //
         }}
-        onFilterTriggerQuery={filter}
+        //onFilterTriggerQuery={filter}
         sortDefault={{
           field: 'seq',
           direction: 'asc',
         }}
-        onSortChange={sort}
-        paginationConfig={pagination}
+        onSortChange={() => console.log('')}
+        paginationConfig={{
+          rowsPerPageOptions: [10, 25, 50, 100],
+          currentPage: 0,
+          rowsPerPage: 10,
+          totalCount: 0,
+          rowsPerPagePosition: 'last',
+          onPageChange: (newPageIndex: number) => console.log(newPageIndex),
+          onRowsPerPageChange: (newRowsPerPage: number) => console.log(newRowsPerPage),
+        }}
         // renderPaginationAs={TablePaginationCustom}
         bottomActionsConfig={bottomActionsConfig}
       />
