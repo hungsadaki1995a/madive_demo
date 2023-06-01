@@ -3,8 +3,6 @@ import { TextField } from '@mui/material';
 // Common Atoms
 import CmModal from '@/components/atoms/CmModal';
 
-// img, icon
-
 type CreateMetaModalProps = {
   visible: boolean;
   handleSave?: () => void;
