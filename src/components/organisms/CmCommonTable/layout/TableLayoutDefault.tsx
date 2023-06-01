@@ -53,15 +53,13 @@ const TableLayoutDefault = <TRowDataType extends IPlainObject>({
           )}
         </div>
         <FilterSection>
-          {!!filterConfig && (
-            <FilterControls
-              addBtnConfig={addBtnConfig}
-              filterConfig={filterConfig}
-              onTriggerQuery={(filterData) => {
-                onFilterTriggerQuery?.(filterData);
-              }}
-            />
-          )}
+          <FilterControls
+            addBtnConfig={addBtnConfig}
+            filterConfig={filterConfig}
+            onTriggerQuery={(filterData) => {
+              onFilterTriggerQuery?.(filterData);
+            }}
+          />
         </FilterSection>
       </HeaderSection>
 

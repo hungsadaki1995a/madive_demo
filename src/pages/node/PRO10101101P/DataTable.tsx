@@ -1,6 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
 
-import SearchIcon from '@mui/icons-material/Search';
 import { Paper } from '@mui/material';
 import { observer } from 'mobx-react';
 
@@ -10,7 +9,6 @@ import {
   IAddAction,
   IBottomAction,
   ICommonTableColumn,
-  IFilterConfig,
   IPlainObject,
   ITopAction,
 } from '@/components/organisms/CmCommonTable/types';
@@ -146,56 +144,6 @@ function NodeManagementDataTable() {
     ];
   }, []);
 
-  const filterConfig = useMemo<IFilterConfig>(() => {
-    return {
-      submitBy: 'enter',
-      submitLabel: 'Search',
-      filters: [
-        {
-          type: 'dropdown',
-          name: 'filterFieldName',
-          options: [
-            {
-              label: 'Node Name',
-              value: 'node_name',
-            },
-            {
-              label: 'Node ID',
-              value: 'node_id',
-            },
-            {
-              label: 'IP',
-              value: 'node_ip',
-            },
-            {
-              label: 'File Port',
-              value: 'node_file_port',
-            },
-            {
-              label: 'Http Port',
-              value: 'node_http_port',
-            },
-            {
-              label: 'ProObject Port',
-              value: 'node_tcp_port',
-            },
-            {
-              label: 'SSL',
-              value: 'update_time',
-            },
-          ],
-        },
-        {
-          type: 'simple',
-          name: 'search',
-          // className: '',
-          // label: 'Keyword',
-          icon: <SearchIcon />,
-        },
-      ],
-    };
-  }, []);
-
   const addBtnConfig = useMemo<IAddAction>((): IAddAction => {
     return {
       label: 'Create New Node',
@@ -266,7 +214,7 @@ function NodeManagementDataTable() {
         showTopSelect
         topActionConfig={topActionConfig}
         addBtnConfig={addBtnConfig}
-        filterConfig={filterConfig}
+        //filterConfig={filterConfig}
         onFilterTriggerQuery={filter}
         sortDefault={{
           field: 'node_name',

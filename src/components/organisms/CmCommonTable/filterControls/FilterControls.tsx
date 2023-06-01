@@ -78,7 +78,7 @@ const FilterControls = ({
   onTriggerQuery,
 }: {
   addBtnConfig?: IAddAction;
-  filterConfig: IFilterConfig;
+  filterConfig?: IFilterConfig;
   onTriggerQuery: (filterValues: { [key: string]: any }) => void;
 }) => {
   const [filterValues, setFilterValues] = useState<{
@@ -112,7 +112,7 @@ const FilterControls = ({
             key={filterItemConfig.name}
             filterInfo={filterItemConfig}
             onChange={handleChange}
-            onTriggerQuery={filterConfig.submitBy === SubmitActionTypes.ENTER ? handleTriggerQuery : undefined}
+            onTriggerQuery={filterConfig?.submitBy === SubmitActionTypes.ENTER ? handleTriggerQuery : undefined}
           />
         );
       case FilterTypes.ACTION_SELECTION:
@@ -158,48 +158,50 @@ const FilterControls = ({
           onClick={addBtnConfig.onClick}
         />
       )}
-      <ToggleButtonGroup
-        className={classes.toggleBtn}
-        value={alignment}
-        exclusive
-        onChange={handleAlignment}
-      >
-        <ToggleButton value="left">
-          <SearchIcon />
-        </ToggleButton>
-        <ToggleButton value="center">
-          <Select
-            // className={className}
-            displayEmpty
-            value={personName}
-            onChange={handleTgSelChange}
-            input={<OutlinedInput />}
-            IconComponent={ArrowDownIcon}
-            renderValue={(selected) => {
-              if (selected.length === 0) {
-                return <em>Select For Menu</em>;
-              }
+      {filterConfig && (
+        <ToggleButtonGroup
+          className={classes.toggleBtn}
+          value={alignment}
+          exclusive
+          onChange={handleAlignment}
+        >
+          <ToggleButton value="left">
+            <SearchIcon />
+          </ToggleButton>
+          <ToggleButton value="center">
+            <Select
+              // className={className}
+              displayEmpty
+              value={personName}
+              onChange={handleTgSelChange}
+              input={<OutlinedInput />}
+              IconComponent={ArrowDownIcon}
+              renderValue={(selected) => {
+                if (selected.length === 0) {
+                  return <em>Select For Menu</em>;
+                }
 
-              return selected.join(', ');
-            }}
-            MenuProps={MenuProps}
-            inputProps={{ 'aria-label': 'Without label' }}
-          >
-            {names.map((name) => (
-              <MenuItem
-                key={name}
-                value={name}
-                style={getStyles(name, personName, theme)}
-              >
-                {name}
-              </MenuItem>
-            ))}
-          </Select>
-        </ToggleButton>
-        <ToggleButton value="right">
-          <CmTextInput />
-        </ToggleButton>
-      </ToggleButtonGroup>
+                return selected.join(', ');
+              }}
+              MenuProps={MenuProps}
+              inputProps={{ 'aria-label': 'Without label' }}
+            >
+              {names.map((name) => (
+                <MenuItem
+                  key={name}
+                  value={name}
+                  style={getStyles(name, personName, theme)}
+                >
+                  {name}
+                </MenuItem>
+              ))}
+            </Select>
+          </ToggleButton>
+          <ToggleButton value="right">
+            <CmTextInput />
+          </ToggleButton>
+        </ToggleButtonGroup>
+      )}
     </>
   );
 };

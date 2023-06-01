@@ -1,6 +1,5 @@
 import { useEffect, useMemo } from 'react';
 
-import SearchIcon from '@mui/icons-material/Search';
 import { Paper } from '@mui/material';
 import { observer } from 'mobx-react';
 
@@ -9,10 +8,12 @@ import useTableDataServer from '@/components/organisms/CmCommonTable/hooks/useTa
 import {
   IBottomAction,
   ICommonTableColumn,
-  IFilterConfig,
   IPlainObject,
+  ITopAction,
 } from '@/components/organisms/CmCommonTable/types';
 
+import { ReactComponent as DeleteIcon } from '@/stylesheets/images/DeleteIcon.svg';
+import TopButtonModel from '@/types/models/topButtonModel';
 import { useStore } from '@/utils';
 
 function MetaHistoryDataTable() {
@@ -91,50 +92,14 @@ function MetaHistoryDataTable() {
     ];
   }, []);
 
-  const filterConfig = useMemo<IFilterConfig>(() => {
-    return {
-      submitBy: 'enter',
-      submitLabel: 'Search',
-      filters: [
-        {
-          type: 'dropdown',
-          name: 'filterFieldName',
-          options: [
-            {
-              label: 'History Type',
-              value: 'history_type',
-            },
-            {
-              label: 'Physical Name',
-              value: 'physical_name',
-            },
-            {
-              label: 'Logical Name',
-              value: 'logical_name',
-            },
-            {
-              label: 'Field Type',
-              value: 'field_type',
-            },
-            {
-              label: 'Length',
-              value: 'length',
-            },
-            {
-              label: 'Update Time',
-              value: 'update_time',
-            },
-          ],
-        },
-        {
-          type: 'simple',
-          name: 'search',
-          // className: '',
-          // label: 'Keyword',
-          icon: <SearchIcon />,
-        },
-      ],
-    };
+  const topActionConfig = useMemo<ITopAction<TopButtonModel>[]>((): ITopAction<TopButtonModel>[] => {
+    return [
+      {
+        label: 'Delete',
+        //onClick: () => createModalRef.current?.show(),
+        icon: <DeleteIcon />,
+      },
+    ];
   }, []);
 
   const bottomActionsConfig = useMemo<IBottomAction<IPlainObject>[]>((): IBottomAction<IPlainObject>[] => {
@@ -184,8 +149,8 @@ function MetaHistoryDataTable() {
         onSelectedRows={(selectedRows) => {
           //
         }}
-        //topActionConfig={topActionConfig}
-        filterConfig={filterConfig}
+        topActionConfig={topActionConfig}
+        //filterConfig={filterConfig}
         onFilterTriggerQuery={filter}
         sortDefault={{
           field: 'history_type',
