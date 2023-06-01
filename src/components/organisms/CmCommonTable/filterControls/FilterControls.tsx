@@ -5,9 +5,11 @@ import { MenuItem, OutlinedInput, Select, SelectChangeEvent, ToggleButton, Toggl
 import { useTheme } from '@mui/material/styles';
 import makeStyles from '@mui/styles/makeStyles';
 
+import { CmButton } from '@/components/atoms/CmButton';
 import { CmTextInput } from '@/components/atoms/CmDataInput';
 
 import * as CmStyle from '@/stylesheets/common';
+import { ReactComponent as AddIcon } from '@/stylesheets/images/AddIcon.svg';
 import { ReactComponent as SearchIcon } from '@/stylesheets/images/SearchIcon.svg';
 
 import { FilterTypes, SubmitActionTypes } from '../const';
@@ -167,6 +169,11 @@ const FilterControls = ({ filterConfig, onTriggerQuery }: IFilterControlsProps) 
           {filterConfig.submitLabel}
         </Button>
       )} */}
+      <CmButton
+        variant="contained"
+        startIcon={<AddIcon />}
+        btnTitle="Contained"
+      />
       <ToggleButtonGroup
         className={classes.toggleBtn}
         value={alignment}
