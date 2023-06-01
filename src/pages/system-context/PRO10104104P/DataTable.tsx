@@ -115,7 +115,7 @@ function SystemContextDatasourceDataTable() {
 
   const topActionConfig = useMemo<ITopAction>(() => {
     return {
-      label: 'Create New System Context Datasource',
+      label: 'Create New Datasource',
       onClick: () => {
         /** */
       },

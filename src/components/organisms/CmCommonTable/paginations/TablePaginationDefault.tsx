@@ -2,8 +2,32 @@ import { useEffect, useState } from 'react';
 
 import { FirstPage, LastPage, NavigateBefore, NavigateNext } from '@mui/icons-material';
 import { IconButton, MenuItem, Select, SelectChangeEvent, Stack, styled, TextField, Typography } from '@mui/material';
+import makeStyles from '@mui/styles/makeStyles';
 
 import { IPaginationConfig } from '../types';
+
+// Styled
+const useStyles = makeStyles(() => ({
+  pagination: {
+    // display: 'flex',
+    // padding: '10px 10px 5px',
+    display: 'flex',
+    alignItems: 'center',
+    marginLeft: 'auto',
+    '& > .MuiTypography-root': {
+      margin: '0 0 0 24px',
+      '& .MuiTypography-root': {
+        marginLeft: 0,
+      },
+    },
+    '& .MuiStack-root .MuiTypography-root': {
+      marginBottom: 0,
+    },
+    '& .MuiTypography-root': {
+      fontSize: '13px',
+    },
+  },
+}));
 
 const IconButtonComponent = styled(IconButton)`
   cursor: pointer;
@@ -48,6 +72,7 @@ const TablePaginationDefault = ({
   totalCount,
   rowsPerPagePosition,
 }: IPaginationConfig) => {
+  const classes = useStyles();
   const maxPage = Math.ceil(totalCount / rowsPerPage);
   const [pageNumber, setPageNumber] = useState<string | number>(0);
 
@@ -107,6 +132,7 @@ const TablePaginationDefault = ({
       alignItems="center"
       marginLeft="auto"
       spacing={3}
+      className={classes.pagination}
     >
       {rowsPerPagePosition === 'first' ? (
         <Select
