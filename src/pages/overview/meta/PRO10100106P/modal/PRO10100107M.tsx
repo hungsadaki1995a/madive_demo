@@ -8,6 +8,7 @@ import { CmDataSelect } from '@/components/atoms/CmDataInput';
 // Common Atoms
 import CmModal from '@/components/atoms/CmModal';
 import { CmRadioGroup, RadioItemProps } from '@/components/atoms/CmRadioGroup';
+import { CmTextField } from '@/components/atoms/CmTextField';
 
 const data1: RadioItemProps<string | number | boolean>[] = [
   {
@@ -61,6 +62,7 @@ class RadioDTO {
   Masking: string;
   Encrypt: string;
   Use: string;
+  input_outside: string;
 }
 
 const resolver = classValidatorResolver(RadioDTO);
@@ -84,13 +86,11 @@ export default function CreateMetaModal({ visible, handleSave, handleClose }: Cr
       Masking: '',
       Encrypt: '',
       Use: '',
+      input_outside: '',
     },
     resolver,
   });
 
-  const onSubmit = handleSubmit((value) => {
-    console.log('Radio value at used place', value);
-  });
   return (
     <CmModal
       title="Create Meta Field"
@@ -138,10 +138,17 @@ export default function CreateMetaModal({ visible, handleSave, handleClose }: Cr
       </label>
       <label className="labelFormArea">
         <span>Length</span>
-        <TextField
-          className="labelTextField"
-          size="small"
-        />
+        <Box className="formRow">
+          <TextField
+            className="labelTextField"
+            size="small"
+          />
+          <TextField
+            className="labelTextField"
+            size="small"
+            disabled
+          />
+        </Box>
       </label>
       <label className="labelFormArea">
         <span>Type</span>
@@ -201,20 +208,35 @@ export default function CreateMetaModal({ visible, handleSave, handleClose }: Cr
       </label>
       <label className="labelFormArea">
         <span>Masking</span>
-        <Controller
-          name={'Masking'}
-          control={control}
-          render={({ field: { onChange, value } }) => (
-            <CmRadioGroup
-              data={data3}
-              value={value}
-              onRadioChange={onChange}
-              error={!!errors.Masking}
-              helperText={errors.Masking?.message?.toString()}
-            />
-          )}
-        />
-        <Box>Range</Box>
+        <Box className="formColumn">
+          <Controller
+            name={'Masking'}
+            control={control}
+            render={({ field: { onChange, value } }) => (
+              <CmRadioGroup
+                data={data3}
+                value={value}
+                onRadioChange={onChange}
+                error={!!errors.Masking}
+                helperText={errors.Masking?.message?.toString()}
+              />
+            )}
+          />
+          <Controller
+            name={'input_outside'}
+            control={control}
+            render={({ field: { onChange, value } }) => (
+              <CmTextField
+                label="Range"
+                type="outside"
+                onChange={onChange}
+                value={value}
+                error={!!errors?.input_outside}
+                helperText={errors?.input_outside?.message}
+              />
+            )}
+          />
+        </Box>
       </label>
       <label className="labelFormArea">
         <span>Encrypt</span>

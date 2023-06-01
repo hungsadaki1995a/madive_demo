@@ -435,6 +435,32 @@ const CmModalStyle = styled.div`
         color: ${CmStyle.color.colorBtnString};
         padding-top: 4px;
       }
+      // form Column
+      .formColumn {
+        margin-left: auto;
+        width: 65%;
+        .MuiTextField-root {
+          margin-left: 0;
+          width: 100%;
+          .MuiOutlinedInput-root {
+            padding: 0 !important;
+          }
+        }
+      }
+      // form Row
+      .formRow {
+        margin-left: auto;
+        width: 65%;
+        display: flex;
+        flex-direction: row;
+        .MuiTextField-root {
+          margin-left: 0%;
+          width: auto;
+          & ~ * {
+            margin-left: 8px;
+          }
+        }
+      }
       // TextField
       .MuiTextField-root {
         margin-left: auto;
