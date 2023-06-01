@@ -24,6 +24,9 @@ import { CmButtonStyle } from './Atoms.Styled';
 // Styled
 const useStyles = makeStyles(() => ({
   button: {
+    '& ~ label[class*="makeStyles-button"]': {
+      marginLeft: '8px',
+    },
     '& button': {
       fontFamily: notoSansDJKFont.regular,
       fontSize: '13px',

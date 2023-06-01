@@ -353,6 +353,10 @@ const CmModalStyle = styled.div`
         }
       }
     }
+    // Radio
+    .MuiRadio-root {
+      padding: 5px;
+    }
 
     table {
       * {
@@ -383,7 +387,7 @@ const CmModalStyle = styled.div`
       }
       // TextField
       .MuiOutlinedInput-input {
-        height: 27px;
+        height: 23px;
         padding: 1px 8px 2px;
         font: 13px/ 1.5 ${CmStyle.notoSansDJKFont.light};
         &.Mui-disabled {
@@ -455,8 +459,8 @@ const CmModalStyle = styled.div`
         .MuiSelect-outlined {
           width: 100%;
         }
-        .MuiOutlinedInput-input {
-          padding: 2.5px 14px;
+        .MuiSelect-select {
+          padding: 5px 14px;
           font-size: 13px;
           em {
             font-style: normal;
