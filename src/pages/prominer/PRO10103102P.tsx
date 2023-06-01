@@ -10,10 +10,10 @@
  ******************************************************/
 // img, icon
 import StarsIcon from '@mui/icons-material/StarsOutlined';
-import { Box, Paper, Typography } from '@mui/material';
+import { Box, Paper, Stack, Typography } from '@mui/material';
 
 // Common Atoms
-import { CmButton } from '@/components/atoms/CmButton';
+import { CmButton, CmIconButton } from '@/components/atoms/CmButton';
 
 // Templates
 import { ReactComponent as PagePrevIcon } from '@/stylesheets/images/PagePrevIcon.svg';
@@ -30,65 +30,73 @@ function ViewResourceDetail(props: propsType) {
   return (
     <ProminerStyled>
       {/* Title */}
-      {/* <Typography>SHBO</Typography> */}
       <Paper className="detailBox">
-        <CmButton
-          variant="text"
-          startIcon={<PagePrevIcon />}
-          btnTitle="SHBO"
-        />
-        {/* Test Information */}
-        <Box className="formInfo">
-          {/* FormBox */}
-          <Paper className="infoBox">
-            <figure>
-              <span>Node Name</span>
-              <figcaption>DevServer</figcaption>
-            </figure>
-            <figure>
-              <span>Node ID</span>
-              <figcaption>ca0726f809bae66f33fb36c12a3596fc</figcaption>
-            </figure>
-            <figure>
-              <span>IP</span>
-              <figcaption>101.101.209.11</figcaption>
-            </figure>
-            <figure>
-              <span>Http Port</span>
-              <figcaption>14000</figcaption>
-            </figure>
-            <figure>
-              <span>Resource Name</span>
-              <figcaption>SHDO</figcaption>
-            </figure>
-            <figure>
-              <span>Input</span>
-              <figcaption>com.tmax.dto.SHDO</figcaption>
-            </figure>
-            <figure>
-              <span>Super DO</span>
-              <figcaption>-</figcaption>
-            </figure>
-            <figure>
-              <span>Custom Header</span>
-              <figcaption>-</figcaption>
-            </figure>
-          </Paper>
+        <Box
+          className="pageTitle"
+          sx={{ borderBottom: 1, borderColor: 'divider' }}
+        >
+          <CmIconButton iconName={<PagePrevIcon />} />
+          SHBO
         </Box>
+        <Stack className="pageCon">
+          <Box className="formInfo">
+            {/* FormBox */}
+            <Paper className="infoBox">
+              <figure>
+                <span>Logical Name</span>
+                <figcaption>SHBO</figcaption>
+              </figure>
+              <figure>
+                <span>Physical Name</span>
+                <figcaption>SHBO</figcaption>
+              </figure>
+              <figure>
+                <span>Resource Type</span>
+                <figcaption>BIZ_OBJECT</figcaption>
+              </figure>
+              <figure>
+                <span>Resource Path</span>
+                <figcaption>com.tmax.bo</figcaption>
+              </figure>
+            </Paper>
+            {/* FormBox */}
+            <Paper className="infoBox">
+              <figure>
+                <span>Resource count</span>
+                <figcaption>Recycled: 0</figcaption>
+                <figcaption>SO Recycled: 0</figcaption>
+                <figcaption>BO Recycled: 0</figcaption>
+                <figcaption>Call - Depth: 3</figcaption>
+              </figure>
+            </Paper>
+          </Box>
+          <Box className="tableArea">
+            <Typography>Relation</Typography>
+            <Stack className="topBtn">
+              <CmButton
+                variant="text"
+                className="tBtnBg"
+                btnTitle="All"
+              />
+              <CmButton
+                variant="text"
+                className="tBtnBg"
+                btnTitle="Backward"
+              />
+              <CmButton
+                variant="outlined"
+                btnTitle="Forward"
+              />
+            </Stack>
+            Table
+          </Box>
+        </Stack>
         <Box className="flexEnd">
           <CmButton
             variant="contained"
             startIcon={<StarsIcon />}
             btnTitle="Test"
           />
-        </Box>
-      </Paper>
-
-      <Paper className="inputDataBox">
-        <Typography>Input Data</Typography>
-        <Box sx={{ width: '100%' }}>
-          <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>Button</Box>
-          Table
         </Box>
       </Paper>
     </ProminerStyled>

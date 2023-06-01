@@ -2,20 +2,31 @@ import styled from 'styled-components';
 
 import * as CmStyle from '@/stylesheets/common';
 import '@/stylesheets/font/stylesheet.css';
+// Icon
+import BlueStarIcon from '@/stylesheets/images/BlueStarIcon.svg';
 
 // ProminerStyled
 const ProminerStyled = styled.div`
   display: flex;
-  flex-wrap: wrap;
-  align-items: flex-start;
+  flex-direction: row;
   font: 13px/ 1.5 ${CmStyle.notoSansDJKFont.regular};
 
+  .pageCon {
+    flex-direction: row;
+  }
+
   // Title
-  .MuiTypography-root {
-    font: 15px/ 1.5 ${CmStyle.notoSansDJKFont.regular};
+  .pageTitle {
+    display: flex;
+    align-items: center;
+    font: 15px/ 1.5 ${CmStyle.notoSansDJKFont.bold};
     color: ${CmStyle.color.colorT01};
-    display: block;
-    margin-bottom: 20px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid ${CmStyle.color.colorbd01};
+    margin-bottom: 30px;
+    label {
+      margin-right: 14px;
+    }
   }
 
   .MuiPaper-root {
@@ -37,6 +48,15 @@ const ProminerStyled = styled.div`
             width: 100%;
             margin: 0;
             color: ${CmStyle.color.colorBtnString};
+            span {
+              display: block;
+              &::after {
+                content: '';
+                padding-right: 12px;
+                font-size: 10px;
+                background: url(${BlueStarIcon}) right top no-repeat;
+              }
+            }
             figcaption {
               color: ${CmStyle.color.colorT01};
               padding: 12px 5px;
@@ -52,12 +72,45 @@ const ProminerStyled = styled.div`
           }
         }
       }
-      & ~ * {
-        width: calc(100% - 430px);
-      }
     }
 
-    & ~ .MuiPaper-root {
+    .tableArea {
+      display: flex;
+      flex-flow: column wrap;
+      width: calc(100% - 430px);
+
+      .MuiTypography-root {
+        font-size: 15px;
+        padding-bottom: 19px;
+      }
+      .topBtn {
+        flex-direction: row;
+        padding-bottom: 11px;
+        button {
+          width: 78px;
+        }
+        * ~ * {
+          margin-left: 8px;
+        }
+      }
+
+      /* '&:hover': {
+    backgroundColor: '#0069d9',
+    borderColor: '#0062cc',
+    boxShadow: 'none',
+  },
+  '&:active': {
+    boxShadow: 'none',
+    backgroundColor: '#0062cc',
+    borderColor: '#005cbf',
+  },
+  '&:focus': {
+    boxShadow: '0 0 0 0.2rem rgba(0,123,255,.5)',
+  },
+}); */
+    }
+
+    /* & ~ .MuiPaper-root {
       width: calc(100% - 456px);
 
       &.inputDataBox {
@@ -79,7 +132,6 @@ const ProminerStyled = styled.div`
           .tableBox {
             width: calc(100% - 330px);
           }
-          /* Table */
           table {
             * {
               font: 13px / 1 ${CmStyle.notoSansDJKFont.regular};
@@ -105,7 +157,6 @@ const ProminerStyled = styled.div`
                 }
               }
             }
-            // TextField
             .MuiOutlinedInput-input {
               height: 27px;
               padding: 1px 8px 2px;
@@ -122,7 +173,7 @@ const ProminerStyled = styled.div`
           }
         }
       }
-    }
+    } */
   }
 `;
 
