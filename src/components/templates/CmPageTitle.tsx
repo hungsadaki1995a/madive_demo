@@ -49,6 +49,7 @@ const useStyles = makeStyles(() => ({
       width: '500px',
     },
     '& .MuiTypography-root': {
+      display: 'block',
       fontSize: '15px',
       fontFamily: CmStyle.notoSansDJKFont.bold,
       marginBottom: '10px',
