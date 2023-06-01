@@ -50,7 +50,8 @@ type propsType = {
 const useStyles = makeStyles(() => ({
   dataForm: {
     '& .MuiOutlinedInput-input': {
-      padding: '2.5px 14px',
+      padding: '5px 14px',
+      // padding: '2.5px 14px',
       fontSize: '13px',
       fontFamily: CmStyle.notoSansDJKFont.regular,
       background: '#fff',
