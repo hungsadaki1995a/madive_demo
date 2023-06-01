@@ -254,6 +254,7 @@ function NodeManagementDataTable() {
         onSelectedRows={(selectedRows) => {
           //
         }}
+        showTopSelect
         topActionConfig={topActionConfig}
         filterConfig={filterConfig}
         onFilterTriggerQuery={filter}
