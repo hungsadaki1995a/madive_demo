@@ -105,6 +105,7 @@ const TablePaginationDefault = ({
     <Stack
       direction="row"
       alignItems="center"
+      marginLeft="auto"
       spacing={3}
     >
       {rowsPerPagePosition === 'first' ? (

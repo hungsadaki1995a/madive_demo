@@ -53,17 +53,6 @@ const TableLayoutDefault = <TRowDataType extends IPlainObject>({
             />
           )}
         </FilterSection>
-        {!!paginationConfig && (
-          <PaginationComponent
-            rowsPerPageOptions={paginationConfig.rowsPerPageOptions}
-            totalCount={paginationConfig.totalCount}
-            rowsPerPage={paginationConfig.rowsPerPage}
-            currentPage={paginationConfig.currentPage}
-            onPageChange={paginationConfig.onPageChange}
-            onRowsPerPageChange={paginationConfig.onRowsPerPageChange}
-            rowsPerPagePosition={paginationConfig.rowsPerPagePosition}
-          />
-        )}
       </HeaderSection>
 
       <TableSection>
@@ -87,6 +76,17 @@ const TableLayoutDefault = <TRowDataType extends IPlainObject>({
             actions={bottomActionsConfig}
             selectedRows={selectedRows}
           />
+          {!!paginationConfig && (
+            <PaginationComponent
+              rowsPerPageOptions={paginationConfig.rowsPerPageOptions}
+              totalCount={paginationConfig.totalCount}
+              rowsPerPage={paginationConfig.rowsPerPage}
+              currentPage={paginationConfig.currentPage}
+              onPageChange={paginationConfig.onPageChange}
+              onRowsPerPageChange={paginationConfig.onRowsPerPageChange}
+              rowsPerPagePosition={paginationConfig.rowsPerPagePosition}
+            />
+          )}
         </BottomSection>
       )}
     </div>
