@@ -192,10 +192,22 @@ function AppSG(props: propsType) {
 
       {/* Card */}
       <Box className="cardArea">
-        <CmCard onClick={(e) => handleModify(e)} />
-        <CmCard onClick={(e) => handleModify(e)} />
-        <CmCard onClick={(e) => handleModify(e)} />
-        <CmCard onClick={(e) => handleModify(e)} />
+        <CmCard
+          onClick={(e) => handleModify(e)}
+          onItemClick={() => handleAddServiceGroupModalOpen()}
+        />
+        <CmCard
+          onClick={(e) => handleModify(e)}
+          onItemClick={() => handleAddServiceGroupModalOpen()}
+        />
+        <CmCard
+          onClick={(e) => handleModify(e)}
+          onItemClick={() => handleAddServiceGroupModalOpen()}
+        />
+        <CmCard
+          onClick={(e) => handleModify(e)}
+          onItemClick={() => handleAddServiceGroupModalOpen()}
+        />
         <CmCardAdd onClick={() => handleCreateApplicationModalOpen()} />
       </Box>
 

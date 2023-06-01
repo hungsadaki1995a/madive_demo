@@ -13,7 +13,6 @@ import AddCircleIcon from '@mui/icons-material/AddCircleOutlineOutlined';
 import { Button, Card, CardContent, CardHeader, Link, List, ListItem, ListItemText, Typography } from '@mui/material';
 import makeStyles from '@mui/styles/makeStyles';
 
-import { notoSansDJKFont } from '@/stylesheets/common';
 // icon
 import { ReactComponent as DeleteIcon } from '@/stylesheets/images/cmCardDelIcon.svg';
 import { ReactComponent as EditIcon } from '@/stylesheets/images/cmCardEditIcon.svg';
@@ -143,14 +142,19 @@ const useStyles = makeStyles(({ palette, typography }) => ({
 }));
 type propsType = {
   onClick?: (e: string) => void;
+  onItemClick?: () => void;
 };
 
 function CmCard(props: propsType) {
   const classes = useStyles();
-  const { onClick } = props;
+  const { onClick, onItemClick } = props;
 
   const handleClick = (type: string) => {
     typeof onClick === 'function' && onClick(type);
+  };
+
+  const handleItemClick = () => {
+    typeof onItemClick === 'function' && onItemClick();
   };
 
   return (
@@ -187,8 +191,9 @@ function CmCard(props: propsType) {
                 CARD_DATA.key === 1 ? (
                   // <CmButton variant="text" className="underLink" btnTitle={CARD_DATA.num} />
                   <Link
-                    href="#"
                     underline="always"
+                    component="button"
+                    onClick={() => handleItemClick()}
                   >
                     {CARD_DATA.num}
                   </Link>
