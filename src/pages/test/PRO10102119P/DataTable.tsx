@@ -11,11 +11,8 @@ import {
   ICommonTableColumn,
   IFilterConfig,
   IPlainObject,
-  ITopAction,
 } from '@/components/organisms/CmCommonTable/types';
 
-import { ReactComponent as DeleteIcon } from '@/stylesheets/images/DeleteIcon.svg';
-import TopButtonModel from '@/types/models/topButtonModel';
 import { useStore } from '@/utils';
 
 import ViewDetailModal from './modal/PRO10102120M';
@@ -164,18 +161,6 @@ function TestHistoryDataTable() {
     };
   }, []);
 
-  const topActionConfig = useMemo<ITopAction<TopButtonModel>[]>((): ITopAction<TopButtonModel>[] => {
-    return [
-      {
-        label: 'Delete',
-        icon: <DeleteIcon />,
-      },
-      {
-        label: 'Change',
-      },
-    ];
-  }, []);
-
   const bottomActionsConfig = useMemo<IBottomAction<IPlainObject>[]>((): IBottomAction<IPlainObject>[] => {
     return [];
   }, []);
@@ -223,7 +208,7 @@ function TestHistoryDataTable() {
         onSelectedRows={(selectedRows) => {
           //
         }}
-        topActionConfig={topActionConfig}
+        //topActionConfig={topActionConfig}
         filterConfig={filterConfig}
         onFilterTriggerQuery={filter}
         sortDefault={{

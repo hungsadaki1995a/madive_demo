@@ -7,6 +7,7 @@ import { observer } from 'mobx-react';
 import CommonTable from '@/components/organisms/CmCommonTable';
 import useTableDataServer from '@/components/organisms/CmCommonTable/hooks/useTableDataServer';
 import {
+  IAddAction,
   IBottomAction,
   ICommonTableColumn,
   IFilterConfig,
@@ -191,6 +192,13 @@ function MetaDataTable() {
     };
   }, []);
 
+  const addBtnConfig = useMemo<IAddAction>((): IAddAction => {
+    return {
+      label: 'Create New Meta',
+      onClick: () => handleCreateMetaModalOpen(),
+    };
+  }, []);
+
   const topActionConfig = useMemo<ITopAction<TopButtonModel>[]>((): ITopAction<TopButtonModel>[] => {
     return [
       {
@@ -200,6 +208,7 @@ function MetaDataTable() {
       },
       {
         label: 'Change',
+        onClick: () => handleEditMetaModalOpen(),
       },
     ];
   }, []);
@@ -252,6 +261,7 @@ function MetaDataTable() {
           //
         }}
         topActionConfig={topActionConfig}
+        addBtnConfig={addBtnConfig}
         filterConfig={filterConfig}
         onFilterTriggerQuery={filter}
         sortDefault={{

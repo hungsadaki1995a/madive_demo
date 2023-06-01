@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import SearchIcon from '@mui/icons-material/Search';
 import { Paper } from '@mui/material';
@@ -8,10 +8,9 @@ import { CmButtonDropdownMenu } from '@/components/atoms/CmButton';
 import CommonTable from '@/components/organisms/CmCommonTable';
 import { SortDirectionTypes } from '@/components/organisms/CmCommonTable/const';
 import useTableDataServer from '@/components/organisms/CmCommonTable/hooks/useTableDataServer';
-import { ICommonTableColumn, IFilterConfig, ITopAction } from '@/components/organisms/CmCommonTable/types';
+import { ICommonTableColumn, IFilterConfig } from '@/components/organisms/CmCommonTable/types';
 
 import { TestCaseApi } from '@/apis';
-import { ReactComponent as DeleteIcon } from '@/stylesheets/images/DeleteIcon.svg';
 import {
   TestCaseDeleteResponseDto,
   TestCaseDetailResponseDto,
@@ -19,7 +18,6 @@ import {
   TestCaseListResponseDto,
   TestCaseRequestDto,
 } from '@/types/dtos/testCaseDtos';
-import TopButtonModel from '@/types/models/topButtonModel';
 import { useStore } from '@/utils';
 
 import {
@@ -207,21 +205,6 @@ function TestCaseDataTable() {
     },
   ];
 
-  // -----------------------------------
-  // Config table
-
-  const topActionConfig = useMemo<ITopAction<TopButtonModel>[]>((): ITopAction<TopButtonModel>[] => {
-    return [
-      {
-        label: 'Delete',
-        icon: <DeleteIcon />,
-      },
-      {
-        label: 'Change',
-      },
-    ];
-  }, []);
-
   // ------------------------------------------------------------------------------------
   // Handle Data
 
@@ -278,7 +261,7 @@ function TestCaseDataTable() {
         fieldAsRowId="email"
         columnsConfig={columnsConfig}
         rows={rows}
-        topActionConfig={topActionConfig}
+        //topActionConfig={topActionConfig}
         filterConfig={filterConfig}
         onFilterTriggerQuery={filter}
         sortDefault={{

@@ -13,7 +13,7 @@ import { ReactComponent as AddIcon } from '@/stylesheets/images/AddIcon.svg';
 import { ReactComponent as SearchIcon } from '@/stylesheets/images/SearchIcon.svg';
 
 import { FilterTypes, SubmitActionTypes } from '../const';
-import { IFilterConfig, IFilterElementType } from '../types';
+import { IAddAction, IFilterConfig, IFilterElementType } from '../types';
 import DropdownFilterInput from './DropdownFilterInput';
 import SimpleFilterInput from './SimpleFilterInput';
 
@@ -72,12 +72,15 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-interface IFilterControlsProps {
+const FilterControls = ({
+  addBtnConfig,
+  filterConfig,
+  onTriggerQuery,
+}: {
+  addBtnConfig?: IAddAction;
   filterConfig: IFilterConfig;
   onTriggerQuery: (filterValues: { [key: string]: any }) => void;
-}
-
-const FilterControls = ({ filterConfig, onTriggerQuery }: IFilterControlsProps) => {
+}) => {
   const [filterValues, setFilterValues] = useState<{
     [key: string]: any;
   }>({});
@@ -147,33 +150,14 @@ const FilterControls = ({ filterConfig, onTriggerQuery }: IFilterControlsProps) 
 
   return (
     <>
-      {/* <Stack
-        direction="row"
-        spacing={2}
-      >
+      {addBtnConfig && (
         <CmButton
           variant="contained"
-          startIcon={<DeleteIcon />}
-          btnTitle="Contained"
+          startIcon={<AddIcon />}
+          btnTitle={addBtnConfig.label}
+          onClick={addBtnConfig.onClick}
         />
-        {filterConfig?.filters?.map((filterItem) => {
-          return renderFilterComponentBaseType(filterItem);
-        })}
-      </Stack>
-      {filterConfig.submitBy === SubmitActionTypes.BUTTON && (
-        <Button
-          size="small"
-          variant="contained"
-          onClick={handleTriggerQuery}
-        >
-          {filterConfig.submitLabel}
-        </Button>
-      )} */}
-      <CmButton
-        variant="contained"
-        startIcon={<AddIcon />}
-        btnTitle="Contained"
-      />
+      )}
       <ToggleButtonGroup
         className={classes.toggleBtn}
         value={alignment}

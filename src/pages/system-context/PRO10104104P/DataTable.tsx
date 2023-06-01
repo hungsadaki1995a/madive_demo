@@ -6,6 +6,7 @@ import { observer } from 'mobx-react';
 import CommonTable from '@/components/organisms/CmCommonTable';
 import useTableDataServer from '@/components/organisms/CmCommonTable/hooks/useTableDataServer';
 import {
+  IAddAction,
   IBottomAction,
   ICommonTableColumn,
   IFilterConfig,
@@ -114,6 +115,13 @@ function SystemContextDatasourceDataTable() {
     };
   }, []);
 
+  const addBtnConfig = useMemo<IAddAction>((): IAddAction => {
+    return {
+      label: 'Create New Datasource',
+      onClick: () => handleCreateDatasourceModalOpen(),
+    };
+  }, []);
+
   const topActionConfig = useMemo<ITopAction<TopButtonModel>[]>((): ITopAction<TopButtonModel>[] => {
     return [
       {
@@ -122,6 +130,7 @@ function SystemContextDatasourceDataTable() {
       },
       {
         label: 'Change',
+        onClick: () => handleEditDatasourceModalOpen(),
       },
     ];
   }, []);
@@ -174,6 +183,7 @@ function SystemContextDatasourceDataTable() {
           //
         }}
         topActionConfig={topActionConfig}
+        addBtnConfig={addBtnConfig}
         filterConfig={filterConfig}
         onFilterTriggerQuery={filter}
         sortDefault={{

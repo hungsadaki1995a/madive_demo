@@ -7,6 +7,7 @@ import { observer } from 'mobx-react';
 import CommonTable from '@/components/organisms/CmCommonTable';
 import useTableDataServer from '@/components/organisms/CmCommonTable/hooks/useTableDataServer';
 import {
+  IAddAction,
   IBottomAction,
   ICommonTableColumn,
   IFilterConfig,
@@ -195,6 +196,13 @@ function NodeManagementDataTable() {
     };
   }, []);
 
+  const addBtnConfig = useMemo<IAddAction>((): IAddAction => {
+    return {
+      label: 'Create New Node',
+      onClick: () => handleCreateNodeModalOpen(),
+    };
+  }, []);
+
   const topActionConfig = useMemo<ITopAction<TopButtonModel>[]>((): ITopAction<TopButtonModel>[] => {
     return [
       {
@@ -203,6 +211,7 @@ function NodeManagementDataTable() {
       },
       {
         label: 'Change',
+        onClick: () => handleEditNodeModalOpen(),
       },
     ];
   }, []);
@@ -256,6 +265,7 @@ function NodeManagementDataTable() {
         }}
         showTopSelect
         topActionConfig={topActionConfig}
+        addBtnConfig={addBtnConfig}
         filterConfig={filterConfig}
         onFilterTriggerQuery={filter}
         sortDefault={{

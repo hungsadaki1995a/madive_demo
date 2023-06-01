@@ -15,6 +15,7 @@ const TableLayoutDefault = <TRowDataType extends IPlainObject>({
   fieldAsRowId,
   showTopSelect,
   topActionConfig,
+  addBtnConfig,
   filterConfig,
   onFilterTriggerQuery,
   hasSelectionRows,
@@ -52,6 +53,7 @@ const TableLayoutDefault = <TRowDataType extends IPlainObject>({
         {!!filterConfig && (
           <FilterSection>
             <FilterControls
+              addBtnConfig={addBtnConfig}
               filterConfig={filterConfig}
               onTriggerQuery={(filterData) => {
                 onFilterTriggerQuery?.(filterData);

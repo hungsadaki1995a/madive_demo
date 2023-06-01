@@ -22,6 +22,7 @@ const CommonTable = <TRowDataType extends IPlainObject>({
   onFilterTriggerQuery,
   showTopSelect,
   topActionConfig,
+  addBtnConfig,
   bottomActionsConfig,
 }: ICommonTable<TRowDataType>) => {
   const [selectedRows, setSelectedRows] = useState<TRowDataType[]>([]);
@@ -109,6 +110,7 @@ const CommonTable = <TRowDataType extends IPlainObject>({
         fieldAsRowId={fieldAsRowId}
         showTopSelect={showTopSelect}
         topActionConfig={topActionConfig}
+        addBtnConfig={addBtnConfig}
         filterConfig={filterConfig}
         onFilterTriggerQuery={onFilterTriggerQuery}
         hasSelectionRows={hasSelectionRows}

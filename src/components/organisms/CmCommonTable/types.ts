@@ -83,6 +83,12 @@ export interface ITopAction<TRowDataType extends IPlainObject> {
   icon?: React.ReactNode;
 }
 
+export interface IAddAction {
+  label: string;
+  onClick?: () => void;
+  icon?: React.ReactNode;
+}
+
 export interface ICommonTableColumn<TRowDataType extends IPlainObject> {
   field: string;
   label?: string;
@@ -121,6 +127,8 @@ export interface ICommonTable<TRowDataType extends IPlainObject> {
   //
   topActionConfig?: ITopAction<TRowDataType>[];
   //
+  addBtnConfig?: IAddAction;
+  //
   filterConfig?: IFilterConfig;
   onFilterTriggerQuery?: (filterValues: IPlainObject) => void;
   //
@@ -139,6 +147,7 @@ export type TableLayoutProps<TRowDataType extends IPlainObject> = Pick<
   ICommonTable<TRowDataType>,
   | 'showTopSelect'
   | 'topActionConfig'
+  | 'addBtnConfig'
   | 'filterConfig'
   | 'onFilterTriggerQuery'
   | 'hasSelectionRows'

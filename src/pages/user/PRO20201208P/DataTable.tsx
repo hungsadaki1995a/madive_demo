@@ -7,6 +7,7 @@ import { observer } from 'mobx-react';
 import CommonTable from '@/components/organisms/CmCommonTable';
 import useTableDataServer from '@/components/organisms/CmCommonTable/hooks/useTableDataServer';
 import {
+  IAddAction,
   IBottomAction,
   ICommonTableColumn,
   IFilterConfig,
@@ -121,6 +122,13 @@ function RoleManagementDataTable() {
     };
   }, []);
 
+  const addBtnConfig = useMemo<IAddAction>((): IAddAction => {
+    return {
+      label: 'Create New Role',
+      onClick: () => handleCreateRoleModalOpen(),
+    };
+  }, []);
+
   const topActionConfig = useMemo<ITopAction<TopButtonModel>[]>((): ITopAction<TopButtonModel>[] => {
     return [
       {
@@ -129,6 +137,7 @@ function RoleManagementDataTable() {
       },
       {
         label: 'Change',
+        onClick: () => handleEditRoleModalOpen(),
       },
     ];
   }, []);
@@ -181,6 +190,7 @@ function RoleManagementDataTable() {
           //
         }}
         topActionConfig={topActionConfig}
+        addBtnConfig={addBtnConfig}
         filterConfig={filterConfig}
         onFilterTriggerQuery={filter}
         sortDefault={{

@@ -1,6 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef } from 'react';
 
-import AddIcon from '@mui/icons-material/Add';
 import SearchIcon from '@mui/icons-material/Search';
 import { Paper } from '@mui/material';
 import { observer } from 'mobx-react';
@@ -8,6 +7,7 @@ import { observer } from 'mobx-react';
 import CommonTable from '@/components/organisms/CmCommonTable';
 import useTableDataClient from '@/components/organisms/CmCommonTable/hooks/useTableDataClient';
 import {
+  IAddAction,
   IBottomAction,
   ICommonTableColumn,
   IFilterConfig,
@@ -122,6 +122,13 @@ function UserManagementDataTable() {
     };
   }, []);
 
+  const addBtnConfig = useMemo<IAddAction>((): IAddAction => {
+    return {
+      label: 'Create New User',
+      onClick: () => createModalRef.current?.show(),
+    };
+  }, []);
+
   const topActionConfig = useMemo<ITopAction<TopButtonModel>[]>((): ITopAction<TopButtonModel>[] => {
     return [
       {
@@ -132,7 +139,6 @@ function UserManagementDataTable() {
       {
         label: 'Change',
         onClick: () => updateModalRef.current?.show(),
-        icon: <AddIcon />,
       },
     ];
   }, []);
@@ -211,6 +217,7 @@ function UserManagementDataTable() {
           console.log('>>>>>>selected row', selectedRows);
         }}
         topActionConfig={topActionConfig}
+        addBtnConfig={addBtnConfig}
         filterConfig={filterConfig}
         onFilterTriggerQuery={filter}
         sortDefault={{

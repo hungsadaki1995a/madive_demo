@@ -25,6 +25,7 @@ const useStyles = makeStyles(() => ({
     minWidth: '20px',
     minHeight: '28px',
     padding: '2.5px 8px',
+    marginRight: '4px',
     color: CmStyle.color.colorT01,
     background: CmStyle.color.colorBtnSecondaryBg01,
     '&:hover': {
