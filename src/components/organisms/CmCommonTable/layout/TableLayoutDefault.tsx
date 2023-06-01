@@ -13,6 +13,7 @@ import { IPlainObject, TableLayoutProps } from '../types';
 
 const TableLayoutDefault = <TRowDataType extends IPlainObject>({
   fieldAsRowId,
+  showTopSelect,
   topActionConfig,
   filterConfig,
   onFilterTriggerQuery,
@@ -42,17 +43,22 @@ const TableLayoutDefault = <TRowDataType extends IPlainObject>({
       }}
     >
       <HeaderSection>
-        {!!topActionConfig && <TopButton topAction={topActionConfig} />}
-        <FilterSection>
-          {filterConfig && (
+        {!!topActionConfig && (
+          <TopButton
+            topAction={topActionConfig}
+            showTopSelect={showTopSelect}
+          />
+        )}
+        {!!filterConfig && (
+          <FilterSection>
             <FilterControls
               filterConfig={filterConfig}
               onTriggerQuery={(filterData) => {
                 onFilterTriggerQuery?.(filterData);
               }}
             />
-          )}
-        </FilterSection>
+          </FilterSection>
+        )}
       </HeaderSection>
 
       <TableSection>

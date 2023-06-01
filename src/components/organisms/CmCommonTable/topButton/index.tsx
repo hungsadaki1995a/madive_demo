@@ -13,7 +13,7 @@ import { ReactComponent as Arrow } from '@/stylesheets/images/keyboardArrow.svg'
 // import { ReactComponent as FailIcon } from '@/stylesheets/images/FailIcon.svg'; - Fail
 // import { ReactComponent as UploadIcon } from '@/stylesheets/images/UploadIcon.svg'; - Add Excel
 // import { ReactComponent as DeleteIcon } from '@/stylesheets/images/DeleteIcon.svg'; - Delete
-import { ITopAction } from '../types';
+import { IPlainObject, ITopAction } from '../types';
 
 const useStyles = makeStyles(() => ({
   button: {
@@ -87,7 +87,13 @@ function getStyles(name: string, personName: string, theme: any) {
 
 const names = ['TEST', 'RUNTIME', 'MASTER'];
 
-const TopButton = ({ topAction }: { topAction: ITopAction }) => {
+const TopButton = <TRowDataType extends IPlainObject>({
+  topAction,
+  showTopSelect,
+}: {
+  topAction: ITopAction<TRowDataType>[];
+  showTopSelect?: boolean;
+}) => {
   const classes = useStyles();
   const theme = useTheme();
   const [personName, setPersonName] = useState<any>([]);
@@ -102,47 +108,56 @@ const TopButton = ({ topAction }: { topAction: ITopAction }) => {
 
   return (
     <div>
-      <Button
-        className={classes.button}
-        onClick={topAction.onClick}
-        variant="text"
-        startIcon={topAction.icon ?? null}
-      >
-        {topAction.label}
-      </Button>
-      <Divider
-        className={classes.divider}
-        orientation="vertical"
-        flexItem
-      />
-      <Select
-        className={classes.select}
-        size="small"
-        displayEmpty
-        value={personName}
-        onChange={handleChange}
-        input={<OutlinedInput />}
-        IconComponent={Arrow}
-        renderValue={(selected) => {
-          if (selected.length === 0) {
-            return <em>All</em>;
-          }
-
-          return selected.join(', ');
-        }}
-        MenuProps={MenuProps}
-        inputProps={{ 'aria-label': 'Without label' }}
-      >
-        {names.map((name) => (
-          <MenuItem
-            key={name}
-            value={name}
-            style={getStyles(name, personName, theme)}
+      {topAction?.map((action, index) => {
+        return (
+          <Button
+            key={index}
+            className={classes.button}
+            onClick={action.onClick}
+            variant="text"
+            startIcon={action.icon ?? null}
           >
-            {name}
-          </MenuItem>
-        ))}
-      </Select>
+            {action.label}
+          </Button>
+        );
+      })}
+      {topAction.length > 0 && showTopSelect && (
+        <Divider
+          className={classes.divider}
+          orientation="vertical"
+          flexItem
+        />
+      )}
+      {showTopSelect && (
+        <Select
+          className={classes.select}
+          size="small"
+          displayEmpty
+          value={personName}
+          onChange={handleChange}
+          input={<OutlinedInput />}
+          IconComponent={Arrow}
+          renderValue={(selected) => {
+            if (selected.length === 0) {
+              return <em>All</em>;
+            }
+
+            return selected.join(', ');
+          }}
+          MenuProps={MenuProps}
+          inputProps={{ 'aria-label': 'Without label' }}
+        >
+          {names.map((name) => (
+            <MenuItem
+              key={name}
+              value={name}
+              style={getStyles(name, personName, theme)}
+            >
+              {name}
+            </MenuItem>
+          ))}
+        </Select>
+      )}
     </div>
   );
 };

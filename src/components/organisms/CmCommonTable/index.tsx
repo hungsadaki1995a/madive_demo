@@ -20,6 +20,7 @@ const CommonTable = <TRowDataType extends IPlainObject>({
   onSortChange,
   filterConfig,
   onFilterTriggerQuery,
+  showTopSelect,
   topActionConfig,
   bottomActionsConfig,
 }: ICommonTable<TRowDataType>) => {
@@ -106,6 +107,7 @@ const CommonTable = <TRowDataType extends IPlainObject>({
     <>
       <LayoutComponent
         fieldAsRowId={fieldAsRowId}
+        showTopSelect={showTopSelect}
         topActionConfig={topActionConfig}
         filterConfig={filterConfig}
         onFilterTriggerQuery={onFilterTriggerQuery}

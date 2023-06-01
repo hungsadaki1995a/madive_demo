@@ -1,6 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
 
-import AddIcon from '@mui/icons-material/Add';
 import SearchIcon from '@mui/icons-material/Search';
 import { observer } from 'mobx-react';
 
@@ -14,6 +13,8 @@ import {
   ITopAction,
 } from '@/components/organisms/CmCommonTable/types';
 
+import { ReactComponent as DeleteIcon } from '@/stylesheets/images/DeleteIcon.svg';
+import TopButtonModel from '@/types/models/topButtonModel';
 import { useStore } from '@/utils';
 
 import AddSystemContextModal from './modal/PRO10104102M';
@@ -125,14 +126,16 @@ function SystemContextManagementDataTable() {
     };
   }, []);
 
-  const topActionConfig = useMemo<ITopAction>(() => {
-    return {
-      label: 'Create New Management',
-      onClick: () => {
-        /** */
+  const topActionConfig = useMemo<ITopAction<TopButtonModel>[]>((): ITopAction<TopButtonModel>[] => {
+    return [
+      {
+        label: 'Delete',
+        icon: <DeleteIcon />,
       },
-      icon: <AddIcon />,
-    };
+      {
+        label: 'Change',
+      },
+    ];
   }, []);
 
   const bottomActionsConfig = useMemo<IBottomAction<IPlainObject>[]>((): IBottomAction<IPlainObject>[] => {

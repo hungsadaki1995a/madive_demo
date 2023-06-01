@@ -16,6 +16,8 @@ import {
 } from '@/components/organisms/CmCommonTable/types';
 
 import UserApi2 from '@/apis/UserApi';
+import { ReactComponent as DeleteIcon } from '@/stylesheets/images/DeleteIcon.svg';
+import TopButtonModel from '@/types/models/topButtonModel';
 import UserModel from '@/types/models/userModel';
 import { useStore } from '@/utils';
 
@@ -120,12 +122,19 @@ function UserManagementDataTable() {
     };
   }, []);
 
-  const topActionConfig = useMemo<ITopAction>(() => {
-    return {
-      label: 'Add New User',
-      onClick: () => createModalRef.current?.show(),
-      icon: <AddIcon />,
-    };
+  const topActionConfig = useMemo<ITopAction<TopButtonModel>[]>((): ITopAction<TopButtonModel>[] => {
+    return [
+      {
+        label: 'Delete',
+        //onClick: () => createModalRef.current?.show(),
+        icon: <DeleteIcon />,
+      },
+      {
+        label: 'Change',
+        onClick: () => updateModalRef.current?.show(),
+        icon: <AddIcon />,
+      },
+    ];
   }, []);
 
   const bottomActionsConfig = useMemo<IBottomAction<UserModel>[]>((): IBottomAction<UserModel>[] => {
@@ -211,7 +220,7 @@ function UserManagementDataTable() {
         onSortChange={sort}
         paginationConfig={pagination}
         // renderPaginationAs={TablePaginationCustom}
-        bottomActionsConfig={bottomActionsConfig}
+        //bottomActionsConfig={bottomActionsConfig}
       />
       <CreateModal
         ref={createModalRef}

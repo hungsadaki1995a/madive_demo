@@ -77,9 +77,9 @@ export interface IBottomAction<TRowDataType extends IPlainObject> {
   checkDisabled: (selectedRows: TRowDataType[]) => boolean;
 }
 
-export interface ITopAction {
+export interface ITopAction<TRowDataType extends IPlainObject> {
   label: string;
-  onClick: () => void;
+  onClick?: () => void;
   icon?: React.ReactNode;
 }
 
@@ -117,7 +117,9 @@ export interface ICommonTable<TRowDataType extends IPlainObject> {
   hasSelectionRows?: boolean;
   onSelectedRows?: (selectedRows: TRowDataType[]) => void;
   //
-  topActionConfig?: ITopAction;
+  showTopSelect?: boolean;
+  //
+  topActionConfig?: ITopAction<TRowDataType>[];
   //
   filterConfig?: IFilterConfig;
   onFilterTriggerQuery?: (filterValues: IPlainObject) => void;
@@ -135,6 +137,7 @@ export interface ICommonTable<TRowDataType extends IPlainObject> {
 
 export type TableLayoutProps<TRowDataType extends IPlainObject> = Pick<
   ICommonTable<TRowDataType>,
+  | 'showTopSelect'
   | 'topActionConfig'
   | 'filterConfig'
   | 'onFilterTriggerQuery'

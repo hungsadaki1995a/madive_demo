@@ -1,6 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
 
-import AddIcon from '@mui/icons-material/Add';
 import SearchIcon from '@mui/icons-material/Search';
 import { Paper } from '@mui/material';
 import { observer } from 'mobx-react';
@@ -12,6 +11,7 @@ import useTableDataServer from '@/components/organisms/CmCommonTable/hooks/useTa
 import { ICommonTableColumn, IFilterConfig, ITopAction } from '@/components/organisms/CmCommonTable/types';
 
 import { TestCaseApi } from '@/apis';
+import { ReactComponent as DeleteIcon } from '@/stylesheets/images/DeleteIcon.svg';
 import {
   TestCaseDeleteResponseDto,
   TestCaseDetailResponseDto,
@@ -19,6 +19,7 @@ import {
   TestCaseListResponseDto,
   TestCaseRequestDto,
 } from '@/types/dtos/testCaseDtos';
+import TopButtonModel from '@/types/models/topButtonModel';
 import { useStore } from '@/utils';
 
 import {
@@ -209,14 +210,16 @@ function TestCaseDataTable() {
   // -----------------------------------
   // Config table
 
-  const topActionConfig = useMemo<ITopAction>(() => {
-    return {
-      label: 'Create New TestCase',
-      onClick: () => {
-        /** */
+  const topActionConfig = useMemo<ITopAction<TopButtonModel>[]>((): ITopAction<TopButtonModel>[] => {
+    return [
+      {
+        label: 'Delete',
+        icon: <DeleteIcon />,
       },
-      icon: <AddIcon />,
-    };
+      {
+        label: 'Change',
+      },
+    ];
   }, []);
 
   // ------------------------------------------------------------------------------------
