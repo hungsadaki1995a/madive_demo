@@ -44,14 +44,16 @@ const TableLayoutDefault = <TRowDataType extends IPlainObject>({
       }}
     >
       <HeaderSection>
-        {!!topActionConfig && (
-          <TopButton
-            topAction={topActionConfig}
-            showTopSelect={showTopSelect}
-          />
-        )}
-        {!!filterConfig && (
-          <FilterSection>
+        <div>
+          {!!topActionConfig && (
+            <TopButton
+              topAction={topActionConfig}
+              showTopSelect={showTopSelect}
+            />
+          )}
+        </div>
+        <FilterSection>
+          {!!filterConfig && (
             <FilterControls
               addBtnConfig={addBtnConfig}
               filterConfig={filterConfig}
@@ -59,8 +61,8 @@ const TableLayoutDefault = <TRowDataType extends IPlainObject>({
                 onFilterTriggerQuery?.(filterData);
               }}
             />
-          </FilterSection>
-        )}
+          )}
+        </FilterSection>
       </HeaderSection>
 
       <TableSection>

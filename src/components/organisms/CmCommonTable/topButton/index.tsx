@@ -108,7 +108,7 @@ const TopButton = <TRowDataType extends IPlainObject>({
   };
 
   return (
-    <div>
+    <>
       {topAction?.map((action, index) => {
         return (
           <Button
@@ -159,7 +159,7 @@ const TopButton = <TRowDataType extends IPlainObject>({
           ))}
         </Select>
       )}
-    </div>
+    </>
   );
 };
 
