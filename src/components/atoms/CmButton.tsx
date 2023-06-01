@@ -24,128 +24,130 @@ import { CmButtonStyle } from './Atoms.Styled';
 // Styled
 const useStyles = makeStyles(() => ({
   button: {
-    fontFamily: notoSansDJKFont.regular,
-    fontSize: '13px',
-    lineHeight: '1.5',
-    padding: '2.5px 8px',
-    alignItems: 'center',
-    minWidth: '20px',
-    minHeight: '28px',
-    textTransform: 'none',
-    boxShadow: 'none',
-    '& *': {
+    '& button': {
       fontFamily: notoSansDJKFont.regular,
       fontSize: '13px',
       lineHeight: '1.5',
-    },
-    '&:hover': {
+      padding: '2.5px 8px',
+      alignItems: 'center',
+      minWidth: '20px',
+      minHeight: '28px',
+      textTransform: 'none',
       boxShadow: 'none',
-    },
+      '& *': {
+        fontFamily: notoSansDJKFont.regular,
+        fontSize: '13px',
+        lineHeight: '1.5',
+      },
+      '&:hover': {
+        boxShadow: 'none',
+      },
 
-    '& .MuiButton-startIcon': {
-      margin: 0,
-      padding: '2.5px 0 2px 0',
-      '& svg': {
-        fontSize: '18px',
-        '& path': {
+      '& .MuiButton-startIcon': {
+        margin: 0,
+        padding: '2.5px 0 2px 0',
+        '& svg': {
+          fontSize: '18px',
+          '& path': {
+            width: '15px',
+            height: '15px',
+          },
+        },
+      },
+      '& span:not([class*="Mui"])': {
+        padding: '0 4px',
+        font: ' 13px / 1.5 notoSansDJKFont.light',
+      },
+
+      // Primary - Filled
+      '&.MuiButton-containedPrimary:not([class*="-disabled"])': {
+        color: '#fff',
+        background: '#1898F5',
+
+        '&:hover': {
+          background: '#0485E3',
+        },
+        '&:active': {
+          background: '#116CAE',
+        },
+      },
+      '&.MuiButton-containedPrimary.Mui-disabled': {
+        color: '#B9BDC3',
+        background: '#F5F6F7',
+        '&:hover': {
+          background: 'none',
+        },
+      },
+
+      // Text - Ghost (No Background)
+      '&.MuiButton-textPrimary:not([class*="-disabled"])': {
+        color: '#1C293E',
+        '&:hover': {
+          background: '#ECEEF0',
+        },
+      },
+      '&.MuiButton-textPrimary.Mui-disabled': {
+        color: '#B9BDC3',
+        '&:hover': {
+          background: 'none',
+        },
+      },
+
+      // String - Ghost (Background)
+      '&.tBtnBg:not([class*="-disabled"])': {
+        color: '#1C293E',
+        background: '#ECEEF0',
+
+        '&:hover': {
+          background: '#DEDFE2',
+        },
+        '&:active': {
+          background: '#D3D5DA',
+        },
+      },
+      '&.tBtnBg.Mui-disabled': {
+        color: '#B9BDC3',
+        background: '#F5F6F7',
+      },
+
+      // Outline - Login button
+      '&.MuiButton-outlinedPrimary:not([class*="-disabled"])': {
+        color: '#fff',
+        background: '#434D5F',
+        padding: '2.5px 8px',
+        border: 0,
+        '.MuiButton-startIcon svg': {
           width: '15px',
           height: '15px',
         },
+        '&:hover': {
+          background: '#323A48',
+        },
+        '&:active': {
+          background: '#1F2021',
+        },
       },
-    },
-    '& span:not([class*="Mui"])': {
-      padding: '0 4px',
-      font: ' 13px / 1.5 notoSansDJKFont.light',
-    },
+      '&.MuiButton-outlinedPrimary.Mui-disabled': {
+        color: '#9EA4AC',
+        background: '#5B6576',
+        padding: '5px 8px',
+        border: 0,
+        '& .MuiButton-startIcon svg': {
+          width: '15px',
+          height: '15px',
+        },
+        '&:hover': {
+          background: 'none',
+        },
+      },
 
-    // Primary - Filled
-    '&.MuiButton-containedPrimary:not([class*="-disabled"])': {
-      color: '#fff',
-      background: '#1898F5',
-
-      '&:hover': {
-        background: '#0485E3',
+      // Error
+      '&.MuiButton-containedError': {
+        background: '#D93E2E',
       },
-      '&:active': {
-        background: '#116CAE',
+      '& ~ .MuiButtonBase-root': {
+        marginLeft: '10px',
       },
-    },
-    '&.MuiButton-containedPrimary.Mui-disabled': {
-      color: '#B9BDC3',
-      background: '#F5F6F7',
-      '&:hover': {
-        background: 'none',
-      },
-    },
-
-    // Text - Ghost (No Background)
-    '&.MuiButton-textPrimary:not([class*="-disabled"])': {
-      color: '#1C293E',
-      '&:hover': {
-        background: '#ECEEF0',
-      },
-    },
-    '&.MuiButton-textPrimary.Mui-disabled': {
-      color: '#B9BDC3',
-      '&:hover': {
-        background: 'none',
-      },
-    },
-
-    // String - Ghost (Background)
-    '&.tBtnBg:not([class*="-disabled"])': {
-      color: '#1C293E',
-      background: '#ECEEF0',
-
-      '&:hover': {
-        background: '#DEDFE2',
-      },
-      '&:active': {
-        background: '#D3D5DA',
-      },
-    },
-    '&.tBtnBg.Mui-disabled': {
-      color: '#B9BDC3',
-      background: '#F5F6F7',
-    },
-
-    // Outline - Login button
-    '&.MuiButton-outlinedPrimary:not([class*="-disabled"])': {
-      color: '#fff',
-      background: '#434D5F',
-      padding: '5px 8px',
-      border: 0,
-      '.MuiButton-startIcon svg': {
-        width: '15px',
-        height: '15px',
-      },
-      '&:hover': {
-        background: '#323A48',
-      },
-      '&:active': {
-        background: '#1F2021',
-      },
-    },
-    '&.MuiButton-outlinedPrimary.Mui-disabled': {
-      color: '#9EA4AC',
-      background: '#5B6576',
-      padding: '5px 8px',
-      border: 0,
-      '& .MuiButton-startIcon svg': {
-        width: '15px',
-        height: '15px',
-      },
-      '&:hover': {
-        background: 'none',
-      },
-    },
-
-    // Error
-    '&.MuiButton-containedError': {
-      background: '#D93E2E',
-    },
-    '& ~ .MuiButtonBase-root': {
-      marginLeft: '10px',
     },
   },
 
@@ -185,18 +187,20 @@ function CmButton(props: btnPropsType) {
   // 'text'
 
   return (
-    <Button
-      id={id}
-      startIcon={startIcon}
-      className={classes.button}
-      type="button"
-      variant={variant}
-      onClick={onClick}
-      color={color}
-      disabled={disabled}
-    >
-      {btnTitle ? <span>{btnTitle}</span> : null}
-    </Button>
+    <label className={classes.button}>
+      <Button
+        id={id}
+        startIcon={startIcon}
+        className={className}
+        type="button"
+        variant={variant}
+        onClick={onClick}
+        color={color}
+        disabled={disabled}
+      >
+        {btnTitle ? <span>{btnTitle}</span> : null}
+      </Button>
+    </label>
   );
 }
 
@@ -251,7 +255,7 @@ function CmButtonDropdownMenu({ config, onChange }: ButtonMenuPropsType) {
     onChange(value);
   };
   return (
-    <div>
+    <div className={classes.button}>
       <Button
         id="basic-button"
         aria-controls={open ? 'basic-menu' : undefined}

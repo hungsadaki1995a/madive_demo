@@ -36,6 +36,14 @@ const TableBodyComponent = styled(TableBody)(({ theme }) => ({
       whiteSpace: 'nowrap',
       textOverflow: 'ellipsis',
       wordBreak: 'break-all',
+      // Fail, Error
+      '&.error': {
+        color: '#D93E2E',
+      },
+      // Success
+      '&.success': {
+        color: '#30BE8B',
+      },
     },
     '&:hover': {
       '& .MuiTableCell-body': {
