@@ -171,7 +171,6 @@ function HistoryDataTable() {
         fieldAsRowId="email"
         columnsConfig={columnsConfig}
         rows={sampleRows}
-        hasSelectionRows
         onSelectedRows={(selectedRows) => {
           //
         }}

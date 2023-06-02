@@ -179,7 +179,6 @@ function TestHistoryDataTable() {
         fieldAsRowId="email"
         columnsConfig={columnsConfig}
         rows={sampleRows}
-        hasSelectionRows
         onSelectedRows={(selectedRows) => {
           //
         }}

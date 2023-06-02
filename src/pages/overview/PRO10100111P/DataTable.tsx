@@ -121,7 +121,6 @@ function DoInfoDataTable() {
         fieldAsRowId="email"
         columnsConfig={columnsConfig}
         rows={[]}
-        hasSelectionRows
         onSelectedRows={(selectedRows) => {
           //
         }}
