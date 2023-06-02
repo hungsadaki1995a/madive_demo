@@ -22,6 +22,7 @@ const CommonTable = <TRowDataType extends IPlainObject>({
   onFilterTriggerQuery,
   showTopSelect,
   topActionConfig,
+  excelBtnConfig,
   addBtnConfig,
   bottomActionsConfig,
   onRowClick,
@@ -110,6 +111,7 @@ const CommonTable = <TRowDataType extends IPlainObject>({
         fieldAsRowId={fieldAsRowId}
         showTopSelect={showTopSelect}
         topActionConfig={topActionConfig}
+        excelBtnConfig={excelBtnConfig}
         addBtnConfig={addBtnConfig}
         filterConfig={filterConfig}
         onFilterTriggerQuery={onFilterTriggerQuery}

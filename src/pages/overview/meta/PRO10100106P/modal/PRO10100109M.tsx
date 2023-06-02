@@ -1,15 +1,17 @@
-import { Box, Button, TextField } from '@mui/material';
+import { Box, TextField } from '@mui/material';
 
 import { CmButton } from '@/components/atoms/CmButton';
 import CmModal from '@/components/atoms/CmModal';
+import { CmUpload } from '@/components/atoms/CmUpload';
 
 type ImportExcelModalProps = {
   visible: boolean;
   handleSave?: () => void;
   handleClose: () => void;
+  onChange?: (file: any) => void;
 };
 
-export default function ImportExcelModal({ visible, handleSave, handleClose }: ImportExcelModalProps) {
+export default function ImportExcelModal({ visible, handleSave, handleClose, onChange }: ImportExcelModalProps) {
   return (
     <CmModal
       title="Import Excel"
@@ -20,14 +22,7 @@ export default function ImportExcelModal({ visible, handleSave, handleClose }: I
     >
       {/* contents */}
       <Box className="formBtw">
-        {/* Upload File */}
-        <Button
-          variant="contained"
-          component="label"
-          className="fileUpBtn"
-        >
-          <input type="file" />
-        </Button>
+        <CmUpload onChange={onChange} />
         <span>
           <CmButton
             variant="contained"
@@ -44,7 +39,7 @@ export default function ImportExcelModal({ visible, handleSave, handleClose }: I
         fullWidth
         multiline
         rows={4}
-        defaultValue="Default Value"
+        disabled
       />
     </CmModal>
   );

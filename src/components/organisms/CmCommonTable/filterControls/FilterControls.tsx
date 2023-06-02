@@ -11,9 +11,10 @@ import { CmTextInput } from '@/components/atoms/CmDataInput';
 import * as CmStyle from '@/stylesheets/common';
 import { ReactComponent as AddIcon } from '@/stylesheets/images/AddIcon.svg';
 import { ReactComponent as SearchIcon } from '@/stylesheets/images/SearchIcon.svg';
+import { ReactComponent as UploadIcon } from '@/stylesheets/images/UploadIcon.svg';
 
 import { FilterTypes, SubmitActionTypes } from '../const';
-import { IAddAction, IFilterConfig, IFilterElementType } from '../types';
+import { IAddAction, IFilterConfig, IFilterElementType, IUploadAction } from '../types';
 import DropdownFilterInput from './DropdownFilterInput';
 import SimpleFilterInput from './SimpleFilterInput';
 
@@ -73,10 +74,12 @@ const useStyles = makeStyles(() => ({
 }));
 
 const FilterControls = ({
+  excelBtnConfig,
   addBtnConfig,
   filterConfig,
   onTriggerQuery,
 }: {
+  excelBtnConfig?: IUploadAction;
   addBtnConfig?: IAddAction;
   filterConfig?: IFilterConfig;
   onTriggerQuery: (filterValues: { [key: string]: any }) => void;
@@ -150,6 +153,14 @@ const FilterControls = ({
 
   return (
     <>
+      {excelBtnConfig && (
+        <CmButton
+          variant="text"
+          startIcon={<UploadIcon />}
+          btnTitle={excelBtnConfig.label}
+          onClick={excelBtnConfig.onClick}
+        />
+      )}
       {addBtnConfig && (
         <CmButton
           variant="contained"
