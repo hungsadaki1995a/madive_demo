@@ -12,6 +12,7 @@ type CmTextFieldProps = Omit<TextFieldProps, 'error' | 'label' | 'helperText' | 
   inputWidth?: string;
   labelWidth?: string;
   margin?: string;
+  inputType?: string;
 };
 
 export const CmTextField = ({
@@ -23,6 +24,7 @@ export const CmTextField = ({
   inputWidth,
   labelWidth,
   margin,
+  inputType,
   ...textFieldProps
 }: CmTextFieldProps) => {
   return (
@@ -34,6 +36,7 @@ export const CmTextField = ({
       {type === 'inside' && (
         <TextField
           {...textFieldProps}
+          type={inputType}
           spellCheck="false"
           label={label}
           size="small"
@@ -47,6 +50,7 @@ export const CmTextField = ({
           <CmFieldLabel width={labelWidth}>{label}</CmFieldLabel>
           <TextField
             {...textFieldProps}
+            type={inputType}
             spellCheck="false"
             size="small"
             error={!!error}

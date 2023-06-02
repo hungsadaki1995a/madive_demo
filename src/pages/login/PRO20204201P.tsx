@@ -1,24 +1,57 @@
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { Box, Button, TextField, Typography } from '@mui/material';
-import CssBaseline from '@mui/material/CssBaseline';
 import Grid from '@mui/material/Unstable_Grid2';
 
-// img
+import { AuthApi } from '@/apis';
 import logGif from '@/stylesheets/images/login/framework_illust.gif';
+import { notify } from '@/utils/notify';
 
 import LoginContainer from './Login.Styled';
 
+const DEFAULT_ID_ERROR_MESSAGE = 'ID cannot be blank';
+const DEFAULT_PW_ERROR_MESSAGE = 'Password cannot be blank';
+
 function Login() {
   const navigate = useNavigate();
-  const handleClick = () => {
-    navigate('/cm/button', { replace: true });
+  const [id, setId] = useState<string>('');
+  const [idError, setIdError] = useState<string>('');
+  const [pw, setPw] = useState<string>('');
+  const [pwError, setPwError] = useState<string>('');
+
+  const handleClick = async () => {
+    if (!id) {
+      setIdError(DEFAULT_ID_ERROR_MESSAGE);
+      return;
+    } else {
+      setIdError('');
+    }
+
+    if (!pw) {
+      setPwError(DEFAULT_PW_ERROR_MESSAGE);
+      return;
+    } else {
+      setPwError('');
+    }
+
+    try {
+      const checkEncryption = await AuthApi.checkUserEncryption(id);
+
+      if (checkEncryption && checkEncryption.dto.value === 'use') {
+        setPw((prev) => window.btoa(prev));
+      }
+
+      await AuthApi.login({ id, pw });
+
+      navigate('/');
+    } catch (error) {
+      notify.error(error?.data?.exception?.name || 'Something went wrong');
+    }
   };
 
   return (
     <LoginContainer>
-      <CssBaseline />
-
       <Grid
         container
         className="loginGrid"
@@ -48,6 +81,12 @@ function Login() {
             <TextField
               label="ID"
               variant="outlined"
+              value={id}
+              onChange={(e) => {
+                setId(e.target.value);
+              }}
+              error={!!idError}
+              helperText={idError}
             />
           </Box>
           {/* Password */}
@@ -56,6 +95,12 @@ function Login() {
               label="Password"
               variant="outlined"
               type="password"
+              value={pw}
+              onChange={(e) => {
+                setPw(e.target.value);
+              }}
+              error={!!pwError}
+              helperText={pwError}
             />
           </Box>
 
@@ -75,4 +120,5 @@ function Login() {
     </LoginContainer>
   );
 }
+
 export default Login;

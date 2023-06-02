@@ -1,7 +1,6 @@
 import { ErrorBoundary } from 'react-error-boundary';
 import { Navigate, Route, Routes } from 'react-router-dom';
 
-import CssBaseline from '@mui/material/CssBaseline';
 import { ThemeProvider } from '@mui/material/styles';
 import Grid from '@mui/material/Unstable_Grid2';
 
@@ -38,7 +37,6 @@ export const MobxStore = new RootStore();
 const App = () => (
   <CreateStore.Provider value={{ MobxStore }}>
     <ThemeProvider theme={theme}>
-      <CssBaseline />
       <ErrorBoundary FallbackComponent={ErrorFallback}>
         <CmContainer>
           <Grid
