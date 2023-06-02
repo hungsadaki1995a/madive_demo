@@ -23,6 +23,7 @@ const TableLayoutCustom = <TRowDataType extends IPlainObject>({
   handleSortTable,
   sortInfo,
   handleCheckRow,
+  handleRowClick,
   paginationConfig,
   renderPaginationAs,
   selectedRowsMapping,
@@ -72,6 +73,7 @@ const TableLayoutCustom = <TRowDataType extends IPlainObject>({
           handleCheckRow={handleCheckRow}
           handleSortTable={handleSortTable}
           hasSelectionRows={hasSelectionRows}
+          handleRowClick={handleRowClick}
           rows={rows}
           selectedRows={selectedRows}
           selectedRowsMapping={selectedRowsMapping}

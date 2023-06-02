@@ -38,7 +38,9 @@ function MetaDataTable() {
   };
 
   // Edit Meta Modal Open
-  const handleEditMetaModalOpen = () => {
+  const handleEditMetaModalOpen = (event: React.MouseEvent<unknown>, row: any) => {
+    console.log(event);
+    console.log(row);
     setIsEditMetaModalVisible(true);
   };
 
@@ -204,10 +206,6 @@ function MetaDataTable() {
         //onClick: () => createModalRef.current?.show(),
         icon: <DeleteIcon />,
       },
-      // {
-      //   label: 'Change',
-      //   onClick: () => handleEditMetaModalOpen(),
-      // },
     ];
   }, []);
 
@@ -230,6 +228,7 @@ function MetaDataTable() {
         onSelectedRows={(selectedRows) => {
           console.log(selectedRows);
         }}
+        onRowClick={handleEditMetaModalOpen}
         topActionConfig={topActionConfig}
         addBtnConfig={addBtnConfig}
         filterConfig={filterConfig}

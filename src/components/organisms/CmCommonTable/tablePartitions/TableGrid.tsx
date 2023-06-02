@@ -5,6 +5,7 @@ import SuccessIcon from '@/stylesheets/images/SuccessIcon.svg';
 
 import { IPlainObject, TableLayoutProps } from '../types';
 import BodyCheckBoxCell from './BodyCheckBoxCell';
+import BodyTableRow from './BodyTableRow';
 import HeaderCheckBoxCell from './HeaderCheckBoxCell';
 import TableEmpty from './TableEmpty';
 import TableHeaderCell from './TableHeaderCell';
@@ -75,6 +76,7 @@ type TableGridProps<TRowDataType extends IPlainObject> = Pick<
   | 'selectedRowsMapping'
   | 'handleCheckRow'
   | 'fieldAsRowId'
+  | 'handleRowClick'
 >;
 
 const TableGrid = <TRowDataType extends IPlainObject>({
@@ -88,6 +90,7 @@ const TableGrid = <TRowDataType extends IPlainObject>({
   selectedRowsMapping,
   handleCheckRow,
   fieldAsRowId,
+  handleRowClick,
 }: TableGridProps<TRowDataType>) => {
   return (
     <TableContainer>
@@ -125,7 +128,11 @@ const TableGrid = <TRowDataType extends IPlainObject>({
             <>
               {rows.map((d, idx) => {
                 return (
-                  <TableRow key={`table-body-contents-${idx}`}>
+                  <BodyTableRow
+                    key={`table-body-contents-${idx}`}
+                    row={d}
+                    onClick={handleRowClick}
+                  >
                     {hasSelectionRows && (
                       <BodyCheckBoxCell
                         key={'table-body-contents-selection'}
@@ -141,7 +148,7 @@ const TableGrid = <TRowDataType extends IPlainObject>({
                         </TableCell>
                       );
                     })}
-                  </TableRow>
+                  </BodyTableRow>
                 );
               })}
             </>

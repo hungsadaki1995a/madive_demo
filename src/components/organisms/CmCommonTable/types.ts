@@ -141,6 +141,8 @@ export interface ICommonTable<TRowDataType extends IPlainObject> {
   showResultCount?: boolean;
   //
   bottomActionsConfig?: IBottomAction<TRowDataType>[];
+  //
+  onRowClick?: (event: React.MouseEvent<unknown>, row: any) => void;
 }
 
 export type TableLayoutProps<TRowDataType extends IPlainObject> = Pick<
@@ -157,6 +159,7 @@ export type TableLayoutProps<TRowDataType extends IPlainObject> = Pick<
   | 'renderPaginationAs'
   | 'fieldAsRowId'
   | 'bottomActionsConfig'
+  | 'onRowClick'
 > & {
   handleCheckAll: ({ checked }: { checked: boolean }) => void;
   sortInfo: ISortInfo;
@@ -166,6 +169,7 @@ export type TableLayoutProps<TRowDataType extends IPlainObject> = Pick<
     [key: string]: TRowDataType;
   };
   selectedRows: TRowDataType[];
+  handleRowClick: ({ event, row }: { event: React.MouseEvent<unknown>; row: any }) => void;
 };
 
 export interface IButtonMenuConfig {

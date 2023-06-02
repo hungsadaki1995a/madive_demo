@@ -24,10 +24,11 @@ const CommonTable = <TRowDataType extends IPlainObject>({
   topActionConfig,
   addBtnConfig,
   bottomActionsConfig,
+  onRowClick,
 }: ICommonTable<TRowDataType>) => {
   const [selectedRows, setSelectedRows] = useState<TRowDataType[]>([]);
+  const [sortInfo, setSortInfo] = useState<ISortInfo>(sortDefault);
 
-  // Selection Rows
   const handleCheckRow = useCallback(({ row, checked }: { row: any; checked: boolean }) => {
     if (checked) {
       setSelectedRows((prev) => {
@@ -69,15 +70,6 @@ const CommonTable = <TRowDataType extends IPlainObject>({
     );
   }, [selectedRows]);
 
-  // -------------------------------------------
-  useEffect(() => {
-    onSelectedRows?.(selectedRows);
-  }, [onSelectedRows, selectedRows]);
-
-  // -------------------------------------------
-
-  const [sortInfo, setSortInfo] = useState<ISortInfo>(sortDefault);
-
   const handleSortTable = useCallback(
     ({ field }: { field: string }) => {
       let temp: ISortInfo;
@@ -97,6 +89,14 @@ const CommonTable = <TRowDataType extends IPlainObject>({
     },
     [onSortChange, sortInfo.field, sortInfo.direction]
   );
+
+  const handleRowClick = useCallback(({ event, row }: { event: React.MouseEvent<unknown>; row: any }) => {
+    typeof onRowClick === 'function' && onRowClick(event, row);
+  }, []);
+
+  useEffect(() => {
+    onSelectedRows?.(selectedRows);
+  }, [onSelectedRows, selectedRows]);
 
   useEffect(() => {
     setSelectedRows([]);
@@ -123,6 +123,7 @@ const CommonTable = <TRowDataType extends IPlainObject>({
         selectedRows={selectedRows}
         handleCheckAll={handleCheckAll}
         handleCheckRow={handleCheckRow}
+        handleRowClick={handleRowClick}
         selectedRowsMapping={selectedRowsMapping}
         bottomActionsConfig={bottomActionsConfig}
       />
