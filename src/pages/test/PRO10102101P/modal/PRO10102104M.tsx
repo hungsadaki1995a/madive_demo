@@ -64,7 +64,6 @@ type ViewTestResultModalProps = {
 
 export default function ViewTestResultModal({ visible, handleSave, handleClose }: ViewTestResultModalProps) {
   const [value, setValue] = useState(0);
-  const [test, setTest] = useState('');
   const handleTabChange = (event: SyntheticEvent, newValue: number) => {
     setValue(newValue);
   };
@@ -74,7 +73,7 @@ export default function ViewTestResultModal({ visible, handleSave, handleClose }
       visible={visible}
       onSave={handleSave}
       onClose={handleClose}
-      className="medium"
+      className="large"
     >
       {/* contents */}
       <Box className="inputDataBox">
