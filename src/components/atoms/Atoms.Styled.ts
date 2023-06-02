@@ -478,10 +478,13 @@ const CmModalStyle = styled.div`
           }
         }
       }
-      // Select
       .MuiFormControl-root {
         margin-left: auto;
         width: 65%;
+        & ~ * {
+          margin: 0;
+        }
+        // Select
         .MuiSelect-outlined {
           width: 100%;
         }
@@ -498,6 +501,41 @@ const CmModalStyle = styled.div`
         margin-top: 20px;
       }
     }
+
+    // Form Between
+    .formBtw {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+    // file Upload
+    .fileUpBtn {
+      color: ${CmStyle.color.colorBtnString};
+      background: none;
+      box-shadow: none;
+      padding: 0;
+      input[type='file']::file-selector-button {
+        min-height: 28px;
+        width: 90px;
+        border: 0;
+        border-radius: 5px;
+        font: 13px/ 1.5 ${CmStyle.notoSansDJKFont.regular};
+        min-height: 28px;
+        align-items: center;
+        color: ${CmStyle.color.colorBg02};
+        background: ${CmStyle.color.colorBtnPrimary};
+
+        cursor: pointer;
+        &:hover {
+          background: ${CmStyle.color.colorBtnPrimaryHover};
+        }
+        &:active {
+          background: ${CmStyle.color.colorBtnPrimaryActive};
+        }
+      }
+    }
+
+    // def
 
     .inputArea {
       align-items: center;
