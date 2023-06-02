@@ -1,3 +1,5 @@
+import { TextField } from '@mui/material';
+
 import CmModal from '@/components/atoms/CmModal';
 
 type EditGroupModalProps = {
@@ -16,7 +18,31 @@ export default function EditGroupModal({ visible, handleSave, handleClose }: Edi
       className="medium"
     >
       {/* contents */}
-      contents area
+      <label className="labelFormArea">
+        <span>Group ID</span>
+        <TextField
+          className="labelTextField"
+          defaultValue="Group 1"
+          disabled
+          size="small"
+        />
+      </label>
+      <label className="labelFormArea">
+        <span>Group Name</span>
+        <TextField
+          className="labelTextField"
+          defaultValue="Group 1"
+          size="small"
+        />
+      </label>
+      <label className="labelFormArea">
+        <span>Description</span>
+        <TextField
+          className="labelTextField"
+          defaultValue="Group 1"
+          size="small"
+        />
+      </label>
     </CmModal>
   );
 }

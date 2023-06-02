@@ -1,3 +1,5 @@
+import { TextField } from '@mui/material';
+
 import CmModal from '@/components/atoms/CmModal';
 
 type CreateGroupModalProps = {
@@ -16,7 +18,33 @@ export default function CreateGroupModal({ visible, handleSave, handleClose }: C
       className="medium"
     >
       {/* contents */}
-      contents area
+      <label className="labelFormArea">
+        <span>Group ID</span>
+        <TextField
+          className="labelTextField"
+          defaultValue="1"
+          type="password"
+          size="small"
+        />
+      </label>
+      <label className="labelFormArea">
+        <span>Group Name</span>
+        <TextField
+          className="labelTextField"
+          defaultValue="1"
+          type="password"
+          size="small"
+        />
+      </label>
+      <label className="labelFormArea">
+        <span>Description</span>
+        <TextField
+          className="labelTextField"
+          defaultValue="1"
+          type="password"
+          size="small"
+        />
+      </label>
     </CmModal>
   );
 }

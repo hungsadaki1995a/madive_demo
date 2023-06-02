@@ -1,3 +1,5 @@
+import { TextField } from '@mui/material';
+
 import CmModal from '@/components/atoms/CmModal';
 
 type EditRoleModalProps = {
@@ -16,7 +18,31 @@ export default function EditRoleModal({ visible, handleSave, handleClose }: Edit
       className="medium"
     >
       {/* contents */}
-      contents area
+      <label className="labelFormArea">
+        <span>Role ID</span>
+        <TextField
+          className="labelTextField"
+          defaultValue="AdminRole"
+          disabled
+          size="small"
+        />
+      </label>
+      <label className="labelFormArea">
+        <span>Role Name</span>
+        <TextField
+          className="labelTextField"
+          defaultValue="AdminRole"
+          size="small"
+        />
+      </label>
+      <label className="labelFormArea">
+        <span>Description</span>
+        <TextField
+          className="labelTextField"
+          defaultValue="AdminRole"
+          size="small"
+        />
+      </label>
     </CmModal>
   );
 }

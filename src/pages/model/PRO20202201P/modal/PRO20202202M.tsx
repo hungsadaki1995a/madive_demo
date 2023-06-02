@@ -1,3 +1,5 @@
+import { TextField } from '@mui/material';
+
 import CmModal from '@/components/atoms/CmModal';
 
 type CreateDbioModalProps = {
@@ -16,7 +18,60 @@ export default function CreateDbioModal({ visible, handleSave, handleClose }: Cr
       className="medium"
     >
       {/* contents */}
-      contents area
+      <label className="labelFormArea">
+        <span>Vender</span>
+        <TextField
+          className="labelTextField"
+          defaultValue="1"
+          type="password"
+          size="small"
+        />
+      </label>
+      <label className="labelFormArea">
+        <span>Alias</span>
+        <TextField
+          className="labelTextField"
+          defaultValue="1"
+          type="password"
+          size="small"
+        />
+      </label>
+      <label className="labelFormArea">
+        <span>ID</span>
+        <TextField
+          className="labelTextField"
+          defaultValue="1"
+          type="password"
+          size="small"
+        />
+      </label>
+      <label className="labelFormArea">
+        <span>Password</span>
+        <TextField
+          className="labelTextField"
+          defaultValue="1"
+          type="password"
+          size="small"
+        />
+      </label>
+      <label className="labelFormArea">
+        <span>IP</span>
+        <TextField
+          className="labelTextField"
+          defaultValue="1"
+          type="password"
+          size="small"
+        />
+      </label>
+      <label className="labelFormArea">
+        <span>Port</span>
+        <TextField
+          className="labelTextField"
+          defaultValue="1"
+          type="password"
+          size="small"
+        />
+      </label>
     </CmModal>
   );
 }
