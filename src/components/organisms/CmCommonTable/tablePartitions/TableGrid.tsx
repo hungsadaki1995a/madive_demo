@@ -1,5 +1,8 @@
 import { styled, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
 
+import FailIcon from '@/stylesheets/images/FailIcon.svg';
+import SuccessIcon from '@/stylesheets/images/SuccessIcon.svg';
+
 import { IPlainObject, TableLayoutProps } from '../types';
 import BodyCheckBoxCell from './BodyCheckBoxCell';
 import HeaderCheckBoxCell from './HeaderCheckBoxCell';
@@ -39,10 +42,14 @@ const TableBodyComponent = styled(TableBody)(({ theme }) => ({
       // Fail, Error
       '&.error': {
         color: '#D93E2E',
+        paddingLeft: '20px',
+        backgroundImage: `url(${FailIcon}) left center no-repeat`,
       },
       // Success
       '&.success': {
         color: '#30BE8B',
+        paddingLeft: '20px',
+        backgroundImage: `url(${SuccessIcon}) left center no-repeat`,
       },
     },
     '&:hover': {

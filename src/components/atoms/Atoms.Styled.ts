@@ -3,6 +3,8 @@ import styled from 'styled-components';
 
 import * as CmStyle from '@/stylesheets/common';
 import '@/stylesheets/font/stylesheet.css';
+import FailIcon from '@/stylesheets/images/FailIcon.svg';
+import SuccessIcon from '@/stylesheets/images/SuccessIcon.svg';
 
 // Common Button
 const CmButtonStyle = styled.label`
@@ -308,6 +310,9 @@ const CmModalStyle = styled.div`
   &.large {
     width: 960px;
   }
+  button {
+    text-transform: none;
+  }
 
   .header {
     display: flex;
@@ -357,6 +362,20 @@ const CmModalStyle = styled.div`
     .MuiRadio-root {
       padding: 5px;
     }
+    // Fail, Error
+    .error {
+      color: #d93e2e;
+      vertical-align: middle;
+      padding-left: 20px;
+      background: url(${FailIcon}) left center no-repeat;
+    }
+    // Success
+    .success {
+      color: #30be8b;
+      vertical-align: middle;
+      padding-left: 20px;
+      background: url(${SuccessIcon}) left center no-repeat;
+    }
 
     table {
       * {
@@ -377,7 +396,7 @@ const CmModalStyle = styled.div`
           }
         }
         tbody {
-          * {
+          *:not([button *]) {
             color: ${CmStyle.color.colorT01};
           }
           td {
@@ -535,8 +554,6 @@ const CmModalStyle = styled.div`
       }
     }
 
-    // def
-
     .inputArea {
       align-items: center;
 
@@ -551,6 +568,69 @@ const CmModalStyle = styled.div`
     .half {
       width: 50%;
       display: inline-flex;
+    }
+  }
+
+  .inputDataBox {
+    p.MuiTypography-root {
+      margin-bottom: 20px;
+    }
+    div[role='tabpanel'] {
+      padding: 20px 10px;
+      & > .MuiBox-root {
+        padding: 0;
+      }
+      .treeBox {
+        width: 200px;
+        margin-right: 30px;
+        li.MuiTreeItem-root {
+          padding-bottom: 7px;
+        }
+      }
+      .tableBox {
+        width: calc(100% - 230px);
+      }
+      /* Table */
+      table {
+        * {
+          font: 13px / 1 ${CmStyle.notoSansDJKFont.regular};
+        }
+        th,
+        td {
+          padding: 8px;
+          height: 44px;
+        }
+        &.addRow {
+          thead th {
+            background: ${CmStyle.color.colorBtnSecondaryBg01};
+            border: 1px solid ${CmStyle.color.colorBtnSecondaryBg03};
+            color: ${CmStyle.color.colorT05};
+            &.iconBtn {
+              width: 35px;
+            }
+          }
+          tbody {
+            td {
+              color: ${CmStyle.color.colorT01};
+              border: 1px solid ${CmStyle.color.colorBtnSecondaryBg03};
+            }
+          }
+        }
+        // TextField
+        .MuiOutlinedInput-input {
+          height: 27px;
+          padding: 1px 8px 2px;
+          font: 13px/ 1.5 ${CmStyle.notoSansDJKFont.light};
+          &.Mui-disabled {
+            -webkit-text-fill-color: unset;
+            color: ${CmStyle.color.colorT01};
+          }
+          .Mui-disabled .MuiOutlinedInput-notchedOutline {
+            color: ${CmStyle.color.colorBtnDisabledText};
+            background-color: rgba(0, 0, 0, 0.03);
+          }
+        }
+      }
     }
   }
 
