@@ -333,28 +333,46 @@ const CmModalStyle = styled.div`
     }
     .detailEditor {
       width: 100%;
+      font: 13px/ 1.5 ${CmStyle.notoSansDJKFont.regular};
+      color: ${CmStyle.color.colorBtnString};
       .MuiGrid-root {
         padding: 15px;
         font: 13px/ 1.5 ${CmStyle.notoSansDJKFont.regular};
         color: ${CmStyle.color.colorBtnString};
-        .MuiPaper-root {
+      }
+      .MuiPaper-root {
+        color: ${CmStyle.color.colorT01};
+        background: #f5f6f7;
+        border: 1px solid #d3d5da;
+        margin-top: 8px;
+        border-radius: 5px;
+        box-shadow: none;
+        /* padding: 5px; */
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 4px 8px;
+        gap: 4px;
+      }
+      .MuiTextField-root {
+        width: 100%;
+        border: 1px solid #d3d5da;
+        background: #f5f6f7;
+        padding: 8px;
+        margin-top: 8px;
+        border-radius: 5px;
+        .MuiInputBase-root {
+          border: 0;
+          padding: 0;
+          line-height: 200%;
           color: ${CmStyle.color.colorT01};
-          background: #f5f6f7;
-          border: 1px solid #d3d5da;
-          margin-top: 8px;
-          border-radius: 5px;
-          box-shadow: none;
-          /* padding: 5px; */
-          display: flex;
-          flex-direction: column;
-          align-items: flex-start;
-          padding: 4px 8px;
-          gap: 4px;
-          * {
-            padding: 0;
-            margin: 0;
-            line-height: 180%;
-          }
+        }
+        .Mui-disabled {
+          color: ${CmStyle.color.colorT01};
+          -webkit-text-fill-color: unset;
+        }
+        .MuiOutlinedInput-notchedOutline {
+          border: 0;
         }
       }
     }
@@ -502,6 +520,10 @@ const CmModalStyle = styled.div`
         width: 65%;
         & ~ * {
           margin: 0;
+        }
+        .Mui-disabled {
+          /* color: ${CmStyle.color.colorT01}; */
+          -webkit-text-fill-color: unset;
         }
         // Select
         .MuiSelect-outlined {
