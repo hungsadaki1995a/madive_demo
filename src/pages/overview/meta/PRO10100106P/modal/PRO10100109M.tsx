@@ -1,5 +1,6 @@
-import { Button } from '@mui/material';
+import { Box, Button, TextField } from '@mui/material';
 
+import { CmButton } from '@/components/atoms/CmButton';
 import CmModal from '@/components/atoms/CmModal';
 
 type ImportExcelModalProps = {
@@ -18,16 +19,33 @@ export default function ImportExcelModal({ visible, handleSave, handleClose }: I
       className="medium"
     >
       {/* contents */}
-      <Button
-        variant="contained"
-        component="label"
-      >
-        Upload File
-        <input
-          type="file"
-          hidden
-        />
-      </Button>
+      <Box className="formBtw">
+        {/* Upload File */}
+        <Button
+          variant="contained"
+          component="label"
+          className="fileUpBtn"
+        >
+          <input type="file" />
+        </Button>
+        <span>
+          <CmButton
+            variant="contained"
+            btnTitle="Add"
+          />
+          <CmButton
+            variant="contained"
+            btnTitle="Excel Sample"
+          />
+        </span>
+      </Box>
+      <TextField
+        className="fullWidth"
+        fullWidth
+        multiline
+        rows={4}
+        defaultValue="Default Value"
+      />
     </CmModal>
   );
 }

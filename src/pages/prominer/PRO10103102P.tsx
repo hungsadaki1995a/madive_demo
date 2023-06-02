@@ -9,7 +9,6 @@
  * 2023.05.27   김정아 차장   최초 작성
  ******************************************************/
 // img, icon
-import StarsIcon from '@mui/icons-material/StarsOutlined';
 import { Box, Paper, Stack, Typography } from '@mui/material';
 
 // Common Atoms
@@ -91,13 +90,6 @@ function ViewResourceDetail(props: propsType) {
             Table
           </Box>
         </Stack>
-        <Box className="flexEnd">
-          <CmButton
-            variant="contained"
-            startIcon={<StarsIcon />}
-            btnTitle="Test"
-          />
-        </Box>
       </Paper>
     </ProminerStyled>
   );
