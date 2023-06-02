@@ -127,10 +127,10 @@ function SystemContextDatasourceDataTable() {
         label: 'Delete',
         icon: <DeleteIcon />,
       },
-      {
-        label: 'Change',
-        onClick: () => handleEditDatasourceModalOpen(),
-      },
+      // {
+      //   label: 'Change',
+      //   onClick: () => handleEditDatasourceModalOpen(),
+      // },
     ];
   }, []);
 

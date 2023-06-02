@@ -134,10 +134,10 @@ function RoleManagementDataTable() {
         label: 'Delete',
         icon: <DeleteIcon />,
       },
-      {
-        label: 'Change',
-        onClick: () => handleEditRoleModalOpen(),
-      },
+      // {
+      //   label: 'Change',
+      //   onClick: () => handleEditRoleModalOpen(),
+      // },
     ];
   }, []);
 

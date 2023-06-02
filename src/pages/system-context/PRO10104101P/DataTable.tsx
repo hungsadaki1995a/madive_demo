@@ -139,10 +139,10 @@ function SystemContextManagementDataTable() {
         label: 'Delete',
         icon: <DeleteIcon />,
       },
-      {
-        label: 'Change',
-        onClick: () => handleEditSystemContextModalOpen(),
-      },
+      // {
+      //   label: 'Change',
+      //   onClick: () => handleEditSystemContextModalOpen(),
+      // },
     ];
   }, []);
 

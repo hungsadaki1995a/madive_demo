@@ -205,10 +205,10 @@ function MetaDataTable() {
         //onClick: () => createModalRef.current?.show(),
         icon: <DeleteIcon />,
       },
-      {
-        label: 'Change',
-        onClick: () => handleEditMetaModalOpen(),
-      },
+      // {
+      //   label: 'Change',
+      //   onClick: () => handleEditMetaModalOpen(),
+      // },
     ];
   }, []);
 

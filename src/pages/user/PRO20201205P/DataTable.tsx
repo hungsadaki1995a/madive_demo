@@ -134,10 +134,10 @@ function GroupManagementDataTable() {
         label: 'Delete',
         icon: <DeleteIcon />,
       },
-      {
-        label: 'Change',
-        onClick: () => handleEditGroupModalOpen(),
-      },
+      // {
+      //   label: 'Change',
+      //   onClick: () => handleEditGroupModalOpen(),
+      // },
     ];
   }, []);
 

@@ -136,10 +136,10 @@ function UserManagementDataTable() {
         //onClick: () => createModalRef.current?.show(),
         icon: <DeleteIcon />,
       },
-      {
-        label: 'Change',
-        onClick: () => updateModalRef.current?.show(),
-      },
+      // {
+      //   label: 'Change',
+      //   onClick: () => updateModalRef.current?.show(),
+      // },
     ];
   }, []);
 

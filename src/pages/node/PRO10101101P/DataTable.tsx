@@ -156,10 +156,10 @@ function NodeManagementDataTable() {
         label: 'Delete',
         icon: <DeleteIcon />,
       },
-      {
-        label: 'Change',
-        onClick: () => handleEditNodeModalOpen(),
-      },
+      // {
+      //   label: 'Change',
+      //   onClick: () => handleEditNodeModalOpen(),
+      // },
     ];
   }, []);
 

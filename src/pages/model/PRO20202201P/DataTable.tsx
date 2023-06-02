@@ -160,10 +160,10 @@ function DbioDataTable() {
         label: 'Delete',
         icon: <DeleteIcon />,
       },
-      {
-        label: 'Change',
-        onClick: () => handleEditDbioModalOpen(),
-      },
+      // {
+      //   label: 'Change',
+      //   onClick: () => handleEditDbioModalOpen(),
+      // },
     ];
   }, []);
 
