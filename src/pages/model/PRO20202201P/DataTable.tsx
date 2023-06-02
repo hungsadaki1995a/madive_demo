@@ -37,7 +37,9 @@ function DbioDataTable() {
   };
 
   // Edit Dbio Modal Open
-  const handleEditDbioModalOpen = () => {
+  const handleEditDbioModalOpen = (event: React.MouseEvent<unknown>, row: any) => {
+    console.log(event);
+    console.log(row);
     setIsEditDbioModalVisible(true);
   };
 
@@ -160,10 +162,6 @@ function DbioDataTable() {
         label: 'Delete',
         icon: <DeleteIcon />,
       },
-      // {
-      //   label: 'Change',
-      //   onClick: () => handleEditDbioModalOpen(),
-      // },
     ];
   }, []);
 
@@ -190,6 +188,7 @@ function DbioDataTable() {
         onSelectedRows={(selectedRows) => {
           //
         }}
+        onRowClick={handleEditDbioModalOpen}
         topActionConfig={topActionConfig}
         addBtnConfig={addBtnConfig}
         filterConfig={filterConfig}

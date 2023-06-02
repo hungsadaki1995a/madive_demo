@@ -37,7 +37,9 @@ function GroupManagementDataTable() {
   };
 
   // Edit Group Modal Open
-  const handleEditGroupModalOpen = () => {
+  const handleEditGroupModalOpen = (event: React.MouseEvent<unknown>, row: any) => {
+    console.log(event);
+    console.log(row);
     setIsEditGroupModalVisible(true);
   };
 
@@ -134,10 +136,6 @@ function GroupManagementDataTable() {
         label: 'Delete',
         icon: <DeleteIcon />,
       },
-      // {
-      //   label: 'Change',
-      //   onClick: () => handleEditGroupModalOpen(),
-      // },
     ];
   }, []);
 
@@ -164,6 +162,7 @@ function GroupManagementDataTable() {
         onSelectedRows={(selectedRows) => {
           //
         }}
+        onRowClick={handleEditGroupModalOpen}
         topActionConfig={topActionConfig}
         addBtnConfig={addBtnConfig}
         filterConfig={filterConfig}

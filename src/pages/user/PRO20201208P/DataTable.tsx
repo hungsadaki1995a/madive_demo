@@ -37,7 +37,9 @@ function RoleManagementDataTable() {
   };
 
   // Edit Role Modal Open
-  const handleEditRoleModalOpen = () => {
+  const handleEditRoleModalOpen = (event: React.MouseEvent<unknown>, row: any) => {
+    console.log(event);
+    console.log(row);
     setIsEditRoleModalVisible(true);
   };
 
@@ -134,10 +136,6 @@ function RoleManagementDataTable() {
         label: 'Delete',
         icon: <DeleteIcon />,
       },
-      // {
-      //   label: 'Change',
-      //   onClick: () => handleEditRoleModalOpen(),
-      // },
     ];
   }, []);
 
@@ -164,6 +162,7 @@ function RoleManagementDataTable() {
         onSelectedRows={(selectedRows) => {
           //
         }}
+        onRowClick={handleEditRoleModalOpen}
         topActionConfig={topActionConfig}
         addBtnConfig={addBtnConfig}
         filterConfig={filterConfig}

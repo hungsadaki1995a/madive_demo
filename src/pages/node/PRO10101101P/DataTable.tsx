@@ -35,7 +35,9 @@ function NodeManagementDataTable() {
   };
 
   // Edit Meta Modal Open
-  const handleEditNodeModalOpen = () => {
+  const handleEditNodeModalOpen = (event: React.MouseEvent<unknown>, row: any) => {
+    console.log(event);
+    console.log(row);
     setIsEditNodeModalVisible(true);
   };
 
@@ -156,10 +158,6 @@ function NodeManagementDataTable() {
         label: 'Delete',
         icon: <DeleteIcon />,
       },
-      // {
-      //   label: 'Change',
-      //   onClick: () => handleEditNodeModalOpen(),
-      // },
     ];
   }, []);
 
@@ -187,6 +185,7 @@ function NodeManagementDataTable() {
           //
         }}
         showTopSelect
+        onRowClick={handleEditNodeModalOpen}
         topActionConfig={topActionConfig}
         addBtnConfig={addBtnConfig}
         //filterConfig={filterConfig}

@@ -36,7 +36,9 @@ function SystemContextDatasourceDataTable() {
   };
 
   // Edit Datasource Modal Open
-  const handleEditDatasourceModalOpen = () => {
+  const handleEditDatasourceModalOpen = (event: React.MouseEvent<unknown>, row: any) => {
+    console.log(event);
+    console.log(row);
     setIsEditDatasourceModalVisible(true);
   };
 
@@ -127,10 +129,6 @@ function SystemContextDatasourceDataTable() {
         label: 'Delete',
         icon: <DeleteIcon />,
       },
-      // {
-      //   label: 'Change',
-      //   onClick: () => handleEditDatasourceModalOpen(),
-      // },
     ];
   }, []);
 
@@ -157,6 +155,7 @@ function SystemContextDatasourceDataTable() {
         onSelectedRows={(selectedRows) => {
           //
         }}
+        onRowClick={handleEditDatasourceModalOpen}
         topActionConfig={topActionConfig}
         addBtnConfig={addBtnConfig}
         filterConfig={filterConfig}

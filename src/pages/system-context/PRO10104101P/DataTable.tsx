@@ -36,7 +36,9 @@ function SystemContextManagementDataTable() {
   };
 
   // Edit System Context Modal Open
-  const handleEditSystemContextModalOpen = () => {
+  const handleEditSystemContextModalOpen = (event: React.MouseEvent<unknown>, row: any) => {
+    console.log(event);
+    console.log(row);
     setIsEditSystemContextModalVisible(true);
   };
 
@@ -139,10 +141,6 @@ function SystemContextManagementDataTable() {
         label: 'Delete',
         icon: <DeleteIcon />,
       },
-      // {
-      //   label: 'Change',
-      //   onClick: () => handleEditSystemContextModalOpen(),
-      // },
     ];
   }, []);
 
@@ -169,6 +167,7 @@ function SystemContextManagementDataTable() {
         onSelectedRows={(selectedRows) => {
           //
         }}
+        onRowClick={handleEditSystemContextModalOpen}
         topActionConfig={topActionConfig}
         addBtnConfig={addBtnConfig}
         filterConfig={filterConfig}
