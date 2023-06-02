@@ -1,3 +1,5 @@
+import { TextField, Typography } from '@mui/material';
+
 import CmModal from '@/components/atoms/CmModal';
 
 type CreateDatasourceModalProps = {
@@ -16,7 +18,28 @@ export default function CreateDatasourceModal({ visible, handleSave, handleClose
       className="medium"
     >
       {/* contents */}
-      contents area
+      <label className="labelFormArea">
+        <span>Node</span>
+        <Typography className="textData">Dev Server</Typography>
+      </label>
+      <label className="labelFormArea">
+        <span>Application</span>
+        <Typography className="textData">SHApp</Typography>
+      </label>
+      <label className="labelFormArea">
+        <span>System Context Name</span>
+        <TextField
+          className="labelTextField"
+          size="small"
+        />
+      </label>
+      <label className="labelFormArea">
+        <span>Datasource</span>
+        <TextField
+          className="labelTextField"
+          size="small"
+        />
+      </label>
     </CmModal>
   );
 }

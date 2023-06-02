@@ -1,3 +1,5 @@
+import { TextField, Typography } from '@mui/material';
+
 import CmModal from '@/components/atoms/CmModal';
 
 type EditDatasourceModalProps = {
@@ -16,7 +18,18 @@ export default function EditDatasourceModal({ visible, handleSave, handleClose }
       className="medium"
     >
       {/* contents */}
-      contents area
+      <label className="labelFormArea">
+        <span>System Context Name</span>
+        <Typography className="textData">SYSTEM_CONTEXT_TEST</Typography>
+      </label>
+      <label className="labelFormArea">
+        <span>Datasource</span>
+        <TextField
+          className="labelTextField"
+          defaultValue="tibero6_dev"
+          size="small"
+        />
+      </label>
     </CmModal>
   );
 }

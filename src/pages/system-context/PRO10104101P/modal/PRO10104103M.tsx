@@ -1,3 +1,5 @@
+import { TextField } from '@mui/material';
+
 import CmModal from '@/components/atoms/CmModal';
 
 type EditSystemContextModalProps = {
@@ -16,7 +18,26 @@ export default function EditSystemContextModal({ visible, handleSave, handleClos
       className="medium"
     >
       {/* contents */}
-      contents area
+      <label className="labelFormArea">
+        <span>SHApp - SYSTEM CONTEXT TEST</span>
+      </label>
+      <label className="labelFormArea">
+        <span>key</span>
+        <TextField
+          className="labelTextField"
+          defaultValue="1"
+          disabled
+          size="small"
+        />
+      </label>
+      <label className="labelFormArea">
+        <span>value</span>
+        <TextField
+          className="labelTextField"
+          defaultValue="1"
+          size="small"
+        />
+      </label>
     </CmModal>
   );
 }
