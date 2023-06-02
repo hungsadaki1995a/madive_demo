@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import SearchIcon from '@mui/icons-material/Search';
 import { Paper } from '@mui/material';
@@ -8,12 +8,7 @@ import { CmButtonDropdownMenu } from '@/components/atoms/CmButton';
 import CommonTable from '@/components/organisms/CmCommonTable';
 import { SortDirectionTypes } from '@/components/organisms/CmCommonTable/const';
 import useTableDataServer from '@/components/organisms/CmCommonTable/hooks/useTableDataServer';
-import {
-  IBottomAction,
-  ICommonTableColumn,
-  IFilterConfig,
-  IPlainObject,
-} from '@/components/organisms/CmCommonTable/types';
+import { ICommonTableColumn, IFilterConfig } from '@/components/organisms/CmCommonTable/types';
 
 import { TestCaseApi } from '@/apis';
 import {
@@ -210,10 +205,6 @@ function TestCaseDataTable() {
     },
   ];
 
-  const bottomActionsConfig = useMemo<IBottomAction<IPlainObject>[]>((): IBottomAction<IPlainObject>[] => {
-    return [];
-  }, []);
-
   // ------------------------------------------------------------------------------------
   // Handle Data
 
@@ -279,7 +270,7 @@ function TestCaseDataTable() {
         }}
         onSortChange={sort}
         paginationConfig={pagination}
-        bottomActionsConfig={bottomActionsConfig}
+        //bottomActionsConfig={bottomActionsConfig}
       />
       {isOpenModalDetail && (
         <TestCaseDetailModal

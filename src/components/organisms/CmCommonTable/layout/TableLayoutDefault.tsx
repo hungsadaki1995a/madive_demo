@@ -78,25 +78,25 @@ const TableLayoutDefault = <TRowDataType extends IPlainObject>({
         />
       </TableSection>
 
-      {!!bottomActionsConfig && (
-        <BottomSection>
+      <BottomSection>
+        {!!bottomActionsConfig && (
           <BottomButtons
             actions={bottomActionsConfig}
             selectedRows={selectedRows}
           />
-          {!!paginationConfig && (
-            <PaginationComponent
-              rowsPerPageOptions={paginationConfig.rowsPerPageOptions}
-              totalCount={paginationConfig.totalCount}
-              rowsPerPage={paginationConfig.rowsPerPage}
-              currentPage={paginationConfig.currentPage}
-              onPageChange={paginationConfig.onPageChange}
-              onRowsPerPageChange={paginationConfig.onRowsPerPageChange}
-              rowsPerPagePosition={paginationConfig.rowsPerPagePosition}
-            />
-          )}
-        </BottomSection>
-      )}
+        )}
+        {!!paginationConfig && (
+          <PaginationComponent
+            rowsPerPageOptions={paginationConfig.rowsPerPageOptions}
+            totalCount={paginationConfig.totalCount}
+            rowsPerPage={paginationConfig.rowsPerPage}
+            currentPage={paginationConfig.currentPage}
+            onPageChange={paginationConfig.onPageChange}
+            onRowsPerPageChange={paginationConfig.onRowsPerPageChange}
+            rowsPerPagePosition={paginationConfig.rowsPerPagePosition}
+          />
+        )}
+      </BottomSection>
     </div>
   );
 };
