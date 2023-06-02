@@ -15,6 +15,7 @@ const TableLayoutDefault = <TRowDataType extends IPlainObject>({
   fieldAsRowId,
   showTopSelect,
   topActionConfig,
+  excelBtnConfig,
   addBtnConfig,
   filterConfig,
   onFilterTriggerQuery,
@@ -55,6 +56,7 @@ const TableLayoutDefault = <TRowDataType extends IPlainObject>({
         </div>
         <FilterSection>
           <FilterControls
+            excelBtnConfig={excelBtnConfig}
             addBtnConfig={addBtnConfig}
             filterConfig={filterConfig}
             onTriggerQuery={(filterData) => {

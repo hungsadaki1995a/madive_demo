@@ -1,6 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
 
-import SearchIcon from '@mui/icons-material/Search';
 import { Paper } from '@mui/material';
 import { observer } from 'mobx-react';
 
@@ -8,9 +7,9 @@ import CommonTable from '@/components/organisms/CmCommonTable';
 import {
   IAddAction,
   ICommonTableColumn,
-  IFilterConfig,
   IPlainObject,
   ITopAction,
+  IUploadAction,
 } from '@/components/organisms/CmCommonTable/types';
 
 import { ReactComponent as DeleteIcon } from '@/stylesheets/images/DeleteIcon.svg';
@@ -57,6 +56,11 @@ function MetaDataTable() {
   // Import Excel Modal Close
   const handleImportExcelModalClose = () => {
     setImportExcelModalVisible(false);
+  };
+
+  // Import Excel File Change
+  const handleImportExcelChange = (file: any) => {
+    console.log(file);
   };
 
   // -----------------------------------
@@ -142,53 +146,10 @@ function MetaDataTable() {
     ];
   }, []);
 
-  const filterConfig = useMemo<IFilterConfig>(() => {
+  const excelBtnConfig = useMemo<IUploadAction>((): IUploadAction => {
     return {
-      submitBy: 'enter',
-      submitLabel: 'Search',
-      filters: [
-        {
-          type: 'dropdown',
-          name: 'filterFieldName',
-          options: [
-            {
-              label: 'Meta Type',
-              value: 'meta_type',
-            },
-            {
-              label: 'Physical Name',
-              value: 'physical_name',
-            },
-            {
-              label: 'Logical Name',
-              value: 'logical_name',
-            },
-            {
-              label: 'Resource Group',
-              value: 'resource_group',
-            },
-            {
-              label: 'Field Type',
-              value: 'field_type',
-            },
-            {
-              label: 'Length',
-              value: 'length',
-            },
-            {
-              label: 'Update Time',
-              value: 'update_time',
-            },
-          ],
-        },
-        {
-          type: 'simple',
-          name: 'search',
-          // className: '',
-          // label: 'Keyword',
-          icon: <SearchIcon />,
-        },
-      ],
+      label: 'Add Excel',
+      onClick: () => handleImportExcelModalOpen(),
     };
   }, []);
 
@@ -230,8 +191,9 @@ function MetaDataTable() {
         }}
         onRowClick={handleEditMetaModalOpen}
         topActionConfig={topActionConfig}
+        excelBtnConfig={excelBtnConfig}
         addBtnConfig={addBtnConfig}
-        filterConfig={filterConfig}
+        //filterConfig={filterConfig}
         //onFilterTriggerQuery={filter}
         sortDefault={{
           field: 'meta_type',
@@ -265,6 +227,7 @@ function MetaDataTable() {
       <ImportExcelModal
         visible={isImportExcelModalVisible}
         handleClose={handleImportExcelModalClose}
+        onChange={handleImportExcelChange}
       />
     </Paper>
   );
