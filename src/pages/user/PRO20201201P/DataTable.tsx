@@ -143,28 +143,32 @@ function UserManagementDataTable() {
     ];
   }, []);
 
-  const bottomActionsConfig = useMemo<IBottomAction<UserModel>[]>((): IBottomAction<UserModel>[] => {
-    return [
-      {
-        label: 'Change',
-        onClick: (selectedRows: UserModel[]) => {
-          updateModalRef.current?.show(selectedRows[0]);
-        },
-        checkDisabled: (selectedRs) => selectedRs?.length === 0 || selectedRs?.length > 1,
-      },
-      {
-        label: 'Delete',
-        onClick: (selectedRows: UserModel[]) => {
-          selectedRows?.forEach(async (row) => {
-            await UserApi2.deleteUser(row);
-            UserStore.deleteUser(row.user_id);
-            AlertStore.openApiAlert('success', 'Delete Success!');
-          });
-        },
-        checkDisabled: (selectedRs) => selectedRs?.length < 1,
-      },
-    ];
+  const bottomActionsConfig = useMemo<IBottomAction<IPlainObject>[]>((): IBottomAction<IPlainObject>[] => {
+    return [];
   }, []);
+
+  // const bottomActionsConfig = useMemo<IBottomAction<UserModel>[]>((): IBottomAction<UserModel>[] => {
+  //   return [
+  //     {
+  //       label: 'Change',
+  //       onClick: (selectedRows: UserModel[]) => {
+  //         updateModalRef.current?.show(selectedRows[0]);
+  //       },
+  //       checkDisabled: (selectedRs) => selectedRs?.length === 0 || selectedRs?.length > 1,
+  //     },
+  //     {
+  //       label: 'Delete',
+  //       onClick: (selectedRows: UserModel[]) => {
+  //         selectedRows?.forEach(async (row) => {
+  //           await UserApi2.deleteUser(row);
+  //           UserStore.deleteUser(row.user_id);
+  //           AlertStore.openApiAlert('success', 'Delete Success!');
+  //         });
+  //       },
+  //       checkDisabled: (selectedRs) => selectedRs?.length < 1,
+  //     },
+  //   ];
+  // }, []);
 
   // ------------------------------------------------------------------------------------
   // Handle Data
@@ -227,7 +231,7 @@ function UserManagementDataTable() {
         onSortChange={sort}
         paginationConfig={pagination}
         // renderPaginationAs={TablePaginationCustom}
-        //bottomActionsConfig={bottomActionsConfig}
+        bottomActionsConfig={bottomActionsConfig}
       />
       <CreateModal
         ref={createModalRef}
