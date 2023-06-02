@@ -30,6 +30,13 @@ function UserManagementDataTable() {
   const createModalRef = useRef<UserFormRefType>(null);
   const updateModalRef = useRef<UserFormRefType>(null);
 
+  // Edit Meta Modal Open
+  const handleUpdateModalOpen = (event: React.MouseEvent<unknown>, row: any) => {
+    console.log(event);
+    console.log(row);
+    updateModalRef.current?.show(row);
+  };
+
   // -----------------------------------
   // Config table
   const columnsConfig = useMemo<ICommonTableColumn<UserModel>[]>(() => {
@@ -136,10 +143,6 @@ function UserManagementDataTable() {
         //onClick: () => createModalRef.current?.show(),
         icon: <DeleteIcon />,
       },
-      // {
-      //   label: 'Change',
-      //   onClick: () => updateModalRef.current?.show(),
-      // },
     ];
   }, []);
 
@@ -216,6 +219,7 @@ function UserManagementDataTable() {
         onSelectedRows={(selectedRows) => {
           console.log('>>>>>>selected row', selectedRows);
         }}
+        onRowClick={handleUpdateModalOpen}
         topActionConfig={topActionConfig}
         addBtnConfig={addBtnConfig}
         filterConfig={filterConfig}
