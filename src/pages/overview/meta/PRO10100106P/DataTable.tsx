@@ -7,7 +7,6 @@ import { observer } from 'mobx-react';
 import CommonTable from '@/components/organisms/CmCommonTable';
 import {
   IAddAction,
-  IBottomAction,
   ICommonTableColumn,
   IFilterConfig,
   IPlainObject,
@@ -212,10 +211,6 @@ function MetaDataTable() {
     ];
   }, []);
 
-  const bottomActionsConfig = useMemo<IBottomAction<IPlainObject>[]>((): IBottomAction<IPlainObject>[] => {
-    return [];
-  }, []);
-
   // ------------------------------------------------------------------------------------
   // Handle Data
 
@@ -233,7 +228,7 @@ function MetaDataTable() {
         rows={sampleRows}
         hasSelectionRows
         onSelectedRows={(selectedRows) => {
-          //
+          console.log(selectedRows);
         }}
         topActionConfig={topActionConfig}
         addBtnConfig={addBtnConfig}
@@ -253,8 +248,6 @@ function MetaDataTable() {
           onPageChange: (newPageIndex: number) => console.log(newPageIndex),
           onRowsPerPageChange: (newRowsPerPage: number) => console.log(newRowsPerPage),
         }}
-        // renderPaginationAs={TablePaginationCustom}
-        bottomActionsConfig={bottomActionsConfig}
       />
 
       {/* Create Meta - Modal */}

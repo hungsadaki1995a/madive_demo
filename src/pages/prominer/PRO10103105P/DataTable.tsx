@@ -135,7 +135,6 @@ function ProminerFieldDataTable() {
         fieldAsRowId="email"
         columnsConfig={columnsConfig}
         rows={sampleRows}
-        hasSelectionRows
         onSelectedRows={(selectedRows) => {
           //
         }}
