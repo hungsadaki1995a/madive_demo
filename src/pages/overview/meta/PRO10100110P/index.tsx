@@ -8,7 +8,7 @@ function MetaHistory(props: propsType) {
   const { title } = props;
   return (
     <>
-      <MetaHistoryDataTable />;
+      <MetaHistoryDataTable />
     </>
   );
 }

@@ -107,7 +107,6 @@ function RolePermissionAssignDataTable() {
         fieldAsRowId="field"
         columnsConfig={columnsConfig}
         rows={sampleRows}
-        hasSelectionRows
         onSelectedRows={(selectedRows) => {
           //
         }}
