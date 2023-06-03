@@ -181,7 +181,7 @@ function DbioDataTable() {
       <CommonTable
         tableName="dbio-table"
         // renderLayoutAs={TableLayoutCustom}
-        fieldAsRowId="email"
+        fieldAsRowId="vender"
         columnsConfig={columnsConfig}
         rows={sampleRows}
         hasSelectionRows

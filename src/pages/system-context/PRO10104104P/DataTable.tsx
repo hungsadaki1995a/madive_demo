@@ -148,7 +148,7 @@ function SystemContextDatasourceDataTable() {
       <CommonTable
         tableName="system-context-datasource-table"
         // renderLayoutAs={TableLayoutCustom}
-        fieldAsRowId="email"
+        fieldAsRowId="field"
         columnsConfig={columnsConfig}
         rows={sampleRows}
         hasSelectionRows

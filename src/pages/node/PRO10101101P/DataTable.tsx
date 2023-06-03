@@ -177,7 +177,7 @@ function NodeManagementDataTable() {
       <CommonTable
         tableName="node-management-table"
         // renderLayoutAs={TableLayoutCustom}
-        fieldAsRowId="email"
+        fieldAsRowId="node_id"
         columnsConfig={columnsConfig}
         rows={sampleRows}
         hasSelectionRows

@@ -212,7 +212,7 @@ function UserManagementDataTable() {
       <CommonTable
         tableName="user-management"
         // renderLayoutAs={TableLayoutCustom}
-        fieldAsRowId="email"
+        fieldAsRowId="user_id"
         columnsConfig={columnsConfig}
         rows={rows}
         hasSelectionRows

@@ -182,7 +182,7 @@ function MetaDataTable() {
       <CommonTable
         tableName="meta-table"
         // renderLayoutAs={TableLayoutCustom}
-        fieldAsRowId="email"
+        fieldAsRowId="meta_type"
         columnsConfig={columnsConfig}
         rows={sampleRows}
         hasSelectionRows

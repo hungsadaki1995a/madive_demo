@@ -104,7 +104,7 @@ function RolePermissionAssignDataTable() {
       <CommonTable
         tableName="role-permission-assign-table"
         // renderLayoutAs={TableLayoutCustom}
-        fieldAsRowId="email"
+        fieldAsRowId="field"
         columnsConfig={columnsConfig}
         rows={sampleRows}
         hasSelectionRows

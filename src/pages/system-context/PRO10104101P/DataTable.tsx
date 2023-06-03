@@ -160,7 +160,7 @@ function SystemContextManagementDataTable() {
       <CommonTable
         tableName="system-context-management-table"
         // renderLayoutAs={TableLayoutCustom}
-        fieldAsRowId="email"
+        fieldAsRowId="key"
         columnsConfig={columnsConfig}
         rows={sampleRows}
         hasSelectionRows

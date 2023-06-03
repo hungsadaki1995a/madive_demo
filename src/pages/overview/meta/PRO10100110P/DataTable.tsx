@@ -23,6 +23,7 @@ function MetaHistoryDataTable() {
 
   const sampleRows = [
     {
+      id: 1,
       history_type: 'CREATE',
       physical_name: 'trx_dt',
       logical_name: 'Transaction Date',
@@ -32,6 +33,7 @@ function MetaHistoryDataTable() {
       modifier: 'admin',
     },
     {
+      id: 2,
       history_type: 'CREATE',
       physical_name: 'test1',
       logical_name: 'test1',
@@ -117,7 +119,7 @@ function MetaHistoryDataTable() {
       <CommonTable
         tableName="meta-history-table"
         // renderLayoutAs={TableLayoutCustom}
-        fieldAsRowId="email"
+        fieldAsRowId="id"
         columnsConfig={columnsConfig}
         rows={sampleRows}
         hasSelectionRows

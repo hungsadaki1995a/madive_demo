@@ -155,7 +155,7 @@ function GroupManagementDataTable() {
       <CommonTable
         tableName="group-management-table"
         // renderLayoutAs={TableLayoutCustom}
-        fieldAsRowId="email"
+        fieldAsRowId="group_id"
         columnsConfig={columnsConfig}
         rows={sampleRows}
         hasSelectionRows

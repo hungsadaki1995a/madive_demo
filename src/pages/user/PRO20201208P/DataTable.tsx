@@ -155,7 +155,7 @@ function RoleManagementDataTable() {
       <CommonTable
         tableName="role-management-table"
         // renderLayoutAs={TableLayoutCustom}
-        fieldAsRowId="email"
+        fieldAsRowId="role_id"
         columnsConfig={columnsConfig}
         rows={sampleRows}
         hasSelectionRows
