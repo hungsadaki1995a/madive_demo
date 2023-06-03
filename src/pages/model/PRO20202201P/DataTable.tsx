@@ -18,13 +18,36 @@ import { ReactComponent as DeleteIcon } from '@/stylesheets/images/DeleteIcon.sv
 import TopButtonModel from '@/types/models/topButtonModel';
 import { useStore } from '@/utils';
 
+import DeleteDbioModal from './modal/DeleteDbioModal';
 import CreateDbioModal from './modal/PRO20202202M';
 import EditDbioModal from './modal/PRO20202203M';
+
+const sampleRowsData = [
+  {
+    vender: 'ORACLE',
+    alias: 'ORACLE',
+    id: 'ORACLE',
+    pw: '123',
+    ip: '10.10.10.10',
+    port: '8003',
+  },
+  {
+    vender: 'NQT',
+    alias: '22113185',
+    id: '4185',
+    pw: '3185',
+    ip: '1111',
+    port: '11111',
+  },
+];
 
 function DbioDataTable() {
   const { AlertStore } = useStore();
   const [isCreateDbioModalVisible, setIsCreateDbioModalVisible] = useState(false);
   const [isEditDbioModalVisible, setIsEditDbioModalVisible] = useState(false);
+  const [isDeleteDbioModalVisible, setIsDeleteDbioModalVisible] = useState(false);
+  const [selectedRows, setSelectedRows] = useState<any[]>([]);
+  const [sampleRows, setSampleRows] = useState(sampleRowsData);
 
   // Create Dbio Modal Open
   const handleCreateDbioModalOpen = () => {
@@ -48,27 +71,20 @@ function DbioDataTable() {
     setIsEditDbioModalVisible(false);
   };
 
-  // -----------------------------------
-  // Sample Data
+  // Delete Dbio Modal Open
+  const handleDeleteDbioModalOpen = () => {
+    setIsDeleteDbioModalVisible(true);
+  };
 
-  const sampleRows = [
-    {
-      vender: 'ORACLE',
-      alias: 'ORACLE',
-      id: 'ORACLE',
-      pw: '123',
-      ip: '10.10.10.10',
-      port: '8003',
-    },
-    {
-      vender: 'NQT',
-      alias: '22113185',
-      id: '4185',
-      pw: '3185',
-      ip: '1111',
-      port: '11111',
-    },
-  ];
+  // Delete Dbio Modal Close
+  const handleDeleteDbioModalClose = () => {
+    setIsDeleteDbioModalVisible(false);
+  };
+
+  // Delete Dbio Excute
+  const handleDeleteDbio = () => {
+    console.log(selectedRows);
+  };
 
   // -----------------------------------
   // Config table
@@ -160,6 +176,7 @@ function DbioDataTable() {
     return [
       {
         label: 'Delete',
+        onClick: () => handleDeleteDbioModalOpen(),
         icon: <DeleteIcon />,
       },
     ];
@@ -168,6 +185,10 @@ function DbioDataTable() {
   const bottomActionsConfig = useMemo<IBottomAction<IPlainObject>[]>((): IBottomAction<IPlainObject>[] => {
     return [];
   }, []);
+
+  const onSelectedRows = (rows: any) => {
+    setSelectedRows([...rows]);
+  };
 
   // ------------------------------------------------------------------------------------
   // Handle Data
@@ -185,9 +206,7 @@ function DbioDataTable() {
         columnsConfig={columnsConfig}
         rows={sampleRows}
         hasSelectionRows
-        onSelectedRows={(selectedRows) => {
-          //
-        }}
+        onSelectedRows={onSelectedRows}
         onRowClick={handleEditDbioModalOpen}
         topActionConfig={topActionConfig}
         addBtnConfig={addBtnConfig}
@@ -221,6 +240,13 @@ function DbioDataTable() {
       <EditDbioModal
         visible={isEditDbioModalVisible}
         handleClose={handleEditDbioModalClose}
+      />
+
+      {/* Delete Dbio - Modal */}
+      <DeleteDbioModal
+        visible={isDeleteDbioModalVisible}
+        handleSave={handleDeleteDbio}
+        handleClose={handleDeleteDbioModalClose}
       />
     </Paper>
   );

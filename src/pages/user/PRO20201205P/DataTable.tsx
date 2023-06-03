@@ -18,13 +18,30 @@ import { ReactComponent as DeleteIcon } from '@/stylesheets/images/DeleteIcon.sv
 import TopButtonModel from '@/types/models/topButtonModel';
 import { useStore } from '@/utils';
 
+import DeleteGroupModal from './modal/DeleteGroupModal';
 import CreateGroupModal from './modal/PRO20201206M';
 import EditGroupModal from './modal/PRO20201207M';
+
+const sampleRowsData = [
+  {
+    group_id: 'Group1',
+    group_name: 'Group1',
+    description: 'Group1',
+  },
+  {
+    group_id: 'Group2',
+    group_name: 'Group2',
+    description: 'Group2',
+  },
+];
 
 function GroupManagementDataTable() {
   const { AlertStore } = useStore();
   const [isCreateGroupModalVisible, setIsCreateGroupModalVisible] = useState(false);
   const [isEditGroupModalVisible, setIsEditGroupModalVisible] = useState(false);
+  const [isDeleteGroupModalVisible, setIsDeleteGroupModalVisible] = useState(false);
+  const [selectedRows, setSelectedRows] = useState<any[]>([]);
+  const [sampleRows, setSampleRows] = useState(sampleRowsData);
 
   // Create Group Modal Open
   const handleCreateGroupModalOpen = () => {
@@ -48,21 +65,20 @@ function GroupManagementDataTable() {
     setIsEditGroupModalVisible(false);
   };
 
-  // -----------------------------------
-  // Sample Data
+  // Delete Group Modal Open
+  const handleDeleteGroupModalOpen = () => {
+    setIsDeleteGroupModalVisible(true);
+  };
 
-  const sampleRows = [
-    {
-      group_id: 'Group1',
-      group_name: 'Group1',
-      description: 'Group1',
-    },
-    {
-      group_id: 'Group2',
-      group_name: 'Group2',
-      description: 'Group2',
-    },
-  ];
+  // Delete Group Modal Close
+  const handleDeleteGroupModalClose = () => {
+    setIsDeleteGroupModalVisible(false);
+  };
+
+  // Delete Group Excute
+  const handleDeleteGroup = () => {
+    console.log(selectedRows);
+  };
 
   // -----------------------------------
   // Config table
@@ -134,6 +150,7 @@ function GroupManagementDataTable() {
     return [
       {
         label: 'Delete',
+        onClick: () => handleDeleteGroupModalOpen(),
         icon: <DeleteIcon />,
       },
     ];
@@ -142,6 +159,10 @@ function GroupManagementDataTable() {
   const bottomActionsConfig = useMemo<IBottomAction<IPlainObject>[]>((): IBottomAction<IPlainObject>[] => {
     return [];
   }, []);
+
+  const onSelectedRows = (rows: any) => {
+    setSelectedRows([...rows]);
+  };
 
   // ------------------------------------------------------------------------------------
   // Handle Data
@@ -159,9 +180,7 @@ function GroupManagementDataTable() {
         columnsConfig={columnsConfig}
         rows={sampleRows}
         hasSelectionRows
-        onSelectedRows={(selectedRows) => {
-          //
-        }}
+        onSelectedRows={onSelectedRows}
         onRowClick={handleEditGroupModalOpen}
         topActionConfig={topActionConfig}
         addBtnConfig={addBtnConfig}
@@ -195,6 +214,13 @@ function GroupManagementDataTable() {
       <EditGroupModal
         visible={isEditGroupModalVisible}
         handleClose={handleEditGroupModalClose}
+      />
+
+      {/* Delete Group - Modal */}
+      <DeleteGroupModal
+        visible={isDeleteGroupModalVisible}
+        handleSave={handleDeleteGroup}
+        handleClose={handleDeleteGroupModalClose}
       />
     </Paper>
   );

@@ -18,13 +18,30 @@ import { ReactComponent as DeleteIcon } from '@/stylesheets/images/DeleteIcon.sv
 import TopButtonModel from '@/types/models/topButtonModel';
 import { useStore } from '@/utils';
 
+import DeleteRoleModal from './modal/DeleteRoleModal';
 import CreateRoleModal from './modal/PRO20201209M';
 import EditRoleModal from './modal/PRO20201210M';
+
+const sampleRowsData = [
+  {
+    role_id: 'AdminRole',
+    role_name: 'AdminRole',
+    description: 'AdminRole',
+  },
+  {
+    role_id: 'AdminRole2',
+    role_name: 'AdminRole2',
+    description: 'AdminRole2',
+  },
+];
 
 function RoleManagementDataTable() {
   const { AlertStore } = useStore();
   const [isCreateRoleModalVisible, setIsCreateRoleModalVisible] = useState(false);
   const [isEditRoleModalVisible, setIsEditRoleModalVisible] = useState(false);
+  const [isDeleteRoleModalVisible, setIsDeleteRoleModalVisible] = useState(false);
+  const [selectedRows, setSelectedRows] = useState<any[]>([]);
+  const [sampleRows, setSampleRows] = useState(sampleRowsData);
 
   // Create Role Modal Open
   const handleCreateRoleModalOpen = () => {
@@ -48,21 +65,20 @@ function RoleManagementDataTable() {
     setIsEditRoleModalVisible(false);
   };
 
-  // -----------------------------------
-  // Sample Data
+  // Delete Role Modal Open
+  const handleDeleteRoleModalOpen = () => {
+    setIsDeleteRoleModalVisible(true);
+  };
 
-  const sampleRows = [
-    {
-      role_id: 'AdminRole',
-      role_name: 'AdminRole',
-      description: 'AdminRole',
-    },
-    {
-      role_id: 'AdminRole2',
-      role_name: 'AdminRole2',
-      description: 'AdminRole2',
-    },
-  ];
+  // Delete Role Modal Close
+  const handleDeleteRoleModalClose = () => {
+    setIsDeleteRoleModalVisible(false);
+  };
+
+  // Delete Role Excute
+  const handleDeleteRole = () => {
+    console.log(selectedRows);
+  };
 
   // -----------------------------------
   // Config table
@@ -134,6 +150,7 @@ function RoleManagementDataTable() {
     return [
       {
         label: 'Delete',
+        onClick: () => handleDeleteRoleModalOpen(),
         icon: <DeleteIcon />,
       },
     ];
@@ -142,6 +159,10 @@ function RoleManagementDataTable() {
   const bottomActionsConfig = useMemo<IBottomAction<IPlainObject>[]>((): IBottomAction<IPlainObject>[] => {
     return [];
   }, []);
+
+  const onSelectedRows = (rows: any) => {
+    setSelectedRows([...rows]);
+  };
 
   // ------------------------------------------------------------------------------------
   // Handle Data
@@ -159,9 +180,7 @@ function RoleManagementDataTable() {
         columnsConfig={columnsConfig}
         rows={sampleRows}
         hasSelectionRows
-        onSelectedRows={(selectedRows) => {
-          //
-        }}
+        onSelectedRows={onSelectedRows}
         onRowClick={handleEditRoleModalOpen}
         topActionConfig={topActionConfig}
         addBtnConfig={addBtnConfig}
@@ -195,6 +214,13 @@ function RoleManagementDataTable() {
       <EditRoleModal
         visible={isEditRoleModalVisible}
         handleClose={handleEditRoleModalClose}
+      />
+
+      {/* Delete Role - Modal */}
+      <DeleteRoleModal
+        visible={isDeleteRoleModalVisible}
+        handleSave={handleDeleteRole}
+        handleClose={handleDeleteRoleModalClose}
       />
     </Paper>
   );
