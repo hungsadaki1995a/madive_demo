@@ -16,7 +16,7 @@ import { CmDataSelect } from '@/components/atoms/CmDataInput';
 // Templates
 import { CmPageTselectColum } from '@/components/templates/CmPageTitle';
 
-import { LogControlStyled } from './LogControl.Styled';
+import { LogControlStyled } from '../LogControl.Styled';
 
 type propsType = {
   title: string;
