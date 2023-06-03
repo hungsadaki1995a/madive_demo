@@ -91,9 +91,11 @@ const names = ['TEST', 'RUNTIME', 'MASTER'];
 const TopButton = <TRowDataType extends IPlainObject>({
   topAction,
   showTopSelect,
+  selectedRows,
 }: {
   topAction: ITopAction<TRowDataType>[];
   showTopSelect?: boolean;
+  selectedRows?: TRowDataType[];
 }) => {
   const classes = useStyles();
   const theme = useTheme();
@@ -117,6 +119,7 @@ const TopButton = <TRowDataType extends IPlainObject>({
             onClick={action.onClick}
             variant="text"
             startIcon={action.icon ?? null}
+            disabled={selectedRows?.length === 0}
           >
             {action.label}
           </Button>

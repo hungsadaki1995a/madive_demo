@@ -51,6 +51,7 @@ const TableLayoutDefault = <TRowDataType extends IPlainObject>({
             <TopButton
               topAction={topActionConfig}
               showTopSelect={showTopSelect}
+              selectedRows={selectedRows}
             />
           )}
         </div>
