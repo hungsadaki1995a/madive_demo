@@ -16,15 +16,44 @@ import { ReactComponent as DeleteIcon } from '@/stylesheets/images/DeleteIcon.sv
 import TopButtonModel from '@/types/models/topButtonModel';
 import { useStore } from '@/utils';
 
+import DeleteMetaModal from './modal/DeleteMetaModal';
 import CreateMetaModal from './modal/PRO10100107M';
 import EditMetaModal from './modal/PRO10100108M';
 import ImportExcelModal from './modal/PRO10100109M';
+
+const sampleRowsData = [
+  {
+    resource_id: 'c3871e70a298e4449fcb72b7e9cafb3',
+    meta_type: 'non-persistent',
+    physical_name: 'tst',
+    logical_name: 'tst',
+    resource_group: 'gcm',
+    field_type: 'char',
+    length: '20',
+    update_time: '2023-05-30 19:33:38',
+    comments: 'comment',
+  },
+  {
+    resource_id: 'e5814ae80a298e444cbeb41987a1e179',
+    meta_type: 'persistent',
+    physical_name: 'trx_dt',
+    logical_name: 'Transaction Date',
+    resource_group: 'gcm',
+    field_type: 'double',
+    length: '20',
+    update_time: '2023-05-04 15:44:28',
+    comments: 'Tran Date',
+  },
+];
 
 function MetaDataTable() {
   const { AlertStore } = useStore();
   const [isCreateMetaModalVisible, setIsCreateMetaModalVisible] = useState(false);
   const [isEditMetaModalVisible, setIsEditMetaModalVisible] = useState(false);
+  const [isDeleteMetaModalVisible, setIsDeleteMetaModalVisible] = useState(false);
   const [isImportExcelModalVisible, setImportExcelModalVisible] = useState(false);
+  const [selectedRows, setSelectedRows] = useState<any[]>([]);
+  const [sampleRows, setSampleRows] = useState(sampleRowsData);
 
   // Create Meta Modal Open
   const handleCreateMetaModalOpen = () => {
@@ -48,6 +77,21 @@ function MetaDataTable() {
     setIsEditMetaModalVisible(false);
   };
 
+  // Delete Meta Modal Open
+  const handleDeleteMetaModalOpen = () => {
+    setIsDeleteMetaModalVisible(true);
+  };
+
+  // Delete Meta Modal Close
+  const handleDeleteMetaModalClose = () => {
+    setIsDeleteMetaModalVisible(false);
+  };
+
+  // Delete Meta Excute
+  const handleDeleteMeta = () => {
+    console.log(selectedRows);
+  };
+
   // Import Excel Modal Open
   const handleImportExcelModalOpen = () => {
     setImportExcelModalVisible(true);
@@ -62,34 +106,6 @@ function MetaDataTable() {
   const handleImportExcelChange = (file: any) => {
     console.log(file);
   };
-
-  // -----------------------------------
-  // Sample Data
-
-  const sampleRows = [
-    {
-      resource_id: 'c3871e70a298e4449fcb72b7e9cafb3',
-      meta_type: 'non-persistent',
-      physical_name: 'tst',
-      logical_name: 'tst',
-      resource_group: 'gcm',
-      field_type: 'char',
-      length: '20',
-      update_time: '2023-05-30 19:33:38',
-      comments: 'comment',
-    },
-    {
-      resource_id: 'e5814ae80a298e444cbeb41987a1e179',
-      meta_type: 'persistent',
-      physical_name: 'trx_dt',
-      logical_name: 'Transaction Date',
-      resource_group: 'gcm',
-      field_type: 'double',
-      length: '20',
-      update_time: '2023-05-04 15:44:28',
-      comments: 'Tran Date',
-    },
-  ];
 
   // -----------------------------------
   // Config table
@@ -164,11 +180,15 @@ function MetaDataTable() {
     return [
       {
         label: 'Delete',
-        //onClick: () => createModalRef.current?.show(),
+        onClick: () => handleDeleteMetaModalOpen(),
         icon: <DeleteIcon />,
       },
     ];
   }, []);
+
+  const onSelectedRows = (rows: any) => {
+    setSelectedRows([...rows]);
+  };
 
   // ------------------------------------------------------------------------------------
   // Handle Data
@@ -186,9 +206,7 @@ function MetaDataTable() {
         columnsConfig={columnsConfig}
         rows={sampleRows}
         hasSelectionRows
-        onSelectedRows={(selectedRows) => {
-          console.log(selectedRows);
-        }}
+        onSelectedRows={onSelectedRows}
         onRowClick={handleEditMetaModalOpen}
         topActionConfig={topActionConfig}
         excelBtnConfig={excelBtnConfig}
@@ -221,6 +239,13 @@ function MetaDataTable() {
       <EditMetaModal
         visible={isEditMetaModalVisible}
         handleClose={handleEditMetaModalClose}
+      />
+
+      {/* Delete Meta - Modal */}
+      <DeleteMetaModal
+        visible={isDeleteMetaModalVisible}
+        handleSave={handleDeleteMeta}
+        handleClose={handleDeleteMetaModalClose}
       />
 
       {/* Immort Excel - Modal */}

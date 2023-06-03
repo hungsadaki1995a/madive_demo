@@ -1,4 +1,4 @@
-import { useEffect, useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 
 import { Paper } from '@mui/material';
 import { observer } from 'mobx-react';
@@ -15,34 +15,51 @@ import { ReactComponent as DeleteIcon } from '@/stylesheets/images/DeleteIcon.sv
 import TopButtonModel from '@/types/models/topButtonModel';
 import { useStore } from '@/utils';
 
+import DeleteMetaHistoryModal from './modal/DeleteMetaHistoryModal';
+
+const sampleRowsData = [
+  {
+    id: 1,
+    history_type: 'CREATE',
+    physical_name: 'trx_dt',
+    logical_name: 'Transaction Date',
+    field_type: 'double',
+    length: '20',
+    update_time: '2023-05-04 15:44:28',
+    modifier: 'admin',
+  },
+  {
+    id: 2,
+    history_type: 'CREATE',
+    physical_name: 'test1',
+    logical_name: 'test1',
+    field_type: 'char',
+    length: '10',
+    update_time: '2023-05-04 16:05:24',
+    modifier: 'admin',
+  },
+];
+
 function MetaHistoryDataTable() {
   const { AlertStore } = useStore();
+  const [isDeleteMetaHistoryModalVisible, setIsDeleteMetaHistoryModalVisible] = useState(false);
+  const [selectedRows, setSelectedRows] = useState<any[]>([]);
+  const [sampleRows, setSampleRows] = useState(sampleRowsData);
 
-  // -----------------------------------
-  // Sample Data
+  // Delete Meta History Modal Open
+  const handleDeleteMetaHistoryModalOpen = () => {
+    setIsDeleteMetaHistoryModalVisible(true);
+  };
 
-  const sampleRows = [
-    {
-      id: 1,
-      history_type: 'CREATE',
-      physical_name: 'trx_dt',
-      logical_name: 'Transaction Date',
-      field_type: 'double',
-      length: '20',
-      update_time: '2023-05-04 15:44:28',
-      modifier: 'admin',
-    },
-    {
-      id: 2,
-      history_type: 'CREATE',
-      physical_name: 'test1',
-      logical_name: 'test1',
-      field_type: 'char',
-      length: '10',
-      update_time: '2023-05-04 16:05:24',
-      modifier: 'admin',
-    },
-  ];
+  // Delete Meta History Modal Close
+  const handleDeleteMetaHistoryModalClose = () => {
+    setIsDeleteMetaHistoryModalVisible(false);
+  };
+
+  // Delete Meta History Excute
+  const handleDeleteMetaHistory = () => {
+    console.log(selectedRows);
+  };
 
   // -----------------------------------
   // Config table
@@ -97,7 +114,7 @@ function MetaHistoryDataTable() {
     return [
       {
         label: 'Delete',
-        //onClick: () => createModalRef.current?.show(),
+        onClick: () => handleDeleteMetaHistoryModalOpen(),
         icon: <DeleteIcon />,
       },
     ];
@@ -106,6 +123,10 @@ function MetaHistoryDataTable() {
   const bottomActionsConfig = useMemo<IBottomAction<IPlainObject>[]>((): IBottomAction<IPlainObject>[] => {
     return [];
   }, []);
+
+  const onSelectedRows = (rows: any) => {
+    setSelectedRows([...rows]);
+  };
 
   // ------------------------------------------------------------------------------------
   // Handle Data
@@ -123,9 +144,7 @@ function MetaHistoryDataTable() {
         columnsConfig={columnsConfig}
         rows={sampleRows}
         hasSelectionRows
-        onSelectedRows={(selectedRows) => {
-          //
-        }}
+        onSelectedRows={onSelectedRows}
         topActionConfig={topActionConfig}
         //filterConfig={filterConfig}
         //onFilterTriggerQuery={filter}
@@ -145,6 +164,13 @@ function MetaHistoryDataTable() {
         }}
         // renderPaginationAs={TablePaginationCustom}
         bottomActionsConfig={bottomActionsConfig}
+      />
+
+      {/* Delete Meta History - Modal */}
+      <DeleteMetaHistoryModal
+        visible={isDeleteMetaHistoryModalVisible}
+        handleSave={handleDeleteMetaHistory}
+        handleClose={handleDeleteMetaHistoryModalClose}
       />
     </Paper>
   );

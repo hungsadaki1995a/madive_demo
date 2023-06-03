@@ -17,13 +17,24 @@ import { ReactComponent as DeleteIcon } from '@/stylesheets/images/DeleteIcon.sv
 import TopButtonModel from '@/types/models/topButtonModel';
 import { useStore } from '@/utils';
 
+import DeleteDatasourceModal from './modal/DeleteDatasourceModal';
 import CreateDatasourceModal from './modal/PRO10104105M';
 import EditDatasourceModal from './modal/PRO10104106M';
+
+const sampleRowsData = [
+  {
+    key_parameter: 'SYSTEM_CONTEXT_TEST',
+    property_value: 'tibero6_dev',
+  },
+];
 
 function SystemContextDatasourceDataTable() {
   const { TestCaseStore, AlertStore } = useStore();
   const [isCreateDatasourceModalVisible, setIsCreateDatasourceModalVisible] = useState(false);
   const [isEditDatasourceModalVisible, setIsEditDatasourceModalVisible] = useState(false);
+  const [isDeleteDatasourceModalVisible, setIsDeleteDatasourceModalVisible] = useState(false);
+  const [selectedRows, setSelectedRows] = useState<any[]>([]);
+  const [sampleRows, setSampleRows] = useState(sampleRowsData);
 
   // Create Datasource Modal Open
   const handleCreateDatasourceModalOpen = () => {
@@ -47,15 +58,20 @@ function SystemContextDatasourceDataTable() {
     setIsEditDatasourceModalVisible(false);
   };
 
-  // -----------------------------------
-  // Sample Data
+  // Delete Datasource Modal Open
+  const handleDeleteDatasourceModalOpen = () => {
+    setIsDeleteDatasourceModalVisible(true);
+  };
 
-  const sampleRows = [
-    {
-      key_parameter: 'SYSTEM_CONTEXT_TEST',
-      property_value: 'tibero6_dev',
-    },
-  ];
+  // Delete Datasource Modal Close
+  const handleDeleteDatasourceModalClose = () => {
+    setIsDeleteDatasourceModalVisible(false);
+  };
+
+  // Delete Datasource Excute
+  const handleDeleteDatasource = () => {
+    console.log(selectedRows);
+  };
 
   // -----------------------------------
   // Config table
@@ -127,6 +143,7 @@ function SystemContextDatasourceDataTable() {
     return [
       {
         label: 'Delete',
+        onClick: () => handleDeleteDatasourceModalOpen(),
         icon: <DeleteIcon />,
       },
     ];
@@ -135,6 +152,10 @@ function SystemContextDatasourceDataTable() {
   const bottomActionsConfig = useMemo<IBottomAction<IPlainObject>[]>((): IBottomAction<IPlainObject>[] => {
     return [];
   }, []);
+
+  const onSelectedRows = (rows: any) => {
+    setSelectedRows([...rows]);
+  };
 
   // ------------------------------------------------------------------------------------
   // Handle Data
@@ -152,9 +173,7 @@ function SystemContextDatasourceDataTable() {
         columnsConfig={columnsConfig}
         rows={sampleRows}
         hasSelectionRows
-        onSelectedRows={(selectedRows) => {
-          //
-        }}
+        onSelectedRows={onSelectedRows}
         onRowClick={handleEditDatasourceModalOpen}
         topActionConfig={topActionConfig}
         addBtnConfig={addBtnConfig}
@@ -188,6 +207,13 @@ function SystemContextDatasourceDataTable() {
       <EditDatasourceModal
         visible={isEditDatasourceModalVisible}
         handleClose={handleEditDatasourceModalClose}
+      />
+
+      {/* Delete Datasource - Modal */}
+      <DeleteDatasourceModal
+        visible={isDeleteDatasourceModalVisible}
+        handleSave={handleDeleteDatasource}
+        handleClose={handleDeleteDatasourceModalClose}
       />
     </>
   );

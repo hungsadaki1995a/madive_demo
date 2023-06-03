@@ -16,67 +16,83 @@ import { ReactComponent as DeleteIcon } from '@/stylesheets/images/DeleteIcon.sv
 import TopButtonModel from '@/types/models/topButtonModel';
 import { useStore } from '@/utils';
 
+import DeleteNodeModal from './modal/DeleteNodeModal';
 import CreateNodeModal from './modal/PRO10101102M';
 import EditNodeModal from './modal/PRO10101103M';
+
+const sampleRowsData = [
+  {
+    node_id: '27ed7eef630d391a47f7a82c73a9cabe',
+    node_type: 'TEST',
+    node_name: 'nODE',
+    node_ip: '192.168.57.34',
+    node_file_port: '8243',
+    node_tcp_port: '8081',
+    node_path: '',
+    node_admin: 'admin',
+    node_http_port: '8080',
+    node_is_ssl: 'FALSE',
+    description: 'This is Test',
+  },
+  {
+    node_id: '2865bb541acc31267a5b86c61445149a',
+    node_type: 'TEST',
+    node_name: 'dd',
+    node_ip: '3',
+    node_file_port: '4',
+    node_tcp_port: '3',
+    node_path: '',
+    node_admin: 'admin',
+    node_http_port: '333',
+    node_is_ssl: 'FALSE',
+    description: 'This is Test',
+  },
+];
 
 function NodeManagementDataTable() {
   const { AlertStore } = useStore();
   const [isCreateNodeModalVisible, setIsCreateNodeModalVisible] = useState(false);
   const [isEditNodeModalVisible, setIsEditNodeModalVisible] = useState(false);
+  const [isDeleteNodeModalVisible, setIsDeleteNodeModalVisible] = useState(false);
+  const [selectedRows, setSelectedRows] = useState<any[]>([]);
+  const [sampleRows, setSampleRows] = useState(sampleRowsData);
 
-  // Create Meta Modal Open
+  // Create Node Modal Open
   const handleCreateNodeModalOpen = () => {
     setIsCreateNodeModalVisible(true);
   };
 
-  // Create Meta Modal Close
+  // Create Node Modal Close
   const handleCreateNodeModalClose = () => {
     setIsCreateNodeModalVisible(false);
   };
 
-  // Edit Meta Modal Open
+  // Edit Node Modal Open
   const handleEditNodeModalOpen = (event: React.MouseEvent<unknown>, row: any) => {
     console.log(event);
     console.log(row);
     setIsEditNodeModalVisible(true);
   };
 
-  // Edit Meta Modal Close
+  // Edit Node Modal Close
   const handleEditNodeModalClose = () => {
     setIsEditNodeModalVisible(false);
   };
 
-  // -----------------------------------
-  // Sample Data
+  // Delete Node Modal Open
+  const handleDeleteNodeModalOpen = () => {
+    setIsDeleteNodeModalVisible(true);
+  };
 
-  const sampleRows = [
-    {
-      node_id: '27ed7eef630d391a47f7a82c73a9cabe',
-      node_type: 'TEST',
-      node_name: 'nODE',
-      node_ip: '192.168.57.34',
-      node_file_port: '8243',
-      node_tcp_port: '8081',
-      node_path: '',
-      node_admin: 'admin',
-      node_http_port: '8080',
-      node_is_ssl: 'FALSE',
-      description: 'This is Test',
-    },
-    {
-      node_id: '2865bb541acc31267a5b86c61445149a',
-      node_type: 'TEST',
-      node_name: 'dd',
-      node_ip: '3',
-      node_file_port: '4',
-      node_tcp_port: '3',
-      node_path: '',
-      node_admin: 'admin',
-      node_http_port: '333',
-      node_is_ssl: 'FALSE',
-      description: 'This is Test',
-    },
-  ];
+  // Delete Node Modal Close
+  const handleDeleteNodeModalClose = () => {
+    setIsDeleteNodeModalVisible(false);
+  };
+
+  // Delete Node Excute
+  const handleDeleteNode = () => {
+    console.log(selectedRows);
+  };
 
   // -----------------------------------
   // Config table
@@ -156,6 +172,7 @@ function NodeManagementDataTable() {
     return [
       {
         label: 'Delete',
+        onClick: () => handleDeleteNodeModalOpen(),
         icon: <DeleteIcon />,
       },
     ];
@@ -164,6 +181,10 @@ function NodeManagementDataTable() {
   const bottomActionsConfig = useMemo<IBottomAction<IPlainObject>[]>((): IBottomAction<IPlainObject>[] => {
     return [];
   }, []);
+
+  const onSelectedRows = (rows: any) => {
+    setSelectedRows([...rows]);
+  };
 
   // ------------------------------------------------------------------------------------
   // Handle Data
@@ -181,9 +202,7 @@ function NodeManagementDataTable() {
         columnsConfig={columnsConfig}
         rows={sampleRows}
         hasSelectionRows
-        onSelectedRows={(selectedRows) => {
-          //
-        }}
+        onSelectedRows={onSelectedRows}
         showTopSelect
         onRowClick={handleEditNodeModalOpen}
         topActionConfig={topActionConfig}
@@ -208,16 +227,23 @@ function NodeManagementDataTable() {
         bottomActionsConfig={bottomActionsConfig}
       />
 
-      {/* Create Meta - Modal */}
+      {/* Create Node - Modal */}
       <CreateNodeModal
         visible={isCreateNodeModalVisible}
         handleClose={handleCreateNodeModalClose}
       />
 
-      {/* Edit Meta - Modal */}
+      {/* Edit Node - Modal */}
       <EditNodeModal
         visible={isEditNodeModalVisible}
         handleClose={handleEditNodeModalClose}
+      />
+
+      {/* Delete Node - Modal */}
+      <DeleteNodeModal
+        visible={isDeleteNodeModalVisible}
+        handleSave={handleDeleteNode}
+        handleClose={handleDeleteNodeModalClose}
       />
     </Paper>
   );

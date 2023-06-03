@@ -15,7 +15,6 @@ import makeStyles from '@mui/styles/makeStyles';
 
 // Common Atoms
 import { CmCard, CmCardAdd } from '@/components/atoms/CmCard';
-import CmModal from '@/components/atoms/CmModal';
 import { CmPageTselectBtw } from '@/components/templates/CmPageTitle';
 // Templates
 import CmSearch from '@/components/templates/CmSearch';
@@ -27,10 +26,10 @@ import { ReactComponent as SuccessIcon } from '@/stylesheets/images/SnackSuccess
 
 import { OverviewStyled } from '../Overview.Styled';
 // Modals
+import DeleteModal from './modal/DeleteModal';
 import CreateApplicationModal from './modal/PRO10100102M';
 import EditApplicationModal from './modal/PRO10100103M';
 import AddServiceGroupModal from './modal/PRO10100104M';
-import EditServiceGroupModal from './modal/PRO10100105M';
 
 type propsType = {
   title: string;
@@ -109,9 +108,8 @@ function AppSG(props: propsType) {
   const { title } = props;
   const [isCreateApplicationModalVisible, setIsCreateApplicationModalVisible] = useState(false);
   const [isEditApplicationModalVisible, setIsEditApplicationModalVisible] = useState(false);
+  const [isDeleteApplicationModalVisible, setIsDeleteApplicationModalVisible] = useState(false);
   const [isAddServiceGroupModalVisible, setIsAddServiceGroupModalVisible] = useState(false);
-  const [isEditServiceGroupModalVisible, setIsEditServiceGroupModalVisible] = useState(false);
-  const [isDelVisible, setIsDelVisible] = useState(false);
   const [successOpen, setSuccessOpen] = useState(false);
   const boardId = useRef();
 
@@ -120,7 +118,7 @@ function AppSG(props: propsType) {
     boardId.current = undefined;
     setIsCreateApplicationModalVisible(false);
     setIsEditApplicationModalVisible(false);
-    setIsDelVisible(false);
+    setIsAddServiceGroupModalVisible(false);
     //setSuccessOpen(false);
   };
 
@@ -134,6 +132,16 @@ function AppSG(props: propsType) {
     setIsCreateApplicationModalVisible(false);
   };
 
+  // Delete Application Modal Open
+  const handleDeleteApplicationModalOpen = () => {
+    setIsDeleteApplicationModalVisible(true);
+  };
+
+  // Delete Application Modal Close
+  const handleDeleteApplicationModalClose = () => {
+    setIsDeleteApplicationModalVisible(false);
+  };
+
   // Add Service Group Modal Open
   const handleAddServiceGroupModalOpen = () => {
     setIsAddServiceGroupModalVisible(true);
@@ -144,23 +152,13 @@ function AppSG(props: propsType) {
     setIsAddServiceGroupModalVisible(false);
   };
 
-  // Edit Service Group Modal Open
-  const handleEditServiceGroupModalOpen = () => {
-    setIsEditServiceGroupModalVisible(true);
-  };
-
-  // Edit Service Group Modal Close
-  const handleEditServiceGroupModalClose = () => {
-    setIsEditServiceGroupModalVisible(false);
-  };
-
   // 수정 모달 팝업 이동
   const handleModify = (e: string) => {
     console.log('AppSG handleClick', e);
     if (e === 'I' || e === 'E') {
       setIsEditApplicationModalVisible(!isEditApplicationModalVisible);
     } else {
-      setIsDelVisible(!isDelVisible);
+      handleDeleteApplicationModalOpen();
     }
   };
 
@@ -225,29 +223,16 @@ function AppSG(props: propsType) {
       />
 
       {/* Delete Application - Modal */}
-      <CmModal
-        title="Delete Application"
-        visible={isDelVisible}
-        onSave={handleSave}
-        onClose={handleClose}
-        className="medium"
-      >
-        {/* contents */}
-        <p className="pointTxt">Are you sure to delete this application ?</p>
-      </CmModal>
+      <DeleteModal
+        visible={isDeleteApplicationModalVisible}
+        handleClose={handleDeleteApplicationModalClose}
+      />
 
       {/* Add Service Group - Modal */}
       <AddServiceGroupModal
         visible={isAddServiceGroupModalVisible}
         handleSave={handleSave}
         handleClose={handleAddServiceGroupModalClose}
-      />
-
-      {/* Edit Service Group - Modal */}
-      <EditServiceGroupModal
-        visible={isEditServiceGroupModalVisible}
-        handleSave={handleSave}
-        handleClose={handleEditServiceGroupModalClose}
       />
 
       <Snackbar

@@ -17,13 +17,36 @@ import { ReactComponent as DeleteIcon } from '@/stylesheets/images/DeleteIcon.sv
 import TopButtonModel from '@/types/models/topButtonModel';
 import { useStore } from '@/utils';
 
+import DeleteSystemContextModal from './modal/DeleteSystemContextModal';
 import AddSystemContextModal from './modal/PRO10104102M';
 import EditSystemContextModal from './modal/PRO10104103M';
+
+const sampleRowsData = [
+  {
+    key: 'ㅎㄷㅎ',
+    value: 'ㅎㄷㅎ',
+  },
+  {
+    key: 'url',
+    value: 'http://192.168.57.34:80/',
+  },
+  {
+    key: 'hello',
+    value: '123',
+  },
+  {
+    key: 'QA',
+    value: 'TEST',
+  },
+];
 
 function SystemContextManagementDataTable() {
   const { AlertStore } = useStore();
   const [isAddSystemContextModalVisible, setIsAddSystemContextModalVisible] = useState(false);
   const [isEditSystemContextModalVisible, setIsEditSystemContextModalVisible] = useState(false);
+  const [isDeleteSystemContextModalVisible, setIsDeleteSystemContextModalVisible] = useState(false);
+  const [selectedRows, setSelectedRows] = useState<any[]>([]);
+  const [sampleRows, setSampleRows] = useState(sampleRowsData);
 
   // Add System Context Modal Open
   const handleAddSystemContextModalOpen = () => {
@@ -47,27 +70,20 @@ function SystemContextManagementDataTable() {
     setIsEditSystemContextModalVisible(false);
   };
 
-  // -----------------------------------
-  // Sample Data
+  // Delete System Context Modal Open
+  const handleDeleteSystemContextModalOpen = () => {
+    setIsDeleteSystemContextModalVisible(true);
+  };
 
-  const sampleRows = [
-    {
-      key: 'ㅎㄷㅎ',
-      value: 'ㅎㄷㅎ',
-    },
-    {
-      key: 'url',
-      value: 'http://192.168.57.34:80/',
-    },
-    {
-      key: 'hello',
-      value: '123',
-    },
-    {
-      key: 'QA',
-      value: 'TEST',
-    },
-  ];
+  // Delete System Context Modal Close
+  const handleDeleteSystemContextModalClose = () => {
+    setIsDeleteSystemContextModalVisible(false);
+  };
+
+  // Delete System Context Excute
+  const handleDeleteSystemContext = () => {
+    console.log(selectedRows);
+  };
 
   // -----------------------------------
   // Config table
@@ -139,6 +155,7 @@ function SystemContextManagementDataTable() {
     return [
       {
         label: 'Delete',
+        onClick: () => handleDeleteSystemContextModalOpen(),
         icon: <DeleteIcon />,
       },
     ];
@@ -147,6 +164,10 @@ function SystemContextManagementDataTable() {
   const bottomActionsConfig = useMemo<IBottomAction<IPlainObject>[]>((): IBottomAction<IPlainObject>[] => {
     return [];
   }, []);
+
+  const onSelectedRows = (rows: any) => {
+    setSelectedRows([...rows]);
+  };
 
   // ------------------------------------------------------------------------------------
   // Handle Data
@@ -164,9 +185,7 @@ function SystemContextManagementDataTable() {
         columnsConfig={columnsConfig}
         rows={sampleRows}
         hasSelectionRows
-        onSelectedRows={(selectedRows) => {
-          //
-        }}
+        onSelectedRows={onSelectedRows}
         onRowClick={handleEditSystemContextModalOpen}
         topActionConfig={topActionConfig}
         addBtnConfig={addBtnConfig}
@@ -200,6 +219,13 @@ function SystemContextManagementDataTable() {
       <EditSystemContextModal
         visible={isEditSystemContextModalVisible}
         handleClose={handleEditSystemContextModalClose}
+      />
+
+      {/* Delete System Context - Modal */}
+      <DeleteSystemContextModal
+        visible={isDeleteSystemContextModalVisible}
+        handleSave={handleDeleteSystemContext}
+        handleClose={handleDeleteSystemContextModalClose}
       />
     </>
   );
