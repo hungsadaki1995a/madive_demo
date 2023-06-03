@@ -20,7 +20,10 @@ const BodyCheckBoxCell = ({ onChange, row, checked }: IBodyCheckBoxCellProps) =>
   );
 
   return (
-    <TableCell key={'table-body-contents-selection'}>
+    <TableCell
+      key={'table-body-contents-selection'}
+      className="checkbox-cell"
+    >
       <CheckBox
         checked={checked}
         color="info"

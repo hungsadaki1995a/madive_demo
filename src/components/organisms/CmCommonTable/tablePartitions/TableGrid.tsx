@@ -31,6 +31,9 @@ const TableBodyComponent = styled(TableBody)(({ theme }) => ({
     '&:nth-child(even)': {
       backgroundColor: '#f9fafa',
     },
+    '& .MuiTableCell-body.checkbox-cell': {
+      padding: 0,
+    },
     '& .MuiTableCell-body': {
       padding: '5px 15px',
       fontSize: '12px',
