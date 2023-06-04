@@ -4,6 +4,7 @@ import { classValidatorResolver } from '@hookform/resolvers/class-validator';
 import { Box, TextField } from '@mui/material';
 import { IsNotEmpty } from 'class-validator';
 
+import { CmButton } from '@/components/atoms/CmButton';
 import { CmDataSelect } from '@/components/atoms/CmDataInput';
 // Common Atoms
 import CmModal from '@/components/atoms/CmModal';
@@ -90,6 +91,30 @@ export default function EditMetaModal({ visible, handleSave, handleClose }: Edit
     },
     resolver,
   });
+
+  const footerRender = () => (
+    <Box className="alignL">
+      <CmButton
+        id="rightBtn1"
+        variant="text"
+        btnTitle="Cancel"
+        startIcon={<></>}
+        className=""
+        color="info"
+        onClick={handleClose}
+      />
+      <CmButton
+        id="rightBtn2"
+        variant="contained"
+        btnTitle="Save"
+        startIcon={<></>}
+        className=""
+        color="info"
+        onClick={handleSave}
+      />
+    </Box>
+  );
+
   return (
     <CmModal
       title="Edit Meta Field"
@@ -97,6 +122,7 @@ export default function EditMetaModal({ visible, handleSave, handleClose }: Edit
       onSave={handleSave}
       onClose={handleClose}
       className="medium"
+      footerRenderAs={footerRender}
     >
       {/* contents */}
       <label className="labelFormArea">

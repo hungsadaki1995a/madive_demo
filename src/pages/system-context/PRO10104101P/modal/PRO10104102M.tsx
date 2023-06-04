@@ -1,7 +1,9 @@
-import { TextField } from '@mui/material';
+import { Box, TextField } from '@mui/material';
+
+import { CmButton } from '@/components/atoms/CmButton';
+import CmModal from '@/components/atoms/CmModal';
 
 // Common Atoms
-import CmModal from '@/components/atoms/CmModal';
 
 type AddSystemContextModalProps = {
   visible: boolean;
@@ -10,6 +12,29 @@ type AddSystemContextModalProps = {
 };
 
 export default function AddSystemContextModal({ visible, handleSave, handleClose }: AddSystemContextModalProps) {
+  const footerRender = () => (
+    <Box className="alignL">
+      <CmButton
+        id="rightBtn1"
+        variant="text"
+        btnTitle="Cancel"
+        startIcon={<></>}
+        className=""
+        color="info"
+        onClick={handleClose}
+      />
+      <CmButton
+        id="rightBtn2"
+        variant="contained"
+        btnTitle="OK"
+        startIcon={<></>}
+        className=""
+        color="info"
+        onClick={handleSave}
+      />
+    </Box>
+  );
+
   return (
     <CmModal
       title="Add System Context"
@@ -17,6 +42,7 @@ export default function AddSystemContextModal({ visible, handleSave, handleClose
       onSave={handleSave}
       onClose={handleClose}
       className="medium"
+      footerRenderAs={footerRender}
     >
       {/* contents */}
       <label className="labelFormArea">

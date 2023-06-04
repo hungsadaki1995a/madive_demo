@@ -1,5 +1,7 @@
 import { TextField } from '@mui/material';
+import { Box } from '@mui/material';
 
+import { CmButton } from '@/components/atoms/CmButton';
 import { CmDataSelect } from '@/components/atoms/CmDataInput';
 import CmModal from '@/components/atoms/CmModal';
 
@@ -10,6 +12,29 @@ type AddLogControlItemModalProps = {
 };
 
 export default function AddLogControlItemModal({ visible, handleSave, handleClose }: AddLogControlItemModalProps) {
+  const footerRender = () => (
+    <Box className="alignL">
+      <CmButton
+        id="rightBtn1"
+        variant="text"
+        btnTitle="Cancel"
+        startIcon={<></>}
+        className=""
+        color="info"
+        onClick={handleClose}
+      />
+      <CmButton
+        id="rightBtn2"
+        variant="contained"
+        btnTitle="OK"
+        startIcon={<></>}
+        className=""
+        color="info"
+        onClick={handleSave}
+      />
+    </Box>
+  );
+
   return (
     <CmModal
       title="Add Log Control Item"
@@ -17,6 +42,7 @@ export default function AddLogControlItemModal({ visible, handleSave, handleClos
       onSave={handleSave}
       onClose={handleClose}
       className="medium"
+      footerRenderAs={footerRender}
     >
       {/* contents */}
       <label className="labelFormArea">

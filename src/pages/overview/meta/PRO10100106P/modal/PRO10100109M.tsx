@@ -12,6 +12,29 @@ type ImportExcelModalProps = {
 };
 
 export default function ImportExcelModal({ visible, handleSave, handleClose, onChange }: ImportExcelModalProps) {
+  const footerRender = () => (
+    <Box className="alignL">
+      <CmButton
+        id="rightBtn1"
+        variant="text"
+        btnTitle="Cancel"
+        startIcon={<></>}
+        className=""
+        color="info"
+        onClick={handleClose}
+      />
+      <CmButton
+        id="rightBtn2"
+        variant="contained"
+        btnTitle="OK"
+        startIcon={<></>}
+        className=""
+        color="info"
+        onClick={handleSave}
+      />
+    </Box>
+  );
+
   return (
     <CmModal
       title="Import Excel"
@@ -19,6 +42,7 @@ export default function ImportExcelModal({ visible, handleSave, handleClose, onC
       onSave={handleSave}
       onClose={handleClose}
       className="medium"
+      footerRenderAs={footerRender}
     >
       {/* contents */}
       <Box className="formBtw">

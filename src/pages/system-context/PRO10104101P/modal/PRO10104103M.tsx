@@ -1,5 +1,6 @@
-import { TextField } from '@mui/material';
+import { Box, TextField } from '@mui/material';
 
+import { CmButton } from '@/components/atoms/CmButton';
 import CmModal from '@/components/atoms/CmModal';
 
 type EditSystemContextModalProps = {
@@ -9,6 +10,29 @@ type EditSystemContextModalProps = {
 };
 
 export default function EditSystemContextModal({ visible, handleSave, handleClose }: EditSystemContextModalProps) {
+  const footerRender = () => (
+    <Box className="alignL">
+      <CmButton
+        id="rightBtn1"
+        variant="text"
+        btnTitle="Cancel"
+        startIcon={<></>}
+        className=""
+        color="info"
+        onClick={handleClose}
+      />
+      <CmButton
+        id="rightBtn2"
+        variant="contained"
+        btnTitle="Save"
+        startIcon={<></>}
+        className=""
+        color="info"
+        onClick={handleSave}
+      />
+    </Box>
+  );
+
   return (
     <CmModal
       title="Edit System Context"
@@ -16,6 +40,7 @@ export default function EditSystemContextModal({ visible, handleSave, handleClos
       onSave={handleSave}
       onClose={handleClose}
       className="medium"
+      footerRenderAs={footerRender}
     >
       {/* contents */}
       <label className="labelFormArea">

@@ -1,5 +1,6 @@
-import { TextField } from '@mui/material';
+import { Box, TextField } from '@mui/material';
 
+import { CmButton } from '@/components/atoms/CmButton';
 import { CmDataSelect } from '@/components/atoms/CmDataInput';
 import CmModal from '@/components/atoms/CmModal';
 
@@ -10,6 +11,29 @@ type EditLogControlItemModalProps = {
 };
 
 export default function EditLogControlItemModal({ visible, handleSave, handleClose }: EditLogControlItemModalProps) {
+  const footerRender = () => (
+    <Box className="alignL">
+      <CmButton
+        id="rightBtn1"
+        variant="text"
+        btnTitle="Cancel"
+        startIcon={<></>}
+        className=""
+        color="info"
+        onClick={handleClose}
+      />
+      <CmButton
+        id="rightBtn2"
+        variant="contained"
+        btnTitle="Save"
+        startIcon={<></>}
+        className=""
+        color="info"
+        onClick={handleSave}
+      />
+    </Box>
+  );
+
   return (
     <CmModal
       title="Edit Log Control Item"
@@ -17,6 +41,7 @@ export default function EditLogControlItemModal({ visible, handleSave, handleClo
       onSave={handleSave}
       onClose={handleClose}
       className="medium"
+      footerRenderAs={footerRender}
     >
       {/* contents */}
       <label className="labelFormArea">
