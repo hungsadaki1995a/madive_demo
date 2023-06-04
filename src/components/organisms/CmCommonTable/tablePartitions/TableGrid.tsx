@@ -13,6 +13,9 @@ import TableHeaderCell from './TableHeaderCell';
 const TableHeadComponent = styled(TableHead)(({ theme }) => ({
   '& .MuiTableRow-head': {
     backgroundColor: '#f4f7fc',
+    '& .MuiTableCell-head.checkbox-cell': {
+      padding: 0,
+    },
     '& .MuiTableCell-head': {
       color: '#444',
       fontSize: '13px',
