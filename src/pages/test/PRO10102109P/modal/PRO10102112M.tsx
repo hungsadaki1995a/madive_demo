@@ -21,6 +21,8 @@ import {
 import { CmButton } from '@/components/atoms/CmButton';
 import CmModal from '@/components/atoms/CmModal';
 
+import SaveTestCaseModal from './PRO10102113M';
+
 type propsType = {
   title: string;
 };
@@ -67,239 +69,283 @@ export default function ViewTestResultModal({ visible, handleSave, handleClose }
   const handleTabChange = (event: SyntheticEvent, newValue: number) => {
     setValue(newValue);
   };
+  const [isSaveTestCaseModalVisible, setIsSaveTestCaseModalVisible] = useState(false);
+
+  // Save Test Case Modal Open
+  const handleSaveTestCaseModalOpen = () => {
+    setIsSaveTestCaseModalVisible(true);
+  };
+
+  // Save Test Case Modal Close
+  const handleSaveTestCaseModalClose = () => {
+    setIsSaveTestCaseModalVisible(false);
+  };
+
+  const footerRender = () => (
+    <Box className="alignL">
+      <CmButton
+        id="rightBtn1"
+        variant="text"
+        btnTitle="Cancel"
+        startIcon={<></>}
+        className=""
+        color="info"
+        onClick={handleClose}
+      />
+      <CmButton
+        id="rightBtn2"
+        variant="contained"
+        btnTitle="OK"
+        startIcon={<></>}
+        className=""
+        color="info"
+        onClick={handleSaveTestCaseModalOpen}
+      />
+    </Box>
+  );
+
   return (
-    <CmModal
-      title="View Test Result"
-      visible={visible}
-      onSave={handleSave}
-      onClose={handleClose}
-      className="large"
-    >
-      {/* contents */}
-      <Box className="inputDataBox">
-        <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-          <Tabs
+    <>
+      <CmModal
+        title="View Test Result"
+        visible={visible}
+        onSave={handleSave}
+        onClose={handleClose}
+        className="large"
+        footerRenderAs={footerRender}
+      >
+        {/* contents */}
+        <Box className="inputDataBox">
+          <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+            <Tabs
+              value={value}
+              onChange={handleTabChange}
+              aria-label="basic tabs example"
+            >
+              <Tab
+                label="Header"
+                {...a11yProps(0)}
+              />
+              <Tab
+                label="Output Do"
+                {...a11yProps(1)}
+              />
+            </Tabs>
+          </Box>
+          <TabPanel
             value={value}
-            onChange={handleTabChange}
-            aria-label="basic tabs example"
+            index={0}
           >
-            <Tab
-              label="Header"
-              {...a11yProps(0)}
-            />
-            <Tab
-              label="Output Do"
-              {...a11yProps(1)}
-            />
-          </Tabs>
+            <Grid
+              container
+              spacing={0}
+            >
+              {/* TreeView */}
+              <Grid className="treeBox">
+                <TreeView
+                  aria-label="file system navigator"
+                  defaultCollapseIcon={<StarsIcon />}
+                  defaultExpandIcon={<StarsIcon />}
+                  sx={{ height: 240, flexGrow: 1, maxWidth: 400, overflowY: 'auto' }}
+                >
+                  <TreeItem
+                    nodeId="1"
+                    label="Header1"
+                  >
+                    <TreeItem
+                      nodeId="2"
+                      label="Calendar"
+                    />
+                  </TreeItem>
+                  <TreeItem
+                    nodeId="5"
+                    label="Header222"
+                  >
+                    <TreeItem
+                      nodeId="10"
+                      label="OSS"
+                    />
+                    <TreeItem
+                      nodeId="6"
+                      label="MUI"
+                    >
+                      <TreeItem
+                        nodeId="8"
+                        label="index.js"
+                      />
+                    </TreeItem>
+                  </TreeItem>
+                </TreeView>
+              </Grid>
+              {/* Table */}
+              <Grid className="tableBox">
+                <Table className="addRow">
+                  <TableHead>
+                    <TableRow>
+                      <TableCell>Header</TableCell>
+                      <TableCell>Header</TableCell>
+                      <TableCell>Header</TableCell>
+                      <TableCell>Header</TableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    <TableRow>
+                      <TableCell rowSpan={3}>Header</TableCell>
+                      <TableCell>
+                        <span className="success">success</span>
+                      </TableCell>
+                      <TableCell>String</TableCell>
+                      <TableCell>
+                        <TextField
+                          hiddenLabel
+                          fullWidth
+                          size="small"
+                          defaultValue="Undefine"
+                        />
+                      </TableCell>
+                    </TableRow>
+                    <TableRow>
+                      <TableCell>Header</TableCell>
+                      <TableCell>String</TableCell>
+                      <TableCell>
+                        <CmButton
+                          variant="contained"
+                          btnTitle="+"
+                        />
+                        <CmButton
+                          variant="contained"
+                          btnTitle="-"
+                        />
+                      </TableCell>
+                    </TableRow>
+                    <TableRow>
+                      <TableCell>Header</TableCell>
+                      <TableCell>String</TableCell>
+                      <TableCell>
+                        <TextField
+                          hiddenLabel
+                          fullWidth
+                          size="small"
+                          defaultValue="Undefine"
+                        />
+                      </TableCell>
+                    </TableRow>
+                  </TableBody>
+                </Table>
+              </Grid>
+            </Grid>
+          </TabPanel>
+          <TabPanel
+            value={value}
+            index={1}
+          >
+            <Grid
+              container
+              spacing={0}
+            >
+              {/* TreeView */}
+              <Grid className="treeBox">
+                <TreeView
+                  aria-label="file system navigator"
+                  defaultCollapseIcon={<StarsIcon />}
+                  defaultExpandIcon={<StarsIcon />}
+                  sx={{ height: 240, flexGrow: 1, maxWidth: 400, overflowY: 'auto' }}
+                >
+                  <TreeItem
+                    nodeId="1"
+                    label="Input Do1"
+                  >
+                    <TreeItem
+                      nodeId="2"
+                      label="Input Do1-1"
+                    />
+                  </TreeItem>
+                  <TreeItem
+                    nodeId="5"
+                    label="Documents"
+                  >
+                    <TreeItem
+                      nodeId="10"
+                      label="OSS"
+                    />
+                    <TreeItem
+                      nodeId="6"
+                      label="MUI"
+                    >
+                      <TreeItem
+                        nodeId="8"
+                        label="index.js"
+                      />
+                    </TreeItem>
+                  </TreeItem>
+                </TreeView>
+              </Grid>
+              {/* Table */}
+              <Grid className="tableBox">
+                <Table className="addRow">
+                  <TableHead>
+                    <TableRow>
+                      <TableCell>Input Do</TableCell>
+                      <TableCell>Input Do</TableCell>
+                      <TableCell>Input Do</TableCell>
+                      <TableCell>Input Do</TableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    <TableRow>
+                      <TableCell rowSpan={3}>Input Do</TableCell>
+                      <TableCell>Input Do</TableCell>
+                      <TableCell>
+                        <span className="error">Error</span>
+                      </TableCell>
+                      <TableCell>
+                        <TextField
+                          hiddenLabel
+                          fullWidth
+                          size="small"
+                          defaultValue="Undefine"
+                        />
+                      </TableCell>
+                    </TableRow>
+                    <TableRow>
+                      <TableCell>Header</TableCell>
+                      <TableCell>String</TableCell>
+                      <TableCell>
+                        <CmButton
+                          variant="contained"
+                          btnTitle="+"
+                        />
+                        <CmButton
+                          variant="contained"
+                          btnTitle="-"
+                        />
+                      </TableCell>
+                    </TableRow>
+                    <TableRow>
+                      <TableCell>Header</TableCell>
+                      <TableCell>String</TableCell>
+                      <TableCell>
+                        <TextField
+                          hiddenLabel
+                          fullWidth
+                          size="small"
+                          defaultValue="Undefine"
+                        />
+                      </TableCell>
+                    </TableRow>
+                  </TableBody>
+                </Table>
+              </Grid>
+            </Grid>
+          </TabPanel>
         </Box>
-        <TabPanel
-          value={value}
-          index={0}
-        >
-          <Grid
-            container
-            spacing={0}
-          >
-            {/* TreeView */}
-            <Grid className="treeBox">
-              <TreeView
-                aria-label="file system navigator"
-                defaultCollapseIcon={<StarsIcon />}
-                defaultExpandIcon={<StarsIcon />}
-                sx={{ height: 240, flexGrow: 1, maxWidth: 400, overflowY: 'auto' }}
-              >
-                <TreeItem
-                  nodeId="1"
-                  label="Header1"
-                >
-                  <TreeItem
-                    nodeId="2"
-                    label="Calendar"
-                  />
-                </TreeItem>
-                <TreeItem
-                  nodeId="5"
-                  label="Header222"
-                >
-                  <TreeItem
-                    nodeId="10"
-                    label="OSS"
-                  />
-                  <TreeItem
-                    nodeId="6"
-                    label="MUI"
-                  >
-                    <TreeItem
-                      nodeId="8"
-                      label="index.js"
-                    />
-                  </TreeItem>
-                </TreeItem>
-              </TreeView>
-            </Grid>
-            {/* Table */}
-            <Grid className="tableBox">
-              <Table className="addRow">
-                <TableHead>
-                  <TableRow>
-                    <TableCell>Header</TableCell>
-                    <TableCell>Header</TableCell>
-                    <TableCell>Header</TableCell>
-                    <TableCell>Header</TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  <TableRow>
-                    <TableCell rowSpan={3}>Header</TableCell>
-                    <TableCell>
-                      <span className="success">success</span>
-                    </TableCell>
-                    <TableCell>String</TableCell>
-                    <TableCell>
-                      <TextField
-                        hiddenLabel
-                        fullWidth
-                        size="small"
-                        defaultValue="Undefine"
-                      />
-                    </TableCell>
-                  </TableRow>
-                  <TableRow>
-                    <TableCell>Header</TableCell>
-                    <TableCell>String</TableCell>
-                    <TableCell>
-                      <CmButton
-                        variant="contained"
-                        btnTitle="+"
-                      />
-                      <CmButton
-                        variant="contained"
-                        btnTitle="-"
-                      />
-                    </TableCell>
-                  </TableRow>
-                  <TableRow>
-                    <TableCell>Header</TableCell>
-                    <TableCell>String</TableCell>
-                    <TableCell>
-                      <TextField
-                        hiddenLabel
-                        fullWidth
-                        size="small"
-                        defaultValue="Undefine"
-                      />
-                    </TableCell>
-                  </TableRow>
-                </TableBody>
-              </Table>
-            </Grid>
-          </Grid>
-        </TabPanel>
-        <TabPanel
-          value={value}
-          index={1}
-        >
-          <Grid
-            container
-            spacing={0}
-          >
-            {/* TreeView */}
-            <Grid className="treeBox">
-              <TreeView
-                aria-label="file system navigator"
-                defaultCollapseIcon={<StarsIcon />}
-                defaultExpandIcon={<StarsIcon />}
-                sx={{ height: 240, flexGrow: 1, maxWidth: 400, overflowY: 'auto' }}
-              >
-                <TreeItem
-                  nodeId="1"
-                  label="Input Do1"
-                >
-                  <TreeItem
-                    nodeId="2"
-                    label="Input Do1-1"
-                  />
-                </TreeItem>
-                <TreeItem
-                  nodeId="5"
-                  label="Documents"
-                >
-                  <TreeItem
-                    nodeId="10"
-                    label="OSS"
-                  />
-                  <TreeItem
-                    nodeId="6"
-                    label="MUI"
-                  >
-                    <TreeItem
-                      nodeId="8"
-                      label="index.js"
-                    />
-                  </TreeItem>
-                </TreeItem>
-              </TreeView>
-            </Grid>
-            {/* Table */}
-            <Grid className="tableBox">
-              <Table className="addRow">
-                <TableHead>
-                  <TableRow>
-                    <TableCell>Input Do</TableCell>
-                    <TableCell>Input Do</TableCell>
-                    <TableCell>Input Do</TableCell>
-                    <TableCell>Input Do</TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  <TableRow>
-                    <TableCell rowSpan={3}>Input Do</TableCell>
-                    <TableCell>Input Do</TableCell>
-                    <TableCell>
-                      <span className="error">Error</span>
-                    </TableCell>
-                    <TableCell>
-                      <TextField
-                        hiddenLabel
-                        fullWidth
-                        size="small"
-                        defaultValue="Undefine"
-                      />
-                    </TableCell>
-                  </TableRow>
-                  <TableRow>
-                    <TableCell>Header</TableCell>
-                    <TableCell>String</TableCell>
-                    <TableCell>
-                      <CmButton
-                        variant="contained"
-                        btnTitle="+"
-                      />
-                      <CmButton
-                        variant="contained"
-                        btnTitle="-"
-                      />
-                    </TableCell>
-                  </TableRow>
-                  <TableRow>
-                    <TableCell>Header</TableCell>
-                    <TableCell>String</TableCell>
-                    <TableCell>
-                      <TextField
-                        hiddenLabel
-                        fullWidth
-                        size="small"
-                        defaultValue="Undefine"
-                      />
-                    </TableCell>
-                  </TableRow>
-                </TableBody>
-              </Table>
-            </Grid>
-          </Grid>
-        </TabPanel>
-      </Box>
-    </CmModal>
+      </CmModal>
+
+      {/* Save Test Case - Modal */}
+      <SaveTestCaseModal
+        visible={isSaveTestCaseModalVisible}
+        handleClose={handleSaveTestCaseModalClose}
+      />
+    </>
   );
 }

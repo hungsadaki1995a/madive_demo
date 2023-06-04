@@ -39,7 +39,6 @@ import { TestStyled } from '../Test.Styled';
 import SelectTargetDataModal from './modal/PRO10102102M';
 import SelectResourceDataModal from './modal/PRO10102103M';
 import ViewTestResultModal from './modal/PRO10102104M';
-import SaveTestResultModal from './modal/PRO10102105M';
 
 type propsType = {
   title: string;
@@ -83,7 +82,6 @@ function Test(props: propsType) {
   const [isSelectTargetDataModalVisible, setIsSelectTargetDataModalVisible] = useState(false);
   const [isSelectResourceDataModalVisible, setIsSelectResourceDataModalVisible] = useState(false);
   const [isViewTestResultModalVisible, setIsViewTestResultModalVisible] = useState(false);
-  const [isSaveTestResultModalVisible, setIsSaveTestResultModalVisible] = useState(false);
 
   // Select Target Modal Open
   const handleSelectTargetModalOpen = () => {
@@ -115,16 +113,6 @@ function Test(props: propsType) {
     setIsViewTestResultModalVisible(false);
   };
 
-  // Save Test Result Modal Open
-  const handleSaveTestResultModalOpen = () => {
-    setIsSaveTestResultModalVisible(true);
-  };
-
-  // Save Test Result Modal Close
-  const handleSaveTestResultModalClose = () => {
-    setIsSaveTestResultModalVisible(false);
-  };
-
   const handleTabChange = (event: SyntheticEvent, newValue: number) => {
     setValue(newValue);
   };
@@ -146,13 +134,13 @@ function Test(props: propsType) {
           {/* FormBox */}
           <label className="labelFormArea">
             <span>Target Node</span>
-            <CmDataSearch />
+            <CmDataSearch onClick={handleSelectTargetModalOpen} />
           </label>
 
           {/* FormBox */}
           <label className="labelFormArea">
             <span>Resource Name</span>
-            <CmDataSearch />
+            <CmDataSearch onClick={handleSelectResourceModalOpen} />
           </label>
         </Box>
         {/* Test Information */}
@@ -199,6 +187,7 @@ function Test(props: propsType) {
             variant="contained"
             startIcon={<StarsIcon />}
             btnTitle="Test"
+            onClick={handleViewTestResultModalOpen}
           />
         </Box>
       </Paper>
@@ -443,12 +432,6 @@ function Test(props: propsType) {
       <ViewTestResultModal
         visible={isViewTestResultModalVisible}
         handleClose={handleViewTestResultModalClose}
-      />
-
-      {/* Save Test Result - Modal */}
-      <SaveTestResultModal
-        visible={isSaveTestResultModalVisible}
-        handleClose={handleSaveTestResultModalClose}
       />
     </TestStyled>
   );

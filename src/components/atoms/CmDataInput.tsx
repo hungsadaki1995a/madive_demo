@@ -65,7 +65,10 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-function CmDataSearch() {
+type CmDataSearchProps = {
+  onClick?: () => void;
+};
+function CmDataSearch({ onClick }: CmDataSearchProps) {
   const classes = useStyles();
   return (
     <OutlinedInput
@@ -78,6 +81,7 @@ function CmDataSearch() {
           <SearchIcon />
         </IconButton>
       }
+      onClick={onClick}
     />
   );
 }

@@ -67,6 +67,30 @@ export default function ViewTestResultModal({ visible, handleSave, handleClose }
   const handleTabChange = (event: SyntheticEvent, newValue: number) => {
     setValue(newValue);
   };
+
+  const footerRender = () => (
+    <Box className="alignL">
+      <CmButton
+        id="rightBtn1"
+        variant="text"
+        btnTitle="Cancel"
+        startIcon={<></>}
+        className=""
+        color="info"
+        onClick={handleClose}
+      />
+      <CmButton
+        id="rightBtn2"
+        variant="contained"
+        btnTitle="OK"
+        startIcon={<></>}
+        className=""
+        color="info"
+        onClick={handleSave}
+      />
+    </Box>
+  );
+
   return (
     <CmModal
       title="View Test Result"
@@ -74,6 +98,7 @@ export default function ViewTestResultModal({ visible, handleSave, handleClose }
       onSave={handleSave}
       onClose={handleClose}
       className="large"
+      footerRenderAs={footerRender}
     >
       {/* contents */}
       <Box className="inputDataBox">
