@@ -1,11 +1,6 @@
 import DbioDataTable from './DataTable';
 
-type propsType = {
-  title: string;
-};
-
-function Dbio(props: propsType) {
-  const { title } = props;
+function Dbio() {
   return (
     <>
       <DbioDataTable />

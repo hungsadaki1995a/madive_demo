@@ -18,12 +18,7 @@ import { CmPageTselectColum } from '@/components/templates/CmPageTitle';
 import { LogControlStyled } from '../LogControl.Styled';
 import DataTable from './DataTable';
 
-type propsType = {
-  title: string;
-};
-
-function LogManagement(props: propsType) {
-  const { title } = props;
+function LogManagement() {
   return (
     <LogControlStyled>
       {/* {title} */}

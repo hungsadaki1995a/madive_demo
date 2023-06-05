@@ -31,10 +31,6 @@ import CreateApplicationModal from './modal/PRO10100102M';
 import EditApplicationModal from './modal/PRO10100103M';
 import ServiceGroupRegistrationModal from './modal/PRO10100104M';
 
-type propsType = {
-  title: string;
-};
-
 // Styled
 const useStyles = makeStyles(() => ({
   lbSnack: {
@@ -104,8 +100,7 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-function AppSG(props: propsType) {
-  const { title } = props;
+function AppSG() {
   const [isCreateApplicationModalVisible, setIsCreateApplicationModalVisible] = useState(false);
   const [isEditApplicationModalVisible, setIsEditApplicationModalVisible] = useState(false);
   const [isDeleteApplicationModalVisible, setIsDeleteApplicationModalVisible] = useState(false);

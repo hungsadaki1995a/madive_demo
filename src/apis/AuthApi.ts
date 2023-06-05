@@ -1,18 +1,49 @@
-import axios, { AxiosError } from 'axios';
+import Cookies from 'universal-cookie';
 
-import { LoginType } from '@/types/typeBundle';
+import { ILogin } from '@/types/typeBundle';
 
-const { NODE_ENV, REACT_APP_BACKEND_URL } = process.env;
-const BASE_URL = NODE_ENV === 'development' ? REACT_APP_BACKEND_URL : '/proobject-devserver';
+import { AuthEndpoint, AUTHENTICATION_COOKIE, PERMISSION_COOKIE } from '@/constants';
+import { LOCALSTORAGE_PERMISSION } from '@/constants/authentication';
+
+import apiClient from './apiClient';
+
+const cookies = new Cookies();
 
 const AuthApi = {
-  login: async (submitValue: LoginType) => {
-    try {
-      const { data } = await axios.post(BASE_URL + '/user/login', submitValue);
-      return data;
-    } catch (error: unknown) {
-      return error instanceof AxiosError ? error.response : error;
+  checkUserEncryption: async (userId: string) => {
+    const dto = { dto: { user_id: userId } };
+
+    const res = await apiClient.get(AuthEndpoint.checkEncryption + '?' + JSON.stringify(dto));
+
+    return res?.data || res;
+  },
+  login: async (submitValues: ILogin) => {
+    const dto = { dto: { user_id: submitValues.id, user_passwd: submitValues.pw } };
+    const res = await apiClient.get(AuthEndpoint.login + '?' + JSON.stringify(dto));
+
+    const permissionDto = { dto: { user_id: submitValues.id } };
+    const permission = (await apiClient.get(
+      AuthEndpoint.getUserPermission + '?' + JSON.stringify(permissionDto)
+    )) as any;
+
+    if (permission?.dto?.ConfigPermissionDto) {
+      localStorage.setItem(LOCALSTORAGE_PERMISSION, JSON.stringify(permission?.dto?.ConfigPermissionDto));
     }
+
+    return res?.data || res;
+  },
+  getUserPermission: async (userId: string) => {
+    const dto = { dto: { user_id: userId } };
+
+    const res = await apiClient.get(AuthEndpoint.getUserPermission + '?' + JSON.stringify(dto));
+
+    return res?.data || res;
+  },
+  logout: () => {
+    cookies.remove(AUTHENTICATION_COOKIE);
+    cookies.remove(PERMISSION_COOKIE);
+    localStorage.setItem(LOCALSTORAGE_PERMISSION, JSON.stringify([]));
+    window.location.href = '/';
   },
 };
 

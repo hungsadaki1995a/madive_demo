@@ -20,13 +20,7 @@ import { ReactComponent as PagePrevIcon } from '@/stylesheets/images/PagePrevIco
 import { ProminerStyled } from '../Prominer.Styled';
 import DataTable from './DataTable';
 
-type propsType = {
-  title: string;
-};
-
-function ViewResourceDetail(props: propsType) {
-  const { title } = props;
-
+function ViewResourceDetail() {
   return (
     <ProminerStyled>
       {/* Title */}

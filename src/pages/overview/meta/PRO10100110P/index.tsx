@@ -1,11 +1,6 @@
 import MetaHistoryDataTable from './DataTable';
 
-type propsType = {
-  title: string;
-};
-
-function MetaHistory(props: propsType) {
-  const { title } = props;
+function MetaHistory() {
   return (
     <>
       <MetaHistoryDataTable />

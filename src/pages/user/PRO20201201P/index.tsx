@@ -1,14 +1,8 @@
 import DataTable from './DataTable';
 
-type propsType = {
-  title: string;
-};
-
-function UserManagement(props: propsType) {
-  const { title } = props;
+function UserManagement() {
   return (
     <>
-      {/* <h1>{title}</h1> */}
       <DataTable />
     </>
   );

@@ -8,13 +8,14 @@
  * ====================================================
  * 2023.05.10   김정아 차장   최초 작성
  ******************************************************/
-import React, { useState } from 'react';
+import { useState } from 'react';
 
 import { AppBar, Box, Button, Menu, MenuItem, Toolbar, Typography } from '@mui/material';
 
 // Common Atoms
 import { CmButton } from '@/components/atoms/CmButton';
 
+import { AuthApi } from '@/apis';
 // img, icon
 import { ReactComponent as LogoutIcon } from '@/stylesheets/images/logout.svg';
 
@@ -61,6 +62,7 @@ function CmGnb() {
               variant="outlined"
               startIcon={<LogoutIcon />}
               btnTitle="Logout"
+              onClick={AuthApi.logout}
             />
             <Menu
               id="menu-appbar"

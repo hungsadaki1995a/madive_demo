@@ -43,11 +43,7 @@ const sampleRightTableRowsData = [
   },
 ];
 
-type propsType = {
-  title: string;
-};
-function GroupRoleAssign(props: propsType) {
-  const { title } = props;
+function GroupRoleAssign() {
   const [sampleLeftTableRows, setSampleLeftTableRows] = useState(sampleLeftTableRowsData);
   const [sampleRightTableRows, setSampleRightTableRows] = useState(sampleRightTableRowsData);
   const [leftTableSelectedRows, setLeftTableSelectedRows] = useState<any[]>([]);

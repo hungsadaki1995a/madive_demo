@@ -15,9 +15,9 @@ export type subMenusType = Record<string, subType>;
 //   subMenus: SubMenusType[];
 // }
 
-export interface LoginType {
-  userId: string;
-  userPasswd: string;
+export interface ILogin {
+  id: string;
+  pw: string;
 }
 
 export interface UserType {

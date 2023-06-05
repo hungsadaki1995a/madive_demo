@@ -9,8 +9,6 @@
  * 2023.05.11   김정아 차장   최초 작성
  ******************************************************/
 // import React, { useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
-
 import { Box, Breadcrumbs, Link, Typography } from '@mui/material';
 
 import { CmBreadcrumbsStyle } from './Templates.Styled';
