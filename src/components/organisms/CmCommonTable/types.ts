@@ -143,7 +143,7 @@ export interface ICommonTable<TRowDataType extends IPlainObject> {
   sortDefault: ISortInfo;
   onSortChange: (sortInfo: ISortInfo) => void;
   //
-  paginationConfig: IPaginationConfig;
+  paginationConfig?: IPaginationConfig;
   renderPaginationAs?: (props: IPaginationConfig) => JSX.Element;
   //
   showResultCount?: boolean;

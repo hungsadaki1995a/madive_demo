@@ -76,15 +76,6 @@ function ViewResourceDetailDataTable() {
           direction: 'asc',
         }}
         onSortChange={() => console.log('')}
-        paginationConfig={{
-          rowsPerPageOptions: [10, 25, 50, 100],
-          currentPage: 0,
-          rowsPerPage: 10,
-          totalCount: 0,
-          rowsPerPagePosition: 'last',
-          onPageChange: (newPageIndex: number) => console.log(newPageIndex),
-          onRowsPerPageChange: (newRowsPerPage: number) => console.log(newRowsPerPage),
-        }}
         // renderPaginationAs={TablePaginationCustom}
         //bottomActionsConfig={bottomActionsConfig}
       />

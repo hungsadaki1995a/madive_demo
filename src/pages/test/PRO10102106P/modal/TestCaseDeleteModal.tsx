@@ -21,10 +21,10 @@ export default function TestCaseDeleteModal({ isOpen, handleClose }: TestCaseDel
       />
       <CmButton
         variant="contained"
-        btnTitle="OK"
+        btnTitle="Delete"
         startIcon={<></>}
         className=""
-        color="info"
+        color="error"
         onClick={() => handleClose(true)}
       />
     </Box>
