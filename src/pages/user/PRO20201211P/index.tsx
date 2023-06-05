@@ -56,6 +56,8 @@ type propsType = {
 function UserGroupAssign(props: propsType) {
   const [sampleLeftTableRows, setSampleLeftTableRows] = useState(sampleLeftTableRowsData);
   const [sampleRightTableRows, setSampleRightTableRows] = useState(sampleRightTableRowsData);
+  const [leftTableSelectedRows, setLeftTableSelectedRows] = useState<any[]>([]);
+  const [rightTableSelectedRows, setRightTableSelectedRows] = useState<any[]>([]);
 
   // -----------------------------------
   // Config table
@@ -104,6 +106,50 @@ function UserGroupAssign(props: propsType) {
     onRowsPerPageChange: (newRowsPerPage: number) => console.log(newRowsPerPage),
   };
 
+  const onLeftTableSelectedRows = (rows: any) => {
+    setLeftTableSelectedRows([...rows]);
+  };
+
+  const onRightTableSelectedRows = (rows: any) => {
+    setRightTableSelectedRows([...rows]);
+  };
+
+  const handleAddUser = () => {
+    setSampleLeftTableRows([
+      ...sampleLeftTableRows,
+      ...rightTableSelectedRows.map((obj) => {
+        return {
+          user_id: obj.user_id,
+          is_default: 'N',
+          is_admin: 'N',
+        };
+      }),
+    ]);
+
+    setSampleRightTableRows(
+      sampleRightTableRows.filter(
+        (row) => !rightTableSelectedRows.some((selected) => row['user_id'] === selected['user_id'])
+      )
+    );
+  };
+
+  const handleDeleteUser = () => {
+    setSampleRightTableRows([
+      ...sampleRightTableRows,
+      ...leftTableSelectedRows.map((obj) => {
+        return {
+          user_id: obj.user_id,
+        };
+      }),
+    ]);
+
+    setSampleLeftTableRows(
+      sampleLeftTableRows.filter(
+        (row) => !leftTableSelectedRows.some((selected) => row['user_id'] === selected['user_id'])
+      )
+    );
+  };
+
   return (
     <UserStyled>
       {/* {title} */}
@@ -121,6 +167,7 @@ function UserGroupAssign(props: propsType) {
                 columnsConfig={leftTableColumnsConfig}
                 fieldAsRowId="user_id"
                 paginationConfig={paginationConfig}
+                onSelectedRows={onLeftTableSelectedRows}
               />
             </Box>
           </Grid>
@@ -134,11 +181,13 @@ function UserGroupAssign(props: propsType) {
                 variant="contained"
                 startIcon={<ArrLeftIcon />}
                 btnTitle="Add User"
+                onClick={handleAddUser}
               />
               <CmButton
                 variant="contained"
                 startIcon={<ArrRightIcon />}
                 btnTitle="Delete User"
+                onClick={handleDeleteUser}
               />
             </Grid>
           </Grid>
@@ -149,6 +198,7 @@ function UserGroupAssign(props: propsType) {
                 columnsConfig={rightTableColumnsConfig}
                 fieldAsRowId="user_id"
                 paginationConfig={paginationConfig}
+                onSelectedRows={onRightTableSelectedRows}
               />
             </Box>
           </Grid>

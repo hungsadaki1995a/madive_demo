@@ -10,7 +10,6 @@
  ******************************************************/
 import { Box, Paper, Typography } from '@mui/material';
 
-import { CmDataSearch } from '@/components/atoms/CmDataInput';
 // Common Atoms
 import { CmDataSelect } from '@/components/atoms/CmDataInput';
 // Templates
@@ -38,18 +37,6 @@ function LogManagement(props: propsType) {
           <label className="labelFormArea">
             <span>Node</span>
             <CmDataSelect className="" />
-          </label>
-
-          {/* FormBox */}
-          <label className="labelFormArea">
-            <span>Application</span>
-            <CmDataSearch />
-          </label>
-
-          {/* FormBox */}
-          <label className="labelFormArea">
-            <span>Context</span>
-            <CmDataSearch />
           </label>
         </Box>
       </Paper>
