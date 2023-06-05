@@ -40,10 +40,6 @@ import SelectTargetDataModal from './modal/PRO10102110M';
 import SelectResourceDataModal from './modal/PRO10102111M';
 import ViewTestResultModal from './modal/PRO10102112M';
 
-type propsType = {
-  title: string;
-};
-
 interface TabPanelProps {
   children?: React.ReactNode;
   index: number;
@@ -75,9 +71,7 @@ function a11yProps(index: number) {
   };
 }
 
-function CreateTestCase(props: propsType) {
-  const { title } = props;
-
+function CreateTestCase() {
   const [value, setValue] = useState(0);
   const [test, setTest] = useState('');
   const [isSelectTargetDataModalVisible, setIsSelectTargetDataModalVisible] = useState(false);

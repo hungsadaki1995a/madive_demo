@@ -1,7 +1,5 @@
 import { Navigate, Route, Routes } from 'react-router-dom';
 
-import { subMenusType } from '@/types/typeBundle';
-
 import Error from '@/pages/error';
 
 import UserManagement from './PRO20201201P';
@@ -12,35 +10,35 @@ import UserGroupAssign from './PRO20201211P';
 import GroupRoleAssign from './PRO20201212P';
 import RolePermissionAssign from './PRO20201213P';
 
-const User = ({ subMenus }: { subMenus: subMenusType }) => (
+const User = () => (
   <Routes>
     <Route
       path="/management"
-      element={<UserManagement title={subMenus['Management'].title} />}
+      element={<UserManagement />}
     />
     <Route
       path="/history"
-      element={<History title={subMenus['History'].title} />}
+      element={<History />}
     />
     <Route
       path="/group-management"
-      element={<GroupManagement title={subMenus['GroupManagement'].title} />}
+      element={<GroupManagement />}
     />
     <Route
       path="/role-management"
-      element={<RoleManagement title={subMenus['RoleManagement'].title} />}
+      element={<RoleManagement />}
     />
     <Route
       path="/user-group-assign"
-      element={<UserGroupAssign title={subMenus['UserGroupAssign'].title} />}
+      element={<UserGroupAssign />}
     />
     <Route
       path="/group-role-assign"
-      element={<GroupRoleAssign title={subMenus['GroupRoleAssign'].title} />}
+      element={<GroupRoleAssign />}
     />
     <Route
       path="/role-permission-assign"
-      element={<RolePermissionAssign title={subMenus['RolePermissionAssign'].title} />}
+      element={<RolePermissionAssign />}
     />
     <Route
       path="/"

@@ -1,11 +1,6 @@
 import DoInfoDataTable from './DataTable';
 
-type propsType = {
-  title: string;
-};
-
-function DoInfo(props: propsType) {
-  const { title } = props;
+function DoInfo() {
   return (
     <>
       <DoInfoDataTable />

@@ -50,10 +50,7 @@ const sampleRightTableRowsData = [
   },
 ];
 
-type propsType = {
-  title: string;
-};
-function UserGroupAssign(props: propsType) {
+function UserGroupAssign() {
   const [sampleLeftTableRows, setSampleLeftTableRows] = useState(sampleLeftTableRowsData);
   const [sampleRightTableRows, setSampleRightTableRows] = useState(sampleRightTableRowsData);
 

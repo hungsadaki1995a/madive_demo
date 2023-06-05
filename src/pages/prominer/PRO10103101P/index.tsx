@@ -1,11 +1,6 @@
 import PorminerResourceDataTable from './DataTable';
 
-type propsType = {
-  title: string;
-};
-
-function Resource(props: propsType) {
-  const { title } = props;
+function Resource() {
   return (
     <>
       <PorminerResourceDataTable />

@@ -21,10 +21,7 @@ import SystemContextDatasourceDataTable from './DataTable';
 
 // img, icon
 
-type propsType = {
-  title: string;
-};
-function Datasource(props: propsType) {
+function Datasource() {
   return (
     <SysContextStyled>
       {/* {title} */}

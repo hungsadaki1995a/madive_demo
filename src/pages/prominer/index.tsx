@@ -1,7 +1,5 @@
 import { Navigate, Route, Routes } from 'react-router-dom';
 
-import { subMenusType } from '@/types/typeBundle';
-
 import Error from '@/pages/error';
 
 import Resource from './PRO10103101P';
@@ -10,27 +8,27 @@ import Method from './PRO10103103P';
 import Field from './PRO10103105P';
 import Varible from './PRO10103106P';
 
-const Prominer = ({ subMenus }: { subMenus: subMenusType }) => (
+const Prominer = () => (
   <Routes>
     <Route
       path="/resource"
-      element={<Resource title={subMenus['Resource'].title} />}
+      element={<Resource />}
     />
     <Route
       path="/view-resource-detail"
-      element={<ViewResourceDetail title={subMenus['ViewResourceDetail'].title} />}
+      element={<ViewResourceDetail />}
     />
     <Route
       path="/method"
-      element={<Method title={subMenus['Method'].title} />}
+      element={<Method />}
     />
     <Route
       path="/field"
-      element={<Field title={subMenus['Field'].title} />}
+      element={<Field />}
     />
     <Route
       path="/varible"
-      element={<Varible title={subMenus['Varible'].title} />}
+      element={<Varible />}
     />
     <Route
       path="/"

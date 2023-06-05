@@ -1,8 +1,12 @@
+import Cookies from 'universal-cookie';
+
 import { ILogin } from '@/types/typeBundle';
 
-import { AuthEndpoint } from '@/constants';
+import { AuthEndpoint, AUTHENTICATION_COOKIE, PERMISSION_COOKIE } from '@/constants';
 
 import apiClient from './apiClient';
+
+const cookies = new Cookies();
 
 const AuthApi = {
   checkUserEncryption: async (userId: string) => {
@@ -18,6 +22,11 @@ const AuthApi = {
     const res = await apiClient.get(AuthEndpoint.login + '?' + JSON.stringify(dto));
 
     return res?.data || res;
+  },
+  logout: () => {
+    cookies.remove(AUTHENTICATION_COOKIE);
+    cookies.remove(PERMISSION_COOKIE);
+    window.location.href = '/';
   },
 };
 

@@ -18,11 +18,7 @@ import { CmPageTselectColum } from '@/components/templates/CmPageTitle';
 import { SysContextStyled } from '../SysContext.Styled';
 import SystemContextManagementDataTable from './DataTable';
 
-type propsType = {
-  title: string;
-};
-
-function SystemContextManagement(props: propsType) {
+function SystemContextManagement() {
   return (
     <SysContextStyled>
       {/* {title} */}

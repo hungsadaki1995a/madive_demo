@@ -1,11 +1,6 @@
 import NodeManagementDataTable from './DataTable';
 
-type propsType = {
-  title: string;
-};
-
-function NodeManagement(props: propsType) {
-  const { title } = props;
+function NodeManagement() {
   return (
     <>
       <NodeManagementDataTable />

@@ -1,11 +1,6 @@
 import TestCaseDataTable from './DataTable';
 
-type propsType = {
-  title: string;
-};
-
-function TestCase(props: propsType) {
-  const { title } = props;
+function TestCase() {
   return (
     <>
       <TestCaseDataTable />

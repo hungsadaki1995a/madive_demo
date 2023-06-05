@@ -1,16 +1,14 @@
 import { Navigate, Route, Routes } from 'react-router-dom';
 
-import { subMenusType } from '@/types/typeBundle';
-
 import Error from '@/pages/error';
 
 import Dbio from './PRO20202201P';
 
-const Model = ({ subMenus }: { subMenus: subMenusType }) => (
+const Model = () => (
   <Routes>
     <Route
       path="/dbio"
-      element={<Dbio title={subMenus['DBIO'].title} />}
+      element={<Dbio />}
     />
     <Route
       path="/"

@@ -1,11 +1,6 @@
 import LockAndUnlockDataTable from './DataTable';
 
-type propsType = {
-  title: string;
-};
-
-function LockAndUnlock(props: propsType) {
-  const { title } = props;
+function LockAndUnlock() {
   return (
     <>
       <LockAndUnlockDataTable />
