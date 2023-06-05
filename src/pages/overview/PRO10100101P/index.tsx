@@ -29,7 +29,7 @@ import { OverviewStyled } from '../Overview.Styled';
 import DeleteModal from './modal/DeleteModal';
 import CreateApplicationModal from './modal/PRO10100102M';
 import EditApplicationModal from './modal/PRO10100103M';
-import AddServiceGroupModal from './modal/PRO10100104M';
+import ServiceGroupRegistrationModal from './modal/PRO10100104M';
 
 type propsType = {
   title: string;
@@ -109,7 +109,7 @@ function AppSG(props: propsType) {
   const [isCreateApplicationModalVisible, setIsCreateApplicationModalVisible] = useState(false);
   const [isEditApplicationModalVisible, setIsEditApplicationModalVisible] = useState(false);
   const [isDeleteApplicationModalVisible, setIsDeleteApplicationModalVisible] = useState(false);
-  const [isAddServiceGroupModalVisible, setIsAddServiceGroupModalVisible] = useState(false);
+  const [isServiceGroupRegistrationModalVisible, setIsServiceGroupRegistrationModalVisible] = useState(false);
   const [successOpen, setSuccessOpen] = useState(false);
   const boardId = useRef();
 
@@ -118,7 +118,7 @@ function AppSG(props: propsType) {
     boardId.current = undefined;
     setIsCreateApplicationModalVisible(false);
     setIsEditApplicationModalVisible(false);
-    setIsAddServiceGroupModalVisible(false);
+    setIsServiceGroupRegistrationModalVisible(false);
     //setSuccessOpen(false);
   };
 
@@ -142,14 +142,14 @@ function AppSG(props: propsType) {
     setIsDeleteApplicationModalVisible(false);
   };
 
-  // Add Service Group Modal Open
-  const handleAddServiceGroupModalOpen = () => {
-    setIsAddServiceGroupModalVisible(true);
+  // Service Group Registration Modal Open
+  const handleServiceGroupRegistrationModalOpen = () => {
+    setIsServiceGroupRegistrationModalVisible(true);
   };
 
-  // Add Service Group Modal Close
-  const handleAddServiceGroupModalClose = () => {
-    setIsAddServiceGroupModalVisible(false);
+  // Service Group Registration Modal Close
+  const handleServiceGroupRegistrationModalClose = () => {
+    setIsServiceGroupRegistrationModalVisible(false);
   };
 
   // 수정 모달 팝업 이동
@@ -192,19 +192,19 @@ function AppSG(props: propsType) {
       <Box className="cardArea">
         <CmCard
           onClick={(e) => handleModify(e)}
-          onItemClick={() => handleAddServiceGroupModalOpen()}
+          onItemClick={() => handleServiceGroupRegistrationModalOpen()}
         />
         <CmCard
           onClick={(e) => handleModify(e)}
-          onItemClick={() => handleAddServiceGroupModalOpen()}
+          onItemClick={() => handleServiceGroupRegistrationModalOpen()}
         />
         <CmCard
           onClick={(e) => handleModify(e)}
-          onItemClick={() => handleAddServiceGroupModalOpen()}
+          onItemClick={() => handleServiceGroupRegistrationModalOpen()}
         />
         <CmCard
           onClick={(e) => handleModify(e)}
-          onItemClick={() => handleAddServiceGroupModalOpen()}
+          onItemClick={() => handleServiceGroupRegistrationModalOpen()}
         />
         <CmCardAdd onClick={() => handleCreateApplicationModalOpen()} />
       </Box>
@@ -228,11 +228,11 @@ function AppSG(props: propsType) {
         handleClose={handleDeleteApplicationModalClose}
       />
 
-      {/* Add Service Group - Modal */}
-      <AddServiceGroupModal
-        visible={isAddServiceGroupModalVisible}
+      {/* Service Group Registration - Modal */}
+      <ServiceGroupRegistrationModal
+        visible={isServiceGroupRegistrationModalVisible}
         handleSave={handleSave}
-        handleClose={handleAddServiceGroupModalClose}
+        handleClose={handleServiceGroupRegistrationModalClose}
       />
 
       <Snackbar

@@ -1,5 +1,7 @@
 import { TextField } from '@mui/material';
+import { Box } from '@mui/material';
 
+import { CmButton } from '@/components/atoms/CmButton';
 import CmModal from '@/components/atoms/CmModal';
 
 type EditApplicationModalProps = {
@@ -9,6 +11,29 @@ type EditApplicationModalProps = {
 };
 
 export default function EditApplicationModal({ visible, handleSave, handleClose }: EditApplicationModalProps) {
+  const footerRender = () => (
+    <Box className="alignL">
+      <CmButton
+        id="rightBtn1"
+        variant="text"
+        btnTitle="Cancel"
+        startIcon={<></>}
+        className=""
+        color="info"
+        onClick={handleClose}
+      />
+      <CmButton
+        id="rightBtn2"
+        variant="contained"
+        btnTitle="Save"
+        startIcon={<></>}
+        className=""
+        color="info"
+        onClick={handleSave}
+      />
+    </Box>
+  );
+
   return (
     <CmModal
       title="Edit Application"
@@ -16,6 +41,7 @@ export default function EditApplicationModal({ visible, handleSave, handleClose 
       onSave={handleSave}
       onClose={handleClose}
       className="medium"
+      footerRenderAs={footerRender}
     >
       {/* contents */}
       <label className="labelFormArea">
