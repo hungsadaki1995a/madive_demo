@@ -1,3 +1,10 @@
+// import { TextField } from '@mui/material';
+// import CmModal from '@/components/atoms/CmModal';
+// type CreateUserModalProps = {
+//   visible: boolean;
+//   handleSave?: () => void;
+//   handleClose: () => void;
+// };
 import { forwardRef } from 'react';
 
 import { observer } from 'mobx-react';
@@ -34,3 +41,60 @@ const CreateModal = ({ onSuccess }: CreateModalProps, ref: React.Ref<UserFormRef
 };
 
 export default observer(forwardRef(CreateModal));
+
+// export default function CreateUserModal({ visible, handleSave, handleClose }: CreateUserModalProps) {
+//   return (
+//     <CmModal
+//       title="Create User"
+//       visible={visible}
+//       onSave={handleSave}
+//       onClose={handleClose}
+//       className="medium"
+//     >
+//       {/* contents */}
+//       <label className="labelFormArea">
+//         <span>User ID</span>
+//         <TextField
+//           className="labelTextField"
+//           defaultValue="00_"
+//           size="small"
+//         />
+//       </label>
+//       <label className="labelFormArea">
+//         <span>Password</span>
+//         <TextField
+//           className="labelTextField"
+//           size="small"
+//         />
+//       </label>
+//       <label className="labelFormArea">
+//         <span>Name</span>
+//         <TextField
+//           className="labelTextField"
+//           size="small"
+//         />
+//       </label>
+//       <label className="labelFormArea">
+//         <span>User Div</span>
+//         <TextField
+//           className="labelTextField"
+//           size="small"
+//         />
+//       </label>
+//       <label className="labelFormArea">
+//         <span>E-mail</span>
+//         <TextField
+//           className="labelTextField"
+//           size="small"
+//         />
+//       </label>
+//       <label className="labelFormArea">
+//         <span>Telephone No.</span>
+//         <TextField
+//           className="labelTextField"
+//           size="small"
+//         />
+//       </label>
+//     </CmModal>
+//   );
+// }

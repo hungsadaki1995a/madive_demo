@@ -89,6 +89,12 @@ export interface IAddAction {
   icon?: React.ReactNode;
 }
 
+export interface IUploadAction {
+  label: string;
+  onClick?: () => void;
+  icon?: React.ReactNode;
+}
+
 export interface ICommonTableColumn<TRowDataType extends IPlainObject> {
   field: string;
   label?: string;
@@ -127,6 +133,8 @@ export interface ICommonTable<TRowDataType extends IPlainObject> {
   //
   topActionConfig?: ITopAction<TRowDataType>[];
   //
+  excelBtnConfig?: IUploadAction;
+  //
   addBtnConfig?: IAddAction;
   //
   filterConfig?: IFilterConfig;
@@ -135,7 +143,7 @@ export interface ICommonTable<TRowDataType extends IPlainObject> {
   sortDefault: ISortInfo;
   onSortChange: (sortInfo: ISortInfo) => void;
   //
-  paginationConfig: IPaginationConfig;
+  paginationConfig?: IPaginationConfig;
   renderPaginationAs?: (props: IPaginationConfig) => JSX.Element;
   //
   showResultCount?: boolean;
@@ -149,6 +157,7 @@ export type TableLayoutProps<TRowDataType extends IPlainObject> = Pick<
   ICommonTable<TRowDataType>,
   | 'showTopSelect'
   | 'topActionConfig'
+  | 'excelBtnConfig'
   | 'addBtnConfig'
   | 'filterConfig'
   | 'onFilterTriggerQuery'

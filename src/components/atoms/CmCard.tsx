@@ -13,6 +13,7 @@ import AddCircleIcon from '@mui/icons-material/AddCircleOutlineOutlined';
 import { Button, Card, CardContent, CardHeader, Link, List, ListItem, ListItemText, Typography } from '@mui/material';
 import makeStyles from '@mui/styles/makeStyles';
 
+import { notoSansDJKFont } from '@/stylesheets/common';
 // icon
 import { ReactComponent as DeleteIcon } from '@/stylesheets/images/cmCardDelIcon.svg';
 import { ReactComponent as EditIcon } from '@/stylesheets/images/cmCardEditIcon.svg';
@@ -20,13 +21,12 @@ import { ReactComponent as SubIcon } from '@/stylesheets/images/cmCardSubIcon.sv
 
 import { CARD_DATA } from '@/example/GenaralCode';
 
-// Common Component
 import { CmIconButton } from './CmButton';
 
 // Styled
 const useStyles = makeStyles(({ palette, typography }) => ({
   card: {
-    fontWeight: typography.fontWeightRegular,
+    fontFamily: notoSansDJKFont.regular,
     fontSize: '13px',
     lineHeight: '1.5',
     display: 'inline-block',

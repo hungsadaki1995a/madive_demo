@@ -27,6 +27,9 @@ const UserStyled = styled.div`
       .transferGrid {
         justify-content: center;
         align-items: center;
+        .MuiPaper-root {
+          box-shadow: none;
+        }
         p.MuiTypography-root {
           margin-bottom: 20px;
         }
@@ -43,6 +46,7 @@ const UserStyled = styled.div`
 
             button {
               margin: 3px 0;
+              width: 120px;
             }
           }
         }

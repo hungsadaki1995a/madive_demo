@@ -10,7 +10,6 @@
  ******************************************************/
 import { Box, Paper, Typography } from '@mui/material';
 
-import { CmDataSearch } from '@/components/atoms/CmDataInput';
 // Common Atoms
 import { CmDataSelect } from '@/components/atoms/CmDataInput';
 // Templates
@@ -42,13 +41,13 @@ function SystemContextManagement(props: propsType) {
           {/* FormBox */}
           <label className="labelFormArea">
             <span>Application</span>
-            <CmDataSearch />
+            <CmDataSelect className="" />
           </label>
 
           {/* FormBox */}
           <label className="labelFormArea">
             <span>Context</span>
-            <CmDataSearch />
+            <CmDataSelect className="" />
           </label>
         </Box>
       </Paper>

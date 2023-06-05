@@ -22,6 +22,7 @@ const CommonTable = <TRowDataType extends IPlainObject>({
   onFilterTriggerQuery,
   showTopSelect,
   topActionConfig,
+  excelBtnConfig,
   addBtnConfig,
   bottomActionsConfig,
   onRowClick,
@@ -94,9 +95,13 @@ const CommonTable = <TRowDataType extends IPlainObject>({
     typeof onRowClick === 'function' && onRowClick(event, row);
   }, []);
 
+  const handleSelectedRows = useCallback(() => {
+    typeof onSelectedRows === 'function' && onSelectedRows?.(selectedRows);
+  }, [selectedRows]);
+
   useEffect(() => {
-    onSelectedRows?.(selectedRows);
-  }, [onSelectedRows, selectedRows]);
+    handleSelectedRows();
+  }, [selectedRows]);
 
   useEffect(() => {
     setSelectedRows([]);
@@ -110,6 +115,7 @@ const CommonTable = <TRowDataType extends IPlainObject>({
         fieldAsRowId={fieldAsRowId}
         showTopSelect={showTopSelect}
         topActionConfig={topActionConfig}
+        excelBtnConfig={excelBtnConfig}
         addBtnConfig={addBtnConfig}
         filterConfig={filterConfig}
         onFilterTriggerQuery={onFilterTriggerQuery}

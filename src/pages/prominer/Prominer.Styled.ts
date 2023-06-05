@@ -79,7 +79,7 @@ const ProminerStyled = styled.div`
       flex-flow: column wrap;
       width: calc(100% - 430px);
 
-      .MuiTypography-root {
+      .MuiTypography-root:not(class*='makeStyles') {
         font-size: 15px;
         padding-bottom: 19px;
       }

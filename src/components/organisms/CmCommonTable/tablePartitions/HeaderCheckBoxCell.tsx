@@ -1,5 +1,4 @@
-import React from 'react';
-import { ChangeEvent } from 'react';
+import React, { ChangeEvent } from 'react';
 
 import { styled, TableCell } from '@mui/material';
 import CheckBox from '@mui/material/Checkbox';
@@ -16,7 +15,7 @@ interface IHeaderCheckBoxCellProps {
 
 const HeaderCheckBoxCell = ({ rowsCount, selectedRowsCount, onChange }: IHeaderCheckBoxCellProps) => {
   return (
-    <StyledTableCell>
+    <StyledTableCell className="checkbox-cell">
       <CheckBox
         color="info"
         checked={!!rowsCount && rowsCount === selectedRowsCount}

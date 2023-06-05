@@ -61,30 +61,6 @@ const LogControlStyled = styled.div`
           }
         }
       }
-      // Test Infomation
-      .formInfo {
-        .infoBox {
-          background: ${CmStyle.color.colorDef};
-          box-shadow: none;
-          figure {
-            width: 100%;
-            margin: 0;
-            color: ${CmStyle.color.colorBtnString};
-            figcaption {
-              color: ${CmStyle.color.colorT01};
-              padding: 12px 5px;
-              margin: 0;
-              overflow: hidden;
-              white-space: nowrap;
-              text-overflow: ellipsis;
-              word-break: break-all;
-            }
-            & ~ * {
-              margin-top: 10px;
-            }
-          }
-        }
-      }
       & ~ .MuiPaper-root {
         width: calc(100% - 456px);
       }

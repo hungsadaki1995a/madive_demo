@@ -10,11 +10,12 @@ interface IBodyCheckBoxCellProps {
 }
 const BodyTableRow = ({ children, key, row, onClick }: IBodyCheckBoxCellProps) => {
   const handleRowClick = useCallback(
-    (event: React.MouseEvent<unknown>) => {
-      onClick?.({
-        event,
-        row,
-      });
+    (event?: any) => {
+      event?.target?.cellIndex &&
+        onClick?.({
+          event,
+          row,
+        });
     },
     [onClick, row]
   );
@@ -22,7 +23,7 @@ const BodyTableRow = ({ children, key, row, onClick }: IBodyCheckBoxCellProps) =
   return (
     <TableRow
       key={key}
-      onClick={(event) => handleRowClick(event)}
+      onClick={(event: any) => handleRowClick(event)}
     >
       {children}
     </TableRow>

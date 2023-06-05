@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useRef } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 import SearchIcon from '@mui/icons-material/Search';
 import { Paper } from '@mui/material';
@@ -21,6 +21,7 @@ import TopButtonModel from '@/types/models/topButtonModel';
 import UserModel from '@/types/models/userModel';
 import { useStore } from '@/utils';
 
+import DeleteModal from './modals/DeleteModal';
 import CreateModal from './modals/PRO20201202M';
 import UpdateModal from './modals/PRO20201203M';
 import { UserFormRefType } from './modals/UserForm';
@@ -29,12 +30,29 @@ function UserManagementDataTable() {
   const { UserStore, AlertStore } = useStore();
   const createModalRef = useRef<UserFormRefType>(null);
   const updateModalRef = useRef<UserFormRefType>(null);
+  const [isDeleteUserModalVisible, setIsDeleteUserModalVisible] = useState(false);
+  const [selectedRows, setSelectedRows] = useState<any[]>([]);
 
-  // Edit Meta Modal Open
+  // Edit User Modal Open
   const handleUpdateModalOpen = (event: React.MouseEvent<unknown>, row: any) => {
     console.log(event);
     console.log(row);
     updateModalRef.current?.show(row);
+  };
+
+  // Delete User Modal Open
+  const handleDeleteUserModalOpen = () => {
+    setIsDeleteUserModalVisible(true);
+  };
+
+  // Delete User Modal Close
+  const handleDeleteUserModalClose = () => {
+    setIsDeleteUserModalVisible(false);
+  };
+
+  // Delete User Excute
+  const handleDeleteUser = () => {
+    console.log(selectedRows);
   };
 
   // -----------------------------------
@@ -140,7 +158,7 @@ function UserManagementDataTable() {
     return [
       {
         label: 'Delete',
-        //onClick: () => createModalRef.current?.show(),
+        onClick: () => handleDeleteUserModalOpen(),
         icon: <DeleteIcon />,
       },
     ];
@@ -168,6 +186,10 @@ function UserManagementDataTable() {
       },
     ];
   }, []);
+
+  const onSelectedRows = (rows: any) => {
+    setSelectedRows([...rows]);
+  };
 
   // ------------------------------------------------------------------------------------
   // Handle Data
@@ -212,13 +234,11 @@ function UserManagementDataTable() {
       <CommonTable
         tableName="user-management"
         // renderLayoutAs={TableLayoutCustom}
-        fieldAsRowId="email"
+        fieldAsRowId="user_id"
         columnsConfig={columnsConfig}
         rows={rows}
         hasSelectionRows
-        onSelectedRows={(selectedRows) => {
-          console.log('>>>>>>selected row', selectedRows);
-        }}
+        onSelectedRows={onSelectedRows}
         onRowClick={handleUpdateModalOpen}
         topActionConfig={topActionConfig}
         addBtnConfig={addBtnConfig}
@@ -248,6 +268,11 @@ function UserManagementDataTable() {
             UserStore.updateUser(data);
           }
         }}
+      />
+      <DeleteModal
+        visible={isDeleteUserModalVisible}
+        handleSave={handleDeleteUser}
+        handleClose={handleDeleteUserModalClose}
       />
     </Paper>
   );

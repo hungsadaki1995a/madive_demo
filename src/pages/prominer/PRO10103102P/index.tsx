@@ -17,7 +17,8 @@ import { CmButton, CmIconButton } from '@/components/atoms/CmButton';
 // Templates
 import { ReactComponent as PagePrevIcon } from '@/stylesheets/images/PagePrevIcon.svg';
 
-import { ProminerStyled } from './Prominer.Styled';
+import { ProminerStyled } from '../Prominer.Styled';
+import DataTable from './DataTable';
 
 type propsType = {
   title: string;
@@ -87,7 +88,7 @@ function ViewResourceDetail(props: propsType) {
                 btnTitle="Forward"
               />
             </Stack>
-            Table
+            <DataTable />
           </Box>
         </Stack>
       </Paper>

@@ -2,53 +2,39 @@ import { forwardRef, useCallback, useImperativeHandle, useMemo, useState } from 
 import { useForm } from 'react-hook-form';
 
 import { classValidatorResolver } from '@hookform/resolvers/class-validator';
-import { Button, Dialog, DialogActions, DialogContent, DialogTitle, Divider } from '@mui/material';
+import { Box, Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material';
 import makeStyles from '@mui/styles/makeStyles';
 
+import { CmButton, CmIconButton } from '@/components/atoms/CmButton';
 import { CmDialogTextField } from '@/components/molecules/CmFormFields/CmDialogTextField';
 import { IPlainObject } from '@/components/organisms/CmCommonTable/types';
 
+import { ReactComponent as ModalClose } from '@/stylesheets/images/modalClose.svg';
 import UserModel from '@/types/models/userModel';
 
 const useStyles = makeStyles(() => ({
   dialog: {
-    '& .MuiDialog-container': {
-      minWidth: 695,
+    '& *[role="dialog"]': {
+      width: '560px',
+      margin: 0,
+    },
+    '& .MuiDialogActions-root': {
+      padding: '20px',
     },
   },
   dialogTitle: {
-    '& h2': {
-      fontSize: 16,
-      fontWeight: 600,
-      color: '#444',
-    },
-  },
-  divider: {
-    margin: '0px 20px',
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    padding: '20px',
+    fontSize: '16px',
+    fontWeight: '400',
   },
   dialogContent: {
     overflowX: 'hidden',
-    '& p': {
-      display: 'flex',
-      alignItems: 'center',
-      width: 175,
-      fontSize: 14,
-      margin: 0,
-    },
-    '& input': {
-      padding: '5px 10px',
-      width: 312,
-      fontSize: 14,
-      color: '#555',
-    },
+    padding: '0 20px',
     '& input[type=radio]': {
       width: 'fit-content',
-    },
-    '& .Mui-disabled[type=text]': {
-      backgroundColor: 'rgba(0, 0, 0, 0.1)',
-    },
-    '& .Mui-disabled[role=button]': {
-      backgroundColor: 'rgba(0, 0, 0, 0.1)',
     },
   },
 }));
@@ -135,8 +121,14 @@ const UserForm = (
       onClose={handleHide}
       aria-labelledby="form-dialog-title"
     >
-      <DialogTitle className={classes.dialogTitle}>{header}</DialogTitle>
-      <Divider className={classes.divider} />
+      <DialogTitle className={classes.dialogTitle}>
+        {header}
+        <CmIconButton
+          btnTitle=""
+          iconName={<ModalClose />}
+          onClick={handleHide}
+        />
+      </DialogTitle>
       <DialogContent className={classes.dialogContent}>
         <CmDialogTextField
           label="User ID*"
@@ -171,7 +163,7 @@ const UserForm = (
         />
       </DialogContent>
       <DialogActions>
-        <Button
+        {/* <Button
           onClick={handleSubmit(submitForm)}
           type="submit"
           color="primary"
@@ -185,7 +177,24 @@ const UserForm = (
           variant="contained"
         >
           {cancelLabel}
-        </Button>
+        </Button> */}
+
+        <Box className="alignL">
+          <CmButton
+            variant="contained"
+            btnTitle={submitLabel}
+            startIcon={<></>}
+            className=""
+            onClick={handleSubmit(submitForm)}
+          />
+          <CmButton
+            variant="text"
+            btnTitle={cancelLabel}
+            startIcon={<></>}
+            className=""
+            onClick={handleHide}
+          />
+        </Box>
       </DialogActions>
     </Dialog>
   );

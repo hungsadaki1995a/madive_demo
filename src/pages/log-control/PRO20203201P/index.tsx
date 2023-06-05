@@ -16,7 +16,8 @@ import { CmDataSelect } from '@/components/atoms/CmDataInput';
 // Templates
 import { CmPageTselectColum } from '@/components/templates/CmPageTitle';
 
-import { LogControlStyled } from './LogControl.Styled';
+import { LogControlStyled } from '../LogControl.Styled';
+import DataTable from './DataTable';
 
 type propsType = {
   title: string;
@@ -53,7 +54,9 @@ function LogManagement(props: propsType) {
         </Box>
       </Paper>
 
-      <Paper className="inputDataBox">Table List Area</Paper>
+      <Paper className="inputDataBox">
+        <DataTable />
+      </Paper>
     </LogControlStyled>
   );
 }

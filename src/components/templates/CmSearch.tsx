@@ -21,7 +21,7 @@ const useStyles = makeStyles(() => ({
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
-    padding: '4px 8px',
+    padding: '4px 8px !important',
     marginBottom: '20px !important',
     '& *:not(svg)': {
       fontFamily: notoSansDJKFont.regular,
@@ -34,6 +34,10 @@ const useStyles = makeStyles(() => ({
       display: 'flex',
       flexDirection: 'row',
       alignItems: 'center',
+      '&.chipBox': {
+        padding: 0,
+        border: 0,
+      },
       '& >:not(style)+:not(style)': {
         marginTop: 0,
         marginLeft: '10px',
@@ -54,11 +58,11 @@ const useStyles = makeStyles(() => ({
       },
     },
     // TextField
-    '& .MuiFormControl-root': {
+    '& .searchChip': {
       display: 'flex',
+      margin: 'auto 10px',
     },
     '& .MuiOutlinedInput-root': {
-      margin: 'auto 10px',
       '& .MuiInputBase-input': {
         padding: 0,
       },
@@ -70,6 +74,7 @@ const useStyles = makeStyles(() => ({
     // RightBtn
     '& div[title="Rbtn"]': {
       marginLeft: 'auto',
+      padding: '0 !important',
       '& .MuiButton-text': {
         padding: 0,
         color: '#1898F5',
@@ -87,7 +92,10 @@ function CmSearch() {
   return (
     <Paper className={classes.topSearchBar}>
       <SearchIcon />
-      <Stack spacing={1}>
+      <Stack
+        className="chipBox"
+        spacing={1}
+      >
         <Chip
           label="Property 1 : Value 2"
           onDelete={handleDelete}
@@ -103,6 +111,7 @@ function CmSearch() {
       </Stack>
       <TextField
         hiddenLabel
+        className="searchChip"
         placeholder="검색할 항목을 입력해 주세요."
       />
       <Stack

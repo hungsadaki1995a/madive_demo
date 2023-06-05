@@ -1,4 +1,4 @@
-import { Box, Grid, TextareaAutosize, TextField } from '@mui/material';
+import { Box, Grid, TextField } from '@mui/material';
 
 import { CmButton } from '@/components/atoms/CmButton';
 import CmModal from '@/components/atoms/CmModal';
@@ -63,22 +63,26 @@ export default function TestCaseDetailModal({ isOpen, handleClose, testCaseDetai
               )}
               {type === FormElementType.TEXTAREA && (
                 <Grid
+                  className="detailEditor"
                   item
                   key={fieldName}
-                  xs={12}
+                  xs={4}
                 >
-                  <label className="labelFormArea">
-                    <span>{label}</span>
-                  </label>
-                  <TextareaAutosize
-                    className="labelTextField"
+                  {label}
+                  <TextField
                     value={testCaseDetail[fieldName as keyof ITestCaseDetail]}
+                    multiline
                     disabled
-                    minRows={5}
-                    style={{
-                      width: '100%',
-                    }}
                   />
+                  {/* <TextareaAutosize
+                      className="labelTextField"
+                      value={testCaseDetail[fieldName as keyof ITestCaseDetail]}
+                      disabled
+                      minRows={5}
+                      style={{
+                        width: '100%',
+                      }}
+                    /> */}
                 </Grid>
               )}
             </>
