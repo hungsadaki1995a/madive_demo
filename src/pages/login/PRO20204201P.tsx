@@ -48,13 +48,25 @@ const Login = (): JSX.Element => {
 
       await AuthApi.login({ id, pw });
 
-      cookies.set(AUTHENTICATION_COOKIE, {
-        signed: true,
-      });
+      cookies.set(
+        AUTHENTICATION_COOKIE,
+        {
+          signed: true,
+        },
+        {
+          maxAge: 604800000, // expired in 1 week
+        }
+      );
 
-      cookies.set(USER_INFO_COOKIE, {
-        id,
-      });
+      cookies.set(
+        USER_INFO_COOKIE,
+        {
+          id,
+        },
+        {
+          maxAge: 604800000, // expired in 1 week
+        }
+      );
 
       navigate('/', { replace: true });
     } catch (error) {
