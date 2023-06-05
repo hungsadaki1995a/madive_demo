@@ -10,9 +10,10 @@ type propsType = {
   columnsConfig?: any;
   fieldAsRowId: string;
   paginationConfig?: any;
+  onSelectedRows?: (selectedRows: any) => void;
 };
 function UserGroupAssignDataTable(props: propsType) {
-  const { rows, columnsConfig, fieldAsRowId, paginationConfig } = props;
+  const { rows, columnsConfig, fieldAsRowId, paginationConfig, onSelectedRows } = props;
   const { AlertStore } = useStore();
 
   return (
@@ -24,9 +25,7 @@ function UserGroupAssignDataTable(props: propsType) {
         columnsConfig={columnsConfig}
         rows={rows}
         hasSelectionRows
-        onSelectedRows={(selectedRows) => {
-          //
-        }}
+        onSelectedRows={onSelectedRows}
         //topActionConfig={topActionConfig}
         //filterConfig={filterConfig}
         //onFilterTriggerQuery={filter}

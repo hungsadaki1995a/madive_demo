@@ -1,4 +1,4 @@
-import { Table, TableBody, TableCell, TableHead, TableRow, TextField } from '@mui/material';
+import { Box, Table, TableBody, TableCell, TableHead, TableRow, TextField } from '@mui/material';
 
 // Common Atoms
 import { CmButton, CmIconButton } from '@/components/atoms/CmButton';
@@ -8,20 +8,48 @@ import CmModal from '@/components/atoms/CmModal';
 import { ReactComponent as ModalAdd } from '@/stylesheets/images/cmModalAdd.svg';
 import { ReactComponent as ModalDelIcon } from '@/stylesheets/images/cmModalDelIcon.svg';
 
-type AddServiceGroupModalProps = {
+type ServiceGroupRegistrationModalProps = {
   visible: boolean;
   handleSave?: () => void;
   handleClose: () => void;
 };
 
-export default function AddServiceGroupModal({ visible, handleSave, handleClose }: AddServiceGroupModalProps) {
+export default function ServiceGroupRegistrationModal({
+  visible,
+  handleSave,
+  handleClose,
+}: ServiceGroupRegistrationModalProps) {
+  const footerRender = () => (
+    <Box className="alignL">
+      <CmButton
+        id="rightBtn1"
+        variant="text"
+        btnTitle="Cancel"
+        startIcon={<></>}
+        className=""
+        color="info"
+        onClick={handleClose}
+      />
+      <CmButton
+        id="rightBtn2"
+        variant="contained"
+        btnTitle="Save"
+        startIcon={<></>}
+        className=""
+        color="info"
+        onClick={handleSave}
+      />
+    </Box>
+  );
+
   return (
     <CmModal
-      title="Add Service Group"
+      title="Service Group Registration"
       visible={visible}
       onSave={handleSave}
       onClose={handleClose}
       className="medium"
+      footerRenderAs={footerRender}
     >
       {/* contents */}
       <label className="inputArea">

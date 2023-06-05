@@ -46,6 +46,8 @@ const sampleRightTableRowsData = [
 function GroupRoleAssign() {
   const [sampleLeftTableRows, setSampleLeftTableRows] = useState(sampleLeftTableRowsData);
   const [sampleRightTableRows, setSampleRightTableRows] = useState(sampleRightTableRowsData);
+  const [leftTableSelectedRows, setLeftTableSelectedRows] = useState<any[]>([]);
+  const [rightTableSelectedRows, setRightTableSelectedRows] = useState<any[]>([]);
 
   // -----------------------------------
   // Config table
@@ -94,6 +96,50 @@ function GroupRoleAssign() {
     onRowsPerPageChange: (newRowsPerPage: number) => console.log(newRowsPerPage),
   };
 
+  const onLeftTableSelectedRows = (rows: any) => {
+    setLeftTableSelectedRows([...rows]);
+  };
+
+  const onRightTableSelectedRows = (rows: any) => {
+    setRightTableSelectedRows([...rows]);
+  };
+
+  const handleAddRole = () => {
+    setSampleLeftTableRows([
+      ...sampleLeftTableRows,
+      ...rightTableSelectedRows.map((obj) => {
+        return {
+          role_id: obj.role_id,
+          role_name: obj.role_name,
+        };
+      }),
+    ]);
+
+    setSampleRightTableRows(
+      sampleRightTableRows.filter(
+        (row) => !rightTableSelectedRows.some((selected) => row['role_id'] === selected['role_id'])
+      )
+    );
+  };
+
+  const handleDeleteRole = () => {
+    setSampleRightTableRows([
+      ...sampleRightTableRows,
+      ...leftTableSelectedRows.map((obj) => {
+        return {
+          role_id: obj.role_id,
+          role_name: obj.role_name,
+        };
+      }),
+    ]);
+
+    setSampleLeftTableRows(
+      sampleLeftTableRows.filter(
+        (row) => !leftTableSelectedRows.some((selected) => row['role_id'] === selected['role_id'])
+      )
+    );
+  };
+
   return (
     <UserStyled>
       {/* {title} */}
@@ -109,8 +155,9 @@ function GroupRoleAssign() {
               <DataTable
                 rows={sampleLeftTableRows}
                 columnsConfig={leftTableColumnsConfig}
-                fieldAsRowId="user_id"
+                fieldAsRowId="role_id"
                 paginationConfig={paginationConfig}
+                onSelectedRows={onLeftTableSelectedRows}
               />
             </Box>
           </Grid>
@@ -124,11 +171,13 @@ function GroupRoleAssign() {
                 variant="contained"
                 startIcon={<ArrLeftIcon />}
                 btnTitle="Add Role"
+                onClick={handleAddRole}
               />
               <CmButton
                 variant="contained"
                 startIcon={<ArrRightIcon />}
                 btnTitle="Delete Role"
+                onClick={handleDeleteRole}
               />
             </Grid>
           </Grid>
@@ -137,8 +186,9 @@ function GroupRoleAssign() {
               <DataTable
                 rows={sampleRightTableRows}
                 columnsConfig={rightTableColumnsConfig}
-                fieldAsRowId="user_id"
+                fieldAsRowId="role_id"
                 paginationConfig={paginationConfig}
+                onSelectedRows={onRightTableSelectedRows}
               />
             </Box>
           </Grid>
