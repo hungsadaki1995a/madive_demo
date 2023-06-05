@@ -19,28 +19,30 @@ document.documentElement.style.setProperty('--vh', `${vh}px`);
 
 export const MobxStore = new RootStore();
 
-const App = () => (
-  <CreateStore.Provider value={{ MobxStore }}>
-    <ThemeProvider theme={theme}>
-      <ErrorBoundary FallbackComponent={ErrorFallback}>
-        <HashRouter>
-          <Routes>
-            {generateRoute(authRoutes)}
-            <Route
-              path="/"
-              element={<CmContainer />}
-            >
-              {generateRoute(devRoutes)}
-              {generateRoute(configRoutes)}
-              {generateRoute(sampleRoutes)}
-            </Route>
-            {generateRoute(otherRoutes)}
-          </Routes>
-        </HashRouter>
-      </ErrorBoundary>
-    </ThemeProvider>
-  </CreateStore.Provider>
-);
+const App = () => {
+  return (
+    <CreateStore.Provider value={{ MobxStore }}>
+      <ThemeProvider theme={theme}>
+        <ErrorBoundary FallbackComponent={ErrorFallback}>
+          <HashRouter>
+            <Routes>
+              {generateRoute(authRoutes)}
+              <Route
+                path="/"
+                element={<CmContainer />}
+              >
+                {generateRoute(devRoutes)}
+                {generateRoute(configRoutes)}
+                {generateRoute(sampleRoutes)}
+              </Route>
+              {generateRoute(otherRoutes)}
+            </Routes>
+          </HashRouter>
+        </ErrorBoundary>
+      </ThemeProvider>
+    </CreateStore.Provider>
+  );
+};
 
 // const menus = {
 //   Overview: {

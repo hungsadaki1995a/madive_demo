@@ -1,24 +1,9 @@
-import { Navigate, Route, Routes } from 'react-router-dom';
-
-import Error from '@/pages/error';
-
-import NodeManagement from './PRO10101101P';
+import { Outlet } from 'react-router-dom';
 
 const Node = () => (
-  <Routes>
-    <Route
-      path="/management"
-      element={<NodeManagement />}
-    />
-    <Route
-      path="/"
-      element={<Navigate to="/development/node/management" />}
-    />
-    <Route
-      path="/*"
-      element={<Error />}
-    />
-  </Routes>
+  <>
+    <Outlet />
+  </>
 );
 
 export default Node;

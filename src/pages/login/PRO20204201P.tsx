@@ -9,7 +9,7 @@ import { AuthApi } from '@/apis';
 import logGif from '@/stylesheets/images/login/framework_illust.gif';
 import { notify } from '@/utils/notify';
 
-import { AUTHENTICATION_COOKIE } from '@/constants';
+import { AUTHENTICATION_COOKIE, USER_INFO_COOKIE } from '@/constants';
 
 import LoginContainer from './Login.Styled';
 
@@ -19,7 +19,6 @@ const cookies = new Cookies();
 
 const Login = (): JSX.Element => {
   const navigate = useNavigate();
-  const userCookie = cookies.get(AUTHENTICATION_COOKIE);
   const [id, setId] = useState<string>('');
   const [idError, setIdError] = useState<string>('');
   const [pw, setPw] = useState<string>('');
@@ -53,6 +52,10 @@ const Login = (): JSX.Element => {
         signed: true,
       });
 
+      cookies.set(USER_INFO_COOKIE, {
+        id,
+      });
+
       navigate('/', { replace: true });
     } catch (error) {
       notify.error(error?.data?.exception?.name || 'Something went wrong');
@@ -60,7 +63,9 @@ const Login = (): JSX.Element => {
   };
 
   useEffect(() => {
-    if (userCookie && userCookie.signed) {
+    const auth = cookies.get(AUTHENTICATION_COOKIE);
+
+    if (auth && auth.signed) {
       navigate('/', { replace: true });
     }
   }, []);
