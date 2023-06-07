@@ -96,6 +96,7 @@ function CmSelect(props: propsType) {
             return <em>Placeholder</em>;
           }
 
+          return selected;
           //return selected.join(', ');
         }}
         MenuProps={MenuProps}

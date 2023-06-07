@@ -106,7 +106,7 @@ const TopButton = <TRowDataType extends IPlainObject>({
       target: { value },
     } = e;
     // setPersonName(typeof value === 'string' ? value.split(',') : value);
-    //setPersonName(value);
+    setPersonName(value);
   };
 
   return (
@@ -146,6 +146,7 @@ const TopButton = <TRowDataType extends IPlainObject>({
               return <em>All</em>;
             }
 
+            return selected;
             //return selected.join(', ');
           }}
           MenuProps={MenuProps}

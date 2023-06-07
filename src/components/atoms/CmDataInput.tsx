@@ -109,7 +109,7 @@ function CmDataSelect(props: propsType) {
       target: { value },
     } = e;
     // setPersonName(typeof value === 'string' ? value.split(',') : value);
-    //setPersonName(value);
+    setPersonName(value);
   };
   return (
     <FormControl className={classes.dataForm}>
@@ -125,7 +125,7 @@ function CmDataSelect(props: propsType) {
             return <em>Select For Menu</em>;
           }
 
-          //return selected.join(', ');
+          return selected;
         }}
         MenuProps={MenuProps}
         inputProps={{ 'aria-label': 'Without label' }}
