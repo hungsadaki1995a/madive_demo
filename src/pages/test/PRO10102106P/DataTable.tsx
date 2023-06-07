@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 
-import SearchIcon from '@mui/icons-material/Search';
 import { Paper } from '@mui/material';
 import { observer } from 'mobx-react';
 
@@ -70,7 +69,7 @@ const filterConfig: IFilterConfig = {
     {
       type: 'simple',
       name: 'search',
-      icon: <SearchIcon />,
+      // icon: <SearchIcon />,
     },
   ],
 };

@@ -1,6 +1,5 @@
 import { useEffect, useMemo } from 'react';
 
-import SearchIcon from '@mui/icons-material/Search';
 import { Paper } from '@mui/material';
 import { observer } from 'mobx-react';
 
@@ -82,7 +81,7 @@ function RolePermissionAssignDataTable() {
           name: 'search',
           // className: '',
           // label: 'Keyword',
-          icon: <SearchIcon />,
+          // icon: <SearchIcon />,
         },
       ],
     };

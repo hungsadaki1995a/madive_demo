@@ -1,6 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
 
-import SearchIcon from '@mui/icons-material/Search';
 import { observer } from 'mobx-react';
 
 import CommonTable from '@/components/organisms/CmCommonTable';
@@ -126,7 +125,7 @@ function SystemContextDatasourceDataTable() {
           name: 'search',
           // className: '',
           // label: 'Keyword',
-          icon: <SearchIcon />,
+          // icon: <SearchIcon />,
         },
       ],
     };

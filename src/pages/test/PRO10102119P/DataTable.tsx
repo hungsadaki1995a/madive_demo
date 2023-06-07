@@ -1,6 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
 
-import SearchIcon from '@mui/icons-material/Search';
 import { Paper } from '@mui/material';
 import { observer } from 'mobx-react';
 
@@ -154,7 +153,7 @@ function TestHistoryDataTable() {
           name: 'search',
           // className: '',
           // label: 'Keyword',
-          icon: <SearchIcon />,
+          // icon: <SearchIcon />,
         },
       ],
     };
@@ -184,7 +183,9 @@ function TestHistoryDataTable() {
         }}
         //topActionConfig={topActionConfig}
         filterConfig={filterConfig}
-        //onFilterTriggerQuery={filter}
+        onFilterTriggerQuery={(filterData) => {
+          console.log(filterData);
+        }}
         sortDefault={{
           field: 'physical_name',
           direction: 'asc',
