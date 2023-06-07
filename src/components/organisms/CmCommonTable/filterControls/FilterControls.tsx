@@ -148,7 +148,7 @@ const FilterControls = ({
       target: { value },
     } = e;
     // setPersonName(typeof value === 'string' ? value.split(',') : value);
-    setPersonName(value);
+    //setPersonName(value);
   };
 
   return (
@@ -192,7 +192,7 @@ const FilterControls = ({
                   return <em>Select For Menu</em>;
                 }
 
-                return selected.join(', ');
+                //return selected.join(', ');
               }}
               MenuProps={MenuProps}
               inputProps={{ 'aria-label': 'Without label' }}
