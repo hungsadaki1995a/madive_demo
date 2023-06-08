@@ -9,8 +9,7 @@ import { AuthApi } from '@/apis';
 import logGif from '@/stylesheets/images/login/framework_illust.gif';
 import { notify } from '@/utils/notify';
 
-import { AUTHENTICATION_COOKIE, USER_INFO_COOKIE } from '@/constants';
-import { defaultPageAccessPath } from '@/routes/routes';
+import { AUTHENTICATION_COOKIE, COOKIE_EXPIRE_TIME, USER_INFO_COOKIE } from '@/constants';
 
 import LoginContainer from './Login.Styled';
 
@@ -55,7 +54,7 @@ const Login = (): JSX.Element => {
           signed: true,
         },
         {
-          maxAge: 604800000, // expired in 1 week
+          maxAge: COOKIE_EXPIRE_TIME, // expired in 1 week
         }
       );
 
@@ -65,11 +64,11 @@ const Login = (): JSX.Element => {
           id,
         },
         {
-          maxAge: 604800000, // expired in 1 week
+          maxAge: COOKIE_EXPIRE_TIME, // expired in 1 week
         }
       );
 
-      navigate(defaultPageAccessPath, { replace: true });
+      navigate('/', { replace: true });
     } catch (error) {
       notify.error(error?.data?.exception?.name || 'Something went wrong');
     }
@@ -79,7 +78,7 @@ const Login = (): JSX.Element => {
     const auth = cookies.get(AUTHENTICATION_COOKIE);
 
     if (auth && auth.signed) {
-      navigate(defaultPageAccessPath, { replace: true });
+      navigate('/', { replace: true });
     }
   }, []);
 

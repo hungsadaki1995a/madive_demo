@@ -1,46 +1,76 @@
-import { Grid, styled } from '@mui/material';
+import { Button, styled, TextField, Typography } from '@mui/material';
 
 import logBgImg from '@/stylesheets/images/login/login_background.png';
-import logTImg from '@/stylesheets/images/login/loginTimg.svg';
 
 const LoginWrapper = styled('div')(({ theme }) => ({
-  minHeight: '100vh',
+  minHeight: '900px',
   minWidth: '1600px',
-  font: '16px / 1.5 NotoSansCJK',
+  fontSize: '16px',
+  lineHeight: 1.5,
   color: theme.palette.info.main[900],
   background: `url(${logBgImg}) 0 0 no-repeat`,
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
 }));
 
-const LoginGrid = styled(Grid)(() => ({
-  padding: '223px 0 0 585px',
+const TmaxWrapper = styled('div')(() => ({
+  width: '65%',
+  paddingLeft: 600,
 }));
 
-const ImgBox = styled(Grid)(({ theme }) => ({
+const TmaxBox = styled('div')(() => ({
+  minHeight: '100vh',
   width: '370px',
-  background: `url(${logTImg}) no-repeat`,
-  paddingTop: '160px',
-  margin: '187px 240px 0 0',
-  font: '13px / 1.5 NotoSansCJK',
-  fontWeight: 300,
-  color: theme.palette.common.white,
+
+  display: 'flex',
+  flexDirection: 'column',
+  justifyContent: 'center',
+  alignItems: 'flex-start',
 }));
 
-const Form = styled('form')(() => ({
-  width: '320px',
-  font: '13px / 1.5 NotoSansCJK',
+const TypoStyled = styled(Typography)<{ color: 'white' | 'black' }>(({ theme, color }) => ({
+  fontSize: '13px',
   fontWeight: 300,
+  color: color ?? theme.palette.common[color],
 }));
 
-const Img = styled('img')(() => ({
-  width: '320px',
-  marginBottom: '67px',
+const LoginBoxWrapper = styled('div')(() => ({
+  width: '35%',
+  paddingLeft: 120,
 }));
 
 const LoginBox = styled('div')(() => ({
+  width: '320px',
+  minHeight: '100vh',
   display: 'flex',
   flexDirection: 'column',
+  justifyContent: 'center',
   alignItems: 'center',
-  marginBottom: '20px',
 }));
 
-export { LoginWrapper, LoginGrid, ImgBox, Form, Img, LoginBox };
+const ImageStyled = styled('img')(({ marginBottom }: { marginBottom?: number }) => ({
+  marginBottom: marginBottom ? marginBottom : 0,
+}));
+
+const TextFieldStyled = styled(TextField)(() => ({
+  width: '100%',
+  marginBottom: 20,
+}));
+
+const ButtonStyled = styled(Button)(() => ({
+  width: '100%',
+  marginBottom: 70,
+}));
+
+export {
+  LoginWrapper,
+  TmaxWrapper,
+  LoginBoxWrapper,
+  ButtonStyled,
+  TypoStyled,
+  ImageStyled,
+  TmaxBox,
+  LoginBox,
+  TextFieldStyled,
+};
