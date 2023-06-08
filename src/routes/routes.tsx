@@ -13,7 +13,7 @@ import { Button, Card, Dialog, DropDown, Modal, RadioGroup, SnackBar, Table, Tex
 import Error from '@/pages/error';
 import LogControl from '@/pages/log-control';
 import LogManagement from '@/pages/log-control/PRO20203201P';
-import Login from '@/pages/login/PRO20204201P';
+import Login from '@/pages/login/PRO20204201P.new';
 import Model from '@/pages/model';
 import Dbio from '@/pages/model/PRO20202201P';
 import Node from '@/pages/node';

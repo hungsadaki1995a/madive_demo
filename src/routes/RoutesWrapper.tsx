@@ -3,7 +3,7 @@ import { HashRouter, Route, Routes } from 'react-router-dom';
 import CmContainer from '@/components/templates/CmContainer';
 
 import Error from '@/pages/error';
-import Login from '@/pages/login/PRO20204201P';
+import Login from '@/pages/login/PRO20204201P.new';
 
 import PrivateRoutes from './PrivateRoutes';
 import { routes } from './routes';
