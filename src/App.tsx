@@ -1,5 +1,4 @@
 import { ErrorBoundary } from 'react-error-boundary';
-import { HashRouter, Route, Routes } from 'react-router-dom';
 
 import { ThemeProvider } from '@mui/material/styles';
 
@@ -8,9 +7,7 @@ import CreateStore from '@/utils/useStore';
 
 import ErrorFallback from '@/pages/error/ErrorFallback';
 
-import CmContainer from './components/templates/CmContainer';
-import { generateRoute } from './routes/generateRoute';
-import { authRoutes, configRoutes, devRoutes, otherRoutes, sampleRoutes } from './routes/path';
+import RoutesWrapper from './routes/RoutesWrapper';
 import theme from './styles/theme';
 
 // 100vh - 스크롤 오류
@@ -24,20 +21,7 @@ const App = () => {
     <CreateStore.Provider value={{ MobxStore }}>
       <ThemeProvider theme={theme}>
         <ErrorBoundary FallbackComponent={ErrorFallback}>
-          <HashRouter>
-            <Routes>
-              {generateRoute(authRoutes)}
-              <Route
-                path="/"
-                element={<CmContainer />}
-              >
-                {generateRoute(devRoutes)}
-                {generateRoute(configRoutes)}
-                {generateRoute(sampleRoutes)}
-              </Route>
-              {generateRoute(otherRoutes)}
-            </Routes>
-          </HashRouter>
+          <RoutesWrapper />
         </ErrorBoundary>
       </ThemeProvider>
     </CreateStore.Provider>

@@ -1,6 +1,7 @@
 import {
   AlertStore,
   AuthStore,
+  MenuStore,
   MetaStore,
   NodeStore,
   ProminerStore,
@@ -18,4 +19,5 @@ export class RootStore {
   RoleStore: RoleStore = new RoleStore();
   UserStore: UserStore = new UserStore();
   TestCaseStore: TestCaseStore = new TestCaseStore();
+  MenuStore: MenuStore = new MenuStore();
 }

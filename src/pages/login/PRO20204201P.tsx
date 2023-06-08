@@ -10,6 +10,7 @@ import logGif from '@/stylesheets/images/login/framework_illust.gif';
 import { notify } from '@/utils/notify';
 
 import { AUTHENTICATION_COOKIE, USER_INFO_COOKIE } from '@/constants';
+import { defaultPageAccessPath } from '@/routes/routes';
 
 import LoginContainer from './Login.Styled';
 
@@ -68,7 +69,7 @@ const Login = (): JSX.Element => {
         }
       );
 
-      navigate('/', { replace: true });
+      navigate(defaultPageAccessPath, { replace: true });
     } catch (error) {
       notify.error(error?.data?.exception?.name || 'Something went wrong');
     }
@@ -78,7 +79,7 @@ const Login = (): JSX.Element => {
     const auth = cookies.get(AUTHENTICATION_COOKIE);
 
     if (auth && auth.signed) {
-      navigate('/', { replace: true });
+      navigate(defaultPageAccessPath, { replace: true });
     }
   }, []);
 
