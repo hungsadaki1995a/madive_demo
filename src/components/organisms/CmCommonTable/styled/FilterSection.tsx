@@ -6,6 +6,7 @@ export default styled.div`
   display: flex;
   min-width: 160px;
   align-items: center;
+  justify-content: end;
 
   > *:not(:first-child) {
     margin-left: 10px;

@@ -1,13 +1,15 @@
 import React, { useCallback, useState } from 'react';
 
-import { Button } from '@mui/material';
+import { Button, IconButton, Tooltip } from '@mui/material';
 
 import { CmButton } from '@/components/atoms/CmButton';
 
 import { ReactComponent as AddIcon } from '@/stylesheets/images/AddIcon.svg';
+import { ReactComponent as SearchIcon } from '@/stylesheets/images/SearchIcon.svg';
 import { ReactComponent as UploadIcon } from '@/stylesheets/images/UploadIcon.svg';
 
 import { FilterTypes, SubmitActionTypes } from '../const';
+import FilterConfig from '../styled/FilterConfig';
 import { IAddAction, IFilterConfig, IFilterElementType, IUploadAction } from '../types';
 import DropdownFilterInput from './DropdownFilterInput';
 import SimpleFilterInput from './SimpleFilterInput';
@@ -26,6 +28,11 @@ const FilterControls = ({
   const [filterValues, setFilterValues] = useState<{
     [key: string]: any;
   }>({});
+  const [open, setOpen] = React.useState(false);
+
+  const handleFilter = () => {
+    setOpen(!open);
+  };
 
   const handleChange = useCallback(({ name, value }: { name: string; value: any }) => {
     setFilterValues((prev) => {
@@ -89,18 +96,32 @@ const FilterControls = ({
           onClick={addBtnConfig.onClick}
         />
       )}
-      {filterConfig &&
-        filterConfig?.filters?.map((filterItem) => {
-          return renderFilterComponentBaseType(filterItem);
-        })}
-      {filterConfig?.submitBy === SubmitActionTypes.BUTTON && (
-        <Button
-          size="small"
-          variant="contained"
-          onClick={handleTriggerQuery}
-        >
-          {filterConfig?.submitLabel}
-        </Button>
+      {filterConfig && (
+        <>
+          <FilterConfig className={open ? 'opened' : 'closed'}>
+            <Tooltip title={open ? 'Close Filter' : 'Open Filter'}>
+              <IconButton
+                className="filter-button"
+                color="inherit"
+                onClick={handleFilter}
+              >
+                <SearchIcon />
+              </IconButton>
+            </Tooltip>
+            {filterConfig?.filters?.map((filterItem) => {
+              return renderFilterComponentBaseType(filterItem);
+            })}
+            {filterConfig?.submitBy === SubmitActionTypes.BUTTON && (
+              <Button
+                size="small"
+                variant="contained"
+                onClick={handleTriggerQuery}
+              >
+                {filterConfig?.submitLabel}
+              </Button>
+            )}
+          </FilterConfig>
+        </>
       )}
     </>
   );
