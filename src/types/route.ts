@@ -5,4 +5,8 @@ export interface RouteItem {
   element?: ReactNode;
   menuName?: string;
   child?: RouteItem[];
+  icon?: ReactNode;
+  label?: string;
+  id: string;
+  fullPath?: string;
 }

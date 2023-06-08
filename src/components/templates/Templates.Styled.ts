@@ -30,7 +30,6 @@ const CmGnbStyle = styled.div`
           margin-top: 0;
           margin-bottom: 0;
           color: ${CmStyle.color.colorBg02};
-          background: ${CmStyle.color.colorBg03};
           height: 100%;
           padding: 0 30px;
           border-radius: 0;

@@ -1,5 +1,6 @@
 export { AlertStore } from './AlertStore';
 export { AuthStore } from './AuthStore';
+export { MenuStore } from './MenuStore';
 export { MetaStore } from './MetaStore';
 export { NodeStore } from './NodeStore';
 export { ProminerStore } from './ProminerStore';

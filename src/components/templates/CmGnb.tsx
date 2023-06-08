@@ -9,22 +9,44 @@
  * 2023.05.10   김정아 차장   최초 작성
  ******************************************************/
 import { useState } from 'react';
+import { NavLink } from 'react-router-dom';
 
+// import { rootRoutes } from '@/routes/routes';
 import { AppBar, Box, Button, Menu, MenuItem, Toolbar, Typography } from '@mui/material';
+import { observer } from 'mobx-react';
 
 // Common Atoms
 import { CmButton } from '@/components/atoms/CmButton';
 
 import { AuthApi } from '@/apis';
+import * as CmStyle from '@/stylesheets/common';
 // img, icon
 import { ReactComponent as LogoutIcon } from '@/stylesheets/images/logout.svg';
+import { useStore } from '@/utils';
+
+import { rootRoutes } from '@/routes/routes';
 
 import { CmGnbStyle } from './Templates.Styled';
 
-const pages = ['Development', 'Configuration'];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
+const rootMenus = [
+  {
+    title: rootRoutes.development.title,
+    path: rootRoutes.development.path,
+  },
+  {
+    title: rootRoutes.configuration.title,
+    path: rootRoutes.configuration.path,
+  },
+  {
+    title: rootRoutes.cmComponent.title,
+    path: rootRoutes.cmComponent.path,
+  },
+];
+
 function CmGnb() {
+  const { MenuStore } = useStore();
   // topNav
   const [anchorElNav, setAnchorElNav] = useState(null);
   const [anchorElUser, setAnchorElUser] = useState(null);
@@ -37,6 +59,10 @@ function CmGnb() {
     setAnchorElUser(null);
   };
 
+  const handleClickRootMenu = (menuTitle: string) => {
+    MenuStore.setSelectedRootMenu(menuTitle);
+  };
+
   return (
     <CmGnbStyle>
       <AppBar
@@ -45,13 +71,22 @@ function CmGnb() {
       >
         <Toolbar disableGutters>
           <Box>
-            {pages.map((page) => (
-              <Button
-                key={page}
-                onClick={handleCloseNavMenu}
+            {rootMenus.map((route) => (
+              <NavLink
+                to={route.path}
+                key={route.title}
+                style={{ textDecoration: 'none' }}
               >
-                {page}
-              </Button>
+                {({ isActive, isPending }) => (
+                  <Button
+                    sx={{
+                      backgroundColor: isActive ? CmStyle.color.colorBtnPrimary : CmStyle.color.colorBg03,
+                    }}
+                  >
+                    {route.title}
+                  </Button>
+                )}
+              </NavLink>
             ))}
           </Box>
 
@@ -94,4 +129,4 @@ function CmGnb() {
     </CmGnbStyle>
   );
 }
-export default CmGnb;
+export default observer(CmGnb);

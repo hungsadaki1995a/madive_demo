@@ -4,11 +4,10 @@ import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { Grid } from '@mui/material';
 import Cookies from 'universal-cookie';
 
-import { AuthApi } from '@/apis';
-
 import { AUTHENTICATION_COOKIE, USER_INFO_COOKIE } from '@/constants';
-import { LOCALSTORAGE_PERMISSION } from '@/constants/authentication';
+import { defaultPageAccessPath } from '@/routes/routes';
 
+// import DevelopmentRoutes from '@/routes/DevelopmentRoutes';
 import CmBreadcrumbs from './CmBreadcrumbs';
 import CmGnb from './CmGnb';
 import CmLnb from './CmLnb';
@@ -22,25 +21,19 @@ const CmContainer = () => {
   const auth = cookies.get(AUTHENTICATION_COOKIE);
   const userInfo = cookies.get(USER_INFO_COOKIE);
 
-  const getUserPermission = async (userId: string) => {
-    const permission = await AuthApi.getUserPermission(userId);
-
-    localStorage.setItem(LOCALSTORAGE_PERMISSION, JSON.stringify(permission?.dto?.ConfigPermissionDto));
-  };
-
   useEffect(() => {
     if (!auth || !auth.signed) {
       navigate('/login', { replace: true });
+    } else {
+      if (location.pathname === '/') {
+        navigate(defaultPageAccessPath, { replace: true });
+      }
     }
   }, []);
 
   useEffect(() => {
     if (!userInfo || !userInfo.id) {
       navigate('/login', { replace: true });
-    }
-
-    if (userInfo && userInfo.id) {
-      getUserPermission(userInfo.id);
     }
   }, [location.pathname]);
 
