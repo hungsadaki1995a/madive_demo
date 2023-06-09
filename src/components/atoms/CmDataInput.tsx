@@ -8,10 +8,10 @@
  * ====================================================
  * 2023.05.19   김정아 차장   최초 작성
  ******************************************************/
-import { useState } from 'react';
+import { ReactNode } from 'react';
 
 import ArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-import { FormControl, MenuItem, OutlinedInput, Select, SelectChangeEvent } from '@mui/material';
+import { FormControl, FormHelperText, MenuItem, OutlinedInput, Select } from '@mui/material';
 import IconButton from '@mui/material/IconButton';
 import { useTheme } from '@mui/material/styles';
 import makeStyles from '@mui/styles/makeStyles';
@@ -41,9 +41,29 @@ function getStyles(name: string, personName: string, theme: any) {
   };
 }
 
-const names = ['Test01', 'Test02', 'Test03', 'Test04', 'Test05', 'Test06', 'Test07'];
-type propsType = {
-  className: string;
+const DEFAULT_DATA = [
+  { value: 'Test01', label: 'Test 01' },
+  { value: 'Test02', label: 'Test 02' },
+  { value: 'Test03', label: 'Test 03' },
+  { value: 'Test04', label: 'Test 04' },
+  { value: 'Test05', label: 'Test 05' },
+  { value: 'Test06', label: 'Test 06' },
+  { value: 'Test07', label: 'Test 07' },
+];
+
+type DropdownType = {
+  value: string | number;
+  label: string;
+};
+
+type CmDataSelectProps = {
+  optionsData?: DropdownType[];
+  isMultipleSelect?: boolean;
+  errorMessage?: string;
+  className?: string;
+  value?: any;
+  disabled?: boolean;
+  onChange?: (event: any, child: ReactNode) => void;
 };
 
 // Styled
@@ -59,6 +79,11 @@ const useStyles = makeStyles(() => ({
         fontStyle: 'normal',
       },
     },
+
+    //disable color
+    '& .Mui-disabled': {
+      backgroundColor: '#f1f1f1',
+    },
   },
   topSelBox: {
     width: '500px',
@@ -68,6 +93,7 @@ const useStyles = makeStyles(() => ({
 type CmDataSearchProps = {
   onClick?: () => void;
 };
+
 function CmDataSearch({ onClick }: CmDataSearchProps) {
   const classes = useStyles();
   return (
@@ -98,48 +124,57 @@ function CmTextInput() {
   );
 }
 
-function CmDataSelect(props: propsType) {
+function CmDataSelect({
+  optionsData = DEFAULT_DATA,
+  disabled = false,
+  isMultipleSelect = false,
+  errorMessage,
+  className = '',
+  onChange,
+  value,
+}: CmDataSelectProps) {
   const classes = useStyles();
-  const { className } = props;
-  const theme = useTheme();
-  const [personName, setPersonName] = useState<any>([]);
 
-  const handleChange = (e: SelectChangeEvent<any>) => {
-    const {
-      target: { value },
-    } = e;
-    // setPersonName(typeof value === 'string' ? value.split(',') : value);
-    setPersonName(value);
-  };
+  const theme = useTheme();
+
   return (
-    <FormControl className={classes.dataForm}>
+    <FormControl
+      error={!!errorMessage}
+      size="small"
+      className={classes.dataForm}
+    >
       <Select
         className={className}
         displayEmpty
-        value={personName}
-        onChange={handleChange}
         input={<OutlinedInput />}
         IconComponent={ArrowDownIcon}
-        renderValue={(selected) => {
-          if (selected.length === 0) {
-            return <em>Select For Menu</em>;
-          }
+        value={value ? value : isMultipleSelect ? [] : ''}
+        onChange={onChange}
+        multiple={isMultipleSelect}
+        disabled={disabled}
+        // renderValue={(selected) => {
+        //   if (selected.length === 0) {
+        //     return <em>Select For Menu</em>;
+        //   }
 
-          return selected;
-        }}
+        //   return selected;
+        // }}
         MenuProps={MenuProps}
         inputProps={{ 'aria-label': 'Without label' }}
       >
-        {names.map((name) => (
-          <MenuItem
-            key={name}
-            value={name}
-            style={getStyles(name, personName, theme)}
-          >
-            {name}
-          </MenuItem>
-        ))}
+        {!!optionsData?.length &&
+          optionsData?.map((item, index) => {
+            return (
+              <MenuItem
+                key={item?.value?.toString() + index}
+                value={item?.value || ''}
+              >
+                {item?.label}
+              </MenuItem>
+            );
+          })}
       </Select>
+      <FormHelperText>{errorMessage}</FormHelperText>
     </FormControl>
   );
 }

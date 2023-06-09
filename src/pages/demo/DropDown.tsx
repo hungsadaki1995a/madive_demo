@@ -6,7 +6,7 @@ import { IsNotEmpty } from 'class-validator';
 
 import { CmDropdown } from '@/components/atoms/CmDropDown';
 
-import { formatDropdownData } from '@/utils/ formatDropdownData';
+import { formatDropdownData } from '@/utils';
 
 export const FIELD_TYPE = [
   { value: 'boolean' },

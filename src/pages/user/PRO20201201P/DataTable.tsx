@@ -1,10 +1,9 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useMemo, useRef, useState } from 'react';
 
 import { Paper } from '@mui/material';
 import { observer } from 'mobx-react';
 
 import CommonTable from '@/components/organisms/CmCommonTable';
-import useTableDataClient from '@/components/organisms/CmCommonTable/hooks/useTableDataClient';
 import {
   IAddAction,
   IBottomAction,
@@ -15,6 +14,7 @@ import {
 } from '@/components/organisms/CmCommonTable/types';
 
 import UserApi2 from '@/apis/UserApi';
+import { ReactComponent as AddIcon } from '@/stylesheets/images/AddIcon.svg';
 import { ReactComponent as DeleteIcon } from '@/stylesheets/images/DeleteIcon.svg';
 import TopButtonModel from '@/types/models/topButtonModel';
 import UserModel from '@/types/models/userModel';
@@ -102,14 +102,56 @@ function UserManagementDataTable() {
     ];
   }, []);
 
-  const filterConfig = useMemo<IFilterConfig>(() => {
+  const filterConfig = useMemo(() => {
     return {
-      submitBy: 'enter',
-      submitLabel: 'Search',
-      filters: [
+      primaryActions: [
         {
-          type: 'dropdown',
-          name: 'filterFieldName',
+          type: 'button',
+          handleClick: (selectedRows: UserModel[]) => {
+            handleDeleteUserModalOpen();
+          },
+          checkDisabled: (selectedRows: UserModel[]) => {
+            return selectedRows?.length < 1;
+          },
+          config: {
+            variant: 'contained',
+            color: 'secondary',
+            size: 'small',
+            startIcon: <DeleteIcon />,
+            label: 'Delete',
+          },
+        },
+      ],
+      advanceActions: [
+        {
+          type: 'button',
+          handleClick: (selectedRows: UserModel[]) => {
+            createModalRef.current?.show();
+          },
+          config: {
+            variant: 'contained',
+            color: 'primary',
+            size: 'small',
+            startIcon: <AddIcon />,
+            label: 'Create New User',
+          },
+          // Using component property for own button style
+          // component: (props: any) => (
+          //   <Button
+          //     color="primary"
+          //     size="small"
+          //     variant="contained"
+          //     startIcon={<AddIcon />}
+          //     {...props}
+          //   >
+          //     Create
+          //   </Button>
+          // ),
+        },
+        {
+          type: 'filter',
+          name: 'user-list-filter',
+          defaultValue: 'user_name',
           options: [
             {
               label: 'User Name',
@@ -121,27 +163,6 @@ function UserManagementDataTable() {
             },
           ],
         },
-        {
-          type: 'simple',
-          name: 'search',
-          // className: '',
-          // label: 'Keyword',
-          // icon: <SearchIcon />,
-        },
-        // {
-        //   type: 'simple',
-        //   name: 'user_name',
-        //   // className: '',
-        //   label: 'User name',
-        //   icon: <SearchIcon />,
-        // },
-        // {
-        //   type: 'simple',
-        //   name: 'email',
-        //   // className: '',
-        //   label: 'Email',
-        //   icon: <SearchIcon />,
-        // },
       ],
     };
   }, []);
@@ -203,54 +224,21 @@ function UserManagementDataTable() {
   //   return row.user_name.includes(filterValues.user_name || '') && row.email.includes(filterValues.email || '');
   // }, []);
 
-  const { fetch, rows, sort, filter, pagination } = useTableDataClient<UserModel>({
-    queryFn: async () => {
-      UserStore.setIsFetching(true);
-      const data = await UserApi2.getUsers();
-      UserStore.setIsFetching(false);
-      UserStore.setUsers(data?.dto?.ConfigUserDto);
-    },
-    queryDataResult: UserStore.users,
-    paginationParamsDefault: {
-      rowsPerPageOptions: [3, 5, 10],
-      currentPage: 0,
-      rowsPerPage: 3,
-      totalCount: 0,
-    },
-    sortInfoDefault: {
-      field: 'user_id',
-      direction: 'desc',
-    },
-    filterLogic,
-  });
-
-  useEffect(() => {
-    fetch();
-  }, []);
-
   return (
     <Paper style={{ padding: '20px' }}>
-      <CommonTable
+      <CommonTable<UserModel>
         tableName="user-management"
-        // renderLayoutAs={TableLayoutCustom}
+        query={UserApi2.getUsers}
         fieldAsRowId="user_id"
         columnsConfig={columnsConfig}
-        rows={rows}
         hasSelectionRows
         onSelectedRows={onSelectedRows}
         onRowClick={handleUpdateModalOpen}
-        topActionConfig={topActionConfig}
-        addBtnConfig={addBtnConfig}
-        filterConfig={filterConfig}
-        onFilterTriggerQuery={filter}
+        filterConfig={filterConfig as unknown as IFilterConfig}
         sortDefault={{
           field: 'user_id',
           direction: 'asc',
         }}
-        onSortChange={sort}
-        paginationConfig={pagination}
-        // renderPaginationAs={TablePaginationCustom}
-        //bottomActionsConfig={bottomActionsConfig}
       />
       <CreateModal
         ref={createModalRef}

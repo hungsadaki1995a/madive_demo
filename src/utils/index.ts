@@ -32,6 +32,7 @@ export {
   modFrontBackTrim,
   toUpperCase,
 } from './StringUtils';
+export { formatDropdownData } from './formatDropdownData';
 export { default as getEntries } from './getEntries';
 export { default as getPage } from './getPage';
 export { default as orderTable } from './orderTable';

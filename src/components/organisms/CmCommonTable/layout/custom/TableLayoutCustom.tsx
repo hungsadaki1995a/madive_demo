@@ -2,7 +2,7 @@ import React from 'react';
 
 import BottomButtons from '../../bottomButtons/BottomButtons';
 import FilterControls from '../../filterControls/FilterControls';
-import TablePaginationDefault from '../../paginations/TablePaginationDefault';
+import TablePaginationDefault from '../../pagination/CmTablePagination';
 import BottomSection from '../../styled/BottomSection';
 import FilterSection from '../../styled/FilterSection';
 import HeaderSection from '../../styled/HeaderSection';
@@ -23,7 +23,7 @@ const TableLayoutCustom = <TRowDataType extends IPlainObject>({
   handleSortTable,
   sortInfo,
   handleCheckRow,
-  handleRowClick,
+  // handleRowClick,
   paginationConfig,
   renderPaginationAs,
   selectedRowsMapping,
@@ -73,7 +73,7 @@ const TableLayoutCustom = <TRowDataType extends IPlainObject>({
           handleCheckRow={handleCheckRow}
           handleSortTable={handleSortTable}
           hasSelectionRows={hasSelectionRows}
-          handleRowClick={handleRowClick}
+          // handleRowClick={handleRowClick}
           rows={rows}
           selectedRows={selectedRows}
           selectedRowsMapping={selectedRowsMapping}

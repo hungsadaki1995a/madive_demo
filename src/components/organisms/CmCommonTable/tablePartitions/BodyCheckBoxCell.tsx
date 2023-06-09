@@ -8,7 +8,7 @@ interface IBodyCheckBoxCellProps {
   row: any;
   onChange: ({ row, checked }: { row: any; checked: boolean }) => void;
 }
-const BodyCheckBoxCell = ({ onChange, row, checked }: IBodyCheckBoxCellProps) => {
+const BodyCheckBoxCell = ({ onChange, row, checked, ...props }: IBodyCheckBoxCellProps) => {
   const handleChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
       onChange?.({
@@ -28,6 +28,8 @@ const BodyCheckBoxCell = ({ onChange, row, checked }: IBodyCheckBoxCellProps) =>
         checked={checked}
         color="info"
         onChange={handleChange}
+        onClick={(e) => e.stopPropagation()}
+        {...props}
       />
     </TableCell>
   );

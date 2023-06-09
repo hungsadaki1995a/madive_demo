@@ -158,7 +158,7 @@ const useTableDataClient = <TRowDataType extends IPlainObject>({
   const { pagingRows } = usePaginationClient({
     derivedRows: derivedRows || [],
     currentPage: state.paginationParamsStore.currentPage,
-    rowsPerPage: state.paginationParamsStore.rowsPerPage,
+    rowsPerPage: state.paginationParamsStore.rowsPerPage || 25,
   });
 
   const pagination = useMemo<IPaginationConfig>(() => {

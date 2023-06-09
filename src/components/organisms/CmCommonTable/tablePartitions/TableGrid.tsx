@@ -1,11 +1,7 @@
 import { styled, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
 
-import FailIcon from '@/stylesheets/images/FailIcon.svg';
-import SuccessIcon from '@/stylesheets/images/SuccessIcon.svg';
-
 import { IPlainObject, TableLayoutProps } from '../types';
 import BodyCheckBoxCell from './BodyCheckBoxCell';
-import BodyTableRow from './BodyTableRow';
 import HeaderCheckBoxCell from './HeaderCheckBoxCell';
 import TableEmpty from './TableEmpty';
 import TableHeaderCell from './TableHeaderCell';
@@ -13,9 +9,6 @@ import TableHeaderCell from './TableHeaderCell';
 const TableHeadComponent = styled(TableHead)(({ theme }) => ({
   '& .MuiTableRow-head': {
     backgroundColor: '#f4f7fc',
-    '& .MuiTableCell-head.checkbox-cell': {
-      padding: 0,
-    },
     '& .MuiTableCell-head': {
       color: '#444',
       fontSize: '13px',
@@ -30,42 +23,53 @@ const TableHeadComponent = styled(TableHead)(({ theme }) => ({
   },
 }));
 const TableBodyComponent = styled(TableBody)(({ theme }) => ({
-  '& .MuiTableRow-root': {
-    '&:nth-child(even)': {
-      backgroundColor: '#f9fafa',
+  // '& .MuiTableRow-root': {
+  //   '&:nth-child(even)': {
+  //     backgroundColor: '#f9fafa',
+  //   },
+  //   '& .MuiTableCell-body': {
+  //     padding: '5px 15px',
+  //     fontSize: '12px',
+  //     color: '#888888',
+  //     // ellipsis
+  //     overflow: 'hidden',
+  //     whiteSpace: 'nowrap',
+  //     textOverflow: 'ellipsis',
+  //     wordBreak: 'break-all',
+  //     // Fail, Error
+  //     '&.error': {
+  //       color: '#D93E2E',
+  //       paddingLeft: '20px',
+  //       backgroundImage: `url(${FailIcon}) left center no-repeat`,
+  //     },
+  //     // Success
+  //     '&.success': {
+  //       color: '#30BE8B',
+  //       paddingLeft: '20px',
+  //       backgroundImage: `url(${SuccessIcon}) left center no-repeat`,
+  //     },
+  //   },
+  //   '&:hover': {
+  //     '& .MuiTableCell-body': {
+  //       backgroundColor: '#e6f4ff',
+  //       color: '#30404d',
+  //       fontSize: '13px',
+  //       fontWeight: theme.typography.fontWeightMedium,
+  //     },
+  //   },
+  // },
+}));
+
+const StyledTableRow = styled(TableRow)(({ hidden = false }: { hidden: boolean }) => ({
+  '& .MuiCheckbox-root': {
+    visibility: hidden ? 'hidden' : 'visible',
+    '&.Mui-checked': {
+      visibility: 'visible',
     },
-    '& .MuiTableCell-body.checkbox-cell': {
-      padding: 0,
-    },
-    '& .MuiTableCell-body': {
-      padding: '5px 15px',
-      fontSize: '12px',
-      color: '#888888',
-      // ellipsis
-      overflow: 'hidden',
-      whiteSpace: 'nowrap',
-      textOverflow: 'ellipsis',
-      wordBreak: 'break-all',
-      // Fail, Error
-      '&.error': {
-        color: '#D93E2E',
-        paddingLeft: '20px',
-        backgroundImage: `url(${FailIcon}) left center no-repeat`,
-      },
-      // Success
-      '&.success': {
-        color: '#30BE8B',
-        paddingLeft: '20px',
-        backgroundImage: `url(${SuccessIcon}) left center no-repeat`,
-      },
-    },
-    '&:hover': {
-      '& .MuiTableCell-body': {
-        backgroundColor: '#e6f4ff',
-        color: '#30404d',
-        fontSize: '13px',
-        fontWeight: theme.typography.fontWeightMedium,
-      },
+  },
+  '&:hover': {
+    '& .MuiCheckbox-root': {
+      visibility: 'visible',
     },
   },
 }));
@@ -82,12 +86,14 @@ type TableGridProps<TRowDataType extends IPlainObject> = Pick<
   | 'selectedRowsMapping'
   | 'handleCheckRow'
   | 'fieldAsRowId'
-  | 'handleRowClick'
+  | 'onRowClick'
+  | 'allowMultipleSelect'
 >;
 
 const TableGrid = <TRowDataType extends IPlainObject>({
+  allowMultipleSelect = true,
   hasSelectionRows,
-  rows,
+  rows = [],
   selectedRows,
   handleCheckAll,
   columnsConfig,
@@ -96,8 +102,12 @@ const TableGrid = <TRowDataType extends IPlainObject>({
   selectedRowsMapping,
   handleCheckRow,
   fieldAsRowId,
-  handleRowClick,
+  onRowClick = undefined,
 }: TableGridProps<TRowDataType>) => {
+  const handleClickRow = (event: React.MouseEvent, row: TRowDataType) => {
+    onRowClick?.(event, row);
+  };
+
   return (
     <TableContainer>
       <Table>
@@ -112,6 +122,7 @@ const TableGrid = <TRowDataType extends IPlainObject>({
                     checked: e.target.checked,
                   });
                 }}
+                disabled={!allowMultipleSelect}
               />
             )}
 
@@ -134,10 +145,10 @@ const TableGrid = <TRowDataType extends IPlainObject>({
             <>
               {rows.map((d, idx) => {
                 return (
-                  <BodyTableRow
+                  <StyledTableRow
+                    hidden={!allowMultipleSelect}
                     key={`table-body-contents-${idx}`}
-                    row={d}
-                    onClick={handleRowClick}
+                    onClick={(e) => handleClickRow(e, d)}
                   >
                     {hasSelectionRows && (
                       <BodyCheckBoxCell
@@ -154,7 +165,7 @@ const TableGrid = <TRowDataType extends IPlainObject>({
                         </TableCell>
                       );
                     })}
-                  </BodyTableRow>
+                  </StyledTableRow>
                 );
               })}
             </>

@@ -23,6 +23,14 @@ const theme = createTheme({
         },
       },
     },
+    MuiTablePagination: {
+      defaultProps: {
+        labelRowsPerPage: 'List per Page',
+        labelDisplayedRows({ from, to, count }) {
+          return `${from}-${to} out of ${count}`;
+        },
+      },
+    },
   },
 });
 

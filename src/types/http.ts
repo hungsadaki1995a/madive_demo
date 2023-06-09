@@ -22,6 +22,6 @@ interface IHeader {
 
 export interface IOriginalResponse {
   header: IHeader;
-  dto?: string[];
+  dto?: any;
   exception?: IHttpError;
 }

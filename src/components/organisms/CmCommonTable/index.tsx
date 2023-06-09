@@ -1,39 +1,59 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { forwardRef, Ref, useCallback, useEffect, useImperativeHandle, useMemo, useState } from 'react';
 
+import useTable from './hooks/useTable';
 import TableLayoutDefault from './layout/TableLayoutDefault';
-import { ICommonTable, IPlainObject, ISortInfo } from './types';
+import { ICommonTable, ImperativeHandleDto, IPlainObject, ISortInfo } from './types';
 
 export type CommonTableRefType = {
   resetSelectedRows: () => void;
 };
-const CommonTable = <TRowDataType extends IPlainObject>({
-  tableName,
-  renderLayoutAs,
-  fieldAsRowId,
-  columnsConfig,
-  rows,
-  sortDefault,
-  paginationConfig,
-  renderPaginationAs,
-  hasSelectionRows,
-  onSelectedRows,
-  onSortChange,
-  filterConfig,
-  onFilterTriggerQuery,
-  showTopSelect,
-  topActionConfig,
-  excelBtnConfig,
-  addBtnConfig,
-  bottomActionsConfig,
-  onRowClick,
-}: ICommonTable<TRowDataType>) => {
-  const [selectedRows, setSelectedRows] = useState<TRowDataType[]>([]);
-  const [sortInfo, setSortInfo] = useState<ISortInfo>(sortDefault);
+const DataGridView = <TRowDataType extends IPlainObject>(
+  {
+    renderLayoutAs,
+    fieldAsRowId,
+    columnsConfig,
+    sortDefault,
+    renderPaginationAs,
+    hasSelectionRows,
+    allowMultipleSelect = true,
+    onSelectedRows,
+    onSortChange,
+    filterConfig,
+    onFilterTriggerQuery,
+    showTopSelect,
+    topActionConfig,
+    addBtnConfig,
+    bottomActionsConfig,
+    query,
+    rows,
+    onRowClick,
+  }: ICommonTable<TRowDataType>,
+  ref: Ref<ImperativeHandleDto<TRowDataType>> | undefined
+) => {
+  const {
+    dispatch,
+    tableState,
+    onChangePage,
+    onChangePageSize,
+    currentPageData,
+    totalCount,
+    onChangeSortBy,
+    onChangeFilterClient,
+    fetch,
+    onChangeFilterServer,
+    resetCurrentPageAndRefresh,
+  } = useTable<TRowDataType>({
+    query: query,
+    rows: rows,
+  });
 
+  const [selectedRows, setSelectedRows] = useState<TRowDataType[]>([]);
+
+  // Selection Rows
   const handleCheckRow = useCallback(({ row, checked }: { row: any; checked: boolean }) => {
     if (checked) {
       setSelectedRows((prev) => {
-        const temp = [...prev];
+        const temp = allowMultipleSelect ? [...prev] : [];
         temp.push(row);
         return temp;
       });
@@ -48,13 +68,13 @@ const CommonTable = <TRowDataType extends IPlainObject>({
     ({ checked }: { checked: boolean }) => {
       setSelectedRows(() => {
         if (checked) {
-          return [...rows];
+          return [...currentPageData];
         } else {
           return [];
         }
       });
     },
-    [rows]
+    [currentPageData]
   );
 
   const selectedRowsMapping = useMemo<{
@@ -71,70 +91,99 @@ const CommonTable = <TRowDataType extends IPlainObject>({
     );
   }, [selectedRows]);
 
+  // -------------------------------------------
+  useEffect(() => {
+    onSelectedRows?.(selectedRows);
+    // Above line will make useEffect run infinity
+    // (instead that I suggest that we should move func onSelectRows into
+    // func handleCheckRow and handleCheckAll)
+
+    // such as:
+    // ...
+    // setSelectedRows((prev) => {
+    //    const newSelectData [...prev.filter((x) => x[fieldAsRowId] !== row[fieldAsRowId])];
+    //    onSelectedRows?.(newSelectData)
+    //    return newSelectData
+    // });
+    // ...
+  }, [onSelectedRows, selectedRows]);
+
+  // -------------------------------------------
+
+  const [sortInfo, setSortInfo] = useState<ISortInfo>(sortDefault);
+
   const handleSortTable = useCallback(
     ({ field }: { field: string }) => {
-      let temp: ISortInfo;
+      let sort: ISortInfo;
       if (field === sortInfo.field) {
-        temp = {
+        sort = {
           field: field,
           direction: sortInfo.direction === 'asc' ? 'desc' : 'asc',
         };
       } else {
-        temp = {
+        sort = {
           field: field,
           direction: 'asc',
         };
       }
-      setSortInfo(temp);
-      onSortChange(temp);
+      setSortInfo(sort);
+      onChangeSortBy(sort);
     },
     [onSortChange, sortInfo.field, sortInfo.direction]
   );
 
-  const handleRowClick = useCallback(({ event, row }: { event: React.MouseEvent<unknown>; row: any }) => {
-    typeof onRowClick === 'function' && onRowClick(event, row);
-  }, []);
-
-  const handleSelectedRows = useCallback(() => {
-    typeof onSelectedRows === 'function' && onSelectedRows?.(selectedRows);
-  }, [selectedRows]);
-
-  useEffect(() => {
-    handleSelectedRows();
-  }, [selectedRows]);
-
   useEffect(() => {
     setSelectedRows([]);
-  }, [rows]);
+  }, [currentPageData]);
+
+  useImperativeHandle(
+    ref,
+    () => ({
+      fetch: () => fetch(),
+      resetPageAndRefresh: () => resetCurrentPageAndRefresh(),
+      changeFilterServer: onChangeFilterServer,
+    }),
+    []
+  );
 
   const LayoutComponent = renderLayoutAs ? renderLayoutAs : TableLayoutDefault;
 
   return (
     <>
       <LayoutComponent
+        dispatch={dispatch}
         fieldAsRowId={fieldAsRowId}
         showTopSelect={showTopSelect}
         topActionConfig={topActionConfig}
-        excelBtnConfig={excelBtnConfig}
         addBtnConfig={addBtnConfig}
         filterConfig={filterConfig}
         onFilterTriggerQuery={onFilterTriggerQuery}
         hasSelectionRows={hasSelectionRows}
-        rows={rows}
+        rows={currentPageData}
         columnsConfig={columnsConfig}
         handleSortTable={handleSortTable}
         sortInfo={sortInfo}
-        paginationConfig={paginationConfig}
         renderPaginationAs={renderPaginationAs}
         selectedRows={selectedRows}
         handleCheckAll={handleCheckAll}
         handleCheckRow={handleCheckRow}
-        handleRowClick={handleRowClick}
         selectedRowsMapping={selectedRowsMapping}
         bottomActionsConfig={bottomActionsConfig}
+        tableState={tableState}
+        onChangePageSize={onChangePageSize}
+        onChangePage={onChangePage}
+        onChangeFilterClient={onChangeFilterClient}
+        onChangeFilterServer={onChangeFilterServer}
+        totalCount={totalCount}
+        onRowClick={onRowClick}
+        allowMultipleSelect={allowMultipleSelect}
       />
     </>
   );
 };
 
-export default CommonTable as typeof CommonTable;
+const CommonTable = forwardRef(DataGridView) as <T extends IPlainObject>(
+  props: ICommonTable<T> & { ref?: Ref<ImperativeHandleDto<T>> }
+) => ReturnType<typeof DataGridView>;
+
+export default CommonTable;
