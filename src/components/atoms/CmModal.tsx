@@ -21,7 +21,7 @@ import { CmModalStyle } from './Atoms.Styled';
 
 type propsType = {
   className: string;
-  title: string;
+  title: any;
   visible: boolean;
   onSave?: () => void;
   onClose: () => void;

@@ -1,10 +1,17 @@
 import { useRef } from 'react';
 
-import { Alert, styled } from '@mui/material';
+import { Alert, Box, styled } from '@mui/material';
 import makeStyles from '@mui/styles/makeStyles';
 import { observer } from 'mobx-react';
 
+import { CmButton } from '@/components/atoms/CmButton';
+import CmModal from '@/components/atoms/CmModal';
+
+import { ReactComponent as ErrorIcon } from '@/stylesheets/images/SnackErrorIcon.svg';
+import { ReactComponent as SuccessIcon } from '@/stylesheets/images/SnackSuccessIcon.svg';
 import { useStore } from '@/utils';
+
+import { apiResultTypes } from './const';
 
 const CustomAlert = styled(Alert)({
   '@keyframes alertEffect': {
@@ -62,9 +69,46 @@ const ApiAlert = () => {
     AlertStore.resetApiAlert();
   };
 
+  const handleClose = () => {
+    AlertStore.resetApiAlert();
+  };
+
+  const titleRender = () => {
+    switch (AlertStore.options.severity) {
+      case apiResultTypes.SUCCESS:
+        return (
+          <>
+            <SuccessIcon /> Success
+          </>
+        );
+      case apiResultTypes.ERROR:
+        return (
+          <>
+            <ErrorIcon /> Error
+          </>
+        );
+      default:
+        return null;
+    }
+  };
+
+  const footerRender = () => (
+    <Box className="alignL">
+      <CmButton
+        id="rightBtn2"
+        variant="contained"
+        btnTitle="OK"
+        startIcon={<></>}
+        className=""
+        color="info"
+        onClick={handleClose}
+      />
+    </Box>
+  );
+
   return (
     <>
-      {AlertStore.open ? (
+      {/* {AlertStore.open ? (
         <CustomAlert
           severity={AlertStore.options.severity}
           ref={alertRef}
@@ -76,7 +120,16 @@ const ApiAlert = () => {
         </CustomAlert>
       ) : (
         <></>
-      )}
+      )} */}
+      <CmModal
+        title={titleRender()}
+        visible={AlertStore.open}
+        onClose={handleClose}
+        className="medium"
+        footerRenderAs={footerRender}
+      >
+        <p className="pointTxt">{AlertStore.options.message}</p>
+      </CmModal>
     </>
   );
 };

@@ -4,6 +4,8 @@ import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { Grid } from '@mui/material';
 import Cookies from 'universal-cookie';
 
+import ApiAlert from '@/components/molecules/ApiAlert';
+
 import { AUTHENTICATION_COOKIE, USER_INFO_COOKIE } from '@/constants';
 import { defaultPageAccessPath } from '@/routes/routes';
 
@@ -52,6 +54,7 @@ const CmContainer = () => {
           </main>
         </Grid>
       </Grid>
+      <ApiAlert />
     </CmContainerStyled>
   );
 };
