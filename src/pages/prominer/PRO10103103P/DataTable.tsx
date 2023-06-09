@@ -1,86 +1,77 @@
-import { useEffect, useMemo } from 'react';
+import { MutableRefObject, useEffect, useMemo, useRef } from 'react';
 
 import { Paper } from '@mui/material';
 import { observer } from 'mobx-react';
 
 import CommonTable from '@/components/organisms/CmCommonTable';
+import FilterServiceGroupListControl from '@/components/organisms/CmCommonTable/filterControls/FilterServiceGroupListControl';
 import {
-  IBottomAction,
   ICommonTableColumn,
   IFilterConfig,
+  ImperativeHandleDto,
   IPlainObject,
 } from '@/components/organisms/CmCommonTable/types';
 
-import { useStore } from '@/utils';
+import { ServiceGroupApi } from '@/apis';
+import ProminerApi from '@/apis/ProminerApi';
+import { ProminerMethodDto } from '@/types/dtos/prominerDtos';
 
-function ProminerMethodDataTable() {
-  const { AlertStore } = useStore();
+const columnsConfig: ICommonTableColumn<IPlainObject>[] = [
+  {
+    field: 'method_name',
+    label: 'Method Name',
+    type: 'text',
+    sortable: true,
+  },
+  {
+    field: 'return_type',
+    label: 'Return Type',
+    type: 'text',
+    sortable: true,
+  },
+  {
+    field: 'declaring_class',
+    label: 'Class Name',
+    type: 'text',
+    sortable: true,
+  },
+  {
+    field: 'service_group_name',
+    label: 'SG Name',
+    type: 'text',
+    sortable: true,
+  },
+  {
+    field: 'loc',
+    label: 'LOC',
+    type: 'text',
+    sortable: true,
+  },
+];
 
-  // -----------------------------------
-  // Sample Data
+const ProminerMethodDataTable = observer(({ appId }: { appId: string }) => {
+  const tableRef = useRef<ImperativeHandleDto<ProminerMethodDto>>();
 
-  const sampleRows = [
-    {
-      return_type: 'void',
-      method_name: 'TEST()',
-      declaring_class: 'com.tmax.bo.SHBO',
-      service_group_name: 'SHSG',
-      loc: 29,
-    },
-    {
-      return_type: 'com.tmax.dto.SHDO',
-      method_name: 'service(java.lang.Object arg0)',
-      declaring_class: 'com.tmax.so.SHDeferredSO',
-      service_group_name: 'SHSG',
-      loc: 32,
-    },
-  ];
-
-  // -----------------------------------
-  // Config table
-  const columnsConfig = useMemo<ICommonTableColumn<IPlainObject>[]>(() => {
-    return [
-      {
-        field: 'method_name',
-        label: 'Method Name',
-        type: 'text',
-        sortable: true,
-      },
-      {
-        field: 'return_type',
-        label: 'Return Type',
-        type: 'text',
-        sortable: true,
-      },
-      {
-        field: 'declaring_class',
-        label: 'Class Name',
-        type: 'text',
-        sortable: true,
-      },
-      {
-        field: 'service_group_name',
-        label: 'SG Name',
-        type: 'text',
-        sortable: true,
-      },
-      {
-        field: 'loc',
-        label: 'LOC',
-        type: 'text',
-        sortable: true,
-      },
-    ];
-  }, []);
-
-  const filterConfig = useMemo<IFilterConfig>(() => {
+  const filterConfig = useMemo(() => {
     return {
-      submitBy: 'enter',
-      submitLabel: 'Search',
-      filters: [
+      primaryActions: [
         {
           type: 'dropdown',
-          name: 'filterFieldName',
+          component: (props: any) => (
+            <FilterServiceGroupListControl
+              {...props}
+              resourceId={appId}
+            />
+          ),
+          name: 'sg_resource_id',
+          isTriggerFetchData: true,
+        },
+      ],
+      advanceActions: [
+        {
+          type: 'filter',
+          name: 'prominer-resource-filter',
+          defaultValue: 'method_name',
           options: [
             {
               label: 'Method Name',
@@ -94,70 +85,42 @@ function ProminerMethodDataTable() {
               label: 'Class Name',
               value: 'declaring_class',
             },
-            {
-              label: 'SG Name',
-              value: 'service_group_name',
-            },
-            {
-              label: 'LOC',
-              value: 'loc',
-            },
           ],
-        },
-        {
-          type: 'simple',
-          name: 'search',
-          // className: '',
-          // label: 'Keyword',
-          // icon: <SearchIcon />,
         },
       ],
     };
-  }, []);
+  }, [appId]);
 
-  const bottomActionsConfig = useMemo<IBottomAction<IPlainObject>[]>((): IBottomAction<IPlainObject>[] => {
-    return [];
-  }, []);
-
-  // ------------------------------------------------------------------------------------
-  // Handle Data
+  const handleRowClick = (event: React.MouseEvent, rowData: ProminerMethodDto) => {
+    console.log('rowData', rowData);
+  };
 
   useEffect(() => {
-    //fetch();
-  }, []);
+    if (appId) {
+      (async () => {
+        ServiceGroupApi.getSgList(appId);
+      })();
+    }
+  }, [appId]);
 
   return (
     <Paper style={{ padding: '20px' }}>
-      <CommonTable
+      <CommonTable<ProminerMethodDto>
+        allowMultipleSelect={false}
+        query={ProminerApi.getMethodList}
         tableName="prominer-method-table"
-        // renderLayoutAs={TableLayoutCustom}
-        fieldAsRowId="email"
+        fieldAsRowId="declaring_class"
         columnsConfig={columnsConfig}
-        rows={sampleRows}
-        onSelectedRows={(selectedRows) => {
-          //
-        }}
-        //topActionConfig={topActionConfig}
-        filterConfig={filterConfig}
-        //onFilterTriggerQuery={filter}
+        filterConfig={filterConfig as unknown as IFilterConfig}
         sortDefault={{
           field: 'method_name',
-          direction: 'asc',
+          direction: 'desc',
         }}
-        onSortChange={() => console.log('')}
-        paginationConfig={{
-          rowsPerPageOptions: [10, 25, 50, 100],
-          currentPage: 0,
-          rowsPerPage: 10,
-          totalCount: 0,
-          rowsPerPagePosition: 'last',
-          onPageChange: (newPageIndex: number) => console.log(newPageIndex),
-          onRowsPerPageChange: (newRowsPerPage: number) => console.log(newRowsPerPage),
-        }}
-        // renderPaginationAs={TablePaginationCustom}
-        bottomActionsConfig={bottomActionsConfig}
+        ref={tableRef as MutableRefObject<ImperativeHandleDto<ProminerMethodDto>>}
+        onRowClick={handleRowClick}
       />
     </Paper>
   );
-}
-export default observer(ProminerMethodDataTable);
+});
+
+export default ProminerMethodDataTable;

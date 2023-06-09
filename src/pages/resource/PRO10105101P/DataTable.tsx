@@ -11,26 +11,22 @@ import {
   IPlainObject,
 } from '@/components/organisms/CmCommonTable/types';
 
-import { useStore } from '@/utils';
+// -----------------------------------
+// Sample Data
 
-function LockAndUnlockDataTable() {
-  const { AlertStore } = useStore();
+const sampleRows = [
+  {
+    logical_name: 'AppSHDO',
+    resource_type: 'DTO',
+    resource_path: 'com/tmax/dto',
+    physical_name: 'AppSHDO',
+    resource_id: '000008f98c8e0033e4eb2100000109bf',
+    user_id: 'admin',
+    description: null,
+  },
+];
 
-  // -----------------------------------
-  // Sample Data
-
-  const sampleRows = [
-    {
-      logical_name: 'AppSHDO',
-      resource_type: 'DTO',
-      resource_path: 'com/tmax/dto',
-      physical_name: 'AppSHDO',
-      resource_id: '000008f98c8e0033e4eb2100000109bf',
-      user_id: 'admin',
-      description: null,
-    },
-  ];
-
+const LockAndUnlockDataTable = observer(() => {
   // -----------------------------------
   // Config table
   const columnsConfig = useMemo<ICommonTableColumn<IPlainObject>[]>(() => {
@@ -160,5 +156,6 @@ function LockAndUnlockDataTable() {
       />
     </Paper>
   );
-}
-export default observer(LockAndUnlockDataTable);
+});
+
+export default LockAndUnlockDataTable;

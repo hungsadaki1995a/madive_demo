@@ -1,37 +1,40 @@
 import React from 'react';
 
+import { Box } from '@mui/material';
+
 import BottomButtons from '../bottomButtons/BottomButtons';
-import FilterControls from '../filterControls/FilterControls';
-import TablePaginationDefault from '../paginations/TablePaginationDefault';
+import FilterPanel from '../filterControls/FilterPanel';
+import TablePaginationDefault from '../pagination/CmTablePagination';
 import BottomSection from '../styled/BottomSection';
-import FilterSection from '../styled/FilterSection';
-import HeaderSection from '../styled/HeaderSection';
-import TableSection from '../styled/TableSection';
 import TableGrid from '../tablePartitions/TableGrid';
-import TopButton from '../topButton';
 import { IPlainObject, TableLayoutProps } from '../types';
 
 const TableLayoutDefault = <TRowDataType extends IPlainObject>({
   fieldAsRowId,
-  showTopSelect,
   topActionConfig,
-  excelBtnConfig,
-  addBtnConfig,
   filterConfig,
   onFilterTriggerQuery,
   hasSelectionRows,
-  rows,
+  rows = [],
   columnsConfig,
   handleCheckAll,
   handleSortTable,
   sortInfo,
   handleCheckRow,
-  handleRowClick,
   paginationConfig,
   renderPaginationAs,
   selectedRowsMapping,
   selectedRows,
   bottomActionsConfig,
+  dispatch,
+  tableState,
+  onChangePage,
+  onChangePageSize,
+  onChangeFilterClient,
+  onChangeFilterServer,
+  totalCount,
+  onRowClick,
+  allowMultipleSelect,
 }: TableLayoutProps<TRowDataType>) => {
   const PaginationComponent = renderPaginationAs ? renderPaginationAs : TablePaginationDefault;
 
@@ -45,29 +48,18 @@ const TableLayoutDefault = <TRowDataType extends IPlainObject>({
         paddingBottom: '1rem',
       }}
     >
-      <HeaderSection>
-        <div>
-          {!!topActionConfig && (
-            <TopButton
-              topAction={topActionConfig}
-              showTopSelect={showTopSelect}
-              selectedRows={selectedRows}
-            />
-          )}
-        </div>
-        <FilterSection>
-          <FilterControls
-            excelBtnConfig={excelBtnConfig}
-            addBtnConfig={addBtnConfig}
-            filterConfig={filterConfig}
-            onTriggerQuery={(filterData) => {
-              onFilterTriggerQuery?.(filterData);
-            }}
-          />
-        </FilterSection>
-      </HeaderSection>
+      {filterConfig && (
+        <FilterPanel
+          filterConfig={filterConfig}
+          onChangeFilterClient={onChangeFilterClient}
+          onChangeFilterServer={onChangeFilterServer}
+          selectedRows={selectedRows}
+          dispatch={dispatch}
+          filterState={tableState.filter}
+        />
+      )}
 
-      <TableSection>
+      <Box marginTop="1rem">
         <TableGrid
           columnsConfig={columnsConfig}
           fieldAsRowId={fieldAsRowId}
@@ -75,33 +67,33 @@ const TableLayoutDefault = <TRowDataType extends IPlainObject>({
           handleCheckRow={handleCheckRow}
           handleSortTable={handleSortTable}
           hasSelectionRows={hasSelectionRows}
-          handleRowClick={handleRowClick}
           rows={rows}
           selectedRows={selectedRows}
           selectedRowsMapping={selectedRowsMapping}
           sortInfo={sortInfo}
+          onRowClick={onRowClick}
+          allowMultipleSelect={allowMultipleSelect}
         />
-      </TableSection>
+      </Box>
 
-      <BottomSection>
-        {!!bottomActionsConfig && (
+      {rows.length > 0 && (
+        <PaginationComponent
+          totalCount={totalCount || 0}
+          currentPage={tableState.currentPage}
+          onPageChange={onChangePage}
+          onRowsPerPageChange={onChangePageSize}
+          rowsPerPage={tableState.pageSize}
+        />
+      )}
+
+      {!!bottomActionsConfig && (
+        <BottomSection>
           <BottomButtons
             actions={bottomActionsConfig}
             selectedRows={selectedRows}
           />
-        )}
-        {!!paginationConfig && (
-          <PaginationComponent
-            rowsPerPageOptions={paginationConfig.rowsPerPageOptions}
-            totalCount={paginationConfig.totalCount}
-            rowsPerPage={paginationConfig.rowsPerPage}
-            currentPage={paginationConfig.currentPage}
-            onPageChange={paginationConfig.onPageChange}
-            onRowsPerPageChange={paginationConfig.onRowsPerPageChange}
-            rowsPerPagePosition={paginationConfig.rowsPerPagePosition}
-          />
-        )}
-      </BottomSection>
+        </BottomSection>
+      )}
     </div>
   );
 };

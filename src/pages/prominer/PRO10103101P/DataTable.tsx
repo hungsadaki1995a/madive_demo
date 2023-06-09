@@ -1,197 +1,205 @@
-import { useEffect, useMemo } from 'react';
+import { MutableRefObject, useMemo, useRef } from 'react';
 
 import { Paper } from '@mui/material';
 import { observer } from 'mobx-react';
 
 import CommonTable from '@/components/organisms/CmCommonTable';
+import FilterServiceGroupListControl from '@/components/organisms/CmCommonTable/filterControls/FilterServiceGroupListControl';
 import {
-  IBottomAction,
   ICommonTableColumn,
   IFilterConfig,
+  ImperativeHandleDto,
   IPlainObject,
 } from '@/components/organisms/CmCommonTable/types';
 
-import { useStore } from '@/utils';
+import ProminerApi from '@/apis/ProminerApi';
+import { ReactComponent as AddIcon } from '@/stylesheets/images/AddIcon.svg';
+import { ReactComponent as DeleteIcon } from '@/stylesheets/images/DeleteIcon.svg';
+import { ProminerResourceDto } from '@/types/dtos/prominerDtos';
 
-function PorminerResourceDataTable() {
-  const { AlertStore } = useStore();
+const columnsConfig: ICommonTableColumn<IPlainObject>[] = [
+  {
+    field: 'logical_name',
+    label: 'Logical Name',
+    type: 'text',
+    sortable: true,
+  },
+  {
+    field: 'physical_name',
+    label: 'Physical Name',
+    type: 'text',
+    sortable: true,
+  },
+  {
+    field: 'resource_type',
+    label: 'Resource Type',
+    type: 'text',
+    sortable: true,
+  },
+  {
+    field: 'resource_path',
+    label: 'Resource Path',
+    type: 'text',
+    sortable: true,
+  },
+  {
+    field: 'recycled',
+    label: 'Recycled',
+    type: 'text',
+    sortable: true,
+  },
+  {
+    field: 'recycled_so',
+    label: 'Recycled SOs',
+    type: 'text',
+    sortable: true,
+  },
+  {
+    field: 'recycled_bo',
+    label: 'Recycled BOs',
+    type: 'text',
+    sortable: true,
+  },
+  {
+    field: 'calldepth',
+    label: 'Call-Depth',
+    type: 'text',
+    sortable: true,
+  },
+];
 
-  // -----------------------------------
-  // Sample Data
-
-  const sampleRows = [
-    {
-      calldepth: 3,
-      recycled_bo: 0,
-      recycled_so: 0,
-      recycled: 0,
-      logical_name: 'SHBO',
-      resource_type: 'BIZ_OBJECT',
-      resource_path: 'com.tmax.bo',
-      physical_name: 'SHBO',
-      declaring_class: '',
-    },
-    {
-      calldepth: 1,
-      recycled_bo: 1,
-      recycled_so: 2,
-      recycled: 6,
-      logical_name: 'SHBO',
-      resource_type: 'DTO',
-      resource_path: 'com.tmax.dto',
-      physical_name: 'SHDO',
-      declaring_class: '',
-    },
-  ];
-
-  // -----------------------------------
-  // Config table
-  const columnsConfig = useMemo<ICommonTableColumn<IPlainObject>[]>(() => {
-    return [
-      {
-        field: 'logical_name',
-        label: 'Logical Name',
-        type: 'text',
-        sortable: true,
-      },
-      {
-        field: 'physical_name',
-        label: 'Physical Name',
-        type: 'text',
-        sortable: true,
-      },
-      {
-        field: 'resource_type',
-        label: 'Resource Type',
-        type: 'text',
-        sortable: true,
-      },
-      {
-        field: 'resource_path',
-        label: 'Resource Path',
-        type: 'text',
-        sortable: true,
-      },
-      {
-        field: 'recycled',
-        label: 'Recycled',
-        type: 'text',
-        sortable: true,
-      },
-      {
-        field: 'recycled_so',
-        label: 'Recycled SOs',
-        type: 'text',
-        sortable: true,
-      },
-      {
-        field: 'recycled_bo',
-        label: 'Recycled BOs',
-        type: 'text',
-        sortable: true,
-      },
-      {
-        field: 'calldepth',
-        label: 'Call-Depth',
-        type: 'text',
-        sortable: true,
-      },
-    ];
-  }, []);
-
-  const filterConfig = useMemo<IFilterConfig>(() => {
+const PorminerResourceDataTable = observer(({ appId }: { appId: string }) => {
+  const filterConfig = useMemo(() => {
     return {
-      submitBy: 'enter',
-      submitLabel: 'Search',
-      filters: [
+      primaryActions: [
+        {
+          type: 'button',
+          handleClick: (selectedRows: ProminerResourceDto[]) => {
+            tableRef.current?.resetPageAndRefresh();
+          },
+          checkDisabled: (selectedRows: ProminerResourceDto[]) => {
+            return selectedRows?.length < 1;
+          },
+          config: {
+            variant: 'contained',
+            color: 'secondary',
+            size: 'small',
+            startIcon: <DeleteIcon />,
+            label: 'Delete',
+          },
+        },
         {
           type: 'dropdown',
-          name: 'filterFieldName',
+          component: (props: any) => (
+            <FilterServiceGroupListControl
+              {...props}
+              resourceId={appId}
+            />
+          ),
+          name: 'sg_resource_id',
+          isTriggerFetchData: true,
+        },
+      ],
+      advanceActions: [
+        // {
+        //   type: 'dropdown',
+        //   options: [
+        //     {
+        //       label: 'ALL',
+        //       value: 'ALL',
+        //     },
+        //     {
+        //       label: 'SERVICE OBJECT',
+        //       value: 'SERVICE_OBJECT',
+        //     },
+        //     {
+        //       label: 'BIZ OBJECT',
+        //       value: 'BIZ_OBJECT',
+        //     },
+        //     {
+        //       label: 'JOB OBJECT',
+        //       value: 'JOB_OBJECT',
+        //     },
+        //   ],
+        //   name: 'resource_type',
+        // },
+        {
+          label: 'Create',
+          type: 'button',
+          handleClick: (selectedRows: ProminerResourceDto[]) => {
+            return;
+          },
+          config: {
+            variant: 'contained',
+            color: 'primary',
+            size: 'small',
+            startIcon: <AddIcon />,
+            label: 'Create',
+          },
+          // Using component property for own button style
+          // component: (props: any) => (
+          //   <Button
+          //     color="primary"
+          //     size="small"
+          //     variant="contained"
+          //     startIcon={<AddIcon />}
+          //     {...props}
+          //   >
+          //     Create
+          //   </Button>
+          // ),
+        },
+        {
+          type: 'filter',
+          name: 'prominer-resource-filter',
+          defaultValue: 'physical_name',
           options: [
-            {
-              label: 'Logical Name',
-              value: 'logical_name',
-            },
             {
               label: 'Physical Name',
               value: 'physical_name',
             },
             {
-              label: 'Resource Type',
-              value: 'resource_type',
+              label: 'Logical Name',
+              value: 'logical_name',
             },
+            // {
+            //   label: 'Resource Type',
+            //   value: 'resource_type',
+            // },
             {
               label: 'Resource Path',
               value: 'resource_path',
             },
-            {
-              label: 'Recycled',
-              value: 'recycled',
-            },
-            {
-              label: 'Recycled SOs',
-              value: 'recycled_so',
-            },
-            {
-              label: 'Recycled BOs',
-              value: 'recycled_bo',
-            },
           ],
-        },
-        {
-          type: 'simple',
-          name: 'search',
-          // className: '',
-          // label: 'Keyword',
-          // icon: <SearchIcon />,
         },
       ],
     };
-  }, []);
+  }, [appId]);
 
-  const bottomActionsConfig = useMemo<IBottomAction<IPlainObject>[]>((): IBottomAction<IPlainObject>[] => {
-    return [];
-  }, []);
+  const handleRowClick = (event: React.MouseEvent, rowData: ProminerResourceDto) => {
+    return;
+  };
 
-  // ------------------------------------------------------------------------------------
-  // Handle Data
-
-  useEffect(() => {
-    //fetch();
-  }, []);
+  const tableRef = useRef<ImperativeHandleDto<ProminerResourceDto>>();
 
   return (
     <Paper style={{ padding: '20px' }}>
-      <CommonTable
+      <CommonTable<ProminerResourceDto>
+        hasSelectionRows
+        query={ProminerApi.getResourceList}
         tableName="prominer-resource-table"
-        // renderLayoutAs={TableLayoutCustom}
-        fieldAsRowId="email"
+        fieldAsRowId="logical_name"
         columnsConfig={columnsConfig}
-        rows={sampleRows}
-        onSelectedRows={(selectedRows) => {
-          //
-        }}
-        //topActionConfig={topActionConfig}
-        filterConfig={filterConfig}
-        //onFilterTriggerQuery={filter}
+        filterConfig={filterConfig as unknown as IFilterConfig}
         sortDefault={{
           field: 'logical_name',
-          direction: 'asc',
+          direction: 'desc',
         }}
-        onSortChange={() => console.log('')}
-        paginationConfig={{
-          rowsPerPageOptions: [10, 25, 50, 100],
-          currentPage: 0,
-          rowsPerPage: 10,
-          totalCount: 0,
-          rowsPerPagePosition: 'last',
-          onPageChange: (newPageIndex: number) => console.log(newPageIndex),
-          onRowsPerPageChange: (newRowsPerPage: number) => console.log(newRowsPerPage),
-        }}
-        // renderPaginationAs={TablePaginationCustom}
-        bottomActionsConfig={bottomActionsConfig}
+        ref={tableRef as MutableRefObject<ImperativeHandleDto<ProminerResourceDto>>}
+        onRowClick={handleRowClick}
       />
     </Paper>
   );
-}
-export default observer(PorminerResourceDataTable);
+});
+
+export default PorminerResourceDataTable;

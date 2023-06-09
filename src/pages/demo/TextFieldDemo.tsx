@@ -12,6 +12,9 @@ class InputDTO {
 
   @IsNotEmpty({ message: 'This field cannot blank' })
   input_outside: string;
+
+  @IsNotEmpty({ message: 'This field cannot blank' })
+  input_with_adornment: string;
 }
 
 const resolver = classValidatorResolver(InputDTO);
@@ -26,6 +29,7 @@ function TextFieldDemo() {
     values: {
       input_inside: '',
       input_outside: '',
+      input_with_adornment: '',
     },
     resolver,
   });
@@ -36,7 +40,7 @@ function TextFieldDemo() {
 
   return (
     <div style={{ width: 600 }}>
-      <Typography variant="h6">Controlled form</Typography>
+      <Typography variant="h6">TextField with label inside</Typography>
       <Controller
         name={'input_inside'}
         control={control}
@@ -51,6 +55,8 @@ function TextFieldDemo() {
           />
         )}
       />
+
+      <Typography variant="h6">TextField with label outside</Typography>
       <Controller
         name={'input_outside'}
         control={control}
@@ -62,6 +68,41 @@ function TextFieldDemo() {
             value={value}
             error={!!errors?.input_outside}
             helperText={errors?.input_outside?.message}
+          />
+        )}
+      />
+
+      <Typography variant="h6">TextField input with start adornment</Typography>
+      <Controller
+        name={'input_with_adornment'}
+        control={control}
+        render={({ field: { onChange, value } }) => (
+          <CmTextField
+            type="withAdornment"
+            startAdornmentChildren={'Decimal'}
+            error={!!errors.input_with_adornment}
+            helperText={errors.input_with_adornment?.message}
+            onChange={onChange}
+            value={value}
+            variant="standard"
+          />
+        )}
+      />
+
+      <Typography variant="h6">TextField input with end adornment</Typography>
+
+      <Controller
+        name={'input_with_adornment'}
+        control={control}
+        render={({ field: { onChange, value } }) => (
+          <CmTextField
+            type="withAdornment"
+            endAdornmentChildren={'Decimal'}
+            error={!!errors.input_with_adornment}
+            helperText={errors.input_with_adornment?.message}
+            onChange={onChange}
+            value={value}
+            variant="standard"
           />
         )}
       />

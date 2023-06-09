@@ -1,3 +1,5 @@
+import { TableActionName } from './const';
+
 export type DirectionType = 'asc' | 'desc';
 
 export type IPlainObject = {
@@ -30,20 +32,18 @@ export interface IFilterSimple extends IFilterBase {
   icon?: React.ReactNode;
 }
 
+export type DropdownOptionType = {
+  label: string;
+  value: string;
+};
 export interface IFilterDropdown extends IFilterBase {
   type: 'dropdown';
-  options: {
-    label: string;
-    value: string;
-  }[];
+  options: DropdownOptionType[];
 }
 
 export interface IFilterActionSelection extends IFilterBase {
   type: 'action-selection';
-  options: {
-    label: string;
-    value: string;
-  }[];
+  options: DropdownOptionType[];
 }
 
 export type IFilterElementType = IFilterSimple | IFilterDropdown | IFilterActionSelection;
@@ -89,12 +89,6 @@ export interface IAddAction {
   icon?: React.ReactNode;
 }
 
-export interface IUploadAction {
-  label: string;
-  onClick?: () => void;
-  icon?: React.ReactNode;
-}
-
 export interface ICommonTableColumn<TRowDataType extends IPlainObject> {
   field: string;
   label?: string;
@@ -106,9 +100,9 @@ export interface ICommonTableColumn<TRowDataType extends IPlainObject> {
 }
 
 export interface IPaginationParams {
-  rowsPerPageOptions: number[];
+  rowsPerPageOptions?: number[];
   totalCount: number;
-  rowsPerPage: number;
+  rowsPerPage?: number;
   currentPage: number;
   rowsPerPagePosition?: 'first' | 'last';
 }
@@ -124,16 +118,15 @@ export interface ICommonTable<TRowDataType extends IPlainObject> {
   // eslint-disable-next-line no-use-before-define
   renderLayoutAs?: (props: TableLayoutProps<TRowDataType>) => JSX.Element;
   columnsConfig: ICommonTableColumn<TRowDataType>[];
-  rows: TRowDataType[];
+  rows?: TRowDataType[];
   //
   hasSelectionRows?: boolean;
+  allowMultipleSelect?: boolean;
   onSelectedRows?: (selectedRows: TRowDataType[]) => void;
   //
   showTopSelect?: boolean;
   //
   topActionConfig?: ITopAction<TRowDataType>[];
-  //
-  excelBtnConfig?: IUploadAction;
   //
   addBtnConfig?: IAddAction;
   //
@@ -141,7 +134,7 @@ export interface ICommonTable<TRowDataType extends IPlainObject> {
   onFilterTriggerQuery?: (filterValues: IPlainObject) => void;
   //
   sortDefault: ISortInfo;
-  onSortChange: (sortInfo: ISortInfo) => void;
+  onSortChange?: (sortInfo: ISortInfo) => void;
   //
   paginationConfig?: IPaginationConfig;
   renderPaginationAs?: (props: IPaginationConfig) => JSX.Element;
@@ -149,15 +142,15 @@ export interface ICommonTable<TRowDataType extends IPlainObject> {
   showResultCount?: boolean;
   //
   bottomActionsConfig?: IBottomAction<TRowDataType>[];
-  //
-  onRowClick?: (event: React.MouseEvent<unknown>, row: any) => void;
+  query?: (filterData?: any) => Promise<any>;
+  onRowClick?: (event: React.MouseEvent, row: TRowDataType) => void;
+  totalCount?: number;
 }
 
 export type TableLayoutProps<TRowDataType extends IPlainObject> = Pick<
   ICommonTable<TRowDataType>,
   | 'showTopSelect'
   | 'topActionConfig'
-  | 'excelBtnConfig'
   | 'addBtnConfig'
   | 'filterConfig'
   | 'onFilterTriggerQuery'
@@ -168,7 +161,9 @@ export type TableLayoutProps<TRowDataType extends IPlainObject> = Pick<
   | 'renderPaginationAs'
   | 'fieldAsRowId'
   | 'bottomActionsConfig'
+  | 'totalCount'
   | 'onRowClick'
+  | 'allowMultipleSelect'
 > & {
   handleCheckAll: ({ checked }: { checked: boolean }) => void;
   sortInfo: ISortInfo;
@@ -178,7 +173,12 @@ export type TableLayoutProps<TRowDataType extends IPlainObject> = Pick<
     [key: string]: TRowDataType;
   };
   selectedRows: TRowDataType[];
-  handleRowClick: ({ event, row }: { event: React.MouseEvent<unknown>; row: any }) => void;
+  dispatch: (type: ActionType) => void;
+  tableState: TableViewState;
+  onChangePage: (page: number) => void;
+  onChangePageSize: (pageNumber: number) => void;
+  onChangeFilterClient?: (filterData: any) => void;
+  onChangeFilterServer?: (filterData: FilterFormType) => void;
 };
 
 export interface IButtonMenuConfig {
@@ -188,3 +188,80 @@ export interface IButtonMenuConfig {
     value: string;
   }[];
 }
+
+export type FilterFieldType = string | number | boolean | Array<unknown> | Record<string, unknown> | unknown;
+
+export type FilterFormType = {
+  [fieldName: string]: FilterFieldType;
+};
+
+export type PageChangeActionType = {
+  type: TableActionName.CHANGE_PAGE;
+  payload: { page: number };
+};
+
+export type PageSizeChangeActionType = {
+  type: TableActionName.CHANGE_PAGE_SIZE;
+  payload: { pageSize: number; page: number };
+};
+
+export type SortByChangeActionType = {
+  type: TableActionName.CHANGE_SORT_BY;
+  payload: { sortBy: ISortInfo };
+};
+
+export type FilterChangeActionType = {
+  type: TableActionName.CHANGE_FILTER_CLIENT | TableActionName.CHANGE_FILTER_SERVER;
+  payload: FilterFormType;
+};
+
+export type ResetPageAndReloadActionType = {
+  type: TableActionName.RESET_PAGE_AND_RELOAD;
+  payload: null;
+};
+
+export type InvalidateChangeActionType = {
+  type: TableActionName.CHANGE_INVALIDATE;
+  payload: { invalidate: boolean };
+};
+
+export type ActionType =
+  | PageChangeActionType
+  | PageSizeChangeActionType
+  | SortByChangeActionType
+  | FilterChangeActionType
+  | ResetPageAndReloadActionType
+  | InvalidateChangeActionType;
+
+export type DispatchFunction = {
+  (dispatch: ActionType): void;
+};
+
+export type TableViewState = {
+  currentPage: number;
+  pageSize: number;
+  sortBy: ISortInfo;
+  filter: {
+    client: FilterFormType;
+    server: FilterFormType;
+  };
+  invalidate: boolean;
+  [key: string]: unknown;
+};
+
+export type TableDataResponseDto<TRowType> = {
+  data: TRowType[];
+  total: number;
+};
+
+export interface IUploadAction {
+  label: string;
+  onClick?: () => void;
+  icon?: React.ReactNode;
+}
+
+export type ImperativeHandleDto<TRowType> = {
+  fetch: () => void;
+  resetPageAndRefresh: () => void;
+  changeFilterServer: (filter: FilterFormType) => void;
+};

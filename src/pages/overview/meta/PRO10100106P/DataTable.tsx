@@ -209,7 +209,7 @@ function MetaDataTable() {
         onSelectedRows={onSelectedRows}
         onRowClick={handleEditMetaModalOpen}
         topActionConfig={topActionConfig}
-        excelBtnConfig={excelBtnConfig}
+        // excelBtnConfig={excelBtnConfig}
         addBtnConfig={addBtnConfig}
         //filterConfig={filterConfig}
         //onFilterTriggerQuery={filter}

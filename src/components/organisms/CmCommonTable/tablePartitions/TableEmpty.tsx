@@ -1,32 +1,19 @@
-import { TableRow } from '@mui/material';
-import makeStyles from '@mui/styles/makeStyles';
-
-const useStyles = makeStyles(() => ({
-  wrap: {
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderBottom: '1px rgba(0, 0, 0, 0.05) solid',
-    width: 'calc(100vw - 328px)',
-    minWidth: 1312,
-    minHeight: 535,
-    backgroundColor: '#fff',
-    '& span': {
-      color: '#000',
-      fontSize: 14,
-      fontWeight: 700,
-    },
-  },
-}));
+import { Stack, TableCell, TableRow } from '@mui/material';
 
 const TableEmpty = () => {
-  const classes = useStyles();
-
   return (
     <TableRow>
-      <td className={classes.wrap}>
-        <span>No data to display</span>
-      </td>
+      <TableCell colSpan={12}>
+        <Stack
+          direction="column"
+          margin={3}
+          justifyContent="center"
+          alignItems="center"
+        >
+          <div>No resources were created.</div>
+          <div>Try creating a new resource.</div>
+        </Stack>
+      </TableCell>
     </TableRow>
   );
 };

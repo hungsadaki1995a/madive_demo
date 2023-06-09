@@ -220,7 +220,7 @@ function TestCaseDataTable() {
         const response: TestCaseListResponseDto = await TestCaseApi.getTestCases({
           app_resource_id: '0000d8a6e0bd0004b35b8c00dcf79930', // hard code for test
           pageInfoDto: {
-            pageLength: pagination.rowsPerPage.toString(),
+            pageLength: '0',
             pageNum: pagination.currentPage + 1,
             sort: true,
             sortField: sort.field || defaultFilterField,
