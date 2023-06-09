@@ -78,13 +78,13 @@ const ApiAlert = () => {
       case apiResultTypes.SUCCESS:
         return (
           <>
-            <SuccessIcon /> Success
+            <SuccessIcon className="success" /> Success
           </>
         );
       case apiResultTypes.ERROR:
         return (
           <>
-            <ErrorIcon /> Error
+            <ErrorIcon className="error" /> Error
           </>
         );
       default:

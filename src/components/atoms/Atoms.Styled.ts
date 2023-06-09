@@ -322,6 +322,21 @@ const CmModalStyle = styled.div`
 
     .MuiTypography-root {
       font: 16px / 1.5 ${CmStyle.notoSansDJKFont.regular};
+      display: flex;
+      align-items: center;
+      svg {
+        margin-right: 8px;
+        &.success {
+          path {
+            fill: #2e7d32;
+          }
+        }
+        &.error {
+          path {
+            fill: #d32f2f;
+          }
+        }
+      }
     }
   }
   .contents {
