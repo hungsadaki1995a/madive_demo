@@ -1,6 +1,7 @@
 export { default as ApplicationApi } from './ApplicationApi';
 export { default as AuthApi } from './AuthApi';
 export { default as DependencyApi } from './DependencyApi';
+export { default as DoInfoApi } from './DoInfoApi';
 export { default as MetaApi } from './MetaApi';
 export { default as NodeApi } from './NodeApi';
 export { default as RoleApi } from './RoleApi';

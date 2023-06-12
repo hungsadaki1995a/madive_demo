@@ -1,18 +1,22 @@
-import { useEffect, useMemo } from 'react';
+import { useMemo, useState } from 'react';
+import { useForm } from 'react-hook-form';
 
-import { Paper } from '@mui/material';
+import { Box, Paper, TextField } from '@mui/material';
 import { observer } from 'mobx-react';
 
+import { CmButton } from '@/components/atoms/CmButton';
 import CommonTable from '@/components/organisms/CmCommonTable';
-import { IBottomAction, ICommonTableColumn, IPlainObject } from '@/components/organisms/CmCommonTable/types';
+import { ICommonTableColumn, IPlainObject } from '@/components/organisms/CmCommonTable/types';
 
-import { useStore } from '@/utils';
+import { DoInfoApi } from '@/apis';
+import { DoInfoInput, FieldInfoDto } from '@/types/dtos/doInfoDto';
+import { notify } from '@/utils/notify';
 
-function DoInfoDataTable() {
-  const { AlertStore } = useStore();
+const DoInfoDataTable = observer(() => {
+  const { register, handleSubmit } = useForm<DoInfoInput>();
 
-  // -----------------------------------
-  // Config table
+  const [data, setData] = useState<FieldInfoDto[]>([]);
+
   const columnsConfig = useMemo<ICommonTableColumn<IPlainObject>[]>(() => {
     return [
       {
@@ -41,7 +45,7 @@ function DoInfoDataTable() {
       },
       {
         field: 'logical_name',
-        label: 'Logical_Name',
+        label: 'Logical Name',
         type: 'text',
         sortable: true,
       },
@@ -102,47 +106,73 @@ function DoInfoDataTable() {
     ];
   }, []);
 
-  const bottomActionsConfig = useMemo<IBottomAction<IPlainObject>[]>((): IBottomAction<IPlainObject>[] => {
-    return [];
-  }, []);
+  const onSubmit = async (formData: DoInfoInput) => {
+    const res = await DoInfoApi.getDoInfo(formData);
 
-  // ------------------------------------------------------------------------------------
-  // Handle Data
-
-  useEffect(() => {
-    //fetch();
-  }, []);
+    if (res?.dto?.result === 'Success') {
+      setData(res?.dto?.FieldInfo);
+    } else {
+      notify.error(res?.dto?.result);
+      setData([]);
+    }
+  };
 
   return (
-    <Paper style={{ padding: '20px' }}>
-      <CommonTable
-        tableName="do-info-table"
-        // renderLayoutAs={TableLayoutCustom}
-        fieldAsRowId="email"
-        columnsConfig={columnsConfig}
-        rows={[]}
-        onSelectedRows={(selectedRows) => {
-          //
-        }}
-        //onFilterTriggerQuery={filter}
-        sortDefault={{
-          field: 'seq',
-          direction: 'asc',
-        }}
-        onSortChange={() => console.log('')}
-        paginationConfig={{
-          rowsPerPageOptions: [10, 25, 50, 100],
-          currentPage: 0,
-          rowsPerPage: 10,
-          totalCount: 0,
-          rowsPerPagePosition: 'last',
-          onPageChange: (newPageIndex: number) => console.log(newPageIndex),
-          onRowsPerPageChange: (newRowsPerPage: number) => console.log(newRowsPerPage),
-        }}
-        // renderPaginationAs={TablePaginationCustom}
-        bottomActionsConfig={bottomActionsConfig}
-      />
-    </Paper>
+    <Box>
+      <Paper style={{ padding: '20px' }}>
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <label
+            className="labelFormArea"
+            style={{ padding: '20px' }}
+          >
+            <span style={{ padding: '20px' }}>Application</span>
+            <TextField
+              className="labelTextField"
+              size="small"
+              {...register('app_name')}
+            />
+          </label>
+          <label
+            className="labelFormArea"
+            style={{ padding: '20px' }}
+          >
+            <span style={{ padding: '20px' }}>Service Group</span>
+            <TextField
+              className="labelTextField"
+              size="small"
+              {...register('sg_name')}
+            />
+          </label>
+          <label
+            className="labelFormArea"
+            style={{ padding: '20px' }}
+          >
+            <span style={{ padding: '20px' }}>Physical Name</span>
+            <TextField
+              className="labelTextField"
+              size="small"
+              {...register('physical_name')}
+            />
+          </label>
+          <CmButton
+            btnTitle="Search"
+            variant="contained"
+            type="submit"
+          />
+        </form>
+        <CommonTable<FieldInfoDto>
+          tableName="node-management-table"
+          fieldAsRowId="node_id"
+          columnsConfig={columnsConfig}
+          sortDefault={{
+            field: 'seq',
+            direction: 'asc',
+          }}
+          rows={data}
+        />
+      </Paper>
+    </Box>
   );
-}
-export default observer(DoInfoDataTable);
+});
+
+export default DoInfoDataTable;

@@ -168,6 +168,7 @@ const useStyles = makeStyles(() => ({
     },
   },
 }));
+
 type btnPropsType = {
   id?: string;
   startIcon?: React.ReactNode;
@@ -177,11 +178,12 @@ type btnPropsType = {
   className?: string;
   color?: OverridableStringUnion<'inherit' | 'primary' | 'secondary' | 'success' | 'error' | 'info' | 'warning'>;
   disabled?: boolean;
+  type?: OverridableStringUnion<'button' | 'reset' | 'submit'>;
 };
 
 function CmButton(props: btnPropsType) {
   const classes = useStyles();
-  const { id, startIcon, className, onClick, variant, color, btnTitle, disabled } = props;
+  const { id, startIcon, className, onClick, variant, color, btnTitle, disabled, type = 'button' } = props;
 
   // === variant===
   // 'contained' - bule
@@ -195,7 +197,7 @@ function CmButton(props: btnPropsType) {
         id={id}
         startIcon={startIcon}
         className={className}
-        type="button"
+        type={type}
         variant={variant}
         onClick={onClick}
         color={color}
@@ -294,4 +296,4 @@ function CmButtonDropdownMenu({ config, onChange }: ButtonMenuPropsType) {
   );
 }
 
-export { CmButton, CmIconButton, CmButtonDropdownMenu };
+export { CmButton, CmButtonDropdownMenu, CmIconButton };

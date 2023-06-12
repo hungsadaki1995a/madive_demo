@@ -12,6 +12,10 @@ export const handlers = [
     await sleep(200);
     return res(ctx.status(201), ctx.json(metaList));
   }),
+  // rest.post('/fieldInfoList', async (req, res, ctx) => {
+  //   await sleep(200);
+  //   return res(ctx.status(201), ctx.json(fieldInfoList));
+  // }),
 ];
 
 async function sleep(timeout: number) {

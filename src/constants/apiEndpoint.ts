@@ -21,3 +21,7 @@ export const ResourceEndPoint = {
   getLockList: 'LockUnList',
   unlockResouces: 'LockUnList',
 };
+
+export const DoInfoEnpoint = {
+  getDoInfo: '/DoInfo',
+};
