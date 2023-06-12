@@ -152,9 +152,11 @@ function TestCaseDataTable() {
         return handleViewTestResultModalOpen();
       case TestCaseActionEnum.DETAIL:
         return requestResourceDetail(testCaseData);
-      case TestCaseActionEnum.DELETE:
-        setTestCaseDetailSelected(testCaseData);
-        return setIsOpenDeleteModal(true);
+      /** >>>>> Removed at Shinhan's request */
+      // case TestCaseActionEnum.DELETE:
+      //   setTestCaseDetailSelected(testCaseData);
+      //   return setIsOpenDeleteModal(true);
+      /** <<<<< Removed at Shinhan's request */
       // case TestCaseActionEnum.TEST:
       //   setTestCaseDetailSelected(testCaseData);
       //   requestRunTestCase(testCaseData);

@@ -76,7 +76,9 @@ export enum TestCaseActionEnum {
   TEST = 'test',
   DETAIL = 'detail',
   EDIT = 'edit',
-  DELETE = 'delete',
+  /** >>>>> Removed at Shinhan's request */
+  //DELETE = 'delete',
+  /** <<<<< Removed at Shinhan's request */
 }
 
 export const testCaseActionsConfig: IButtonMenuConfig = {
@@ -94,10 +96,12 @@ export const testCaseActionsConfig: IButtonMenuConfig = {
       label: 'Edit',
       value: TestCaseActionEnum.EDIT,
     },
-    {
-      label: 'Delete',
-      value: TestCaseActionEnum.DELETE,
-    },
+    /** >>>>> Removed at Shinhan's request */
+    // {
+    //   label: 'Delete',
+    //   value: TestCaseActionEnum.DELETE,
+    // },
+    /** <<<<< Removed at Shinhan's request */
   ],
 };
 
