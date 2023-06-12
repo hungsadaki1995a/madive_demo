@@ -1,116 +1,124 @@
-import { useCallback, useMemo, useRef, useState } from 'react';
+import { useMemo, useRef, useState } from 'react';
 
-import { Paper } from '@mui/material';
+import { Box, Paper } from '@mui/material';
 import { observer } from 'mobx-react';
 
 import CommonTable from '@/components/organisms/CmCommonTable';
-import {
-  IAddAction,
-  IBottomAction,
-  ICommonTableColumn,
-  IFilterConfig,
-  IPlainObject,
-  ITopAction,
-} from '@/components/organisms/CmCommonTable/types';
+import { ICommonTableColumn, IFilterConfig, IPlainObject } from '@/components/organisms/CmCommonTable/types';
 
-import UserApi2 from '@/apis/UserApi';
+import UserApi from '@/apis/UserApi';
 import { ReactComponent as AddIcon } from '@/stylesheets/images/AddIcon.svg';
 import { ReactComponent as DeleteIcon } from '@/stylesheets/images/DeleteIcon.svg';
-import TopButtonModel from '@/types/models/topButtonModel';
-import UserModel from '@/types/models/userModel';
-import { useStore } from '@/utils';
+import { configUserDto } from '@/types/dtos/userDto';
+import { notify } from '@/utils/notify';
 
 import DeleteModal from './modals/DeleteModal';
-import CreateModal from './modals/PRO20201202M';
-import UpdateModal from './modals/PRO20201203M';
-import { UserFormRefType } from './modals/UserForm';
+import FormModal from './modals/FormModal';
 
-function UserManagementDataTable() {
-  const { UserStore, AlertStore } = useStore();
-  const createModalRef = useRef<UserFormRefType>(null);
-  const updateModalRef = useRef<UserFormRefType>(null);
-  const [isDeleteUserModalVisible, setIsDeleteUserModalVisible] = useState(false);
-  const [selectedRows, setSelectedRows] = useState<any[]>([]);
+const UserManagementDataTable = observer(() => {
+  const [isCreateModal, setIsCreateModal] = useState<boolean>(false);
+  const [isDeleteModal, setIsDeleteModal] = useState<boolean>(false);
+  const [data, setData] = useState<configUserDto | null>(null);
+  const [selectedUsers, setSelectedUsers] = useState<configUserDto[]>([]);
+  const tableRef = useRef<any>();
 
-  // Edit User Modal Open
-  const handleUpdateModalOpen = (event: React.MouseEvent<unknown>, row: any) => {
-    console.log(event);
-    console.log(row);
-    updateModalRef.current?.show(row);
+  // Handle Form Modal
+  const handleCreateModalOpen = () => {
+    setData(null);
+    setIsCreateModal(true);
   };
 
-  // Delete User Modal Open
-  const handleDeleteUserModalOpen = () => {
-    setIsDeleteUserModalVisible(true);
+  const handleCreateModalClose = () => {
+    setIsCreateModal(false);
   };
 
-  // Delete User Modal Close
-  const handleDeleteUserModalClose = () => {
-    setIsDeleteUserModalVisible(false);
+  const handleUpdateModalOpen = (event: React.MouseEvent, rowData: configUserDto) => {
+    setData(rowData);
+    setIsCreateModal(true);
   };
 
-  // Delete User Excute
-  const handleDeleteUser = () => {
-    console.log(selectedRows);
+  const handleDeleleteModalOpen = () => {
+    setIsDeleteModal(true);
   };
 
-  // -----------------------------------
+  const handleDeleleteModalClose = () => {
+    setIsDeleteModal(false);
+  };
+
+  const handleSave = async (formData: configUserDto) => {
+    if (data) {
+      const res: any = await UserApi.editUser(formData);
+      if (res?.dto?.value !== 'Success') {
+        notify.error(res.dto.value);
+      } else {
+        notify.success(res.dto.value);
+      }
+    } else {
+      const res: any = await UserApi.createUser(formData);
+      if (res?.dto?.value !== 'Success') {
+        notify.error(res.dto.value);
+      } else {
+        notify.success(res.dto.value);
+      }
+    }
+    tableRef.current?.resetPageAndRefresh();
+  };
+
+  const handleDelete = async () => {
+    const res: any = await UserApi.deleteUser(selectedUsers);
+    if (res?.dto?.value !== 'Success') {
+      notify.error(res.dto.value);
+    } else {
+      notify.success(res.dto.value);
+    }
+    setSelectedUsers([]);
+    tableRef.current?.resetPageAndRefresh();
+  };
+
   // Config table
-  const columnsConfig = useMemo<ICommonTableColumn<UserModel>[]>(() => {
-    return [
-      {
-        field: 'user_id',
-        label: 'User Id',
-        type: 'text',
-        sortable: true,
-      },
-      {
-        field: 'user_name',
-        label: 'User Name',
-        type: 'text',
-        sortable: true,
-      },
-      {
-        field: 'email',
-        label: 'Email',
-        type: 'text',
-        sortable: true,
-        valueRenderAs: (rowData) => {
-          return (
-            <b
-              style={{
-                color: 'red',
-              }}
-            >
-              {rowData.email}
-            </b>
-          );
-        },
-      },
-      {
-        field: 'user_div',
-        label: 'User Div',
-        type: 'text',
-        sortable: true,
-      },
-      {
-        field: 'tel_no',
-        label: 'Phone Number',
-        type: 'text',
-        sortable: true,
-      },
-    ];
-  }, []);
+  const columnsConfig: ICommonTableColumn<IPlainObject>[] = [
+    {
+      field: 'user_id',
+      label: 'User Id',
+      type: 'text',
+      sortable: true,
+    },
+    {
+      field: 'user_name',
+      label: 'User Name',
+      type: 'text',
+      sortable: true,
+    },
+    {
+      field: 'email',
+      label: 'Email',
+      type: 'text',
+      sortable: true,
+    },
+    {
+      field: 'user_div',
+      label: 'User Div',
+      type: 'text',
+      sortable: true,
+    },
+    {
+      field: 'tel_no',
+      label: 'Phone Number',
+      type: 'text',
+      sortable: true,
+    },
+  ];
 
   const filterConfig = useMemo(() => {
     return {
       primaryActions: [
         {
           type: 'button',
-          handleClick: (selectedRows: UserModel[]) => {
-            handleDeleteUserModalOpen();
+          handleClick: (selectedRows: configUserDto[]) => {
+            setSelectedUsers(selectedRows);
+            handleDeleleteModalOpen();
           },
-          checkDisabled: (selectedRows: UserModel[]) => {
+          checkDisabled: (selectedRows: configUserDto[]) => {
             return selectedRows?.length < 1;
           },
           config: {
@@ -124,9 +132,10 @@ function UserManagementDataTable() {
       ],
       advanceActions: [
         {
+          label: 'Create New User',
           type: 'button',
-          handleClick: (selectedRows: UserModel[]) => {
-            createModalRef.current?.show();
+          handleClick: () => {
+            handleCreateModalOpen();
           },
           config: {
             variant: 'contained',
@@ -135,24 +144,16 @@ function UserManagementDataTable() {
             startIcon: <AddIcon />,
             label: 'Create New User',
           },
-          // Using component property for own button style
-          // component: (props: any) => (
-          //   <Button
-          //     color="primary"
-          //     size="small"
-          //     variant="contained"
-          //     startIcon={<AddIcon />}
-          //     {...props}
-          //   >
-          //     Create
-          //   </Button>
-          // ),
         },
         {
           type: 'filter',
-          name: 'user-list-filter',
-          defaultValue: 'user_name',
+          name: 'user-filter',
+          defaultValue: 'user_id',
           options: [
+            {
+              label: 'User Id',
+              value: 'user_id',
+            },
             {
               label: 'User Name',
               value: 'user_name',
@@ -167,101 +168,38 @@ function UserManagementDataTable() {
     };
   }, []);
 
-  const addBtnConfig = useMemo<IAddAction>((): IAddAction => {
-    return {
-      label: 'Create New User',
-      onClick: () => createModalRef.current?.show(),
-    };
-  }, []);
-
-  const topActionConfig = useMemo<ITopAction<TopButtonModel>[]>((): ITopAction<TopButtonModel>[] => {
-    return [
-      {
-        label: 'Delete',
-        onClick: () => handleDeleteUserModalOpen(),
-        icon: <DeleteIcon />,
-      },
-    ];
-  }, []);
-
-  const bottomActionsConfig = useMemo<IBottomAction<UserModel>[]>((): IBottomAction<UserModel>[] => {
-    return [
-      {
-        label: 'Change',
-        onClick: (selectedRows: UserModel[]) => {
-          updateModalRef.current?.show(selectedRows[0]);
-        },
-        checkDisabled: (selectedRs) => selectedRs?.length === 0 || selectedRs?.length > 1,
-      },
-      {
-        label: 'Delete',
-        onClick: (selectedRows: UserModel[]) => {
-          selectedRows?.forEach(async (row) => {
-            await UserApi2.deleteUser(row);
-            UserStore.deleteUser(row.user_id);
-            AlertStore.openApiAlert('success', 'Delete Success!');
-          });
-        },
-        checkDisabled: (selectedRs) => selectedRs?.length < 1,
-      },
-    ];
-  }, []);
-
-  const onSelectedRows = (rows: any) => {
-    setSelectedRows([...rows]);
-  };
-
-  // ------------------------------------------------------------------------------------
-  // Handle Data
-
-  const filterLogic = useCallback((row: any, filterValues: IPlainObject) => {
-    const temp = { ...row };
-    return !!(temp as any)[filterValues.filterFieldName]?.toLowerCase()?.includes(filterValues.search?.toLowerCase());
-  }, []);
-
-  // const filterLogic = useCallback((row: any, filterValues: IPlainObject) => {
-  //   const temp = { ...row };
-  //   return row.user_name.includes(filterValues.user_name || '') && row.email.includes(filterValues.email || '');
-  // }, []);
-
   return (
-    <Paper style={{ padding: '20px' }}>
-      <CommonTable<UserModel>
-        tableName="user-management"
-        query={UserApi2.getUsers}
-        fieldAsRowId="user_id"
-        columnsConfig={columnsConfig}
-        hasSelectionRows
-        onSelectedRows={onSelectedRows}
-        onRowClick={handleUpdateModalOpen}
-        filterConfig={filterConfig as unknown as IFilterConfig}
-        sortDefault={{
-          field: 'user_id',
-          direction: 'asc',
-        }}
-      />
-      <CreateModal
-        ref={createModalRef}
-        onSuccess={(data) => {
-          if (data) {
-            UserStore.addUser(data);
-          }
-        }}
-      />
-      <UpdateModal
-        ref={updateModalRef}
-        onSuccess={(data) => {
-          if (data) {
-            UserStore.updateUser(data);
-          }
-        }}
+    <Box>
+      <Paper style={{ padding: '20px', marginTop: '30px' }}>
+        <CommonTable<configUserDto>
+          hasSelectionRows
+          allowMultipleSelect
+          query={UserApi.getList}
+          tableName="user-table"
+          fieldAsRowId="user_id"
+          columnsConfig={columnsConfig}
+          filterConfig={filterConfig as unknown as IFilterConfig}
+          sortDefault={{
+            field: 'user_id',
+            direction: 'desc',
+          }}
+          ref={tableRef}
+          onRowClick={handleUpdateModalOpen}
+        />
+      </Paper>
+      <FormModal
+        visible={isCreateModal}
+        handleSave={handleSave}
+        handleClose={handleCreateModalClose}
+        data={data}
       />
       <DeleteModal
-        visible={isDeleteUserModalVisible}
-        handleSave={handleDeleteUser}
-        handleClose={handleDeleteUserModalClose}
+        visible={isDeleteModal}
+        handleClose={handleDeleleteModalClose}
+        handleSave={handleDelete}
       />
-    </Paper>
+    </Box>
   );
-}
-export default observer(UserManagementDataTable);
+});
+
+export default UserManagementDataTable;

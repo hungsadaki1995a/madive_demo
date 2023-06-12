@@ -25,3 +25,9 @@ export const ResourceEndPoint = {
 export const DoInfoEnpoint = {
   getDoInfo: '/DoInfo',
 };
+
+export const UserEndpoint = {
+  getUserList: '/UserList',
+  getUserHistory: '/UserHistoryList',
+  getUser: '/User',
+};

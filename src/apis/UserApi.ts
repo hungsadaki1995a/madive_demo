@@ -1,51 +1,62 @@
-import axios, { AxiosError } from 'axios';
+import { AxiosError } from 'axios';
 
 import { TableDataResponseDto } from '@/components/organisms/CmCommonTable/types';
 
-import { ProminerResourceDto } from '@/types/dtos/prominerDtos';
-import UserModel from '@/types/models/userModel';
+import { configUserDto } from '@/types/dtos/userDto';
 
-const { NODE_ENV, REACT_APP_BACKEND_URL } = process.env;
-const BASE_URL = NODE_ENV === 'development' ? REACT_APP_BACKEND_URL : '/proobject-devserver';
+import { UserEndpoint } from '@/constants/apiEndpoint';
+
+import apiClient from './apiClient';
 
 const UserApi = {
-  getUsers: async (): Promise<TableDataResponseDto<ProminerResourceDto> | unknown> => {
+  getList: async (): Promise<TableDataResponseDto<configUserDto> | unknown> => {
     try {
-      const { data } = await axios.get(
-        'http://101.101.209.11:14000/proobject/proobject-manager/UserList?{"dto":{"user_id":"a"}}&_=1684811200090'
-      );
-      return { data: data?.dto?.ConfigUserDto, total: data?.dto?.ConfigUserDto?.length || 0 };
+      const res = (await apiClient.get(UserEndpoint.getUserList)) as any;
+      const result = res.dto.ConfigUserDto;
+      return { data: result, total: result.length || 0 };
     } catch (error: unknown) {
       return error instanceof AxiosError ? error.response : error;
     }
   },
 
-  addUser: async (submitValue: UserModel) => {
+  getHistoryList: async (): Promise<TableDataResponseDto<configUserDto> | unknown> => {
     try {
-      return await axios.post('http://101.101.209.11:14000/proobject/proobject-manager/User', {
-        dto: submitValue,
+      const res = (await apiClient.get(UserEndpoint.getUserHistory)) as any;
+      const result = res.dto.ConfigUserDto;
+      return { data: result, total: result.length || 0 };
+    } catch (error: unknown) {
+      return error instanceof AxiosError ? error.response : error;
+    }
+  },
+
+  createUser: async (data: configUserDto) => {
+    try {
+      const res = await apiClient.post(UserEndpoint.getUser, {
+        dto: data,
       });
+      return res;
     } catch (error: unknown) {
       return error instanceof AxiosError ? error.response : error;
     }
   },
 
-  editUser: async (submitValue: UserModel) => {
+  editUser: async (data: configUserDto) => {
     try {
-      return await axios.put('http://101.101.209.11:14000/proobject/proobject-manager/User', {
-        dto: submitValue,
+      const res = await apiClient.put(UserEndpoint.getUser, {
+        dto: data,
       });
+      return res;
     } catch (error: unknown) {
       return error instanceof AxiosError ? error.response : error;
     }
   },
 
-  deleteUser: async (user: UserModel) => {
+  deleteUser: async (data: configUserDto[]) => {
     try {
-      return await axios.delete('http://101.101.209.11:14000/proobject/proobject-manager/UserList', {
+      return await apiClient.delete(UserEndpoint.getUserList, {
         data: {
           dto: {
-            ConfigUserDto: [user],
+            ConfigUserDto: data,
           },
         },
       });
@@ -54,12 +65,15 @@ const UserApi = {
     }
   },
 
-  getUserHistory: async () => {
+  deleteHistory: async (data: configUserDto[]) => {
     try {
-      const { data } = await axios.get(
-        'http://101.101.209.11:14000/proobject/proobject-manager/UserHistoryList?{"dto":{"user_id":"a"}}&_=1684811200090'
-      );
-      return data;
+      return await apiClient.delete(UserEndpoint.getUserHistory, {
+        data: {
+          dto: {
+            ConfigUserDto: data,
+          },
+        },
+      });
     } catch (error: unknown) {
       return error instanceof AxiosError ? error.response : error;
     }
