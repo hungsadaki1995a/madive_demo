@@ -1,158 +1,169 @@
-import { useEffect, useMemo } from 'react';
+import { MutableRefObject, useMemo, useRef, useState } from 'react';
+import { toast } from 'react-toastify';
 
 import { Paper } from '@mui/material';
 import { observer } from 'mobx-react';
 
 import CommonTable from '@/components/organisms/CmCommonTable';
+import FilterServiceGroupListControl from '@/components/organisms/CmCommonTable/filterControls/FilterServiceGroupListControl';
 import {
-  IBottomAction,
   ICommonTableColumn,
   IFilterConfig,
+  ImperativeHandleDto,
   IPlainObject,
 } from '@/components/organisms/CmCommonTable/types';
 
-// -----------------------------------
-// Sample Data
+import LockUnlockApi from '@/apis/LockUnlockApi';
+import { ReactComponent as DeleteIcon } from '@/stylesheets/images/DeleteIcon.svg';
+import { LockAndUnlockDto } from '@/types/dtos/lockUnlockDtos';
 
-const sampleRows = [
+import DeleteUnlockModal from './modal/DeleteUnlockModal';
+
+const columnsConfig: ICommonTableColumn<IPlainObject>[] = [
   {
-    logical_name: 'AppSHDO',
-    resource_type: 'DTO',
-    resource_path: 'com/tmax/dto',
-    physical_name: 'AppSHDO',
-    resource_id: '000008f98c8e0033e4eb2100000109bf',
-    user_id: 'admin',
-    description: null,
+    field: 'resource_path',
+    label: 'Package',
+    type: 'text',
+    sortable: true,
+  },
+  {
+    field: 'logical_name',
+    label: 'Logical Name',
+    type: 'text',
+    sortable: true,
+  },
+  {
+    field: 'physical_name',
+    label: 'Physical Name',
+    type: 'text',
+    sortable: true,
+  },
+  {
+    field: 'description',
+    label: 'Description',
+    type: 'text',
+    sortable: true,
+  },
+  {
+    field: 'resource_type',
+    label: 'Resource Type',
+    type: 'text',
+    sortable: true,
+  },
+  {
+    field: 'user_id',
+    label: 'User',
+    type: 'text',
+    sortable: true,
   },
 ];
 
-const LockAndUnlockDataTable = observer(() => {
-  // -----------------------------------
-  // Config table
-  const columnsConfig = useMemo<ICommonTableColumn<IPlainObject>[]>(() => {
-    return [
-      {
-        field: 'resource_path',
-        label: 'Package',
-        type: 'text',
-        sortable: true,
-      },
-      {
-        field: 'logical_name',
-        label: 'Logical Name',
-        type: 'text',
-        sortable: true,
-      },
-      {
-        field: 'physical_name',
-        label: 'Physical Name',
-        type: 'text',
-        sortable: true,
-      },
-      {
-        field: 'description',
-        label: 'Description',
-        type: 'text',
-        sortable: true,
-      },
-      {
-        field: 'resource_type',
-        label: 'Resource Type',
-        type: 'text',
-        sortable: true,
-      },
-      {
-        field: 'user_id',
-        label: 'User',
-        type: 'text',
-        sortable: true,
-      },
-    ];
-  }, []);
+const LockAndUnlockDataTable = observer(({ appId }: { appId: string }) => {
+  const [isUnlockResourceModalVisible, setIsUnlockResourceModalVisible] = useState(false);
+  const [selectedRows, setSelectedRows] = useState<LockAndUnlockDto[]>();
 
-  const filterConfig = useMemo<IFilterConfig>(() => {
+  // Unlock Resource Open
+  const handleUnlockResourceModalOpen = () => {
+    setIsUnlockResourceModalVisible(true);
+  };
+
+  // Unlock Resource Close
+  const handleUnlockResourceModalClose = () => {
+    setIsUnlockResourceModalVisible(false);
+  };
+
+  // Call API to Unlock Resource
+  const handleUnlockResource = async () => {
+    if (selectedRows) {
+      await LockUnlockApi.unlockResouces(selectedRows);
+      handleUnlockResourceModalClose();
+      tableRef.current?.resetPageAndRefresh();
+      toast.success('Unlock succeed!', { position: 'bottom-left' });
+    }
+  };
+
+  const filterConfig = useMemo(() => {
     return {
-      submitBy: 'enter',
-      submitLabel: 'Search',
-      filters: [
+      primaryActions: [
+        {
+          type: 'button',
+          handleClick: (selectedRows: LockAndUnlockDto[]) => {
+            handleUnlockResourceModalOpen();
+            setSelectedRows(selectedRows);
+          },
+          checkDisabled: (selectedRows: LockAndUnlockDto[]) => {
+            return selectedRows?.length < 1;
+          },
+          config: {
+            variant: 'contained',
+            color: 'secondary',
+            size: 'small',
+            startIcon: <DeleteIcon />,
+            label: 'Unlock',
+          },
+        },
         {
           type: 'dropdown',
-          name: 'filterFieldName',
+          component: (props: any) => (
+            <FilterServiceGroupListControl
+              {...props}
+              resourceId={appId}
+            />
+          ),
+          name: 'sg_resource_id',
+          isTriggerFetchData: true,
+        },
+      ],
+      advanceActions: [
+        {
+          type: 'filter',
+          name: 'prominer-resource-filter',
+          defaultValue: 'physical_name',
           options: [
             {
-              label: 'Package',
-              value: 'resource_path',
+              label: 'Physical Name',
+              value: 'physical_name',
             },
             {
               label: 'Logical Name',
               value: 'logical_name',
             },
             {
-              label: 'Physical Name',
-              value: 'physical_name',
-            },
-            {
-              label: 'Description',
-              value: 'description',
-            },
-            {
               label: 'Resource Type',
               value: 'resource_type',
             },
+            {
+              label: 'Resource Path',
+              value: 'resource_path',
+            },
           ],
-        },
-        {
-          type: 'simple',
-          name: 'search',
-          // className: '',
-          // label: 'Keyword',
-          // icon: <SearchIcon />,
         },
       ],
     };
-  }, []);
+  }, [appId]);
 
-  const bottomActionsConfig = useMemo<IBottomAction<IPlainObject>[]>((): IBottomAction<IPlainObject>[] => {
-    return [];
-  }, []);
-
-  // ------------------------------------------------------------------------------------
-  // Handle Data
-
-  useEffect(() => {
-    //fetch();
-  }, []);
-
+  const tableRef = useRef<ImperativeHandleDto<LockAndUnlockDto>>();
   return (
     <Paper style={{ padding: '20px' }}>
-      <CommonTable
-        tableName="lock-unlock-table"
-        // renderLayoutAs={TableLayoutCustom}
-        fieldAsRowId="email"
+      <CommonTable<LockAndUnlockDto>
+        hasSelectionRows
+        allowMultipleSelect
+        query={LockUnlockApi.getLockList}
+        tableName="resource-lock-table"
+        fieldAsRowId="resource_id"
         columnsConfig={columnsConfig}
-        rows={sampleRows}
-        onSelectedRows={(selectedRows) => {
-          //
-        }}
-        //topActionConfig={topActionConfig}
-        filterConfig={filterConfig}
-        //onFilterTriggerQuery={filter}
+        filterConfig={filterConfig as unknown as IFilterConfig}
         sortDefault={{
           field: 'resource_path',
-          direction: 'asc',
+          direction: 'desc',
         }}
-        onSortChange={() => console.log('')}
-        paginationConfig={{
-          rowsPerPageOptions: [10, 25, 50, 100],
-          currentPage: 0,
-          rowsPerPage: 10,
-          totalCount: 0,
-          rowsPerPagePosition: 'last',
-          onPageChange: (newPageIndex: number) => console.log(newPageIndex),
-          onRowsPerPageChange: (newRowsPerPage: number) => console.log(newRowsPerPage),
-        }}
-        // renderPaginationAs={TablePaginationCustom}
-        bottomActionsConfig={bottomActionsConfig}
+        ref={tableRef as MutableRefObject<ImperativeHandleDto<LockAndUnlockDto>>}
+      />
+
+      <DeleteUnlockModal
+        visible={isUnlockResourceModalVisible}
+        handleSave={handleUnlockResource}
+        handleClose={handleUnlockResourceModalClose}
       />
     </Paper>
   );

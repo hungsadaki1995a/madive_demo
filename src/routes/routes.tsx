@@ -256,6 +256,7 @@ const devRoutes: RouteItem[] = [
     label: 'Resource',
     path: 'resource',
     element: <Resource />,
+    icon: <ResourceIcon />,
     child: [
       {
         id: 'lockAndUnlock',
@@ -497,11 +498,11 @@ const defaultPageAccessPath = '/development';
 
 export {
   authRoutes,
-  devRoutes,
-  configRoutes,
   cmComponentRoutes,
-  otherRoutes,
-  routes,
-  rootRoutes,
+  configRoutes,
   defaultPageAccessPath,
+  devRoutes,
+  otherRoutes,
+  rootRoutes,
+  routes,
 };

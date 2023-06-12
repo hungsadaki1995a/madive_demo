@@ -1,11 +1,16 @@
 import { useState } from 'react';
 
+import { observer } from 'mobx-react';
+
 import WithAppList from '@/components/templates/WithAppList';
+
+import { useStore } from '@/utils';
 
 import LockAndUnlockDataTable from './DataTable';
 
-const LockAndUnlock = () => {
-  const [selectedValue, setSelectedValue] = useState<string>('');
+const LockAndUnlock = observer(() => {
+  const { ApplicationStore } = useStore();
+  const [selectedValue, setSelectedValue] = useState<string>(ApplicationStore.selectedApplication.resource_id || '');
 
   const onValueChange = (value: string) => {
     setSelectedValue(value);
@@ -16,9 +21,9 @@ const LockAndUnlock = () => {
       value={selectedValue}
       onValueChange={onValueChange}
     >
-      <LockAndUnlockDataTable />
+      <LockAndUnlockDataTable appId={selectedValue} />
     </WithAppList>
   );
-};
+});
 
 export default LockAndUnlock;
