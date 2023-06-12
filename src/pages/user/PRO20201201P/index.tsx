@@ -1,9 +1,9 @@
-import DataTable from './DataTable';
+import IndexPage from './DataTable';
 
 function UserManagement() {
   return (
     <>
-      <DataTable />
+      <IndexPage />
     </>
   );
 }

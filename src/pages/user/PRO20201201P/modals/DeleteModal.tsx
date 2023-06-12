@@ -5,7 +5,7 @@ import CmModal from '@/components/atoms/CmModal';
 
 type DeleteModalPrpos = {
   visible: boolean;
-  handleSave?: () => void;
+  handleSave: () => Promise<void>;
   handleClose: () => void;
 };
 
@@ -28,7 +28,10 @@ export default function DeleteModal({ visible, handleSave, handleClose }: Delete
         startIcon={<></>}
         className=""
         color="error"
-        onClick={handleSave}
+        onClick={() => {
+          handleSave();
+          handleClose();
+        }}
       />
     </Box>
   );
@@ -37,12 +40,14 @@ export default function DeleteModal({ visible, handleSave, handleClose }: Delete
     <CmModal
       title="Delete User"
       visible={visible}
-      onSave={handleSave}
+      onSave={() => {
+        handleSave();
+        handleClose();
+      }}
       onClose={handleClose}
       className="medium"
       footerRenderAs={footerRender}
     >
-      {/* contents */}
       <p className="pointTxt">Are you sure to delete this user ?</p>
     </CmModal>
   );

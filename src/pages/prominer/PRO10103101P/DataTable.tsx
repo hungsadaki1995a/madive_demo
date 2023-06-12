@@ -68,7 +68,7 @@ const columnsConfig: ICommonTableColumn<IPlainObject>[] = [
   },
 ];
 
-const PorminerResourceDataTable = observer(({ appId }: { appId: string }) => {
+const ProminerResourceDataTable = observer(({ appId }: { appId: string }) => {
   const filterConfig = useMemo(() => {
     return {
       primaryActions: [
@@ -202,4 +202,4 @@ const PorminerResourceDataTable = observer(({ appId }: { appId: string }) => {
   );
 });
 
-export default PorminerResourceDataTable;
+export default ProminerResourceDataTable;

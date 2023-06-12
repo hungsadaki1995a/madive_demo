@@ -1,114 +1,109 @@
-import { useEffect, useMemo } from 'react';
+import { useMemo, useRef, useState } from 'react';
 
-import { Paper } from '@mui/material';
+import { Box, Paper } from '@mui/material';
 import { observer } from 'mobx-react';
 
 import CommonTable from '@/components/organisms/CmCommonTable';
-import {
-  IBottomAction,
-  ICommonTableColumn,
-  IFilterConfig,
-  IPlainObject,
-} from '@/components/organisms/CmCommonTable/types';
+import { ICommonTableColumn, IFilterConfig, IPlainObject } from '@/components/organisms/CmCommonTable/types';
 
-import { useStore } from '@/utils';
+import UserApi from '@/apis/UserApi';
+import { ReactComponent as DeleteIcon } from '@/stylesheets/images/DeleteIcon.svg';
+import { configUserDto } from '@/types/dtos/userDto';
+import { notify } from '@/utils/notify';
 
-function HistoryDataTable() {
-  const { AlertStore } = useStore();
+import DeleteModal from '../PRO20201201P/modals/DeleteModal';
 
-  // -----------------------------------
-  // Sample Data
+const UserHistoryDataTable = observer(() => {
+  const [isDeleteModal, setIsDeleteModal] = useState<boolean>(false);
+  const [selectedUsers, setSelectedUsers] = useState<configUserDto[]>([]);
+  const tableRef = useRef<any>();
 
-  const sampleRows = [
+  // Handle Delete
+  const handleDeleleteModalOpen = () => {
+    setIsDeleteModal(true);
+  };
+
+  const handleDeleleteModalClose = () => {
+    setIsDeleteModal(false);
+  };
+
+  const handleDelete = async () => {
+    const res: any = await UserApi.deleteHistory(selectedUsers);
+    if (res?.dto?.value !== 'Success') {
+      notify.error(res.dto.value);
+    } else {
+      notify.success(res.dto.value);
+    }
+    setSelectedUsers([]);
+    tableRef.current?.resetPageAndRefresh();
+  };
+
+  // Config table
+  const columnsConfig: ICommonTableColumn<IPlainObject>[] = [
     {
-      history_id: '664bb4890a298e447bfca792c907e492',
-      history_type: 'CREATE',
-      user_id: '00_?',
-      user_passwd: '?',
-      user_name: '?',
-      email: 'duongtantien1@gmail.com',
-      tel_no: 'a',
-      update_time: '2023-05-29 15:56:57',
+      field: 'history_type',
+      label: 'History Type',
+      type: 'text',
+      sortable: true,
     },
     {
-      history_id: '66a0b2e40a298e445a228c757993b339',
-      history_type: 'DELETE',
-      user_id: '00_?q',
-      user_passwd: 'q?',
-      user_name: 'q?',
-      email: 'duongtantien1@gmail.com',
-      tel_no: 'q?',
-      update_time: '2023-05-29 17:29:47',
+      field: 'user_id',
+      label: 'User ID',
+      type: 'text',
+      sortable: true,
     },
     {
-      history_id: '712c8dc10a298e441c6885a1bd51129f',
-      history_type: 'DELETE',
-      user_id: '00_1123',
-      user_passwd: 'dsadsa',
-      user_name: 'dsadsad',
-      email: 'd@gmail.com',
-      tel_no: '321321321',
-      update_time: '2023-05-31 18:38:45',
+      field: 'user_name',
+      label: 'Name',
+      type: 'text',
+      sortable: true,
+    },
+    {
+      field: 'user_passwd',
+      label: 'PassWd',
+      type: 'text',
+      sortable: true,
+    },
+    {
+      field: 'email',
+      label: 'E-mail',
+      type: 'text',
+      sortable: true,
+    },
+    {
+      field: 'update_time',
+      label: 'Update Time',
+      type: 'text',
+      sortable: true,
     },
   ];
 
-  // -----------------------------------
-  // Config table
-  const columnsConfig = useMemo<ICommonTableColumn<IPlainObject>[]>(() => {
-    return [
-      {
-        field: 'history_type',
-        label: 'History Type',
-        type: 'text',
-        sortable: true,
-      },
-      {
-        field: 'user_id',
-        label: 'User ID',
-        type: 'text',
-        sortable: true,
-      },
-      {
-        field: 'user_name',
-        label: 'Name',
-        type: 'text',
-        sortable: true,
-      },
-      {
-        field: 'user_passwd',
-        label: 'PassWd',
-        type: 'text',
-        sortable: true,
-      },
-      {
-        field: 'email',
-        label: 'E-mail',
-        type: 'text',
-        sortable: true,
-      },
-      {
-        field: 'tel_no',
-        label: 'Thelephone No.',
-        type: 'text',
-        sortable: true,
-      },
-      {
-        field: 'update_time',
-        label: 'Update Time',
-        type: 'text',
-        sortable: true,
-      },
-    ];
-  }, []);
-
-  const filterConfig = useMemo<IFilterConfig>(() => {
+  const filterConfig = useMemo(() => {
     return {
-      submitBy: 'enter',
-      submitLabel: 'Search',
-      filters: [
+      primaryActions: [
         {
-          type: 'dropdown',
-          name: 'filterFieldName',
+          type: 'button',
+          handleClick: (selectedRows: configUserDto[]) => {
+            setSelectedUsers(selectedRows);
+            handleDeleleteModalOpen();
+          },
+          checkDisabled: (selectedRows: configUserDto[]) => {
+            return selectedRows?.length < 1;
+          },
+          config: {
+            variant: 'contained',
+            color: 'secondary',
+            size: 'small',
+            startIcon: <DeleteIcon />,
+            label: 'Delete',
+          },
+        },
+      ],
+      advanceActions: [
+        {
+          type: 'filter',
+          name: 'user-filter',
+          defaultValue: 'history_type',
           options: [
             {
               label: 'History Type',
@@ -122,78 +117,37 @@ function HistoryDataTable() {
               label: 'Name',
               value: 'user_name',
             },
-            {
-              label: 'PassWd',
-              value: 'user_passwd',
-            },
-            {
-              label: 'E-mail',
-              value: 'email',
-            },
-            {
-              label: 'Thelephone No.',
-              value: 'tel_no',
-            },
-            {
-              label: 'Update Time',
-              value: 'update_time',
-            },
           ],
-        },
-        {
-          type: 'simple',
-          name: 'search',
-          // className: '',
-          // label: 'Keyword',
-          // icon: <SearchIcon />,
         },
       ],
     };
   }, []);
 
-  const bottomActionsConfig = useMemo<IBottomAction<IPlainObject>[]>((): IBottomAction<IPlainObject>[] => {
-    return [];
-  }, []);
-
-  // ------------------------------------------------------------------------------------
-  // Handle Data
-
-  useEffect(() => {
-    //fetch();
-  }, []);
-
   return (
-    <Paper style={{ padding: '20px' }}>
-      <CommonTable
-        tableName="user-history-table"
-        // renderLayoutAs={TableLayoutCustom}
-        fieldAsRowId="email"
-        columnsConfig={columnsConfig}
-        rows={sampleRows}
-        onSelectedRows={(selectedRows) => {
-          //
-        }}
-        //topActionConfig={topActionConfig}
-        filterConfig={filterConfig}
-        //onFilterTriggerQuery={filter}
-        sortDefault={{
-          field: 'history_type',
-          direction: 'asc',
-        }}
-        onSortChange={() => console.log('')}
-        paginationConfig={{
-          rowsPerPageOptions: [10, 25, 50, 100],
-          currentPage: 0,
-          rowsPerPage: 10,
-          totalCount: 0,
-          rowsPerPagePosition: 'last',
-          onPageChange: (newPageIndex: number) => console.log(newPageIndex),
-          onRowsPerPageChange: (newRowsPerPage: number) => console.log(newRowsPerPage),
-        }}
-        // renderPaginationAs={TablePaginationCustom}
-        bottomActionsConfig={bottomActionsConfig}
+    <Box>
+      <Paper style={{ padding: '20px', marginTop: '30px' }}>
+        <CommonTable<configUserDto>
+          hasSelectionRows
+          allowMultipleSelect
+          query={UserApi.getHistoryList}
+          tableName="user-table"
+          fieldAsRowId="history_id"
+          columnsConfig={columnsConfig}
+          filterConfig={filterConfig as unknown as IFilterConfig}
+          sortDefault={{
+            field: 'user_id',
+            direction: 'desc',
+          }}
+          ref={tableRef}
+        />
+      </Paper>
+      <DeleteModal
+        visible={isDeleteModal}
+        handleClose={handleDeleleteModalClose}
+        handleSave={handleDelete}
       />
-    </Paper>
+    </Box>
   );
-}
-export default observer(HistoryDataTable);
+});
+
+export default UserHistoryDataTable;

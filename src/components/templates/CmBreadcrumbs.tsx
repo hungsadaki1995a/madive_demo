@@ -15,7 +15,6 @@ import { CmBreadcrumbsStyle } from './Templates.Styled';
 
 function CmBreadcrumbs() {
   // const location = useLocation();
-  // console.log('breadcrumbs > > ', location);
 
   const naviData = [
     {

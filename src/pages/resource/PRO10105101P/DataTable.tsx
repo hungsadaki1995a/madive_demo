@@ -117,24 +117,28 @@ const LockAndUnlockDataTable = observer(({ appId }: { appId: string }) => {
       advanceActions: [
         {
           type: 'filter',
-          name: 'prominer-resource-filter',
-          defaultValue: 'physical_name',
+          name: 'resource-lock-filter',
+          defaultValue: 'resource_path',
           options: [
             {
-              label: 'Physical Name',
-              value: 'physical_name',
+              label: 'Package',
+              value: 'resource_path',
             },
             {
               label: 'Logical Name',
               value: 'logical_name',
             },
             {
+              label: 'Physical Name',
+              value: 'physical_name',
+            },
+            {
               label: 'Resource Type',
               value: 'resource_type',
             },
             {
-              label: 'Resource Path',
-              value: 'resource_path',
+              label: 'User',
+              value: 'user_id',
             },
           ],
         },

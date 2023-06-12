@@ -6,7 +6,7 @@ import WithAppList from '@/components/templates/WithAppList';
 
 import { useStore } from '@/utils';
 
-import PorminerResourceDataTable from './DataTable';
+import ProminerResourceDataTable from './DataTable';
 
 const Resource = observer(() => {
   const { ApplicationStore } = useStore();
@@ -21,7 +21,7 @@ const Resource = observer(() => {
       value={selectedValue}
       onValueChange={onValueChange}
     >
-      <PorminerResourceDataTable appId={selectedValue} />
+      <ProminerResourceDataTable appId={selectedValue} />
     </WithAppList>
   );
 });
