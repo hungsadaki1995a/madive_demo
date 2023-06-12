@@ -8,30 +8,31 @@
  * ====================================================
  * 2023.05.23   김정아 차장   최초 작성
  ******************************************************/
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import { Alert, Box, Button, IconButton, Snackbar } from '@mui/material';
 import makeStyles from '@mui/styles/makeStyles';
+import { observer } from 'mobx-react';
 
-// Common Atoms
 import { CmCard, CmCardAdd } from '@/components/atoms/CmCard';
+import Loader from '@/components/molecules/Loader';
 import { CmPageTselectBtw } from '@/components/templates/CmPageTitle';
-// Templates
 import CmSearch from '@/components/templates/CmSearch';
 
 import * as CmStyle from '@/stylesheets/common';
-// img, icon
 import { ReactComponent as CloseIcon } from '@/stylesheets/images/SnackCloseIcon.svg';
 import { ReactComponent as SuccessIcon } from '@/stylesheets/images/SnackSuccessIcon.svg';
+import { IDialogBaseRef } from '@/types/common';
+import { ApplicationDto } from '@/types/dtos/applicationDtos';
+import { useStore } from '@/utils';
 
 import { OverviewStyled } from '../Overview.Styled';
-// Modals
 import DeleteModal from './modal/DeleteModal';
 import CreateApplicationModal from './modal/PRO10100102M';
 import EditApplicationModal from './modal/PRO10100103M';
-import ServiceGroupRegistrationModal from './modal/PRO10100104M';
+import ServiceGroup from './modal/PRO10100104M';
+import EditServiceGroupModal from './modal/PRO10100105M';
 
-// Styled
 const useStyles = makeStyles(() => ({
   lbSnack: {
     '& .MuiPaper-root.MuiAlert-root': {
@@ -100,136 +101,133 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-function AppSG() {
-  const [isCreateApplicationModalVisible, setIsCreateApplicationModalVisible] = useState(false);
-  const [isEditApplicationModalVisible, setIsEditApplicationModalVisible] = useState(false);
-  const [isDeleteApplicationModalVisible, setIsDeleteApplicationModalVisible] = useState(false);
-  const [isServiceGroupRegistrationModalVisible, setIsServiceGroupRegistrationModalVisible] = useState(false);
+const AppSG = observer(() => {
+  const { ApplicationStore, AlertStore } = useStore();
+  const classes = useStyles();
+  const [isEditServiceGroupModalVisible, setIsEditServiceGroupModalVisible] = useState(false);
+  const [isServiceGroup, setIsServiceGroup] = useState(false);
+  const [selectedItem, setSelectedItem] = useState<ApplicationDto>();
+  const [isDelVisible, setIsDelVisible] = useState(false);
   const [successOpen, setSuccessOpen] = useState(false);
+  const [data, setData] = useState<ApplicationDto[]>([]);
+  const [isAddVisible, setIsAddVisible] = useState(false);
+  const [reloadList, setReloadList] = useState(false);
+  const formDialogEdit = useRef<IDialogBaseRef>(null);
+  const formDiaLogAdd = useRef<IDialogBaseRef>(null);
+  const formDialogAddService = useRef<IDialogBaseRef>(null);
   const boardId = useRef();
+  const [clickedItem, setClickedItem] = useState<ApplicationDto>();
 
-  // 초기화
+  const handleReloadList = async () => {
+    await ApplicationStore.loadApplicationList();
+    setData(ApplicationStore.application);
+  };
+
+  const handleServiceGroupRegistrationModalOpen = () => {
+    setIsServiceGroup(true);
+  };
+
+  const handleServiceGroupRegistrationModalClose = () => {
+    setIsServiceGroup(false);
+  };
+
   const handleInit = () => {
     boardId.current = undefined;
-    setIsCreateApplicationModalVisible(false);
-    setIsEditApplicationModalVisible(false);
-    setIsServiceGroupRegistrationModalVisible(false);
-    //setSuccessOpen(false);
+    setIsAddVisible(false);
+    setIsDelVisible(false);
+    setIsServiceGroup(false);
   };
 
-  // Create Application Modal Open
   const handleCreateApplicationModalOpen = () => {
-    setIsCreateApplicationModalVisible(true);
+    formDiaLogAdd?.current?.show();
   };
 
-  // Create Application Modal Close
-  const handleCreateApplicationModalClose = () => {
-    setIsCreateApplicationModalVisible(false);
+  const handleEditServiceGroupModalClose = () => {
+    setIsEditServiceGroupModalVisible(false);
   };
 
-  // Delete Application Modal Open
-  const handleDeleteApplicationModalOpen = () => {
-    setIsDeleteApplicationModalVisible(true);
-  };
-
-  // Delete Application Modal Close
-  const handleDeleteApplicationModalClose = () => {
-    setIsDeleteApplicationModalVisible(false);
-  };
-
-  // Service Group Registration Modal Open
-  const handleServiceGroupRegistrationModalOpen = () => {
-    setIsServiceGroupRegistrationModalVisible(true);
-  };
-
-  // Service Group Registration Modal Close
-  const handleServiceGroupRegistrationModalClose = () => {
-    setIsServiceGroupRegistrationModalVisible(false);
-  };
-
-  // 수정 모달 팝업 이동
-  const handleModify = (e: string) => {
-    console.log('AppSG handleClick', e);
+  const handleModify = (e: string, item: ApplicationDto) => {
+    setSelectedItem(item);
     if (e === 'I' || e === 'E') {
-      setIsEditApplicationModalVisible(!isEditApplicationModalVisible);
+      formDialogEdit?.current?.show();
     } else {
-      handleDeleteApplicationModalOpen();
+      setIsDelVisible((prev) => !prev);
     }
   };
 
-  // 모달 팝업 저장/수정
-  const handleSave = () => {
-    setSuccessOpen(!successOpen);
+  const handleSave = async () => {
+    setReloadList((prevState) => !prevState);
+    formDialogAddService.current?.hide();
     handleInit();
   };
 
-  // 모달 팝업 종료
   const handleClose = () => {
+    formDialogAddService.current?.hide();
     handleInit();
   };
 
-  // SnackBar 종료
   const handleSnackBarClose = () => {
     setSuccessOpen(!successOpen);
   };
 
-  const classes = useStyles();
+  useEffect(() => {
+    if (ApplicationStore.application.length) {
+      setData(ApplicationStore.application);
+    }
+  }, [ApplicationStore.application]);
 
   return (
     <OverviewStyled>
-      {/* Search */}
       <CmSearch />
-
-      {/* SubTitle */}
-      <CmPageTselectBtw />
-
-      {/* Card */}
+      <CmPageTselectBtw total={data.length} />
       <Box className="cardArea">
-        <CmCard
-          onClick={(e) => handleModify(e)}
-          onItemClick={() => handleServiceGroupRegistrationModalOpen()}
-        />
-        <CmCard
-          onClick={(e) => handleModify(e)}
-          onItemClick={() => handleServiceGroupRegistrationModalOpen()}
-        />
-        <CmCard
-          onClick={(e) => handleModify(e)}
-          onItemClick={() => handleServiceGroupRegistrationModalOpen()}
-        />
-        <CmCard
-          onClick={(e) => handleModify(e)}
-          onItemClick={() => handleServiceGroupRegistrationModalOpen()}
-        />
-        <CmCardAdd onClick={() => handleCreateApplicationModalOpen()} />
+        {ApplicationStore.isLoading ? (
+          <Loader />
+        ) : (
+          <>
+            {data.map((card, index) => (
+              <CmCard
+                data={card}
+                key={index}
+                onClick={(e) => {
+                  handleModify(e, card);
+                }}
+                onItemClick={() => {
+                  setClickedItem(card);
+                  handleServiceGroupRegistrationModalOpen();
+                }}
+              />
+            ))}
+            <CmCardAdd onClick={handleCreateApplicationModalOpen} />
+          </>
+        )}
       </Box>
-
-      {/* Create Application - Modal */}
-      <CreateApplicationModal
-        visible={isCreateApplicationModalVisible}
-        handleClose={handleCreateApplicationModalClose}
-      />
-
-      {/* Edit Application - Modal */}
       <EditApplicationModal
-        visible={isEditApplicationModalVisible}
+        data={selectedItem}
+        formDialogLargeRef={formDialogEdit}
+        resetList={handleReloadList}
+      />
+      <CreateApplicationModal
+        resetList={handleReloadList}
+        formDiaLogAdd={formDiaLogAdd}
+      />
+      <DeleteModal
+        data={selectedItem}
+        visible={isDelVisible}
         handleSave={handleSave}
         handleClose={handleClose}
       />
-
-      {/* Delete Application - Modal */}
-      <DeleteModal
-        visible={isDeleteApplicationModalVisible}
-        handleClose={handleDeleteApplicationModalClose}
-      />
-
-      {/* Service Group Registration - Modal */}
-      <ServiceGroupRegistrationModal
-        visible={isServiceGroupRegistrationModalVisible}
+      <ServiceGroup
+        clickedItem={clickedItem}
+        visible={isServiceGroup}
         handleSave={handleSave}
         handleClose={handleServiceGroupRegistrationModalClose}
       />
-
+      <EditServiceGroupModal
+        visible={isEditServiceGroupModalVisible}
+        handleSave={handleSave}
+        handleClose={handleEditServiceGroupModalClose}
+      />
       <Snackbar
         className={classes.lbSnack}
         open={successOpen}
@@ -252,5 +250,6 @@ function AppSG() {
       </Snackbar>
     </OverviewStyled>
   );
-}
+});
+
 export default AppSG;

@@ -58,18 +58,17 @@ const useStyles = makeStyles(() => ({
 }));
 
 // Overview - App&SG
-function CmPageTselectBtw() {
+function CmPageTselectBtw({ total = 0 }: { total?: number }) {
   const classes = useStyles();
-  const naviSubConut = 5;
-  const naviSubTitle = ['subTitleText'];
-  const naviSubText = ['(Dev Server 101.101.209.11 /14000 )'];
+  const naviSubTitle = '';
+  const naviSubText = '(Dev Server 101.101.209.11 /14000 )';
 
   return (
     <Box className={classes.tSelectBtw}>
       <Typography>
-        {naviSubConut > 0 && !!naviSubConut !== undefined ? (
+        {total ? (
           <>
-            <span className="naviSubConut">{naviSubConut}</span> Application(s)
+            <span className="naviSubConut">{total}</span> Application(s)
           </>
         ) : (
           naviSubTitle

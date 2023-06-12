@@ -3,13 +3,33 @@ import { Box } from '@mui/material';
 import { CmButton } from '@/components/atoms/CmButton';
 import CmModal from '@/components/atoms/CmModal';
 
+import AppAndSGAPI from '@/apis/ServiceGroupApi';
+import { ApplicationDto } from '@/types/dtos/applicationDtos';
+import { DeleteApplicationDto } from '@/types/dtos/overviewDtos';
+
 type DeleteModalPrpos = {
+  data?: ApplicationDto;
   visible: boolean;
-  handleSave?: () => void;
+  handleSave: () => void;
   handleClose: () => void;
 };
 
-export default function DeleteModal({ visible, handleSave, handleClose }: DeleteModalPrpos) {
+export default function DeleteModal({ data, visible, handleSave, handleClose }: DeleteModalPrpos) {
+  const handleDelete = async () => {
+    const deleteApplication: DeleteApplicationDto = {
+      resource_id: data?.resource_id,
+      creator: data?.creator,
+    };
+
+    try {
+      if (deleteApplication) {
+        await AppAndSGAPI.deleteApplication(deleteApplication);
+      }
+      handleSave();
+    } catch (error) {
+      console.error('Delete application failed:', error);
+    }
+  };
   const footerRender = () => (
     <Box className="alignL">
       <CmButton
@@ -28,7 +48,7 @@ export default function DeleteModal({ visible, handleSave, handleClose }: Delete
         startIcon={<></>}
         className=""
         color="error"
-        onClick={handleSave}
+        onClick={handleDelete}
       />
     </Box>
   );

@@ -1,5 +1,6 @@
 import {
   AlertStore,
+  ApplicationStore,
   AuthStore,
   MenuStore,
   MetaStore,
@@ -20,4 +21,5 @@ export class RootStore {
   UserStore: UserStore = new UserStore();
   TestCaseStore: TestCaseStore = new TestCaseStore();
   MenuStore: MenuStore = new MenuStore();
+  ApplicationStore: ApplicationStore = new ApplicationStore();
 }
