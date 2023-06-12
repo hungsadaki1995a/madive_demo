@@ -1,4 +1,5 @@
 export { AlertStore } from './AlertStore';
+export { ApplicationStore } from './AplicationStore';
 export { AuthStore } from './AuthStore';
 export { MenuStore } from './MenuStore';
 export { MetaStore } from './MetaStore';

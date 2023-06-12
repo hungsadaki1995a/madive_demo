@@ -13,7 +13,6 @@ import { ReactNode } from 'react';
 import ArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { FormControl, FormHelperText, MenuItem, OutlinedInput, Select } from '@mui/material';
 import IconButton from '@mui/material/IconButton';
-import { useTheme } from '@mui/material/styles';
 import makeStyles from '@mui/styles/makeStyles';
 
 // import { CmSearchStyle } from './Templates.Styled';
@@ -135,8 +134,6 @@ function CmDataSelect({
 }: CmDataSelectProps) {
   const classes = useStyles();
 
-  const theme = useTheme();
-
   return (
     <FormControl
       error={!!errorMessage}
@@ -178,4 +175,4 @@ function CmDataSelect({
     </FormControl>
   );
 }
-export { CmDataSearch, CmTextInput, CmDataSelect };
+export { CmDataSearch, CmDataSelect, CmTextInput };

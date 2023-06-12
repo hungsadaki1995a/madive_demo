@@ -18,13 +18,19 @@ import { notoSansDJKFont } from '@/stylesheets/common';
 import { ReactComponent as DeleteIcon } from '@/stylesheets/images/cmCardDelIcon.svg';
 import { ReactComponent as EditIcon } from '@/stylesheets/images/cmCardEditIcon.svg';
 import { ReactComponent as SubIcon } from '@/stylesheets/images/cmCardSubIcon.svg';
-
-import { CARD_DATA } from '@/example/GenaralCode';
+import { ApplicationDto } from '@/types/dtos/applicationDtos';
 
 import { CmIconButton } from './CmButton';
 
 // Styled
+
 const useStyles = makeStyles(({ palette, typography }) => ({
+  titleContainer: {
+    whiteSpace: 'nowrap',
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
+    maxWidth: '100%',
+  },
   card: {
     fontFamily: notoSansDJKFont.regular,
     fontSize: '13px',
@@ -100,8 +106,6 @@ const useStyles = makeStyles(({ palette, typography }) => ({
           lineHeight: '24px',
         },
         '& .MuiListItemSecondaryAction-root': {
-          width: '20%',
-
           '& a.MuiLink-root': {
             color: palette.info.main,
           },
@@ -117,7 +121,7 @@ const useStyles = makeStyles(({ palette, typography }) => ({
     display: 'inline-block',
     padding: '20px',
     maxWidth: '305px',
-    minWidth: 'calc(100% / 5 - 16px )',
+    minWidth: 'calc(100% / 5 - 15px )',
     minHeight: '270px',
     '& .MuiButtonBase-root': {
       display: 'flex',
@@ -140,14 +144,39 @@ const useStyles = makeStyles(({ palette, typography }) => ({
     },
   },
 }));
+
 type propsType = {
   onClick?: (e: string) => void;
+  data?: ApplicationDto;
   onItemClick?: () => void;
 };
 
 function CmCard(props: propsType) {
+  const { onClick, data, onItemClick } = props;
   const classes = useStyles();
-  const { onClick, onItemClick } = props;
+
+  const CARD_DATA = [
+    {
+      key: 1,
+      list: 'Service Group',
+      num: data?.sgCnt,
+    },
+    {
+      key: 2,
+      list: 'Service Object',
+      num: data?.soCnt,
+    },
+    {
+      key: 3,
+      list: 'Biz Object',
+      num: data?.boCnt,
+    },
+    {
+      key: 4,
+      list: 'Data Object',
+      num: data?.doCnt,
+    },
+  ];
 
   const handleClick = (type: string) => {
     typeof onClick === 'function' && onClick(type);
@@ -174,7 +203,7 @@ function CmCard(props: propsType) {
             />
           </>
         }
-        title="Title"
+        title={<Typography className={classes.titleContainer}>{data?.physical_name}</Typography>}
       />
       <CardContent>
         <Typography className="conTitle">

@@ -1,72 +1,67 @@
 import { ChangeEvent, ReactNode, useEffect, useState } from 'react';
 
-import { ApplicationApi } from '@/apis';
+import { observer } from 'mobx-react';
+
 import { ApplicationDto } from '@/types/dtos/applicationDtos';
-import { notify } from '@/utils/notify';
+import { useStore } from '@/utils';
 
 import Loader from '../molecules/Loader';
 import { DropdownOptionType } from '../organisms/CmCommonTable/types';
 import { CmDataSelectStyled, ContentWrapper, TypographyStyled, Wrapper } from './WithApiList.styled';
 
-const WithAppList = ({
-  children,
-  value,
-  onValueChange,
-}: {
-  children: ReactNode;
-  value: string;
-  onValueChange: (value: string) => void;
-}) => {
-  const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [appList, setAppList] = useState<DropdownOptionType[]>([]);
+const WithAppList = observer(
+  ({
+    children,
+    value,
+    onValueChange,
+  }: {
+    children: ReactNode;
+    value: string;
+    onValueChange: (value: string) => void;
+  }) => {
+    const { ApplicationStore } = useStore();
+    const [appList, setAppList] = useState<DropdownOptionType[]>([]);
 
-  const getApplicationList = async () => {
-    try {
-      const newData: DropdownOptionType[] = [];
-      const data = await ApplicationApi.getList();
+    const onChange = (e: ChangeEvent<HTMLInputElement>) => {
+      onValueChange(e.target.value);
+      ApplicationStore.setSelectedApplication(e.target.value);
+    };
 
-      if (data.length) {
-        data.map((item: ApplicationDto) => {
+    useEffect(() => {
+      if (ApplicationStore.application.length) {
+        const newData: DropdownOptionType[] = [];
+        ApplicationStore.application.map((item: ApplicationDto) => {
           newData.push({
             label: item.physical_name,
             value: item.resource_id,
           });
         });
         onValueChange(newData[0].value);
+        ApplicationStore.setSelectedApplication(newData[0].value);
         setAppList(newData);
+      } else {
+        ApplicationStore.loadApplicationList();
       }
-    } catch (error) {
-      notify.error(error?.data?.exception?.name || 'Something went wrong');
-    } finally {
-      setIsLoading(false);
-    }
-  };
+    }, [ApplicationStore.application]);
 
-  const onChange = (e: ChangeEvent<HTMLInputElement>) => {
-    onValueChange(e.target.value);
-  };
-
-  useEffect(() => {
-    getApplicationList();
-  }, []);
-
-  return (
-    <Wrapper>
-      {isLoading ? (
-        <Loader />
-      ) : (
-        <ContentWrapper>
-          <TypographyStyled>Select Application</TypographyStyled>
-          <CmDataSelectStyled
-            optionsData={appList || []}
-            onChange={onChange}
-            value={value}
-          />
-          {children}
-        </ContentWrapper>
-      )}
-    </Wrapper>
-  );
-};
+    return (
+      <Wrapper>
+        {ApplicationStore.isLoading ? (
+          <Loader />
+        ) : (
+          <ContentWrapper>
+            <TypographyStyled>Select Application</TypographyStyled>
+            <CmDataSelectStyled
+              optionsData={appList || []}
+              onChange={onChange}
+              value={value}
+            />
+            {children}
+          </ContentWrapper>
+        )}
+      </Wrapper>
+    );
+  }
+);
 
 export default WithAppList;

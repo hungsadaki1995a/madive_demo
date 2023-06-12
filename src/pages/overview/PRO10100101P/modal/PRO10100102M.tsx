@@ -1,84 +1,118 @@
-import { TextField } from '@mui/material';
-import { Box } from '@mui/material';
+import { useForm } from 'react-hook-form';
 
 import { CmButton } from '@/components/atoms/CmButton';
-import CmModal from '@/components/atoms/CmModal';
+import { CmTextField } from '@/components/atoms/CmTextField';
+import CmFormDialog from '@/components/molecules/CmFormDialog';
 
-type CreateApplicationModalProps = {
-  visible: boolean;
-  handleSave?: () => void;
-  handleClose: () => void;
+import AppAndSGAPI from '@/apis/ServiceGroupApi';
+import { IDialogBaseRef } from '@/types/common';
+import { addNewApplicationDto } from '@/types/dtos/overviewDtos';
+import { notify } from '@/utils/notify';
+
+type Props = {
+  resetList: () => void;
+  formDiaLogAdd: React.MutableRefObject<IDialogBaseRef | null>;
 };
 
-export default function CreateApplicationModal({ visible, handleSave, handleClose }: CreateApplicationModalProps) {
-  const footerRender = () => (
-    <Box className="alignL">
-      <CmButton
-        id="rightBtn1"
-        variant="text"
-        btnTitle="Cancel"
-        startIcon={<></>}
-        className=""
-        color="info"
-        onClick={handleClose}
-      />
-      <CmButton
-        id="rightBtn2"
-        variant="contained"
-        btnTitle="OK"
-        startIcon={<></>}
-        className=""
-        color="info"
-        onClick={handleSave}
-      />
-    </Box>
-  );
+const CreateApplicationModal = ({ resetList, formDiaLogAdd }: Props) => {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset,
+  } = useForm();
+
+  const handleAdd = handleSubmit(async (data) => {
+    const applicationDto: addNewApplicationDto = {
+      creator: data.create,
+      description: data.description,
+      logical_name: data.logicalName,
+      package_prefix: data.packageValue,
+      physical_name: data.physicalName,
+    };
+    try {
+      const responseData = await AppAndSGAPI.addNewApplication(applicationDto);
+      console.log(responseData);
+
+      formDiaLogAdd?.current?.hide();
+      reset();
+      resetList();
+    } catch (errors) {
+      notify.error(errors.data?.exception?.message);
+    }
+  });
+
+  const handleClose = () => {
+    reset();
+    formDiaLogAdd.current?.hide();
+  };
+
+  const handleReset = () => {
+    reset();
+  };
 
   return (
-    <CmModal
+    <CmFormDialog
       title="Create Application"
-      visible={visible}
-      onSave={handleSave}
-      onClose={handleClose}
-      className="medium"
-      footerRenderAs={footerRender}
+      ref={formDiaLogAdd}
     >
-      {/* contents */}
-      <label className="labelFormArea">
-        <span>Physical Name</span>
-        <TextField
+      {/* Contents */}
+      <form onSubmit={handleAdd}>
+        <CmTextField
+          type="outside"
           className="labelTextField"
-          defaultValue="Luke Test"
-          size="small"
+          label="Physical Name"
+          {...register('physicalName', { required: true })}
+          error={!!errors.physicalName}
+          helperText={errors.physicalName ? 'Physical Name is required' : ''}
         />
-        {/* <TextField disabled defaultValue="Luke Test" hiddenLabel size="small" /> */}
-      </label>
-      <label className="labelFormArea">
-        <span>Logical Name</span>
-        <TextField
+
+        <CmTextField
+          type="outside"
           className="labelTextField"
-          defaultValue="1"
-          type="password"
-          size="small"
+          label="Logical Name"
+          {...register('logicalName')}
         />
-      </label>
-      <label className="labelFormArea">
-        <span>Package</span>
-        <TextField
+
+        <CmTextField
+          type="outside"
           className="labelTextField"
-          defaultValue="test"
-          size="small"
+          label="Package"
+          {...register('packageValue')}
         />
-      </label>
-      <label className="labelFormArea">
-        <span>Description</span>
-        <TextField
+
+        <CmTextField
+          type="outside"
           className="labelTextField"
+          label="Description"
+          {...register('description')}
           multiline
           rows={4}
-          defaultValue="Default Value"
         />
-      </label>
-    </CmModal>
+
+        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+          <CmButton
+            variant="text"
+            btnTitle="Reset"
+            color="info"
+            onClick={handleReset}
+          />
+          <div>
+            <CmButton
+              variant="text"
+              btnTitle="Cancel"
+              color="info"
+              onClick={handleClose}
+            />
+            <CmButton
+              variant="contained"
+              btnTitle="Save"
+              onClick={handleAdd}
+            />
+          </div>
+        </div>
+      </form>
+    </CmFormDialog>
   );
-}
+};
+export default CreateApplicationModal;
