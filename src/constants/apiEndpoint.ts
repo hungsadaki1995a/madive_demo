@@ -16,3 +16,8 @@ export const ProminerEndpoint = {
   getResourceList: '/ProminerResource',
   getMethodList: '/ProminerMethod',
 };
+
+export const ResourceEndPoint = {
+  getLockList: 'LockUnList',
+  unlockResouces: 'LockUnList',
+};
