@@ -143,7 +143,7 @@ const useTableDataServer = <TRowDataType extends IPlainObject>({
       onRowsPerPageChange: handleRowsPerPageChange,
     };
   }, [state.paginationParamsStore, handlePageChange, handleRowsPerPageChange]);
-  console.log('>>>>pagination', pagination);
+
   return {
     rows: state.originalData || [],
     pagination,

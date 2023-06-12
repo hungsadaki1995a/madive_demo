@@ -16,6 +16,8 @@ import { ServiceGroupApi } from '@/apis';
 import ProminerApi from '@/apis/ProminerApi';
 import { ProminerMethodDto } from '@/types/dtos/prominerDtos';
 
+import { View } from '.';
+
 const columnsConfig: ICommonTableColumn<IPlainObject>[] = [
   {
     field: 'method_name',
@@ -49,78 +51,89 @@ const columnsConfig: ICommonTableColumn<IPlainObject>[] = [
   },
 ];
 
-const ProminerMethodDataTable = observer(({ appId }: { appId: string }) => {
-  const tableRef = useRef<ImperativeHandleDto<ProminerMethodDto>>();
+const ProminerMethodDataTable = observer(
+  ({
+    appId,
+    handleChangeView,
+    handleChangeData,
+  }: {
+    appId: string;
+    handleChangeView: (view: View) => void;
+    handleChangeData: (data: ProminerMethodDto) => void;
+  }) => {
+    const tableRef = useRef<ImperativeHandleDto<ProminerMethodDto>>();
 
-  const filterConfig = useMemo(() => {
-    return {
-      primaryActions: [
-        {
-          type: 'dropdown',
-          component: (props: any) => (
-            <FilterServiceGroupListControl
-              {...props}
-              resourceId={appId}
-            />
-          ),
-          name: 'sg_resource_id',
-          isTriggerFetchData: true,
-        },
-      ],
-      advanceActions: [
-        {
-          type: 'filter',
-          name: 'prominer-resource-filter',
-          defaultValue: 'method_name',
-          options: [
-            {
-              label: 'Method Name',
-              value: 'method_name',
-            },
-            {
-              label: 'Return Type',
-              value: 'return_type',
-            },
-            {
-              label: 'Class Name',
-              value: 'declaring_class',
-            },
-          ],
-        },
-      ],
+    const filterConfig = useMemo(() => {
+      return {
+        primaryActions: [
+          {
+            type: 'dropdown',
+            component: (props: any) => (
+              <FilterServiceGroupListControl
+                {...props}
+                resourceId={appId}
+              />
+            ),
+            name: 'sg_resource_id',
+            isTriggerFetchData: true,
+          },
+        ],
+        advanceActions: [
+          {
+            type: 'filter',
+            name: 'prominer-resource-filter',
+            defaultValue: 'method_name',
+            options: [
+              {
+                label: 'Method Name',
+                value: 'method_name',
+              },
+              {
+                label: 'Return Type',
+                value: 'return_type',
+              },
+              {
+                label: 'Class Name',
+                value: 'declaring_class',
+              },
+            ],
+          },
+        ],
+      };
+    }, [appId]);
+
+    const handleRowClick = (event: React.MouseEvent, rowData: ProminerMethodDto) => {
+      handleChangeView(View.DETAIL);
+      handleChangeData(rowData);
     };
-  }, [appId]);
 
-  const handleRowClick = (event: React.MouseEvent, rowData: ProminerMethodDto) => {
-    console.log('rowData', rowData);
-  };
+    useEffect(() => {
+      if (appId) {
+        (async () => {
+          ServiceGroupApi.getSgList(appId);
+        })();
+      }
+    }, [appId]);
 
-  useEffect(() => {
-    if (appId) {
-      (async () => {
-        ServiceGroupApi.getSgList(appId);
-      })();
-    }
-  }, [appId]);
-
-  return (
-    <Paper style={{ padding: '20px' }}>
-      <CommonTable<ProminerMethodDto>
-        allowMultipleSelect={false}
-        query={ProminerApi.getMethodList}
-        tableName="prominer-method-table"
-        fieldAsRowId="declaring_class"
-        columnsConfig={columnsConfig}
-        filterConfig={filterConfig as unknown as IFilterConfig}
-        sortDefault={{
-          field: 'method_name',
-          direction: 'desc',
-        }}
-        ref={tableRef as MutableRefObject<ImperativeHandleDto<ProminerMethodDto>>}
-        onRowClick={handleRowClick}
-      />
-    </Paper>
-  );
-});
+    return (
+      <Paper style={{ padding: '20px' }}>
+        <CommonTable<ProminerMethodDto>
+          allowMultipleSelect={false}
+          query={ProminerApi.getMethodList}
+          tableName="prominer-method-table"
+          fieldAsRowId="declaring_class"
+          columnsConfig={columnsConfig}
+          filterConfig={filterConfig as unknown as IFilterConfig}
+          sortDefault={{
+            field: 'method_name',
+            direction: 'desc',
+          }}
+          ref={tableRef as MutableRefObject<ImperativeHandleDto<ProminerMethodDto>>}
+          onRowClick={handleRowClick}
+        />
+      </Paper>
+    );
+  }
+);
 
 export default ProminerMethodDataTable;
