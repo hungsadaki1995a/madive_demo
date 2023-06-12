@@ -53,6 +53,17 @@ const UserApi = {
       return error instanceof AxiosError ? error.response : error;
     }
   },
+
+  getUserHistory: async () => {
+    try {
+      const { data } = await axios.get(
+        'http://101.101.209.11:14000/proobject/proobject-manager/UserHistoryList?{"dto":{"user_id":"a"}}&_=1684811200090'
+      );
+      return data;
+    } catch (error: unknown) {
+      return error instanceof AxiosError ? error.response : error;
+    }
+  },
 };
 
 export default UserApi;
