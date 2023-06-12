@@ -1,5 +1,6 @@
 import { ChangeEvent, ReactNode, useEffect, useState } from 'react';
 
+import { isEmpty } from 'lodash';
 import { observer } from 'mobx-react';
 
 import { ApplicationDto } from '@/types/dtos/applicationDtos';
@@ -27,22 +28,33 @@ const WithAppList = observer(
       ApplicationStore.setSelectedApplication(e.target.value);
     };
 
+    const formatDropdown = () => {
+      const newData: DropdownOptionType[] = [];
+
+      ApplicationStore.application.map((item: ApplicationDto) => {
+        newData.push({
+          label: item.physical_name,
+          value: item.resource_id,
+        });
+      });
+
+      setAppList(newData);
+    };
+
     useEffect(() => {
       if (ApplicationStore.application.length) {
-        const newData: DropdownOptionType[] = [];
-        ApplicationStore.application.map((item: ApplicationDto) => {
-          newData.push({
-            label: item.physical_name,
-            value: item.resource_id,
-          });
-        });
-        onValueChange(newData[0].value);
-        ApplicationStore.setSelectedApplication(newData[0].value);
-        setAppList(newData);
+        formatDropdown();
       } else {
         ApplicationStore.loadApplicationList();
       }
     }, [ApplicationStore.application]);
+
+    useEffect(() => {
+      if (appList.length && isEmpty(ApplicationStore.selectedApplication)) {
+        onValueChange(appList[0].value);
+        ApplicationStore.setSelectedApplication(appList[0].value);
+      }
+    }, [appList]);
 
     return (
       <Wrapper>
