@@ -2,7 +2,7 @@ export {
   ApplicationEndpoint,
   AuthEndpoint,
   DbioEndpoint,
-  DoInfoEnpoint,
+  DoInfoEndPoint,
   GroupManagementEndpoint,
   ProminerEndpoint,
   ResourceEndPoint,

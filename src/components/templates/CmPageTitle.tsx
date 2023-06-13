@@ -9,6 +9,8 @@
  * 2023.05.19   김정아 차장   최초 작성
  ******************************************************/
 // import React, { useEffect, useState } from 'react';
+import { ReactNode } from 'react';
+
 import { Box, Typography } from '@mui/material';
 import makeStyles from '@mui/styles/makeStyles';
 
@@ -16,6 +18,7 @@ import makeStyles from '@mui/styles/makeStyles';
 import { CmDataSelect } from '@/components/atoms/CmDataInput';
 
 import * as CmStyle from '@/stylesheets/common';
+import { DropdownType } from '@/types/common';
 
 // Styled
 const useStyles = makeStyles(() => ({
@@ -82,16 +85,27 @@ function CmPageTselectBtw({ total = 0 }: { total?: number }) {
   );
 }
 
+type CmPageTselectColumProps = {
+  optionsData?: DropdownType[];
+  value?: any;
+  onChange?: (event: any, child: ReactNode) => void;
+  label?: string;
+};
 // Test - Test
-function CmPageTselectColum() {
+function CmPageTselectColum({ optionsData, value, onChange, label = 'Select Application' }: CmPageTselectColumProps) {
   const classes = useStyles();
 
   return (
     <Box className={classes.tSelectColum}>
-      <Typography>Select Application</Typography>
+      <Typography>{label}</Typography>
 
       {/* Select */}
-      <CmDataSelect className="" />
+      <CmDataSelect
+        className=""
+        optionsData={optionsData}
+        value={value}
+        onChange={onChange}
+      />
     </Box>
   );
 }

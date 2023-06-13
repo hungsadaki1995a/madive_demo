@@ -1,6 +1,6 @@
 import { DoInfoInput } from '@/types/dtos/doInfoDto';
 
-import { DoInfoEnpoint } from '@/constants/apiEndpoint';
+import { DoInfoEndPoint } from '@/constants/apiEndpoint';
 
 import { FieldInfoDto } from './../types/dtos/doInfoDto';
 import apiClient from './apiClient';
@@ -13,7 +13,7 @@ type Response = {
 };
 const DoInfoApi = {
   getDoInfo: async (filterDoInfo: DoInfoInput): Promise<Response> => {
-    return await apiClient.get(DoInfoEnpoint.getDoInfo, {
+    return await apiClient.get(DoInfoEndPoint.getDoInfo, {
       params: {
         [JSON.stringify({ dto: filterDoInfo })]: '',
       },

@@ -1,0 +1,21 @@
+export type MetaEditDto = {
+  column_name: string;
+  comments: string;
+  db_type: string;
+  decimal_size: string;
+  default_value: string;
+  encrypt: string;
+  field_type: string;
+  is_key: string;
+  is_use: string;
+  length: string;
+  logical_name: string;
+  masking: string;
+  masking_range: string;
+  meta_type: string;
+  modifier: string;
+  physical_name: string;
+  resource_group: string;
+  resource_id: string;
+  table_name: string;
+};

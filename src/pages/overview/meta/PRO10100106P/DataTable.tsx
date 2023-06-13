@@ -1,59 +1,49 @@
-import { useEffect, useMemo, useState } from 'react';
+import { MutableRefObject, useMemo, useRef, useState } from 'react';
 
 import { Paper } from '@mui/material';
 import { observer } from 'mobx-react';
+import Cookies from 'universal-cookie';
 
 import CommonTable from '@/components/organisms/CmCommonTable';
-import {
-  IAddAction,
-  ICommonTableColumn,
-  IPlainObject,
-  ITopAction,
-  IUploadAction,
-} from '@/components/organisms/CmCommonTable/types';
+import { SortDirectionTypes } from '@/components/organisms/CmCommonTable/const';
+import { ICommonTableColumn, IFilterConfig, ImperativeHandleDto } from '@/components/organisms/CmCommonTable/types';
 
+import { MetaApi } from '@/apis';
+import { ReactComponent as AddIcon } from '@/stylesheets/images/AddIcon.svg';
 import { ReactComponent as DeleteIcon } from '@/stylesheets/images/DeleteIcon.svg';
-import TopButtonModel from '@/types/models/topButtonModel';
-import { useStore } from '@/utils';
+import { ReactComponent as UploadIcon } from '@/stylesheets/images/UploadIcon.svg';
+import { MetaDtos } from '@/types/dtos/MetaDtos';
+import { notify } from '@/utils/notify';
+
+import { USER_INFO_COOKIE } from '@/constants';
 
 import DeleteMetaModal from './modal/DeleteMetaModal';
 import CreateMetaModal from './modal/PRO10100107M';
 import EditMetaModal from './modal/PRO10100108M';
 import ImportExcelModal from './modal/PRO10100109M';
 
-const sampleRowsData = [
-  {
-    resource_id: 'c3871e70a298e4449fcb72b7e9cafb3',
-    meta_type: 'non-persistent',
-    physical_name: 'tst',
-    logical_name: 'tst',
-    resource_group: 'gcm',
-    field_type: 'char',
-    length: '20',
-    update_time: '2023-05-30 19:33:38',
-    comments: 'comment',
-  },
-  {
-    resource_id: 'e5814ae80a298e444cbeb41987a1e179',
-    meta_type: 'persistent',
-    physical_name: 'trx_dt',
-    logical_name: 'Transaction Date',
-    resource_group: 'gcm',
-    field_type: 'double',
-    length: '20',
-    update_time: '2023-05-04 15:44:28',
-    comments: 'Tran Date',
-  },
-];
-
+const cookies = new Cookies();
 function MetaDataTable() {
-  const { AlertStore } = useStore();
+  // need more info about how to get it
+  const userId = cookies.get(USER_INFO_COOKIE);
+
+  //loading status
+  const [isFetching, setIsFetching] = useState<boolean>(false);
+
+  //open status of modal
   const [isCreateMetaModalVisible, setIsCreateMetaModalVisible] = useState(false);
   const [isEditMetaModalVisible, setIsEditMetaModalVisible] = useState(false);
   const [isDeleteMetaModalVisible, setIsDeleteMetaModalVisible] = useState(false);
   const [isImportExcelModalVisible, setImportExcelModalVisible] = useState(false);
-  const [selectedRows, setSelectedRows] = useState<any[]>([]);
-  const [sampleRows, setSampleRows] = useState(sampleRowsData);
+
+  // Selected Data rows
+  const [selectedRows, setSelectedRows] = useState<MetaDtos[]>([]);
+
+  //Clicked data row
+  const [clickedRows, setClickedRows] = useState<MetaDtos | null>(null);
+
+  //table ref
+  const metaTableRef = useRef<ImperativeHandleDto<MetaDtos>>();
 
   // Create Meta Modal Open
   const handleCreateMetaModalOpen = () => {
@@ -67,8 +57,7 @@ function MetaDataTable() {
 
   // Edit Meta Modal Open
   const handleEditMetaModalOpen = (event: React.MouseEvent<unknown>, row: any) => {
-    console.log(event);
-    console.log(row);
+    setClickedRows(row);
     setIsEditMetaModalVisible(true);
   };
 
@@ -87,9 +76,18 @@ function MetaDataTable() {
     setIsDeleteMetaModalVisible(false);
   };
 
-  // Delete Meta Excute
-  const handleDeleteMeta = () => {
-    console.log(selectedRows);
+  // Delete Meta Execute
+  const handleDeleteMeta = async () => {
+    setIsFetching(true);
+    const res = await MetaApi.MetaListDelete(selectedRows);
+    if (res?.value) {
+      notify.success('Delete Checked Meta Success!');
+    } else {
+      notify.error(res?.data?.exception?.name || 'Something went wrong');
+    }
+    await metaTableRef.current?.fetch();
+    setIsFetching(false);
+    handleDeleteMetaModalClose();
   };
 
   // Import Excel Modal Open
@@ -102,14 +100,14 @@ function MetaDataTable() {
     setImportExcelModalVisible(false);
   };
 
-  // Import Excel File Change
-  const handleImportExcelChange = (file: any) => {
-    console.log(file);
+  //handle selected table
+  const onSelectedRows = (data: MetaDtos[]) => {
+    setSelectedRows(data);
   };
 
   // -----------------------------------
   // Config table
-  const columnsConfig = useMemo<ICommonTableColumn<IPlainObject>[]>(() => {
+  const columnsConfig = useMemo<ICommonTableColumn<MetaDtos>[]>(() => {
     return [
       {
         field: 'meta_type',
@@ -162,83 +160,106 @@ function MetaDataTable() {
     ];
   }, []);
 
-  const excelBtnConfig = useMemo<IUploadAction>((): IUploadAction => {
+  const filterConfig = useMemo(() => {
     return {
-      label: 'Add Excel',
-      onClick: () => handleImportExcelModalOpen(),
+      primaryActions: [
+        {
+          type: 'button',
+          handleClick: () => handleDeleteMetaModalOpen(),
+          checkDisabled: (selectedRows: MetaDtos[]) => {
+            return selectedRows?.length < 1;
+          },
+          config: {
+            variant: 'contained',
+            color: 'secondary',
+            size: 'small',
+            startIcon: <DeleteIcon />,
+            label: 'Delete',
+          },
+        },
+      ],
+      advanceActions: [
+        {
+          type: 'filter',
+          name: 'meta-filter',
+          defaultValue: 'physical_name',
+          options: [
+            {
+              label: 'Physical Name',
+              value: 'physical_name',
+            },
+            {
+              label: 'Logical Name',
+              value: 'logical_name',
+            },
+            {
+              label: 'Resource Group',
+              value: 'resource_group',
+            },
+          ],
+        },
+        {
+          type: 'button',
+          label: 'Add Excel',
+          handleClick: () => handleImportExcelModalOpen(),
+          config: {
+            variant: 'text',
+            size: 'small',
+            startIcon: <UploadIcon />,
+            label: 'Add Excel',
+            color: 'inherit',
+          },
+        },
+        {
+          label: 'Create',
+          type: 'button',
+          handleClick: () => handleCreateMetaModalOpen(),
+          config: {
+            variant: 'contained',
+            color: 'primary',
+            size: 'small',
+            startIcon: <AddIcon />,
+            label: 'Create New Meta',
+          },
+        },
+      ],
     };
-  }, []);
-
-  const addBtnConfig = useMemo<IAddAction>((): IAddAction => {
-    return {
-      label: 'Create New Meta',
-      onClick: () => handleCreateMetaModalOpen(),
-    };
-  }, []);
-
-  const topActionConfig = useMemo<ITopAction<TopButtonModel>[]>((): ITopAction<TopButtonModel>[] => {
-    return [
-      {
-        label: 'Delete',
-        onClick: () => handleDeleteMetaModalOpen(),
-        icon: <DeleteIcon />,
-      },
-    ];
-  }, []);
-
-  const onSelectedRows = (rows: any) => {
-    setSelectedRows([...rows]);
-  };
-
-  // ------------------------------------------------------------------------------------
-  // Handle Data
-
-  useEffect(() => {
-    //fetch();
   }, []);
 
   return (
     <Paper style={{ padding: '20px' }}>
       <CommonTable
         tableName="meta-table"
-        // renderLayoutAs={TableLayoutCustom}
-        fieldAsRowId="meta_type"
+        fieldAsRowId="resource_id"
         columnsConfig={columnsConfig}
-        rows={sampleRows}
+        query={MetaApi.MetaListGet}
         hasSelectionRows
-        onSelectedRows={onSelectedRows}
         onRowClick={handleEditMetaModalOpen}
-        topActionConfig={topActionConfig}
-        // excelBtnConfig={excelBtnConfig}
-        addBtnConfig={addBtnConfig}
-        //filterConfig={filterConfig}
-        //onFilterTriggerQuery={filter}
+        onSelectedRows={onSelectedRows}
+        filterConfig={filterConfig as unknown as IFilterConfig}
         sortDefault={{
-          field: 'meta_type',
-          direction: 'asc',
+          field: 'physical_name',
+          direction: SortDirectionTypes.DESC,
         }}
         onSortChange={() => console.log('')}
-        paginationConfig={{
-          rowsPerPageOptions: [10, 25, 50, 100],
-          currentPage: 0,
-          rowsPerPage: 10,
-          totalCount: 0,
-          rowsPerPagePosition: 'last',
-          onPageChange: (newPageIndex: number) => console.log(newPageIndex),
-          onRowsPerPageChange: (newRowsPerPage: number) => console.log(newRowsPerPage),
-        }}
+        ref={metaTableRef as MutableRefObject<ImperativeHandleDto<MetaDtos>>}
       />
 
       {/* Create Meta - Modal */}
       <CreateMetaModal
         visible={isCreateMetaModalVisible}
         handleClose={handleCreateMetaModalClose}
+        creator={userId?.id}
+        reFetchData={metaTableRef.current?.fetch}
       />
 
       {/* Edit Meta - Modal */}
       <EditMetaModal
         visible={isEditMetaModalVisible}
         handleClose={handleEditMetaModalClose}
+        data={clickedRows}
+        modifier={userId?.id}
+        reFetchData={metaTableRef.current?.fetch}
       />
 
       {/* Delete Meta - Modal */}
@@ -246,13 +267,15 @@ function MetaDataTable() {
         visible={isDeleteMetaModalVisible}
         handleSave={handleDeleteMeta}
         handleClose={handleDeleteMetaModalClose}
+        isFetching={isFetching}
       />
 
-      {/* Immort Excel - Modal */}
+      {/* Import Excel - Modal */}
       <ImportExcelModal
         visible={isImportExcelModalVisible}
         handleClose={handleImportExcelModalClose}
-        onChange={handleImportExcelChange}
+        handleRefetch={metaTableRef.current?.fetch}
+        handleSave={handleImportExcelModalClose}
       />
     </Paper>
   );

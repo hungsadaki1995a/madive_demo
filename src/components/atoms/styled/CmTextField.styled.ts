@@ -17,16 +17,12 @@ const CmTextFieldWrapper = styled('div')(
     '& .MuiInputBase-input': {
       padding: '5px 10px',
       color: '#555',
-      fontSize: 10,
+      fontSize: 14,
     },
 
     // width of text field
     '& .MuiInputBase-root': {
       width: inputWidth ? inputWidth : '100%',
-    },
-
-    '& .MuiOutlinedInput-root': {
-      padding: '5px 10px',
     },
 
     //select text font size
