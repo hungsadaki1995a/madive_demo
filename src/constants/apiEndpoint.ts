@@ -36,3 +36,8 @@ export const GroupManagementEndpoint = {
   groupList: '/GroupList',
   group: '/Group',
 };
+
+export const DbioEndpoint = {
+  modelDbioList: '/ModelDbioList',
+  modelDbio: '/ModelDbio',
+};

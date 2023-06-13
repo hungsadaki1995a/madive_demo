@@ -1,6 +1,8 @@
 export { AlertStore } from './AlertStore';
 export { ApplicationStore } from './AplicationStore';
 export { AuthStore } from './AuthStore';
+// export { ConfigRoleStore } from './ConfigRoleStore';
+export { DbioStore } from './DbioStore';
 export { MenuStore } from './MenuStore';
 export { MetaStore } from './MetaStore';
 export { NodeStore } from './NodeStore';

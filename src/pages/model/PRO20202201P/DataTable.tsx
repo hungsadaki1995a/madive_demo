@@ -1,52 +1,62 @@
-import { useEffect, useMemo, useState } from 'react';
+import React, { useMemo, useRef, useState } from 'react';
 
 import { Paper } from '@mui/material';
 import { observer } from 'mobx-react';
 
 import CommonTable from '@/components/organisms/CmCommonTable';
-import {
-  IAddAction,
-  IBottomAction,
-  ICommonTableColumn,
-  IFilterConfig,
-  IPlainObject,
-  ITopAction,
-} from '@/components/organisms/CmCommonTable/types';
+import { ICommonTableColumn, IFilterConfig, IPlainObject } from '@/components/organisms/CmCommonTable/types';
 
+import DbioApi from '@/apis/DbioApi';
+import { ReactComponent as AddIcon } from '@/stylesheets/images/AddIcon.svg';
 import { ReactComponent as DeleteIcon } from '@/stylesheets/images/DeleteIcon.svg';
-import TopButtonModel from '@/types/models/topButtonModel';
+import DbioModel from '@/types/models/dbioModel';
 import { useStore } from '@/utils';
 
 import DeleteDbioModal from './modal/DeleteDbioModal';
 import CreateDbioModal from './modal/PRO20202202M';
 import EditDbioModal from './modal/PRO20202203M';
 
-const sampleRowsData = [
+const columnsConfig: ICommonTableColumn<IPlainObject>[] = [
   {
-    vender: 'ORACLE',
-    alias: 'ORACLE',
-    id: 'ORACLE',
-    pw: '123',
-    ip: '10.10.10.10',
-    port: '8003',
+    field: 'vender',
+    label: 'Vender',
+    type: 'text',
+    sortable: true,
   },
   {
-    vender: 'NQT',
-    alias: '22113185',
-    id: '4185',
-    pw: '3185',
-    ip: '1111',
-    port: '11111',
+    field: 'alias',
+    label: 'Alias',
+    type: 'text',
+    sortable: true,
+  },
+  {
+    field: 'id',
+    label: 'ID',
+    type: 'text',
+    sortable: true,
+  },
+  {
+    field: 'ip',
+    label: 'IP',
+    type: 'text',
+    sortable: true,
+  },
+  {
+    field: 'port',
+    label: 'Port',
+    type: 'text',
+    sortable: true,
   },
 ];
 
 function DbioDataTable() {
-  const { AlertStore } = useStore();
+  const { AlertStore, DbioStore } = useStore();
   const [isCreateDbioModalVisible, setIsCreateDbioModalVisible] = useState(false);
-  const [isEditDbioModalVisible, setIsEditDbioModalVisible] = useState(false);
+  const [isEditDbioModalVisible, setIsEditDbioModalVisible] = useState<boolean>(false);
   const [isDeleteDbioModalVisible, setIsDeleteDbioModalVisible] = useState(false);
-  const [selectedRows, setSelectedRows] = useState<any[]>([]);
-  const [sampleRows, setSampleRows] = useState(sampleRowsData);
+  const [selectedRows, setSelectedRows] = useState<DbioModel[]>([]);
+  const [selectedRow, setSelectedRow] = useState<string>('');
+  const tableRef = useRef<any>();
 
   // Create Dbio Modal Open
   const handleCreateDbioModalOpen = () => {
@@ -59,9 +69,8 @@ function DbioDataTable() {
   };
 
   // Edit Dbio Modal Open
-  const handleEditDbioModalOpen = (event: React.MouseEvent<unknown>, row: any) => {
-    console.log(event);
-    console.log(row);
+  const handleEditDbioModalOpen = (event: React.MouseEvent<unknown>, row: DbioModel) => {
+    setSelectedRow(row?.alias);
     setIsEditDbioModalVisible(true);
   };
 
@@ -76,60 +85,53 @@ function DbioDataTable() {
   };
 
   // Delete Dbio Modal Close
-  const handleDeleteDbioModalClose = () => {
+  const handleDeleteDbioModalClose = (clearSelected?: boolean) => {
+    if (clearSelected) setSelectedRows([]);
     setIsDeleteDbioModalVisible(false);
-  };
-
-  // Delete Dbio Excute
-  const handleDeleteDbio = () => {
-    console.log(selectedRows);
   };
 
   // -----------------------------------
   // Config table
-  const columnsConfig = useMemo<ICommonTableColumn<IPlainObject>[]>(() => {
-    return [
-      {
-        field: 'vender',
-        label: 'Vender',
-        type: 'text',
-        sortable: true,
-      },
-      {
-        field: 'alias',
-        label: 'Alias',
-        type: 'text',
-        sortable: true,
-      },
-      {
-        field: 'id',
-        label: 'ID',
-        type: 'text',
-        sortable: true,
-      },
-      {
-        field: 'ip',
-        label: 'IP',
-        type: 'text',
-        sortable: true,
-      },
-      {
-        field: 'port',
-        label: 'Port',
-        type: 'text',
-        sortable: true,
-      },
-    ];
-  }, []);
-
-  const filterConfig = useMemo<IFilterConfig>(() => {
+  const filterConfig = useMemo(() => {
     return {
-      submitBy: 'enter',
-      submitLabel: 'Search',
-      filters: [
+      primaryActions: [
         {
-          type: 'dropdown',
-          name: 'filterFieldName',
+          type: 'button',
+          handleClick: (selectedRows: DbioModel[]) => {
+            setSelectedRows(selectedRows);
+            handleDeleteDbioModalOpen();
+          },
+          config: {
+            variant: 'contained',
+            color: 'secondary',
+            size: 'small',
+            startIcon: <DeleteIcon />,
+            label: 'Delete',
+          },
+          checkDisabled: (selectedRows: DbioModel[]) => {
+            //TODO: Check disabled row
+            return selectedRows?.length < 1;
+          },
+        },
+      ],
+      advanceActions: [
+        {
+          type: 'button',
+          handleClick: (selectedRows: DbioModel[]) => {
+            handleCreateDbioModalOpen();
+          },
+          config: {
+            variant: 'contained',
+            color: 'primary',
+            size: 'small',
+            startIcon: <AddIcon />,
+            label: 'Create New DBIO',
+          },
+        },
+        {
+          type: 'filter',
+          name: 'dbio-filter',
+          defaultValue: 'alias',
           options: [
             {
               label: 'Vender',
@@ -153,99 +155,48 @@ function DbioDataTable() {
             },
           ],
         },
-        {
-          type: 'simple',
-          name: 'search',
-          // className: '',
-          // label: 'Keyword',
-          // icon: <SearchIcon />,
-        },
       ],
     };
-  }, []);
-
-  const addBtnConfig = useMemo<IAddAction>((): IAddAction => {
-    return {
-      label: 'Create New DBIO',
-      onClick: () => handleCreateDbioModalOpen(),
-    };
-  }, []);
-
-  const topActionConfig = useMemo<ITopAction<TopButtonModel>[]>((): ITopAction<TopButtonModel>[] => {
-    return [
-      {
-        label: 'Delete',
-        onClick: () => handleDeleteDbioModalOpen(),
-        icon: <DeleteIcon />,
-      },
-    ];
-  }, []);
-
-  const bottomActionsConfig = useMemo<IBottomAction<IPlainObject>[]>((): IBottomAction<IPlainObject>[] => {
-    return [];
-  }, []);
-
-  const onSelectedRows = (rows: any) => {
-    setSelectedRows([...rows]);
-  };
-
-  // ------------------------------------------------------------------------------------
-  // Handle Data
-
-  useEffect(() => {
-    //fetch();
   }, []);
 
   return (
     <Paper style={{ padding: '20px' }}>
       <CommonTable
-        tableName="dbio-table"
-        // renderLayoutAs={TableLayoutCustom}
-        fieldAsRowId="vender"
-        columnsConfig={columnsConfig}
-        rows={sampleRows}
         hasSelectionRows
-        onSelectedRows={onSelectedRows}
-        onRowClick={handleEditDbioModalOpen}
-        topActionConfig={topActionConfig}
-        addBtnConfig={addBtnConfig}
-        filterConfig={filterConfig}
-        //onFilterTriggerQuery={filter}
+        query={DbioApi.getDbios}
+        tableName="dbio-table"
+        fieldAsRowId="alias"
+        columnsConfig={columnsConfig}
+        filterConfig={filterConfig as unknown as IFilterConfig}
         sortDefault={{
-          field: 'vender',
-          direction: 'asc',
+          field: 'alias',
+          direction: 'desc',
         }}
-        onSortChange={() => console.log('')}
-        paginationConfig={{
-          rowsPerPageOptions: [10, 25, 50, 100],
-          currentPage: 0,
-          rowsPerPage: 10,
-          totalCount: 0,
-          rowsPerPagePosition: 'last',
-          onPageChange: (newPageIndex: number) => console.log(newPageIndex),
-          onRowsPerPageChange: (newRowsPerPage: number) => console.log(newRowsPerPage),
-        }}
-        // renderPaginationAs={TablePaginationCustom}
-        bottomActionsConfig={bottomActionsConfig}
+        ref={tableRef}
+        onRowClick={handleEditDbioModalOpen}
       />
-
       {/* Create Dbio - Modal */}
       <CreateDbioModal
         visible={isCreateDbioModalVisible}
         handleClose={handleCreateDbioModalClose}
+        aliasId={selectedRow}
+        fetchTableData={tableRef?.current?.fetch}
       />
 
       {/* Edit Dbio - Modal */}
       <EditDbioModal
         visible={isEditDbioModalVisible}
         handleClose={handleEditDbioModalClose}
+        aliasId={selectedRow}
+        fetchTableData={tableRef?.current?.fetch}
       />
 
       {/* Delete Dbio - Modal */}
       <DeleteDbioModal
         visible={isDeleteDbioModalVisible}
-        handleSave={handleDeleteDbio}
+        fetchTableData={tableRef?.current?.fetch}
         handleClose={handleDeleteDbioModalClose}
+        selectedRows={selectedRows}
       />
     </Paper>
   );
