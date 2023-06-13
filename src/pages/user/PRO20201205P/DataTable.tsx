@@ -1,117 +1,130 @@
-import { useEffect, useMemo, useState } from 'react';
+import { MutableRefObject, useMemo, useRef, useState } from 'react';
 
 import { Paper } from '@mui/material';
 import { observer } from 'mobx-react';
 
 import CommonTable from '@/components/organisms/CmCommonTable';
 import {
-  IAddAction,
-  IBottomAction,
   ICommonTableColumn,
   IFilterConfig,
+  ImperativeHandleDto,
   IPlainObject,
-  ITopAction,
 } from '@/components/organisms/CmCommonTable/types';
 
+import GroupManagement from '@/apis/GroupManagement';
+import { ReactComponent as AddIcon } from '@/stylesheets/images/AddIcon.svg';
 import { ReactComponent as DeleteIcon } from '@/stylesheets/images/DeleteIcon.svg';
-import TopButtonModel from '@/types/models/topButtonModel';
-import { useStore } from '@/utils';
+import { ConfigGroupDto, GroupManagementDto } from '@/types/dtos/groupManagementDtos';
 
 import DeleteGroupModal from './modal/DeleteGroupModal';
 import CreateGroupModal from './modal/PRO20201206M';
 import EditGroupModal from './modal/PRO20201207M';
 
-const sampleRowsData = [
+const columnsConfig: ICommonTableColumn<IPlainObject>[] = [
   {
-    group_id: 'Group1',
-    group_name: 'Group1',
-    description: 'Group1',
+    field: 'group_id',
+    label: 'Group ID',
+    type: 'text',
+    sortable: true,
   },
   {
-    group_id: 'Group2',
-    group_name: 'Group2',
-    description: 'Group2',
+    field: 'group_name',
+    label: 'Group Name',
+    type: 'text',
+    sortable: true,
+  },
+  {
+    field: 'description',
+    label: 'Description',
+    type: 'text',
+    sortable: true,
   },
 ];
 
-function GroupManagementDataTable() {
-  const { AlertStore } = useStore();
+const GroupManagementDataTable = observer(() => {
   const [isCreateGroupModalVisible, setIsCreateGroupModalVisible] = useState(false);
   const [isEditGroupModalVisible, setIsEditGroupModalVisible] = useState(false);
   const [isDeleteGroupModalVisible, setIsDeleteGroupModalVisible] = useState(false);
-  const [selectedRows, setSelectedRows] = useState<any[]>([]);
-  const [sampleRows, setSampleRows] = useState(sampleRowsData);
+  const [selectedRows, setSelectedRows] = useState<ConfigGroupDto[]>([]);
+  const [editRow, setEditRow] = useState<GroupManagementDto>({ description: '', group_id: '', group_name: '' });
 
-  // Create Group Modal Open
   const handleCreateGroupModalOpen = () => {
     setIsCreateGroupModalVisible(true);
   };
 
-  // Create Group Modal Close
   const handleCreateGroupModalClose = () => {
     setIsCreateGroupModalVisible(false);
   };
 
-  // Edit Group Modal Open
-  const handleEditGroupModalOpen = (event: React.MouseEvent<unknown>, row: any) => {
-    console.log(event);
-    console.log(row);
+  const handleCreateGroupModalSave = () => {
+    handleCreateGroupModalClose();
+  };
+
+  const handleEditGroupModalOpen = (event: React.MouseEvent<unknown>, row: ConfigGroupDto) => {
+    setEditRow({ description: row.description, group_id: row.group_id, group_name: row.group_name });
     setIsEditGroupModalVisible(true);
   };
 
-  // Edit Group Modal Close
   const handleEditGroupModalClose = () => {
     setIsEditGroupModalVisible(false);
   };
 
-  // Delete Group Modal Open
-  const handleDeleteGroupModalOpen = () => {
+  const handleEditGroup = () => {
+    handleEditGroupModalClose();
+  };
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-explicit-any
+  const handleDeleteGroupModalOpen = (selectedRows: any[]) => {
     setIsDeleteGroupModalVisible(true);
   };
 
-  // Delete Group Modal Close
   const handleDeleteGroupModalClose = () => {
     setIsDeleteGroupModalVisible(false);
   };
 
-  // Delete Group Excute
   const handleDeleteGroup = () => {
-    console.log(selectedRows);
+    handleDeleteGroupModalClose();
   };
 
-  // -----------------------------------
-  // Config table
-  const columnsConfig = useMemo<ICommonTableColumn<IPlainObject>[]>(() => {
-    return [
-      {
-        field: 'group_id',
-        label: 'Group ID',
-        type: 'text',
-        sortable: true,
-      },
-      {
-        field: 'group_name',
-        label: 'Group Name',
-        type: 'text',
-        sortable: true,
-      },
-      {
-        field: 'description',
-        label: 'Description',
-        type: 'text',
-        sortable: true,
-      },
-    ];
-  }, []);
-
-  const filterConfig = useMemo<IFilterConfig>(() => {
+  const filterConfig = useMemo(() => {
     return {
-      submitBy: 'enter',
-      submitLabel: 'Search',
-      filters: [
+      primaryActions: [
         {
-          type: 'dropdown',
-          name: 'filterFieldName',
+          type: 'button',
+          handleClick: (selectedRows: ConfigGroupDto[]) => {
+            handleDeleteGroupModalOpen(selectedRows);
+          },
+          checkDisabled: (selectedRows: ConfigGroupDto[]) => {
+            return selectedRows?.length < 1;
+          },
+          config: {
+            variant: 'contained',
+            color: 'secondary',
+            size: 'small',
+            startIcon: <DeleteIcon />,
+            label: 'Delete',
+          },
+        },
+      ],
+      advanceActions: [
+        {
+          label: 'Add New Group',
+          type: 'button',
+          handleClick: () => {
+            handleCreateGroupModalOpen();
+          },
+          config: {
+            variant: 'contained',
+            color: 'primary',
+            size: 'small',
+            startIcon: <AddIcon />,
+            label: 'Add New Group',
+          },
+        },
+        {
+          type: 'filter',
+          name: 'type_of_group_management',
+          defaultValue: 'group_id',
           options: [
             {
               label: 'Group ID',
@@ -138,90 +151,58 @@ function GroupManagementDataTable() {
     };
   }, []);
 
-  const addBtnConfig = useMemo<IAddAction>((): IAddAction => {
-    return {
-      label: 'Create New Group',
-      onClick: () => handleCreateGroupModalOpen(),
-    };
-  }, []);
-
-  const topActionConfig = useMemo<ITopAction<TopButtonModel>[]>((): ITopAction<TopButtonModel>[] => {
-    return [
-      {
-        label: 'Delete',
-        onClick: () => handleDeleteGroupModalOpen(),
-        icon: <DeleteIcon />,
-      },
-    ];
-  }, []);
-
-  const bottomActionsConfig = useMemo<IBottomAction<IPlainObject>[]>((): IBottomAction<IPlainObject>[] => {
-    return [];
-  }, []);
-
-  const onSelectedRows = (rows: any) => {
+  const onSelectedRows = (rows: ConfigGroupDto[]) => {
     setSelectedRows([...rows]);
   };
 
-  // ------------------------------------------------------------------------------------
-  // Handle Data
-
-  useEffect(() => {
-    //fetch();
-  }, []);
+  const tableRef = useRef<ImperativeHandleDto<ConfigGroupDto>>();
 
   return (
     <Paper style={{ padding: '20px' }}>
-      <CommonTable
+      <CommonTable<ConfigGroupDto>
         tableName="group-management-table"
-        // renderLayoutAs={TableLayoutCustom}
         fieldAsRowId="group_id"
-        columnsConfig={columnsConfig}
-        rows={sampleRows}
-        hasSelectionRows
+        query={GroupManagement.groupManagement}
+        allowMultipleSelect
         onSelectedRows={onSelectedRows}
+        hasSelectionRows
         onRowClick={handleEditGroupModalOpen}
-        topActionConfig={topActionConfig}
-        addBtnConfig={addBtnConfig}
-        filterConfig={filterConfig}
-        //onFilterTriggerQuery={filter}
+        columnsConfig={columnsConfig}
+        filterConfig={filterConfig as unknown as IFilterConfig}
         sortDefault={{
           field: 'group_id',
-          direction: 'asc',
+          direction: 'desc',
         }}
-        onSortChange={() => console.log('')}
-        paginationConfig={{
-          rowsPerPageOptions: [10, 25, 50, 100],
-          currentPage: 0,
-          rowsPerPage: 10,
-          totalCount: 0,
-          rowsPerPagePosition: 'last',
-          onPageChange: (newPageIndex: number) => console.log(newPageIndex),
-          onRowsPerPageChange: (newRowsPerPage: number) => console.log(newRowsPerPage),
-        }}
-        // renderPaginationAs={TablePaginationCustom}
-        bottomActionsConfig={bottomActionsConfig}
+        ref={tableRef as MutableRefObject<ImperativeHandleDto<ConfigGroupDto>>}
       />
 
       {/* Create Group - Modal */}
       <CreateGroupModal
+        resetPageAndRefresh={tableRef.current?.resetPageAndRefresh}
         visible={isCreateGroupModalVisible}
         handleClose={handleCreateGroupModalClose}
+        handleSave={handleCreateGroupModalSave}
       />
 
       {/* Edit Group - Modal */}
       <EditGroupModal
+        dataForEdit={editRow}
         visible={isEditGroupModalVisible}
+        resetPageAndRefresh={tableRef.current?.resetPageAndRefresh}
         handleClose={handleEditGroupModalClose}
+        handleSave={handleEditGroup}
       />
 
       {/* Delete Group - Modal */}
       <DeleteGroupModal
+        dataForDelete={selectedRows}
         visible={isDeleteGroupModalVisible}
         handleSave={handleDeleteGroup}
         handleClose={handleDeleteGroupModalClose}
+        resetPageAndRefresh={tableRef.current?.resetPageAndRefresh}
       />
     </Paper>
   );
-}
-export default observer(GroupManagementDataTable);
+});
+
+export default GroupManagementDataTable;

@@ -31,3 +31,8 @@ export const UserEndpoint = {
   getUserHistory: '/UserHistoryList',
   getUser: '/User',
 };
+
+export const GroupManagementEndpoint = {
+  groupList: '/GroupList',
+  group: '/Group',
+};
