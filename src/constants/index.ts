@@ -1,6 +1,7 @@
 export {
   ApplicationEndpoint,
   AuthEndpoint,
+  DbioEndpoint,
   DoInfoEnpoint,
   GroupManagementEndpoint,
   ProminerEndpoint,

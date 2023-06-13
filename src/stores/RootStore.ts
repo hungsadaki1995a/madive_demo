@@ -2,6 +2,7 @@ import {
   AlertStore,
   ApplicationStore,
   AuthStore,
+  DbioStore,
   MenuStore,
   MetaStore,
   NodeStore,
@@ -20,6 +21,8 @@ export class RootStore {
   RoleStore: RoleStore = new RoleStore();
   UserStore: UserStore = new UserStore();
   TestCaseStore: TestCaseStore = new TestCaseStore();
+  DbioStore: DbioStore = new DbioStore();
+  // ConfigRoleStore: ConfigRoleStore = new ConfigRoleStore();
   MenuStore: MenuStore = new MenuStore();
   ApplicationStore: ApplicationStore = new ApplicationStore();
 }
