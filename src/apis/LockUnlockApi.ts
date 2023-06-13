@@ -45,10 +45,10 @@ const LockUnlockApi = {
       return error instanceof AxiosError ? error.response : error;
     }
   },
-  unlockResouces: async (data: LockAndUnlockDto[]): Promise<TableDataResponseDto<LockAndUnlockDto> | unknown> => {
+  unlockResources: async (data: LockAndUnlockDto[]): Promise<TableDataResponseDto<LockAndUnlockDto> | unknown> => {
     try {
       if (data) {
-        await apiClient.delete(ResourceEndPoint.unlockResouces, {
+        await apiClient.delete(ResourceEndPoint.unlockResources, {
           data: {
             dto: { LockUnDto: data },
           },

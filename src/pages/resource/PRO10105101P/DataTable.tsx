@@ -75,7 +75,7 @@ const LockAndUnlockDataTable = observer(({ appId }: { appId: string }) => {
   // Call API to Unlock Resource
   const handleUnlockResource = async () => {
     if (selectedRows) {
-      await LockUnlockApi.unlockResouces(selectedRows);
+      await LockUnlockApi.unlockResources(selectedRows);
       handleUnlockResourceModalClose();
       tableRef.current?.resetPageAndRefresh();
       toast.success('Unlock succeed!', { position: 'bottom-left' });

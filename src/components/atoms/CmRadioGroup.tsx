@@ -21,6 +21,7 @@ type RadioGroupProps<TValue extends string | number | boolean> = {
   onRadioChange: (value: TValue) => void;
   error?: boolean;
   helperText?: string;
+  disabledAll?: boolean;
 };
 
 function CmRadioGroup<TValue extends string | number | boolean>({
@@ -31,6 +32,7 @@ function CmRadioGroup<TValue extends string | number | boolean>({
   onRadioChange,
   error,
   helperText,
+  disabledAll,
 }: RadioGroupProps<TValue>) {
   return (
     <CmRadioGroupStyled
@@ -61,7 +63,7 @@ function CmRadioGroup<TValue extends string | number | boolean>({
                 value={item.value}
                 control={<Radio size="small" />}
                 label={item.label}
-                disabled={!!item.disabled}
+                disabled={disabledAll || !!item.disabled}
               />
             ))}
         </RadioGroup>

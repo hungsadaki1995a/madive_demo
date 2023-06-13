@@ -1,12 +1,9 @@
 import { FormControl, FormHelperText, MenuItem, OutlinedInput, Select, SelectProps } from '@mui/material';
 
+import { DropdownType } from '@/types/common';
+
 import { CmFieldLabel } from './Atoms.Styled';
 import { CmDropDownWrapper } from './styled/CmDropDown.styled';
-
-interface DropdownType {
-  value: string | number;
-  label: string;
-}
 
 type CmDropdownProps = Omit<SelectProps, 'error' | 'margin' | 'multiple' | 'type' | 'helperText'> & {
   error?: boolean;

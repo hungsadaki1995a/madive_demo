@@ -7,7 +7,7 @@ import { DbioEndpoint } from '@/constants';
 import apiClient from './apiClient';
 
 const DbioApi = {
-  getDbios: async () => {
+  getDbios: async (): Promise<any> => {
     try {
       const data = (await apiClient.get<any>(DbioEndpoint.modelDbioList, {
         params: {

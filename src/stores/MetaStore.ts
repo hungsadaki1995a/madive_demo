@@ -1,12 +1,13 @@
 import { makeAutoObservable } from 'mobx';
 
-import { MetaType } from '@/types/typeBundle';
+import { MetaDtos } from '@/types/dtos/MetaDtos';
 
 export class MetaStore {
-  meta: MetaType[] = [];
+  meta: MetaDtos[] = [];
   selectedMeta: string[] = [];
   order: 'asc' | 'desc' = 'asc';
-  orderProperty: keyof MetaType = 'physicalName';
+  orderProperty: keyof MetaDtos = 'physical_name';
+  isFetching = false;
 
   constructor() {
     makeAutoObservable(this);
@@ -16,10 +17,14 @@ export class MetaStore {
     this.meta = [];
     this.selectedMeta = [];
     this.order = 'asc';
-    this.orderProperty = 'physicalName';
+    this.orderProperty = 'physical_name';
   };
 
-  setMeta = (meta: MetaType[]) => {
+  setIsFetching = (val: boolean) => {
+    this.isFetching = val;
+  };
+
+  setMeta = (meta: MetaDtos[]) => {
     this.meta = meta;
   };
 
@@ -31,7 +36,7 @@ export class MetaStore {
     this.order = order;
   };
 
-  setOrderProperty = (property: keyof MetaType) => {
+  setOrderProperty = (property: keyof MetaDtos) => {
     this.orderProperty = property;
   };
 }

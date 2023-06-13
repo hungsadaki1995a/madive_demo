@@ -19,10 +19,10 @@ export const ProminerEndpoint = {
 
 export const ResourceEndPoint = {
   getLockList: 'LockUnList',
-  unlockResouces: 'LockUnList',
+  unlockResources: 'LockUnList',
 };
 
-export const DoInfoEnpoint = {
+export const DoInfoEndPoint = {
   getDoInfo: '/DoInfo',
 };
 
@@ -30,6 +30,17 @@ export const UserEndpoint = {
   getUserList: '/UserList',
   getUserHistory: '/UserHistoryList',
   getUser: '/User',
+};
+
+export const MetaEndPoint = {
+  getMetaList: '/MetaList',
+  getTableList: '/TableList',
+  getColumnList: '/ColumnList',
+  createMeta: '/Meta',
+  editMeta: '/Meta',
+  deleteMetaList: '/MetaList',
+  importExcel: '/MetaExcel',
+  getExcelSample: '/MetaSampleFile',
 };
 
 export const GroupManagementEndpoint = {

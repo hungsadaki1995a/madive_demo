@@ -24,7 +24,7 @@ function CmUpload(props: propsType) {
       <input
         id="upload-image"
         type="file"
-        onChange={(event) => handleChange(event)}
+        onChange={handleChange}
       />
     </Button>
   );
