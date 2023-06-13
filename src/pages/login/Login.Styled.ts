@@ -45,13 +45,13 @@ const LoginContainer = styled.div`
         margin-bottom: 20px;
 
         &.id {
-          background: url(${logUser}) 15px center no-repeat;
+          background: url(${logUser}) 15px 15px no-repeat;
           .MuiOutlinedInput-root input.MuiOutlinedInput-input {
             padding: 13.5px 14px 13.5px 42px;
           }
         }
         &.pw {
-          background: url(${logPw}) 12px center no-repeat;
+          background: url(${logPw}) 12px 18px no-repeat;
           .MuiOutlinedInput-root input.MuiOutlinedInput-input {
             padding: 13.5px 14px 13.5px 45px;
             letter-spacing: 5px;
@@ -62,7 +62,7 @@ const LoginContainer = styled.div`
           width: 100%;
 
           label.MuiInputLabel-root {
-            top: 2px;
+            top: 0;
             left: 30px;
             font: 16px / 1 ${CmStyle.notoSansDJKFont.light};
             color: ${CmStyle.color.colorT03};
