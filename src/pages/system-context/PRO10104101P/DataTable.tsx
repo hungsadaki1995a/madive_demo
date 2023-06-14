@@ -1,120 +1,159 @@
-import { useEffect, useMemo, useState } from 'react';
+import { MutableRefObject, useEffect, useMemo, useRef, useState } from 'react';
 
 import { observer } from 'mobx-react';
 
 import CommonTable from '@/components/organisms/CmCommonTable';
 import {
-  IAddAction,
-  IBottomAction,
   ICommonTableColumn,
   IFilterConfig,
+  ImperativeHandleDto,
   IPlainObject,
-  ITopAction,
 } from '@/components/organisms/CmCommonTable/types';
 
+import SystemContextApi from '@/apis/SystemContextApi';
+import { ReactComponent as AddIcon } from '@/stylesheets/images/AddIcon.svg';
 import { ReactComponent as DeleteIcon } from '@/stylesheets/images/DeleteIcon.svg';
-import TopButtonModel from '@/types/models/topButtonModel';
-import { useStore } from '@/utils';
+import { SystemContextDtos, SystemContextList } from '@/types/dtos/systemContextDtos';
 
-import DeleteSystemContextModal from './modal/DeleteSystemContextModal';
-import AddSystemContextModal from './modal/PRO10104102M';
-import EditSystemContextModal from './modal/PRO10104103M';
+import DeleteSystemContextModal from '@/pages/system-context/PRO10104101P/modal/DeleteSystemContextModal';
+import AddSystemContextModal from '@/pages/system-context/PRO10104101P/modal/PRO10104102M';
+import EditSystemContextModal from '@/pages/system-context/PRO10104101P/modal/PRO10104103M';
+import { EditModal, ISystemContextList } from '@/pages/system-context/PRO10104101P/type';
 
-const sampleRowsData = [
+const columnsConfig: ICommonTableColumn<IPlainObject>[] = [
   {
-    key: 'ㅎㄷㅎ',
-    value: 'ㅎㄷㅎ',
+    field: 'key',
+    label: 'Key',
+    type: 'text',
+    sortable: true,
   },
   {
-    key: 'url',
-    value: 'http://192.168.57.34:80/',
-  },
-  {
-    key: 'hello',
-    value: '123',
-  },
-  {
-    key: 'QA',
-    value: 'TEST',
+    field: 'value',
+    label: 'Value',
+    type: 'text',
+    sortable: true,
   },
 ];
 
-function SystemContextManagementDataTable() {
-  const { AlertStore } = useStore();
+type PropType = {
+  dataProp: ISystemContextList;
+  isDisabled?: boolean;
+};
+
+function SystemContextManagementDataTable(prop: PropType) {
+  const { dataProp, isDisabled = false } = prop;
   const [isAddSystemContextModalVisible, setIsAddSystemContextModalVisible] = useState(false);
   const [isEditSystemContextModalVisible, setIsEditSystemContextModalVisible] = useState(false);
   const [isDeleteSystemContextModalVisible, setIsDeleteSystemContextModalVisible] = useState(false);
-  const [selectedRows, setSelectedRows] = useState<any[]>([]);
-  const [sampleRows, setSampleRows] = useState(sampleRowsData);
+  const [dataForModal, setDataForModal] = useState<SystemContextDtos>();
+  const [editData, setEditData] = useState<EditModal>({
+    appName: '',
+    node_id: '',
+    resource_id: '',
+    systemContextName: '',
+    key: '',
+    value: '',
+  });
 
-  // Add System Context Modal Open
+  useEffect(() => {
+    tableRef.current?.changeFilterServer(dataProp);
+  }, [dataProp]);
+
   const handleAddSystemContextModalOpen = () => {
     setIsAddSystemContextModalVisible(true);
   };
 
-  // Add System Context Modal Close
   const handleAddSystemContextModalClose = () => {
     setIsAddSystemContextModalVisible(false);
   };
 
-  // Edit System Context Modal Open
+  const handleAddSystemContextModalSave = () => {
+    handleAddSystemContextModalClose();
+  };
+
   const handleEditSystemContextModalOpen = (event: React.MouseEvent<unknown>, row: any) => {
+    setEditData({
+      appName: dataProp.appName as string,
+      node_id: dataProp.node_id,
+      resource_id: dataProp.resource_id,
+      systemContextName: dataProp.systemContextName,
+      key: row.key,
+      value: row.value,
+    });
     setIsEditSystemContextModalVisible(true);
   };
 
-  // Edit System Context Modal Close
   const handleEditSystemContextModalClose = () => {
+    setEditData({
+      appName: '',
+      node_id: '',
+      resource_id: '',
+      systemContextName: '',
+      key: '',
+      value: '',
+    });
     setIsEditSystemContextModalVisible(false);
   };
 
-  // Delete System Context Modal Open
-  const handleDeleteSystemContextModalOpen = () => {
+  const handleEditSystemContextModalSave = () => {
+    handleEditSystemContextModalClose();
+  };
+
+  const handleDeleteSystemContextModalOpen = (selectedRows: SystemContextDtos) => {
+    setDataForModal(selectedRows);
     setIsDeleteSystemContextModalVisible(true);
   };
 
-  // Delete System Context Modal Close
   const handleDeleteSystemContextModalClose = () => {
     setIsDeleteSystemContextModalVisible(false);
   };
 
-  // Delete System Context Excute
   const handleDeleteSystemContext = () => {
-    console.log(selectedRows);
+    handleDeleteSystemContextModalClose();
   };
 
-  // -----------------------------------
-  // Config table
-  const columnsConfig = useMemo<ICommonTableColumn<IPlainObject>[]>(() => {
-    return [
-      {
-        field: 'key',
-        label: 'Key',
-        type: 'text',
-        sortable: true,
-      },
-      {
-        field: 'value',
-        label: 'Value',
-        type: 'text',
-        sortable: true,
-      },
-      {
-        field: '',
-        label: 'Action',
-        type: 'text',
-        sortable: true,
-      },
-    ];
-  }, []);
-
-  const filterConfig = useMemo<IFilterConfig>(() => {
+  const filterConfig = useMemo(() => {
     return {
-      submitBy: 'enter',
-      submitLabel: 'Search',
-      filters: [
+      primaryActions: [
         {
-          type: 'dropdown',
-          name: 'filterFieldName',
+          type: 'button',
+          handleClick: (selectedRows: SystemContextDtos[]) => {
+            handleDeleteSystemContextModalOpen(selectedRows[0]);
+          },
+          checkDisabled: (selectedRows: SystemContextDtos[]) => {
+            return selectedRows?.length < 1;
+          },
+          config: {
+            variant: 'contained',
+            color: 'secondary',
+            size: 'small',
+            startIcon: <DeleteIcon />,
+            label: 'Delete',
+          },
+        },
+      ],
+      advanceActions: [
+        {
+          label: 'Add System Context',
+          type: 'button',
+          checkDisabled: () => {
+            return isDisabled;
+          },
+          handleClick: () => {
+            handleAddSystemContextModalOpen();
+          },
+          config: {
+            variant: 'contained',
+            color: 'primary',
+            size: 'small',
+            startIcon: <AddIcon />,
+            label: 'Add System Context',
+          },
+        },
+        {
+          type: 'filter',
+          name: 'type_of_system_context_list',
+          defaultValue: 'key',
           options: [
             {
               label: 'Key',
@@ -124,102 +163,66 @@ function SystemContextManagementDataTable() {
               label: 'Value',
               value: 'value',
             },
-            {
-              label: 'Action',
-              value: '',
-            },
           ],
         },
         {
           type: 'simple',
           name: 'search',
-          // className: '',
-          // label: 'Keyword',
-          // icon: <SearchIcon />,
         },
       ],
     };
-  }, []);
+  }, [isDisabled]);
 
-  const addBtnConfig = useMemo<IAddAction>((): IAddAction => {
-    return {
-      label: 'Add System Context',
-      onClick: () => handleAddSystemContextModalOpen(),
-    };
-  }, []);
-
-  const topActionConfig = useMemo<ITopAction<TopButtonModel>[]>((): ITopAction<TopButtonModel>[] => {
-    return [
-      {
-        label: 'Delete',
-        onClick: () => handleDeleteSystemContextModalOpen(),
-        icon: <DeleteIcon />,
-      },
-    ];
-  }, []);
-
-  const bottomActionsConfig = useMemo<IBottomAction<IPlainObject>[]>((): IBottomAction<IPlainObject>[] => {
-    return [];
-  }, []);
-
-  const onSelectedRows = (rows: any) => {
-    setSelectedRows([...rows]);
-  };
-
-  // ------------------------------------------------------------------------------------
-  // Handle Data
+  const tableRef = useRef<ImperativeHandleDto<SystemContextDtos>>();
 
   useEffect(() => {
-    //fetch();
-  }, []);
+    tableRef.current?.changeFilterServer(dataProp);
+  }, [dataProp]);
+
+  useEffect(() => {
+    if (isDisabled) {
+      tableRef.current?.fetch();
+    }
+  }, [isDisabled]);
 
   return (
     <>
-      <CommonTable
-        tableName="system-context-management-table"
-        // renderLayoutAs={TableLayoutCustom}
+      <CommonTable<SystemContextList>
+        query={SystemContextApi.getTableDataManagement}
+        tableName="management-table"
         fieldAsRowId="key"
-        columnsConfig={columnsConfig}
-        rows={sampleRows}
+        allowMultipleSelect={false}
         hasSelectionRows
-        onSelectedRows={onSelectedRows}
         onRowClick={handleEditSystemContextModalOpen}
-        topActionConfig={topActionConfig}
-        addBtnConfig={addBtnConfig}
-        filterConfig={filterConfig}
-        //onFilterTriggerQuery={filter}
+        columnsConfig={columnsConfig}
+        filterConfig={filterConfig as unknown as IFilterConfig}
         sortDefault={{
           field: 'key',
-          direction: 'asc',
+          direction: 'desc',
         }}
-        onSortChange={() => console.log('')}
-        paginationConfig={{
-          rowsPerPageOptions: [10, 25, 50, 100],
-          currentPage: 0,
-          rowsPerPage: 10,
-          totalCount: 0,
-          rowsPerPagePosition: 'last',
-          onPageChange: (newPageIndex: number) => console.log(newPageIndex),
-          onRowsPerPageChange: (newRowsPerPage: number) => console.log(newRowsPerPage),
-        }}
-        // renderPaginationAs={TablePaginationCustom}
-        bottomActionsConfig={bottomActionsConfig}
+        ref={tableRef as MutableRefObject<ImperativeHandleDto<SystemContextDtos>>}
       />
 
-      {/* Add System Context - Modal */}
       <AddSystemContextModal
+        resetPageAndRefresh={tableRef.current?.resetPageAndRefresh}
+        dataProp={dataProp}
         visible={isAddSystemContextModalVisible}
         handleClose={handleAddSystemContextModalClose}
+        handleSave={handleAddSystemContextModalSave}
       />
 
-      {/* Edit System Context - Modal */}
       <EditSystemContextModal
+        dataProp={editData}
+        resetPageAndRefresh={tableRef.current?.resetPageAndRefresh}
         visible={isEditSystemContextModalVisible}
         handleClose={handleEditSystemContextModalClose}
+        handleSave={handleEditSystemContextModalSave}
       />
 
-      {/* Delete System Context - Modal */}
       <DeleteSystemContextModal
+        resetPageAndRefresh={tableRef.current?.resetPageAndRefresh}
+        dataProp={dataProp}
+        dataRow={dataForModal as SystemContextDtos}
         visible={isDeleteSystemContextModalVisible}
         handleSave={handleDeleteSystemContext}
         handleClose={handleDeleteSystemContextModalClose}
@@ -227,4 +230,5 @@ function SystemContextManagementDataTable() {
     </>
   );
 }
+
 export default observer(SystemContextManagementDataTable);

@@ -763,10 +763,11 @@ const DialogTitleStyled = styled(DialogTitle)(() => ({
 }));
 
 //field label
-const CmFieldLabel = styled(InputLabel)(({ width }: { width?: string }) => ({
+const CmFieldLabel = styled(InputLabel)(({ width, fontSize }: { width?: string; fontSize?: string }) => ({
   width: width || '35%',
   display: 'flex',
   alignItems: 'center',
+  fontSize: fontSize || '13px',
 }));
 
-export { CmButtonStyle, CmCardStyle, CmSelectStyle, CmModalStyle, CmTableStyle, DialogTitleStyled, CmFieldLabel };
+export { CmButtonStyle, CmCardStyle, CmFieldLabel, CmModalStyle, CmSelectStyle, CmTableStyle, DialogTitleStyled };

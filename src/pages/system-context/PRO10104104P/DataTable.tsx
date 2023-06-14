@@ -1,108 +1,154 @@
-import { useEffect, useMemo, useState } from 'react';
+import { MutableRefObject, useEffect, useMemo, useRef, useState } from 'react';
 
 import { observer } from 'mobx-react';
 
 import CommonTable from '@/components/organisms/CmCommonTable';
 import {
-  IAddAction,
-  IBottomAction,
   ICommonTableColumn,
   IFilterConfig,
+  ImperativeHandleDto,
   IPlainObject,
-  ITopAction,
 } from '@/components/organisms/CmCommonTable/types';
 
+import SystemContextApi from '@/apis/SystemContextApi';
+import { ReactComponent as AddIcon } from '@/stylesheets/images/AddIcon.svg';
 import { ReactComponent as DeleteIcon } from '@/stylesheets/images/DeleteIcon.svg';
-import TopButtonModel from '@/types/models/topButtonModel';
-import { useStore } from '@/utils';
+import { ConfigDto, EditDatasourceResquest, PropertyList } from '@/types/dtos/systemContextDtos';
 
-import DeleteDatasourceModal from './modal/DeleteDatasourceModal';
-import CreateDatasourceModal from './modal/PRO10104105M';
-import EditDatasourceModal from './modal/PRO10104106M';
+import DeleteDatasourceModal from '@/pages/system-context/PRO10104104P/modal/DeleteDatasourceModal';
+import CreateDatasourceModal from '@/pages/system-context/PRO10104104P/modal/PRO10104105M';
+import EditDatasourceModal from '@/pages/system-context/PRO10104104P/modal/PRO10104106M';
+import { IPropertyList } from '@/pages/system-context/PRO10104104P/type';
 
-const sampleRowsData = [
+const columnsConfig: ICommonTableColumn<IPlainObject>[] = [
   {
-    key_parameter: 'SYSTEM_CONTEXT_TEST',
-    property_value: 'tibero6_dev',
+    field: 'key_parameter',
+    label: 'System Context Name',
+    type: 'text',
+    sortable: true,
+  },
+  {
+    field: 'property_value',
+    label: 'Datasource',
+    type: 'text',
+    sortable: true,
   },
 ];
 
-function SystemContextDatasourceDataTable() {
-  const { TestCaseStore, AlertStore } = useStore();
+type PropType = {
+  dataProp: IPropertyList;
+  isDisabled?: boolean;
+};
+
+function SystemContextDatasourceDataTable(prop: PropType) {
+  const { dataProp, isDisabled = false } = prop;
   const [isCreateDatasourceModalVisible, setIsCreateDatasourceModalVisible] = useState(false);
   const [isEditDatasourceModalVisible, setIsEditDatasourceModalVisible] = useState(false);
   const [isDeleteDatasourceModalVisible, setIsDeleteDatasourceModalVisible] = useState(false);
-  const [selectedRows, setSelectedRows] = useState<any[]>([]);
-  const [sampleRows, setSampleRows] = useState(sampleRowsData);
+  const [dataForDelete, setDataForDelete] = useState<ConfigDto>();
+  const [editData, setEditData] = useState<EditDatasourceResquest>({
+    key_parameter: '',
+    node_id: '',
+    physical_name: '',
+    property_key: '',
+    property_value: '',
+    resource_id: '',
+    resource_type: '',
+  });
 
-  // Create Datasource Modal Open
   const handleCreateDatasourceModalOpen = () => {
     setIsCreateDatasourceModalVisible(true);
   };
 
-  // Create Datasource Modal Close
   const handleCreateDatasourceModalClose = () => {
     setIsCreateDatasourceModalVisible(false);
   };
 
-  // Edit Datasource Modal Open
   const handleEditDatasourceModalOpen = (event: React.MouseEvent<unknown>, row: any) => {
+    setEditData({
+      key_parameter: row.key_parameter,
+      node_id: dataProp.node_id,
+      physical_name: dataProp.physical_name as string,
+      property_key: 'APPLICATION_SYSTEM_CONTEXT_{0}_DATASOURCE',
+      property_value: row.property_value,
+      resource_id: dataProp.resource_id,
+      resource_type: 'APPLICATION',
+    });
     setIsEditDatasourceModalVisible(true);
   };
 
-  // Edit Datasource Modal Close
   const handleEditDatasourceModalClose = () => {
+    setEditData({
+      key_parameter: '',
+      node_id: '',
+      physical_name: '',
+      property_key: '',
+      property_value: '',
+      resource_id: '',
+      resource_type: '',
+    });
     setIsEditDatasourceModalVisible(false);
   };
 
-  // Delete Datasource Modal Open
-  const handleDeleteDatasourceModalOpen = () => {
+  const handleEditDatasourceModalSave = () => {
+    handleEditDatasourceModalClose();
+  };
+
+  const handleDeleteDatasourceModalOpen = (selectedRows: ConfigDto) => {
+    setDataForDelete(selectedRows);
     setIsDeleteDatasourceModalVisible(true);
   };
 
-  // Delete Datasource Modal Close
   const handleDeleteDatasourceModalClose = () => {
     setIsDeleteDatasourceModalVisible(false);
   };
 
-  // Delete Datasource Excute
   const handleDeleteDatasource = () => {
-    console.log(selectedRows);
+    handleDeleteDatasourceModalClose();
   };
 
-  // -----------------------------------
-  // Config table
-  const columnsConfig = useMemo<ICommonTableColumn<IPlainObject>[]>(() => {
-    return [
-      {
-        field: 'key_parameter',
-        label: 'System Context Name',
-        type: 'text',
-        sortable: true,
-      },
-      {
-        field: 'property_value',
-        label: 'Datasource',
-        type: 'text',
-        sortable: true,
-      },
-      {
-        field: '',
-        label: 'Action',
-        type: 'text',
-        sortable: true,
-      },
-    ];
-  }, []);
-
-  const filterConfig = useMemo<IFilterConfig>(() => {
+  const filterConfig = useMemo(() => {
     return {
-      submitBy: 'enter',
-      submitLabel: 'Search',
-      filters: [
+      primaryActions: [
         {
-          type: 'dropdown',
-          name: 'filterFieldName',
+          type: 'button',
+          handleClick: (selectedRows: ConfigDto[]) => {
+            handleDeleteDatasourceModalOpen(selectedRows[0]);
+          },
+          checkDisabled: (selectedRows: ConfigDto[]) => {
+            return selectedRows?.length < 1;
+          },
+          config: {
+            variant: 'contained',
+            color: 'secondary',
+            size: 'small',
+            startIcon: <DeleteIcon />,
+            label: 'Delete',
+          },
+        },
+      ],
+      advanceActions: [
+        {
+          label: 'Add Datasource',
+          type: 'button',
+          checkDisabled: () => {
+            return isDisabled;
+          },
+          handleClick: () => {
+            handleCreateDatasourceModalOpen();
+          },
+          config: {
+            variant: 'contained',
+            color: 'primary',
+            size: 'small',
+            startIcon: <AddIcon />,
+            label: 'Add Datasource',
+          },
+        },
+        {
+          type: 'filter',
+          name: 'type_of_system_context_list',
+          defaultValue: 'key_parameter',
           options: [
             {
               label: 'System Context Name',
@@ -112,102 +158,64 @@ function SystemContextDatasourceDataTable() {
               label: 'Datasource',
               value: 'property_value',
             },
-            {
-              label: 'Action',
-              value: '',
-            },
           ],
         },
         {
           type: 'simple',
           name: 'search',
-          // className: '',
-          // label: 'Keyword',
-          // icon: <SearchIcon />,
         },
       ],
     };
-  }, []);
+  }, [isDisabled]);
 
-  const addBtnConfig = useMemo<IAddAction>((): IAddAction => {
-    return {
-      label: 'Create New Datasource',
-      onClick: () => handleCreateDatasourceModalOpen(),
-    };
-  }, []);
-
-  const topActionConfig = useMemo<ITopAction<TopButtonModel>[]>((): ITopAction<TopButtonModel>[] => {
-    return [
-      {
-        label: 'Delete',
-        onClick: () => handleDeleteDatasourceModalOpen(),
-        icon: <DeleteIcon />,
-      },
-    ];
-  }, []);
-
-  const bottomActionsConfig = useMemo<IBottomAction<IPlainObject>[]>((): IBottomAction<IPlainObject>[] => {
-    return [];
-  }, []);
-
-  const onSelectedRows = (rows: any) => {
-    setSelectedRows([...rows]);
-  };
-
-  // ------------------------------------------------------------------------------------
-  // Handle Data
+  const tableRef = useRef<ImperativeHandleDto<ConfigDto>>();
+  useEffect(() => {
+    tableRef.current?.changeFilterServer(dataProp);
+  }, [dataProp]);
 
   useEffect(() => {
-    //fetch();
-  }, []);
+    if (isDisabled) {
+      tableRef.current?.fetch();
+    }
+  }, [isDisabled]);
 
   return (
     <>
-      <CommonTable
-        tableName="system-context-datasource-table"
-        // renderLayoutAs={TableLayoutCustom}
-        fieldAsRowId="field"
-        columnsConfig={columnsConfig}
-        rows={sampleRows}
+      <CommonTable<PropertyList>
+        query={SystemContextApi.getTableDataDatasource}
+        tableName="data-source-table"
+        fieldAsRowId="key_parameter"
         hasSelectionRows
-        onSelectedRows={onSelectedRows}
+        allowMultipleSelect={false}
         onRowClick={handleEditDatasourceModalOpen}
-        topActionConfig={topActionConfig}
-        addBtnConfig={addBtnConfig}
-        filterConfig={filterConfig}
-        //onFilterTriggerQuery={filter}
+        columnsConfig={columnsConfig}
+        filterConfig={filterConfig as unknown as IFilterConfig}
         sortDefault={{
           field: 'key_parameter',
-          direction: 'asc',
+          direction: 'desc',
         }}
-        onSortChange={() => console.log('')}
-        paginationConfig={{
-          rowsPerPageOptions: [10, 25, 50, 100],
-          currentPage: 0,
-          rowsPerPage: 10,
-          totalCount: 0,
-          rowsPerPagePosition: 'last',
-          onPageChange: (newPageIndex: number) => console.log(newPageIndex),
-          onRowsPerPageChange: (newRowsPerPage: number) => console.log(newRowsPerPage),
-        }}
-        // renderPaginationAs={TablePaginationCustom}
-        bottomActionsConfig={bottomActionsConfig}
+        ref={tableRef as MutableRefObject<ImperativeHandleDto<ConfigDto>>}
       />
 
-      {/* Create Datasource - Modal */}
       <CreateDatasourceModal
+        resetPageAndRefresh={tableRef.current?.resetPageAndRefresh}
+        dataProp={dataProp}
         visible={isCreateDatasourceModalVisible}
         handleClose={handleCreateDatasourceModalClose}
       />
 
-      {/* Edit Datasource - Modal */}
       <EditDatasourceModal
+        dataProp={editData}
+        resetPageAndRefresh={tableRef.current?.resetPageAndRefresh}
         visible={isEditDatasourceModalVisible}
         handleClose={handleEditDatasourceModalClose}
+        handleSave={handleEditDatasourceModalSave}
       />
 
-      {/* Delete Datasource - Modal */}
       <DeleteDatasourceModal
+        resetPageAndRefresh={tableRef.current?.resetPageAndRefresh}
+        dataProp={dataProp}
+        dataRow={dataForDelete as ConfigDto}
         visible={isDeleteDatasourceModalVisible}
         handleSave={handleDeleteDatasource}
         handleClose={handleDeleteDatasourceModalClose}

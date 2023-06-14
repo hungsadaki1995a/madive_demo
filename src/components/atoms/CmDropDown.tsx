@@ -15,6 +15,7 @@ type CmDropdownProps = Omit<SelectProps, 'error' | 'margin' | 'multiple' | 'type
   multiple?: boolean;
   type?: 'inside' | 'outside';
   helperText?: string;
+  labelFontSize?: string;
 };
 
 export const CmDropdown = (props: CmDropdownProps) => {
@@ -30,6 +31,7 @@ export const CmDropdown = (props: CmDropdownProps) => {
     labelWidth,
     multiple = false,
     helperText,
+    labelFontSize,
     ...otherProps
   } = props;
 
@@ -39,31 +41,49 @@ export const CmDropdown = (props: CmDropdownProps) => {
       margin={margin}
       width={width}
     >
-      {type === 'outside' && <CmFieldLabel width={labelWidth}>{label}</CmFieldLabel>}
+      {type === 'outside' && (
+        <CmFieldLabel
+          width={labelWidth}
+          fontSize={labelFontSize}
+        >
+          {label}
+        </CmFieldLabel>
+      )}
 
       <FormControl
         error={!!error}
         size="small"
       >
-        {type === 'inside' && <CmFieldLabel width={labelWidth}>{label}</CmFieldLabel>}
+        {type === 'inside' && (
+          <CmFieldLabel
+            width={labelWidth}
+            fontSize={labelFontSize}
+          >
+            {label}
+          </CmFieldLabel>
+        )}
         <Select
           {...otherProps}
           spellCheck="false"
           error={error}
+          displayEmpty
           multiple={multiple}
           disabled={disabled}
           input={type === 'inside' ? <OutlinedInput label={label} /> : undefined}
         >
           {!!data?.length &&
             data?.map((item, index) => {
-              return (
-                <MenuItem
-                  key={item.value.toString() + index}
-                  value={item.value || ''}
-                >
-                  {item.label}
-                </MenuItem>
-              );
+              if (item.label && item.value !== '') {
+                return (
+                  <MenuItem
+                    key={item.value.toString() + index}
+                    value={item.value || ''}
+                    style={{ fontFamily: 'NotoSansCJKRegular', fontSize: 13 }}
+                  >
+                    {item.label}
+                  </MenuItem>
+                );
+              }
             })}
         </Select>
         <FormHelperText>{helperText}</FormHelperText>
