@@ -11,18 +11,14 @@
 import { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 
-// import { rootRoutes } from '@/routes/routes';
 import { AppBar, Box, Button, Menu, MenuItem, Toolbar, Typography } from '@mui/material';
 import { observer } from 'mobx-react';
 
-// Common Atoms
 import { CmButton } from '@/components/atoms/CmButton';
 
 import { AuthApi } from '@/apis';
 import * as CmStyle from '@/stylesheets/common';
-// img, icon
 import { ReactComponent as LogoutIcon } from '@/stylesheets/images/logout.svg';
-import { useStore } from '@/utils';
 
 import { rootRoutes } from '@/routes/routes';
 
@@ -45,22 +41,11 @@ const rootMenus = [
   },
 ];
 
-function CmGnb() {
-  const { MenuStore } = useStore();
-  // topNav
-  const [anchorElNav, setAnchorElNav] = useState(null);
+const CmGnb = observer(() => {
   const [anchorElUser, setAnchorElUser] = useState(null);
-
-  const handleCloseNavMenu = () => {
-    setAnchorElNav(null);
-  };
 
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
-  };
-
-  const handleClickRootMenu = (menuTitle: string) => {
-    MenuStore.setSelectedRootMenu(menuTitle);
   };
 
   return (
@@ -77,7 +62,7 @@ function CmGnb() {
                 key={route.title}
                 style={{ textDecoration: 'none' }}
               >
-                {({ isActive, isPending }) => (
+                {({ isActive }) => (
                   <Button
                     sx={{
                       backgroundColor: isActive ? CmStyle.color.colorBtnPrimary : CmStyle.color.colorBg03,
@@ -128,5 +113,6 @@ function CmGnb() {
       </AppBar>
     </CmGnbStyle>
   );
-}
-export default observer(CmGnb);
+});
+
+export default CmGnb;

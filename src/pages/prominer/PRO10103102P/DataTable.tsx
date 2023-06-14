@@ -8,6 +8,8 @@ import { ICommonTableColumn, IPlainObject } from '@/components/organisms/CmCommo
 
 import { useStore } from '@/utils';
 
+import useTableTree from './useTableTree';
+
 const sampleRowsData = [
   {
     resource_name: 'SHBO',
@@ -24,6 +26,7 @@ const sampleRowsData = [
 function ViewResourceDetailDataTable() {
   const { AlertStore } = useStore();
   const [sampleRows, setSampleRows] = useState(sampleRowsData);
+  useTableTree();
 
   // -----------------------------------
   // Config table

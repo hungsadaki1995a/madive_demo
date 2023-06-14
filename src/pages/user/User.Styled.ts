@@ -26,7 +26,7 @@ const UserStyled = styled.div`
     &.transferBox {
       .transferGrid {
         justify-content: center;
-        align-items: center;
+        /* align-items: center; */ //this line make every item it contain to be center
         .MuiPaper-root {
           box-shadow: none;
         }

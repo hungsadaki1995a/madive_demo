@@ -59,8 +59,6 @@ function SystemContextManagementDataTable() {
 
   // Edit System Context Modal Open
   const handleEditSystemContextModalOpen = (event: React.MouseEvent<unknown>, row: any) => {
-    console.log(event);
-    console.log(row);
     setIsEditSystemContextModalVisible(true);
   };
 

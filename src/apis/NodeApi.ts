@@ -1,46 +1,51 @@
-import axios, { AxiosError } from 'axios';
+import { AxiosError } from 'axios';
 
-import { NodeType } from '@/types/typeBundle';
+import { TableDataResponseDto } from '@/components/organisms/CmCommonTable/types';
 
-const { NODE_ENV, REACT_APP_BACKEND_URL } = process.env;
-const BASE_URL = NODE_ENV === 'development' ? REACT_APP_BACKEND_URL : '/proobject-devserver';
+import { NodeDto, NodeDtos } from '@/types/dtos/nodeDtos';
+
+import { NodeEndpoint } from '@/constants/apiEndpoint';
+
+import apiClient from './apiClient';
+
+type Response = {
+  dto: {
+    NodeDto: NodeDto[];
+    value: string;
+  };
+};
 
 const NodeApi = {
-  getNodes: async (nodeType: string) => {
+  getNodes: async (): Promise<TableDataResponseDto<NodeDto> | unknown> => {
     try {
-      const { data } = await axios.post(BASE_URL + '/nodeList', {
-        nodeType,
+      const config_UserId = { dto: { user_id: 'admin' } };
+      const results: any = await apiClient.get(NodeEndpoint.getNodeList, {
+        params: {
+          [JSON.stringify(config_UserId)]: '',
+        },
       });
-      return data;
+      return { data: results?.dto?.NodeDto, total: results?.dto?.NodeDto.length };
     } catch (error: unknown) {
       return error instanceof AxiosError ? error.response : error;
     }
   },
 
-  addNode: async (submitValue: NodeType) => {
-    try {
-      return await axios.post(BASE_URL + '/nodeCreate', submitValue);
-    } catch (error: unknown) {
-      return error instanceof AxiosError ? error.response : error;
-    }
+  addNode: async (submitValue: NodeDto): Promise<Response> => {
+    return await apiClient.post(NodeEndpoint.addNode, { dto: submitValue });
   },
 
-  editNode: async (submitValue: NodeType) => {
-    try {
-      return await axios.post(BASE_URL + '/nodeUpdate', submitValue);
-    } catch (error: unknown) {
-      return error instanceof AxiosError ? error.response : error;
-    }
+  editNode: async (submitValue: NodeDto): Promise<Response> => {
+    return await apiClient.put(NodeEndpoint.editNode, { dto: submitValue });
   },
 
-  deleteNodes: async (poDeployNodeDTOArray: Record<'serverHostName' | 'nodeName', string>[]) => {
-    try {
-      return await axios.post(BASE_URL + '/nodeDelete', {
-        poDeployNodeDTOArray,
-      });
-    } catch (error: unknown) {
-      return error instanceof AxiosError ? error.response : error;
-    }
+  deleteNode: async (submitValue: NodeDtos): Promise<Response> => {
+    return await apiClient.delete(NodeEndpoint.deleteNode, {
+      data: {
+        dto: {
+          node_id: submitValue.node_id,
+        },
+      },
+    });
   },
 };
 

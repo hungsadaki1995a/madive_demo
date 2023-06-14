@@ -1,123 +1,93 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo, useRef, useState } from 'react';
 
-import { Paper } from '@mui/material';
+import { Box, Paper } from '@mui/material';
 import { observer } from 'mobx-react';
 
 import CommonTable from '@/components/organisms/CmCommonTable';
-import {
-  IBottomAction,
-  ICommonTableColumn,
-  IFilterConfig,
-  IPlainObject,
-} from '@/components/organisms/CmCommonTable/types';
+import FilterServiceGroupListControl from '@/components/organisms/CmCommonTable/filterControls/FilterServiceGroupListControl';
+import { ICommonTableColumn, IFilterConfig, IPlainObject } from '@/components/organisms/CmCommonTable/types';
 
-import { useStore } from '@/utils';
+import TestHistoryApi from '@/apis/TestHistoryApi';
+import { TestCaseDto } from '@/types/dtos/testCaseDtos';
 
+import { testHistoryDetailDefault } from './const';
 import ViewDetailModal from './modal/PRO10102120M';
+import { ITestHistoryDetail } from './styles';
 
-function TestHistoryDataTable() {
-  const { AlertStore } = useStore();
-  const [isViewDetailModalVisible, setIsViewDetailModalVisible] = useState(false);
+const TestHistoryDataTable = observer(({ selectedValue }: { selectedValue: string }) => {
+  const [isViewHistoryModalVisible, setViewHistoryModalVisible] = useState(false);
+  const [dataClickRow, setDataClickRow] = useState<ITestHistoryDetail>(testHistoryDetailDefault);
 
-  // View Detail Modal Open
-  const handleViewDetailModalOpen = () => {
-    setIsViewDetailModalVisible(true);
-  };
-
-  // View Detail Modal Close
-  const handleViewDetailModalClose = () => {
-    setIsViewDetailModalVisible(false);
-  };
-
-  // -----------------------------------
-  // Sample Data
-
-  const sampleRows = [
+  const columnsConfig: ICommonTableColumn<IPlainObject>[] = [
     {
-      physical_name: 'SHSO',
-      testcase_name: 'TstPerformace',
-      status: 'FAIL',
-      service_group_name: 'SHSG',
-      application_name: 'Luke Test',
-      creator: 'admin',
-      create_time: '2023-05-29 19:33:08',
+      field: 'physical_name',
+      label: 'Resource Name',
+      type: 'text',
+      sortable: true,
     },
     {
-      physical_name: 'SHSO',
-      testcase_name: 'TstPerformace',
-      status: 'FAIL',
-      service_group_name: 'SHSG',
-      application_name: 'Luke Test',
-      creator: 'admin',
-      create_time: '2023-05-29 19:32:58',
+      field: 'testcase_name',
+      label: 'TestCase Name',
+      type: 'text',
+      sortable: true,
+    },
+    {
+      field: 'status',
+      label: 'Result',
+      type: 'text',
+      sortable: true,
+    },
+    {
+      field: 'service_group_name',
+      label: 'ServiceGroup Name',
+      type: 'text',
+      sortable: true,
+    },
+    {
+      field: 'application_name',
+      label: 'Application Name',
+      type: 'text',
+      sortable: true,
+    },
+    {
+      field: 'creator',
+      label: 'Creator',
+      type: 'text',
+      sortable: true,
+    },
+    {
+      field: 'create_time',
+      label: 'Create Time',
+      type: 'text',
+      sortable: true,
     },
   ];
 
-  // -----------------------------------
-  // Config table
-
-  const columnsConfig = useMemo<ICommonTableColumn<IPlainObject>[]>(() => {
-    return [
-      {
-        field: 'physical_name',
-        label: 'Resource Name',
-        type: 'text',
-        sortable: true,
-      },
-      {
-        field: 'testcase_name',
-        label: 'TestCase Name',
-        type: 'text',
-        sortable: true,
-      },
-      {
-        field: 'status',
-        label: 'Result',
-        type: 'text',
-        sortable: true,
-      },
-      {
-        field: 'service_group_name',
-        label: 'ServiceGroup Name',
-        type: 'text',
-        sortable: true,
-      },
-      {
-        field: 'application_name',
-        label: 'Application Name',
-        type: 'text',
-        sortable: true,
-      },
-      {
-        field: 'creator',
-        label: 'Creator',
-        type: 'text',
-        sortable: true,
-      },
-      {
-        field: 'create_time',
-        label: 'Test Time',
-        type: 'text',
-        sortable: true,
-      },
-      {
-        field: '',
-        label: 'Action',
-        type: 'text',
-        sortable: true,
-      },
-    ];
-  }, []);
-
-  const filterConfig = useMemo<IFilterConfig>(() => {
+  const filterConfig = useMemo(() => {
     return {
-      submitBy: 'enter',
-      submitLabel: 'Search',
-      filters: [
+      primaryActions: [
         {
           type: 'dropdown',
-          name: 'filterFieldName',
+          component: (props: any) => (
+            <FilterServiceGroupListControl
+              {...props}
+              resourceId={selectedValue}
+            />
+          ),
+          name: 'sg_resource_id',
+          isTriggerFetchData: true,
+        },
+      ],
+      advanceActions: [
+        {
+          type: 'filter',
+          name: 'prominer-resource-filter',
+          defaultValue: 'Filter',
           options: [
+            {
+              label: 'Filter',
+              value: 'Filter',
+            },
             {
               label: 'Resource Name',
               value: 'physical_name',
@@ -138,78 +108,46 @@ function TestHistoryDataTable() {
               label: 'Application Name',
               value: 'application_name',
             },
-            {
-              label: 'Creator',
-              value: 'creator',
-            },
-            {
-              label: 'Test Time',
-              value: 'create_time',
-            },
           ],
-        },
-        {
-          type: 'simple',
-          name: 'search',
-          // className: '',
-          // label: 'Keyword',
-          // icon: <SearchIcon />,
         },
       ],
     };
-  }, []);
+  }, [selectedValue]);
 
-  const bottomActionsConfig = useMemo<IBottomAction<IPlainObject>[]>((): IBottomAction<IPlainObject>[] => {
-    return [];
-  }, []);
+  const handleClickRow = (event: React.MouseEvent<unknown>, row: any) => {
+    setViewHistoryModalVisible(true);
+    setDataClickRow(row);
+  };
 
-  // ------------------------------------------------------------------------------------
-  // Handle Data
+  const handleClose = () => {
+    setViewHistoryModalVisible(false);
+  };
 
-  useEffect(() => {
-    //fetch();
-  }, []);
+  const tableRef = useRef<any>();
 
   return (
-    <Paper style={{ padding: '20px' }}>
-      <CommonTable
-        tableName="test-history-table"
-        // renderLayoutAs={TableLayoutCustom}
-        fieldAsRowId="email"
-        columnsConfig={columnsConfig}
-        rows={sampleRows}
-        onSelectedRows={(selectedRows) => {
-          //
-        }}
-        //topActionConfig={topActionConfig}
-        filterConfig={filterConfig}
-        onFilterTriggerQuery={(filterData) => {
-          console.log(filterData);
-        }}
-        sortDefault={{
-          field: 'physical_name',
-          direction: 'asc',
-        }}
-        onSortChange={() => console.log('')}
-        paginationConfig={{
-          rowsPerPageOptions: [10, 25, 50, 100],
-          currentPage: 0,
-          rowsPerPage: 10,
-          totalCount: 0,
-          rowsPerPagePosition: 'last',
-          onPageChange: (newPageIndex: number) => console.log(newPageIndex),
-          onRowsPerPageChange: (newRowsPerPage: number) => console.log(newRowsPerPage),
-        }}
-        // renderPaginationAs={TablePaginationCustom}
-        bottomActionsConfig={bottomActionsConfig}
-      />
-
-      {/* View Detail - Modal */}
+    <Box>
+      <Paper style={{ padding: '20px', marginTop: '30px' }}>
+        <CommonTable<TestCaseDto>
+          query={TestHistoryApi.getListHistory}
+          tableName="prominer-resource-table"
+          onRowClick={handleClickRow}
+          fieldAsRowId="create_time"
+          columnsConfig={columnsConfig}
+          filterConfig={filterConfig as unknown as IFilterConfig}
+          sortDefault={{
+            field: 'create_time',
+            direction: 'desc',
+          }}
+          ref={tableRef}
+        />
+      </Paper>
       <ViewDetailModal
-        visible={isViewDetailModalVisible}
-        handleClose={handleViewDetailModalClose}
+        dataRow={dataClickRow}
+        handleSave={handleClose}
+        visible={isViewHistoryModalVisible}
       />
-    </Paper>
+    </Box>
   );
-}
-export default observer(TestHistoryDataTable);
+});
+export default TestHistoryDataTable;

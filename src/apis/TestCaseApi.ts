@@ -28,6 +28,24 @@ const TestCaseApi = {
       return error instanceof AxiosError ? error.response : error;
     }
   },
+  getHistoryTest: async (filterDto: TestCaseFilterDto): Promise<TestCaseListResponseDto | any> => {
+    try {
+      const { data } = await axios.get<TestCaseListResponseDto>(
+        'http://101.101.209.11:14000/proobject/proobject-manager/TestCaseList',
+        {
+          params: {
+            [JSON.stringify({
+              dto: filterDto,
+            })]: '',
+            _: new Date().getTime(),
+          },
+        }
+      );
+      return data;
+    } catch (error: unknown) {
+      return error instanceof AxiosError ? error.response : error;
+    }
+  },
   getTestCaseResourceInfo: async (testCaseRequestDto: TestCaseRequestDto): Promise<TestCaseDetailResponseDto | any> => {
     try {
       const { data } = await axios.get<TestCaseListResponseDto>(

@@ -19,6 +19,7 @@ import makeStyles from '@mui/styles/makeStyles';
 import * as CmStyle from '@/stylesheets/common';
 // icon
 import { ReactComponent as SearchIcon } from '@/stylesheets/images/SearchIcon.svg';
+import { DropdownType } from '@/types/common';
 
 const ITEM_HEIGHT = 28;
 const ITEM_PADDING_TOP = 8;
@@ -41,19 +42,9 @@ function getStyles(name: string, personName: string, theme: any) {
 }
 
 const DEFAULT_DATA = [
-  { value: 'Test01', label: 'Test 01' },
-  { value: 'Test02', label: 'Test 02' },
-  { value: 'Test03', label: 'Test 03' },
-  { value: 'Test04', label: 'Test 04' },
-  { value: 'Test05', label: 'Test 05' },
-  { value: 'Test06', label: 'Test 06' },
-  { value: 'Test07', label: 'Test 07' },
+  { value: 'Test01', label: 'Recent' },
+  { value: 'Test02', label: 'Alphanumeric' },
 ];
-
-type DropdownType = {
-  value: string | number;
-  label: string;
-};
 
 type CmDataSelectProps = {
   optionsData?: DropdownType[];
@@ -145,17 +136,10 @@ function CmDataSelect({
         displayEmpty
         input={<OutlinedInput />}
         IconComponent={ArrowDownIcon}
-        value={value ? value : isMultipleSelect ? [] : ''}
+        value={value ? value : isMultipleSelect ? [] : 'Test01'}
         onChange={onChange}
         multiple={isMultipleSelect}
         disabled={disabled}
-        // renderValue={(selected) => {
-        //   if (selected.length === 0) {
-        //     return <em>Select For Menu</em>;
-        //   }
-
-        //   return selected;
-        // }}
         MenuProps={MenuProps}
         inputProps={{ 'aria-label': 'Without label' }}
       >

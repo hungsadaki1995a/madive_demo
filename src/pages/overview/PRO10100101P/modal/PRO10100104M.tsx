@@ -7,8 +7,8 @@ import { Box, Table, TableBody, TableCell, TableHead, TableRow, TextField } from
 import { CmButton, CmIconButton } from '@/components/atoms/CmButton';
 import CmModal from '@/components/atoms/CmModal';
 
-import AppAndSGAPI from '@/apis/ServiceGroupApi';
 // img, icon
+import AppAndSGAPI from '@/apis/ServiceGroupApi';
 import { ReactComponent as ModalAdd } from '@/stylesheets/images/cmModalAdd.svg';
 import { ReactComponent as ModalDelIcon } from '@/stylesheets/images/cmModalDelIcon.svg';
 import { ApplicationDto } from '@/types/dtos/applicationDtos';
@@ -31,6 +31,15 @@ type FormData = {
   physical_name: string;
   logical_name: string;
 };
+// AppAndSGAPI.addSgData([
+//   {
+//     creator: '',
+//     group_id: '000000170802000027b8b200dcf79930',
+//     group_name: 'Test',
+//     logical_name: '5555',
+//     physical_name: '5555',
+//   },
+// ]);
 
 export default function ServiceGroup({ clickedItem, visible, handleSave, handleClose }: ServiceGroup) {
   const {
@@ -41,14 +50,16 @@ export default function ServiceGroup({ clickedItem, visible, handleSave, handleC
   } = useForm<FormData>();
   const [dataSg, setDataSg] = useState<SgListResponse[]>([]);
   const [dataNew, setDataNew] = useState<SgListResponse[]>([]);
+  const [dataEdit, setDataEdit] = useState<SgListResponse[]>([]);
+  const [dataDelete, setDataDelete] = useState<string[]>([]);
   const onSubmit = (data: FormData) => {
-    setDataNew((prew) => [
-      ...prew,
+    setDataNew((prevDataNew) => [
+      ...prevDataNew,
       {
         physical_name: data.physical_name,
         logical_name: data.logical_name,
         group_id: clickedItem?.resource_id,
-        group_name: clickedItem?.logical_name,
+        group_name: clickedItem?.physical_name,
         creator: clickedItem?.creator,
       },
     ]);
@@ -66,13 +77,20 @@ export default function ServiceGroup({ clickedItem, visible, handleSave, handleC
     // setDataNew((prevDataNew) => [...prevDataNew, ...dataSg]);
     fetchData();
   }, [clickedItem]);
-  const handleSaveService = () => {
-    handleClose();
-    reset();
+
+  const handleSaveService = async () => {
+    try {
+      await Promise.all([AppAndSGAPI.editSgData(dataEdit), AppAndSGAPI.addSgData(dataNew)]);
+      handleSave?.();
+      handleClose();
+      reset();
+    } catch (error) {
+      console.error('Save service group failed:', error);
+    }
   };
 
-  const handleDeleteRow = (itemId: any) => {
-    setDataNew((prevDataNew) => prevDataNew.filter((item) => item.physical_name !== itemId));
+  const handleDeleteRow = (itemId: string) => {
+    setDataDelete((prevDataDelete) => [...prevDataDelete, itemId]);
   };
   const footerRender = () => (
     <Box className="alignL">
@@ -162,12 +180,33 @@ export default function ServiceGroup({ clickedItem, visible, handleSave, handleC
                   fullWidth
                   size="small"
                   defaultValue={item.logical_name}
-                  onChange={(event) => event.target.value}
+                  onChange={(event) => {
+                    const newValue = event.target.value;
+                    setDataNew((prevDataNew) => {
+                      const newData = prevDataNew.map((itemData) => {
+                        if (itemData.resource_id === item.resource_id) {
+                          return {
+                            ...itemData,
+                            logical_name: newValue,
+                          };
+                        }
+                        return itemData;
+                      });
+                      return newData;
+                    });
+                    setDataEdit((prevDataEdit) => [
+                      ...prevDataEdit,
+                      {
+                        ...item,
+                        logical_name: newValue,
+                      },
+                    ]);
+                  }}
                 />
               </TableCell>
               <TableCell align="center">
                 <CmIconButton
-                  onClick={() => handleDeleteRow(item.physical_name)}
+                  onClick={() => item?.resource_id && handleDeleteRow(item.resource_id)}
                   iconName={<ModalDelIcon />}
                 />
               </TableCell>

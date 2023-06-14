@@ -85,7 +85,7 @@ const UserManagementDataTable = observer(() => {
     },
     {
       field: 'user_name',
-      label: 'User Name',
+      label: 'Name',
       type: 'text',
       sortable: true,
     },
@@ -155,12 +155,16 @@ const UserManagementDataTable = observer(() => {
               value: 'user_id',
             },
             {
-              label: 'User Name',
+              label: 'Name',
               value: 'user_name',
             },
             {
               label: 'Email',
               value: 'email',
+            },
+            {
+              label: 'Tel Number',
+              value: 'tel_no',
             },
           ],
         },

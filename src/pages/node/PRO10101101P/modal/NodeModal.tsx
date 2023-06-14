@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 
 import { classValidatorResolver } from '@hookform/resolvers/class-validator';
@@ -9,6 +10,7 @@ import { CmDataSelect } from '@/components/atoms/CmDataInput';
 import CmModal from '@/components/atoms/CmModal';
 import { CmRadioGroup, RadioItemProps } from '@/components/atoms/CmRadioGroup';
 
+import { NodeDto } from '@/types/dtos/nodeDtos';
 import NodeModel from '@/types/models/nodeModel';
 
 const optionSSL: RadioItemProps<string | number | boolean>[] = [
@@ -41,50 +43,43 @@ const nodeTypeList = [
   },
 ];
 
-const defaultNode: NodeModel = {
-  node_type: '',
+const defaultValues: NodeModel = {
+  node_type: 'TEST',
   node_name: '',
   node_ip: '',
   node_file_port: '',
   node_tcp_port: '',
-  // node_path: '',
-  // node_admin: '',
   node_http_port: '',
-  // node_ip: '',
-  node_is_ssl: '',
-  // node_path: '',
-  // node_tcp_port: '',
-  // node_type: '',
+  node_is_ssl: 'FALSE',
   description: '',
 };
 
 const resolver = classValidatorResolver(NodeModel);
 
-type CreateNodeModalProps = {
+type NodeModalProps = {
   visible: boolean;
-  handleSave: () => void;
+  handleSave: (data: NodeDto) => Promise<void>;
   handleClose: () => void;
+  data: NodeDto | null;
 };
 
-export default function CreateNodeModal({ visible, handleSave, handleClose }: CreateNodeModalProps) {
+export default function NodeModal({ visible, handleSave, handleClose, data }: NodeModalProps) {
   const {
     register,
     handleSubmit,
     control,
     formState: { errors },
     reset,
-  } = useForm<NodeModel>({ resolver, defaultValues: defaultNode });
+  } = useForm<NodeModel>({ resolver, defaultValues });
 
-  const handleSubmitForm = async (data: NodeModel) => {
-    // data.node_admin = 'admin';
-    // const res: any = await NodeApi.addNode(data);
-    // if (res?.dto?.value !== 'SUCCESS') {
-    //   notify.error(res?.dto?.value);
-    // } else {
-    //   notify.success(res?.dto?.value);
-    // }
-    // reset();
-    // handleSave();
+  const handleSubmitForm = async (formData: NodeModel) => {
+    await handleSave(formData as NodeDto);
+
+    handleClose();
+  };
+
+  const onClose = () => {
+    handleClose();
   };
 
   const footerRender = () => (
@@ -96,10 +91,7 @@ export default function CreateNodeModal({ visible, handleSave, handleClose }: Cr
         startIcon={<></>}
         className=""
         color="info"
-        onClick={() => {
-          reset();
-          handleClose();
-        }}
+        onClick={onClose}
       />
       <CmButton
         id="rightBtn2"
@@ -113,9 +105,15 @@ export default function CreateNodeModal({ visible, handleSave, handleClose }: Cr
     </Box>
   );
 
+  useEffect(() => {
+    if (data) {
+      reset({ ...data });
+    }
+  }, [data]);
+
   return (
     <CmModal
-      title="Create Node"
+      title={data ? 'Update Node' : 'Create Node'}
       visible={visible}
       onClose={handleClose}
       className="medium"
@@ -130,8 +128,6 @@ export default function CreateNodeModal({ visible, handleSave, handleClose }: Cr
           className="labelTextField"
           size="small"
           {...register('node_name')}
-          error={!!errors.node_name}
-          helperText={errors.node_name?.message}
         />
       </label>
       <label className="labelFormArea">
@@ -140,8 +136,6 @@ export default function CreateNodeModal({ visible, handleSave, handleClose }: Cr
           className="labelTextField"
           size="small"
           {...register('node_ip')}
-          error={!!errors.node_ip}
-          helperText={errors.node_ip?.message}
         />
       </label>
       <label className="labelFormArea">
@@ -179,13 +173,12 @@ export default function CreateNodeModal({ visible, handleSave, handleClose }: Cr
         <Controller
           name="node_is_ssl"
           control={control}
+          // defaultValue={'FALSE'}
           render={({ field: { onChange, value } }) => (
             <CmRadioGroup
               data={optionSSL}
               value={value}
               onRadioChange={onChange}
-              // error={!!errors.node_is_ssl}
-              // helperText={errors.node_is_ssl?.message?.toString()}
             />
           )}
         />
@@ -195,13 +188,13 @@ export default function CreateNodeModal({ visible, handleSave, handleClose }: Cr
         <Controller
           name="node_type"
           control={control}
+          defaultValue="TEST"
           render={({ field: { onChange, value } }) => (
             <CmDataSelect
               className=""
               optionsData={nodeTypeList}
               onChange={onChange}
               value={value}
-              // value={nodeType}
             />
           )}
         />

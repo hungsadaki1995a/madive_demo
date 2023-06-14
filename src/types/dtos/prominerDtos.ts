@@ -10,6 +10,20 @@ export type ProminerResourceDto = {
   loc: number;
   declaring_class: string;
   count: number;
+  declaring_method: string;
+  variable_name: string;
+  variable_type: string;
+  declared_type: string;
+  field_type: string;
+  field_name: string;
+  sg_resource_id: string;
+  app_resource_id: string;
+  return_type: string;
+  method_name: string;
+  service_group_name: string;
+  searchType: string;
+  originClz: string;
+  originMeth: string;
 };
 
 export type ProminerMethodDto = {

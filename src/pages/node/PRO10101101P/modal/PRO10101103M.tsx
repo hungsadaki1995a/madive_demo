@@ -1,55 +1,95 @@
+import { useEffect } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 
 import { classValidatorResolver } from '@hookform/resolvers/class-validator';
 import { Box, TextField } from '@mui/material';
-import { IsNotEmpty } from 'class-validator';
 
 import { CmButton } from '@/components/atoms/CmButton';
-// Common Atoms
 import { CmDataSelect } from '@/components/atoms/CmDataInput';
+// Common Atoms
 import CmModal from '@/components/atoms/CmModal';
 import { CmRadioGroup, RadioItemProps } from '@/components/atoms/CmRadioGroup';
 
-const data1: RadioItemProps<string | number | boolean>[] = [
+import { NodeDto } from '@/types/dtos/nodeDtos';
+import NodeModel from '@/types/models/nodeModel';
+
+const optionSSL: RadioItemProps<string | number | boolean>[] = [
   {
-    value: 'true',
-    label: 'true',
+    value: 'TRUE',
+    label: 'yes',
   },
   {
-    value: 'false',
-    label: 'false',
+    value: 'FALSE',
+    label: 'no',
   },
 ];
 
-class RadioDTO {
-  @IsNotEmpty({ message: 'This field cannot blank' })
-  SSL: string;
-  Primary: string;
-  Masking: string;
-  Encrypt: string;
-  Use: string;
-  input_outside: string;
-}
-type EditNodeModalProps = {
-  visible: boolean;
-  handleSave?: () => void;
-  handleClose: () => void;
-};
-const resolver = classValidatorResolver(RadioDTO);
-type propsType = {
-  title: string;
+const nodeTypeList = [
+  {
+    label: 'ALL',
+    value: 'ALL',
+  },
+  {
+    label: 'TEST',
+    value: 'TEST',
+  },
+  {
+    label: 'RUNTIME',
+    value: 'RUNTIME',
+  },
+  {
+    label: 'MASTER',
+    value: 'MASTER',
+  },
+];
+
+const defaultValues: NodeModel = {
+  node_type: '',
+  node_name: '',
+  node_ip: '',
+  node_file_port: '',
+  node_tcp_port: '',
+  // node_path: '',
+  // node_admin: '',
+  node_http_port: '',
+  node_is_ssl: '',
+  description: '',
 };
 
-export default function EditNodeModal({ visible, handleSave, handleClose }: EditNodeModalProps) {
+const resolver = classValidatorResolver(NodeModel);
+
+type NodeModalProps = {
+  visible: boolean;
+  handleSave: (data: NodeDto) => Promise<void>;
+  handleClose: () => void;
+  data: NodeDto | null;
+};
+
+export default function EditNodeModal({ visible, handleSave, handleClose, data }: NodeModalProps) {
   const {
+    register,
+    handleSubmit,
     control,
     formState: { errors },
-  } = useForm({
-    values: {
-      SSL: '',
-    },
-    resolver,
-  });
+    reset,
+  } = useForm<NodeModel>({ resolver, defaultValues });
+
+  const handleSubmitForm = async (formData: NodeModel) => {
+    // formData.node_admin = 'admin';
+    // const res: any = await NodeApi.addNode(formData);
+
+    reset();
+    handleClose();
+  };
+  const onClose = () => {
+    reset(defaultValues);
+    handleClose();
+  };
+
+  useEffect(() => {
+    reset({ ...data });
+    return () => reset({ ...defaultValues });
+  }, [handleSave]);
 
   const footerRender = () => (
     <Box className="alignL">
@@ -60,103 +100,119 @@ export default function EditNodeModal({ visible, handleSave, handleClose }: Edit
         startIcon={<></>}
         className=""
         color="info"
-        onClick={handleClose}
+        onClick={onClose}
       />
       <CmButton
         id="rightBtn2"
         variant="contained"
-        btnTitle="Save"
+        btnTitle="OK"
         startIcon={<></>}
         className=""
         color="info"
-        onClick={handleSave}
+        onClick={handleSubmit(handleSubmitForm)}
       />
     </Box>
   );
 
   return (
     <CmModal
-      title="Edit Node"
+      title={data ? 'Update Node' : 'CreateNode'}
       visible={visible}
-      onSave={handleSave}
       onClose={handleClose}
       className="medium"
       footerRenderAs={footerRender}
+      onSave={handleSubmit(handleSubmitForm)}
     >
       {/* contents */}
+
       <label className="labelFormArea">
         <span>Node Name</span>
         <TextField
           className="labelTextField"
-          defaultValue="1"
-          type="password"
           size="small"
+          {...register('node_name')}
+          error={!!errors.node_name}
+          helperText={errors.node_name?.message}
         />
       </label>
       <label className="labelFormArea">
         <span>IP</span>
         <TextField
           className="labelTextField"
-          defaultValue="1"
-          type="password"
           size="small"
+          {...register('node_ip')}
+          error={!!errors.node_ip}
+          helperText={errors.node_ip?.message}
         />
       </label>
       <label className="labelFormArea">
         <span>File Port</span>
         <TextField
           className="labelTextField"
-          defaultValue="1"
-          type="password"
           size="small"
+          {...register('node_file_port')}
+          error={!!errors.node_file_port}
+          helperText={errors.node_file_port?.message}
         />
       </label>
       <label className="labelFormArea">
         <span>Http Port</span>
         <TextField
           className="labelTextField"
-          defaultValue="1"
-          type="password"
           size="small"
+          {...register('node_http_port')}
+          error={!!errors.node_http_port}
+          helperText={errors.node_http_port?.message}
         />
       </label>
       <label className="labelFormArea">
         <span>ProObject Port</span>
         <TextField
           className="labelTextField"
-          defaultValue="1"
-          type="password"
           size="small"
+          {...register('node_tcp_port')}
+          error={!!errors.node_tcp_port}
+          helperText={errors.node_tcp_port?.message}
         />
       </label>
       <label className="labelFormArea">
         <span>SSL</span>
         <Controller
-          name={'SSL'}
+          name="node_is_ssl"
           control={control}
           render={({ field: { onChange, value } }) => (
             <CmRadioGroup
-              data={data1}
+              data={optionSSL}
               value={value}
               onRadioChange={onChange}
-              error={!!errors.SSL}
-              helperText={errors.SSL?.message?.toString()}
+              // error={!!errors.node_is_ssl}
+              // helperText={errors.node_is_ssl?.message?.toString()}
             />
           )}
         />
       </label>
       <label className="labelFormArea">
-        <span>Node Type</span>
-        <CmDataSelect className="" />
+        <span>Node type</span>
+        <Controller
+          name="node_type"
+          control={control}
+          render={({ field: { onChange, value } }) => (
+            <CmDataSelect
+              className=""
+              optionsData={nodeTypeList}
+              onChange={onChange}
+              value={value}
+              // value={nodeType}
+            />
+          )}
+        />
       </label>
-
       <label className="labelFormArea">
         <span>Description</span>
         <TextField
           className="labelTextField"
-          multiline
-          rows={4}
-          defaultValue="Default Value"
+          size="medium"
+          {...register('description')}
         />
       </label>
     </CmModal>

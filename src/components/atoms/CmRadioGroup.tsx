@@ -61,7 +61,12 @@ function CmRadioGroup<TValue extends string | number | boolean>({
               <FormControlLabel
                 key={item.value.toString() + idx}
                 value={item.value}
-                control={<Radio size="small" />}
+                control={
+                  <Radio
+                    size="small"
+                    checked={item.value === value}
+                  />
+                }
                 label={item.label}
                 disabled={disabledAll || !!item.disabled}
               />

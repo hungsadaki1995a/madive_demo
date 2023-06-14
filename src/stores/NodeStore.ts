@@ -1,15 +1,18 @@
 import { makeAutoObservable } from 'mobx';
 
+import { NodeDto } from '@/types/dtos/nodeDtos';
 import { NodeType } from '@/types/typeBundle';
 
 export class NodeStore {
-  nodes: NodeType[] = [];
-  masterNodes: NodeType[] = [];
+  nodes: NodeDto[] = [];
+  masterNodes: NodeDto[] = [];
   selectedNodes: string[] = [];
   order: 'asc' | 'desc' = 'asc';
   orderProperty: keyof NodeType = 'nodeName';
   searchType = 'Node Name';
   searchNodeType = 'ALL';
+
+  isFetching = false;
 
   constructor() {
     makeAutoObservable(this);
@@ -25,9 +28,9 @@ export class NodeStore {
     this.searchNodeType = 'ALL';
   };
 
-  setNodes = (nodes: NodeType[]) => {
+  setNodes = (nodes: NodeDto[]) => {
     this.nodes = [...nodes];
-    this.masterNodes = nodes.filter((node) => node.nodeType === 'MASTER');
+    this.masterNodes = nodes.filter((node) => node.node_type === 'MASTER');
   };
 
   setSelectedNodes = (selectedData: string[]) => {
@@ -48,5 +51,9 @@ export class NodeStore {
 
   setSearchNodeType = (type: string) => {
     this.searchNodeType = type;
+  };
+
+  setIsFetching = (val: boolean) => {
+    this.isFetching = val;
   };
 }

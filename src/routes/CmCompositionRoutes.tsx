@@ -7,9 +7,11 @@ import { rootRoutes } from './routes';
 
 const CmCompositionRoutes = () => {
   const { MenuStore } = useStore();
+
   useEffect(() => {
     MenuStore.setSelectedRootMenu(rootRoutes.cmComponent.title);
   }, []);
+
   return <Outlet />;
 };
 

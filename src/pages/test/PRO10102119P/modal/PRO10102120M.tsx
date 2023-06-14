@@ -1,31 +1,42 @@
+import { useEffect, useState } from 'react';
+
+import { TextareaAutosize } from '@material-ui/core';
 import { Box, Grid, TextField } from '@mui/material';
 
 import { CmButton } from '@/components/atoms/CmButton';
 import CmModal from '@/components/atoms/CmModal';
 
-// import { FormElementType } from '@/constants/form';
+import { TestCaseApi } from '@/apis';
 
-// import { testCaseDetailModalFields } from '../const';
-// import { ITestCaseDetail } from '../types';
+import { FormElementType } from '@/constants/form';
+
+import { testHistoryDetailDefault, testHistoryDetailModalFields } from '../const';
+import { ITestHistoryDetail } from '../styles';
 
 type ViewDetailModalProps = {
+  dataRow: ITestHistoryDetail;
   visible: boolean;
-  handleSave?: () => void;
-  handleClose: () => void;
+  handleSave: () => void;
 };
 
-export default function ViewDetailModal({ visible, handleSave, handleClose }: ViewDetailModalProps) {
+export default function ViewDetailModal({ dataRow, visible, handleSave }: ViewDetailModalProps) {
+  const [dataTestCaseRscInfo, setDataTestCaseRscInfo] = useState<ITestHistoryDetail>(testHistoryDetailDefault);
+
+  const getApiTestCaseRscInfo = async () => {
+    const dataResponse = await TestCaseApi.getTestCaseResourceInfo({
+      resource_id: dataRow.resource_id,
+      node_id: dataRow.node_id,
+    });
+    const obj = Object.assign({}, dataResponse.dto, dataRow);
+    setDataTestCaseRscInfo(obj);
+  };
+  useEffect(() => {
+    if (visible) {
+      getApiTestCaseRscInfo();
+    }
+  }, [visible]);
   const footerRender = () => (
     <Box className="alignL">
-      <CmButton
-        id="rightBtn1"
-        variant="text"
-        btnTitle="Cancel"
-        startIcon={<></>}
-        className=""
-        color="info"
-        onClick={handleClose}
-      />
       <CmButton
         id="rightBtn2"
         variant="contained"
@@ -40,10 +51,9 @@ export default function ViewDetailModal({ visible, handleSave, handleClose }: Vi
 
   return (
     <CmModal
-      title="View Detail"
+      title="Detail Test History"
       visible={visible}
-      onSave={handleSave}
-      onClose={handleClose}
+      onClose={handleSave}
       className="large"
       footerRenderAs={footerRender}
     >
@@ -52,44 +62,49 @@ export default function ViewDetailModal({ visible, handleSave, handleClose }: Vi
         container
         columnSpacing={4}
       >
-        {/* {testCaseDetailModalFields.map(({ fieldName, label, type }) => { */}
-        return (
-        <>
-          {/* {type === FormElementType.INPUT && ( */}
-          <Grid
-            item
-            // key={fieldName}
-            xs={6}
-          >
-            <label className="labelFormArea">
-              <span>{/*{label} */}</span>
-              <TextField
-                className="labelTextField"
-                // value={testCaseDetail[fieldName as keyof ITestCaseDetail]}
-                size="small"
-                disabled
-              />
-            </label>
-          </Grid>
-          {/* )} */}
-          {/* {type === FormElementType.TEXTAREA && ( */}
-          <Grid
-            className="detailEditor"
-            item
-            // key={fieldName}
-            xs={4}
-          >
-            {/* {label} */}
-            <TextField
-              // value={testCaseDetail[fieldName as keyof ITestCaseDetail]}
-              multiline
-              disabled
-            />
-          </Grid>
-          {/* )} */}
-        </>
-        );
-        {/* })} */}
+        {testHistoryDetailModalFields.map(({ fieldName, label, type }) => {
+          return (
+            <>
+              {type === FormElementType.INPUT && (
+                <Grid
+                  item
+                  key={fieldName}
+                  xs={6}
+                >
+                  <label className="labelFormArea">
+                    <span>{label}</span>
+                    <TextField
+                      className="labelTextField"
+                      value={dataTestCaseRscInfo[fieldName as keyof ITestHistoryDetail]}
+                      size="small"
+                      disabled
+                    />
+                  </label>
+                </Grid>
+              )}
+              {type === FormElementType.TEXTAREA && (
+                <Grid
+                  item
+                  key={fieldName}
+                  xs={12}
+                >
+                  <label className="labelFormArea">
+                    <span>{label}</span>
+                  </label>
+                  <TextareaAutosize
+                    className="labelTextField"
+                    value={dataTestCaseRscInfo[fieldName as keyof ITestHistoryDetail]}
+                    disabled
+                    minRows={5}
+                    style={{
+                      width: '100%',
+                    }}
+                  />
+                </Grid>
+              )}
+            </>
+          );
+        })}
       </Grid>
     </CmModal>
   );
