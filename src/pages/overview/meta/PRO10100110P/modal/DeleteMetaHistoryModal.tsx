@@ -5,7 +5,7 @@ import CmModal from '@/components/atoms/CmModal';
 
 type DeleteMetaHistoryModalPrpos = {
   visible: boolean;
-  handleSave?: () => void;
+  handleSave: () => void;
   handleClose: () => void;
 };
 

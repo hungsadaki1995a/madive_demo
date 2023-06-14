@@ -1,178 +1,156 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo, useRef, useState } from 'react';
 
-import { Paper } from '@mui/material';
+import { Box, Paper } from '@mui/material';
 import { observer } from 'mobx-react';
 
 import CommonTable from '@/components/organisms/CmCommonTable';
-import {
-  IBottomAction,
-  ICommonTableColumn,
-  IPlainObject,
-  ITopAction,
-} from '@/components/organisms/CmCommonTable/types';
+import { ICommonTableColumn, IFilterConfig, IPlainObject } from '@/components/organisms/CmCommonTable/types';
 
+import { MetaHistoryApi } from '@/apis';
 import { ReactComponent as DeleteIcon } from '@/stylesheets/images/DeleteIcon.svg';
-import TopButtonModel from '@/types/models/topButtonModel';
-import { useStore } from '@/utils';
+import { MetaHistoryDto } from '@/types/dtos/metaHistoryDtos';
+import { notify } from '@/utils/notify';
 
 import DeleteMetaHistoryModal from './modal/DeleteMetaHistoryModal';
 
-const sampleRowsData = [
+const columnsConfig: ICommonTableColumn<IPlainObject>[] = [
   {
-    id: 1,
-    history_type: 'CREATE',
-    physical_name: 'trx_dt',
-    logical_name: 'Transaction Date',
-    field_type: 'double',
-    length: '20',
-    update_time: '2023-05-04 15:44:28',
-    modifier: 'admin',
+    field: 'history_type',
+    label: 'History Type',
+    type: 'text',
+    sortable: true,
   },
   {
-    id: 2,
-    history_type: 'CREATE',
-    physical_name: 'test1',
-    logical_name: 'test1',
-    field_type: 'char',
-    length: '10',
-    update_time: '2023-05-04 16:05:24',
-    modifier: 'admin',
+    field: 'physical_name',
+    label: 'Physical Name',
+    type: 'text',
+    sortable: true,
+  },
+  {
+    field: 'logical_name',
+    label: 'Logical Name',
+    type: 'text',
+    sortable: true,
+  },
+  {
+    field: 'field_type',
+    label: 'Field Type',
+    type: 'text',
+    sortable: true,
+  },
+  {
+    field: 'length',
+    label: 'Length',
+    type: 'text',
+    sortable: true,
+  },
+  {
+    field: 'update_time',
+    label: 'Update Time',
+    type: 'text',
+    sortable: true,
+  },
+  {
+    field: 'modifier',
+    label: 'Modifier',
+    type: 'text',
+    sortable: true,
   },
 ];
 
 function MetaHistoryDataTable() {
-  const { AlertStore } = useStore();
-  const [isDeleteMetaHistoryModalVisible, setIsDeleteMetaHistoryModalVisible] = useState(false);
-  const [selectedRows, setSelectedRows] = useState<any[]>([]);
-  const [sampleRows, setSampleRows] = useState(sampleRowsData);
+  const [isDeleteMetaHistoryModalVisible, setIsDeleteMetaHistoryModalVisible] = useState<boolean>(false);
+  const [selectList, setSelectList] = useState<MetaHistoryDto[]>([]);
 
-  // Delete Meta History Modal Open
-  const handleDeleteMetaHistoryModalOpen = () => {
-    setIsDeleteMetaHistoryModalVisible(true);
+  const handleDeleteMetaHistory = () => {
+    selectList?.forEach(async (row) => {
+      const res: any = await MetaHistoryApi.deleteList(row);
+      if (res?.dto?.value === 'SUCCESS') {
+        notify.success('Delete success');
+        tableRef.current?.resetPageAndRefresh();
+      } else {
+        notify.error('Delete error!');
+      }
+    });
+    setIsDeleteMetaHistoryModalVisible(false);
+    setSelectList([]);
   };
 
-  // Delete Meta History Modal Close
   const handleDeleteMetaHistoryModalClose = () => {
     setIsDeleteMetaHistoryModalVisible(false);
   };
 
-  // Delete Meta History Excute
-  const handleDeleteMetaHistory = () => {
-    console.log(selectedRows);
-  };
-
-  // -----------------------------------
-  // Config table
-  const columnsConfig = useMemo<ICommonTableColumn<IPlainObject>[]>(() => {
-    return [
-      {
-        field: 'history_type',
-        label: 'History Type',
-        type: 'text',
-        sortable: true,
-      },
-      {
-        field: 'physical_name',
-        label: 'Physical Name',
-        type: 'text',
-        sortable: true,
-      },
-      {
-        field: 'logical_name',
-        label: 'Logical Name',
-        type: 'text',
-        sortable: true,
-      },
-      {
-        field: 'field_type',
-        label: 'Field Type',
-        type: 'text',
-        sortable: true,
-      },
-      {
-        field: 'length',
-        label: 'Length',
-        type: 'text',
-        sortable: true,
-      },
-      {
-        field: 'update_time',
-        label: 'Update Time',
-        type: 'text',
-        sortable: true,
-      },
-      {
-        field: 'modifier',
-        label: 'Modifier',
-        type: 'text',
-        sortable: true,
-      },
-    ];
+  const filterConfig = useMemo(() => {
+    return {
+      primaryActions: [
+        {
+          type: 'button',
+          handleClick: (selectedRows: MetaHistoryDto[]) => {
+            setSelectList(selectedRows);
+            setIsDeleteMetaHistoryModalVisible(true);
+            return;
+          },
+          checkDisabled: (selectedRows: MetaHistoryDto[]) => {
+            return selectedRows?.length < 1;
+          },
+          config: {
+            variant: 'contained',
+            color: 'secondary',
+            size: 'small',
+            startIcon: <DeleteIcon />,
+            label: 'Delete',
+          },
+        },
+      ],
+      advanceActions: [
+        {
+          type: 'filter',
+          name: 'meta-history-filter',
+          defaultValue: 'physical_name',
+          options: [
+            {
+              label: 'Physical name',
+              value: 'physical_name',
+            },
+            {
+              label: 'History Type',
+              value: 'history_type',
+            },
+            {
+              label: 'Modifier',
+              value: 'modifier',
+            },
+          ],
+        },
+      ],
+    };
   }, []);
-
-  const topActionConfig = useMemo<ITopAction<TopButtonModel>[]>((): ITopAction<TopButtonModel>[] => {
-    return [
-      {
-        label: 'Delete',
-        onClick: () => handleDeleteMetaHistoryModalOpen(),
-        icon: <DeleteIcon />,
-      },
-    ];
-  }, []);
-
-  const bottomActionsConfig = useMemo<IBottomAction<IPlainObject>[]>((): IBottomAction<IPlainObject>[] => {
-    return [];
-  }, []);
-
-  const onSelectedRows = (rows: any) => {
-    setSelectedRows([...rows]);
-  };
-
-  // ------------------------------------------------------------------------------------
-  // Handle Data
-
-  useEffect(() => {
-    //fetch();
-  }, []);
+  const tableRef = useRef<any>();
 
   return (
-    <Paper style={{ padding: '20px' }}>
-      <CommonTable
-        tableName="meta-history-table"
-        // renderLayoutAs={TableLayoutCustom}
-        fieldAsRowId="id"
-        columnsConfig={columnsConfig}
-        rows={sampleRows}
-        hasSelectionRows
-        onSelectedRows={onSelectedRows}
-        topActionConfig={topActionConfig}
-        //filterConfig={filterConfig}
-        //onFilterTriggerQuery={filter}
-        sortDefault={{
-          field: 'history_type',
-          direction: 'asc',
-        }}
-        onSortChange={() => console.log('')}
-        paginationConfig={{
-          rowsPerPageOptions: [10, 25, 50, 100],
-          currentPage: 0,
-          rowsPerPage: 10,
-          totalCount: 0,
-          rowsPerPagePosition: 'last',
-          onPageChange: (newPageIndex: number) => console.log(newPageIndex),
-          onRowsPerPageChange: (newRowsPerPage: number) => console.log(newRowsPerPage),
-        }}
-        // renderPaginationAs={TablePaginationCustom}
-        bottomActionsConfig={bottomActionsConfig}
-      />
-
-      {/* Delete Meta History - Modal */}
-      <DeleteMetaHistoryModal
-        visible={isDeleteMetaHistoryModalVisible}
-        handleSave={handleDeleteMetaHistory}
-        handleClose={handleDeleteMetaHistoryModalClose}
-      />
-    </Paper>
+    <Box>
+      <Paper style={{ padding: '20px', marginTop: '30px' }}>
+        <CommonTable<MetaHistoryDto>
+          hasSelectionRows
+          allowMultipleSelect={false}
+          query={MetaHistoryApi.getList}
+          tableName="meta-history-table"
+          fieldAsRowId="history_id"
+          columnsConfig={columnsConfig}
+          filterConfig={filterConfig as unknown as IFilterConfig}
+          sortDefault={{
+            field: 'logical_name',
+            direction: 'desc',
+          }}
+          ref={tableRef}
+        />
+        <DeleteMetaHistoryModal
+          visible={isDeleteMetaHistoryModalVisible}
+          handleSave={handleDeleteMetaHistory}
+          handleClose={handleDeleteMetaHistoryModalClose}
+        />
+      </Paper>
+    </Box>
   );
 }
 export default observer(MetaHistoryDataTable);

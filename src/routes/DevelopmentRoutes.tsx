@@ -7,9 +7,11 @@ import { rootRoutes } from './routes';
 
 const DevelopmentRoutes = () => {
   const { MenuStore } = useStore();
+
   useEffect(() => {
     MenuStore.setSelectedRootMenu(rootRoutes.development.title);
   }, []);
+
   return <Outlet />;
 };
 

@@ -11,3 +11,4 @@ export { RoleStore } from './RoleStore';
 export { RootStore } from './RootStore';
 export { TestCaseStore } from './TestCaseStore';
 export { UserStore } from './UserStore';
+export { MetaHistoryStore } from './MetaHistoryStore';

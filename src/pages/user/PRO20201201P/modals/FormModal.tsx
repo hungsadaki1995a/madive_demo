@@ -92,6 +92,7 @@ const FormModal = ({ visible, handleSave, handleClose, data }: CreateModalProps)
         <CmTextField
           label="User ID*"
           type="outside"
+          placeholder="*"
           {...register('user_id')}
           error={!!errors.user_id}
           helperText={errors.user_id?.message?.toString()}
@@ -100,6 +101,7 @@ const FormModal = ({ visible, handleSave, handleClose, data }: CreateModalProps)
         <CmTextField
           label="Password*"
           type="outside"
+          placeholder="*"
           {...register('user_passwd')}
           error={!!errors.user_passwd}
           helperText={errors.user_passwd?.message?.toString()}
@@ -107,6 +109,7 @@ const FormModal = ({ visible, handleSave, handleClose, data }: CreateModalProps)
         <CmTextField
           label="Name*"
           type="outside"
+          placeholder="*"
           {...register('user_name')}
           error={!!errors.user_name}
           helperText={errors.user_name?.message?.toString()}
@@ -114,6 +117,7 @@ const FormModal = ({ visible, handleSave, handleClose, data }: CreateModalProps)
         <CmTextField
           label="User Div*"
           type="outside"
+          placeholder="*"
           {...register('user_div')}
           error={!!errors.user_div}
           helperText={errors.user_div?.message?.toString()}
@@ -121,6 +125,7 @@ const FormModal = ({ visible, handleSave, handleClose, data }: CreateModalProps)
         <CmTextField
           label="E-mail*"
           type="outside"
+          placeholder="*"
           {...register('email')}
           error={!!errors.email}
           helperText={errors.email?.message?.toString()}
@@ -128,6 +133,7 @@ const FormModal = ({ visible, handleSave, handleClose, data }: CreateModalProps)
         <CmTextField
           label="Telephone No.*"
           type="outside"
+          placeholder="*"
           {...register('tel_no')}
           error={!!errors.tel_no}
           helperText={errors.tel_no?.message?.toString()}

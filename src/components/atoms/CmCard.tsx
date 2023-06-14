@@ -39,7 +39,7 @@ const useStyles = makeStyles(({ palette, typography }) => ({
     padding: '20px',
     marginRight: '20px',
     maxWidth: '305px',
-    minWidth: 'calc(100% / 5 - 16px )',
+    minWidth: 'calc(100% / 5 - 20px )',
     minHeight: '270px',
 
     // cardTitle
@@ -121,7 +121,7 @@ const useStyles = makeStyles(({ palette, typography }) => ({
     display: 'inline-block',
     padding: '20px',
     maxWidth: '305px',
-    minWidth: 'calc(100% / 5 - 15px )',
+    minWidth: 'calc(100% / 5 - 20px )',
     minHeight: '270px',
     '& .MuiButtonBase-root': {
       display: 'flex',

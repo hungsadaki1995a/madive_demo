@@ -15,6 +15,8 @@ export const ServiceGroupEndpoint = {
 export const ProminerEndpoint = {
   getResourceList: '/ProminerResource',
   getMethodList: '/ProminerMethod',
+  getFieldList: '/ProminerField',
+  getVariableList: '/ProminerVariable',
 };
 
 export const ResourceEndPoint = {
@@ -48,7 +50,26 @@ export const GroupManagementEndpoint = {
   group: '/Group',
 };
 
+export const RoleEndpoint = {
+  getRoleList: '/RoleList',
+  getGroupList: '/GroupList',
+  getGroupRole: '/GroupRole',
+  groupRoleAssign: '/GroupRole?action=Assign',
+};
+
+export const MetaHistoryEndPoint = {
+  getList: '/MetaHistoryList',
+  deleteList: '/MetaHistoryList',
+};
+
 export const DbioEndpoint = {
   modelDbioList: '/ModelDbioList',
   modelDbio: '/ModelDbio',
+};
+
+export const NodeEndpoint = {
+  getNodeList: '/NodeList',
+  addNode: '/Node',
+  editNode: '/Node',
+  deleteNode: '/Node',
 };

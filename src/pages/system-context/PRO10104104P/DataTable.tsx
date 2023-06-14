@@ -47,8 +47,6 @@ function SystemContextDatasourceDataTable() {
 
   // Edit Datasource Modal Open
   const handleEditDatasourceModalOpen = (event: React.MouseEvent<unknown>, row: any) => {
-    console.log(event);
-    console.log(row);
     setIsEditDatasourceModalVisible(true);
   };
 

@@ -52,6 +52,7 @@ const AppAndSGAPI = {
       return error instanceof AxiosError ? error.response : error;
     }
   },
+  // Service Group API
   getSglist: async (appId: string | undefined): Promise<SgListResponse | any> => {
     try {
       const { data } = await axios.get<SgListResponse>(
@@ -75,7 +76,7 @@ const AppAndSGAPI = {
 
   deleteSgData: async (sgDto: SgListResponse[]): Promise<any> => {
     try {
-      const { data } = await axios.delete<SgListResponse>(
+      const data = await axios.delete<SgListResponse>(
         'http://101.101.209.11:14000/proobject/proobject-manager/SgList',
         {
           data: {
@@ -90,16 +91,14 @@ const AppAndSGAPI = {
       return error instanceof AxiosError ? error.response : error;
     }
   },
+
   editSgData: async (sgDto: SgListResponse[]): Promise<any> => {
     try {
-      const { data } = await axios.put<SgListResponse>(
-        'http://101.101.209.11:14000/proobject/proobject-manager/SgList',
-        {
-          dto: {
-            ServiceGroupDto: sgDto,
-          },
-        }
-      );
+      const data = await axios.put<SgListResponse>('http://101.101.209.11:14000/proobject/proobject-manager/SgList', {
+        dto: {
+          ServiceGroupDto: sgDto,
+        },
+      });
       return data;
     } catch (error: unknown) {
       return error instanceof AxiosError ? error.response : error;
@@ -110,7 +109,9 @@ const AppAndSGAPI = {
       const { data } = await axios.post<SgListResponse>(
         'http://101.101.209.11:14000/proobject/proobject-manager/SgList',
         {
-          ServiceGroupDto: sgDto,
+          dto: {
+            ServiceGroupDto: sgDto,
+          },
         }
       );
       return data;

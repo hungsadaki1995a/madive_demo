@@ -1,41 +1,43 @@
-import { Paper } from '@mui/material';
+import { Paper, styled } from '@mui/material';
 import { observer } from 'mobx-react';
 
 import CommonTable from '@/components/organisms/CmCommonTable';
+import { ICommonTableColumn, IPlainObject } from '@/components/organisms/CmCommonTable/types';
 
-import { useStore } from '@/utils';
-
-type propsType = {
-  rows?: any;
-  columnsConfig?: any;
+type propsType<TData extends IPlainObject> = {
+  rows?: TData[];
+  columnsConfig: ICommonTableColumn<TData>[];
   fieldAsRowId: string;
   paginationConfig?: any;
   onSelectedRows?: (selectedRows: any) => void;
+  tableLabel?: string;
+  tableName?: string;
 };
-function GroupRoleAssignDataTable(props: propsType) {
-  const { rows, columnsConfig, fieldAsRowId, paginationConfig, onSelectedRows } = props;
-  const { AlertStore } = useStore();
+
+const LabelStyled = styled('label')(() => ({
+  fontSize: '15px',
+  fontWeight: '400',
+  lineHeight: '24px',
+}));
+
+function GroupRoleAssignDataTable<TData extends IPlainObject>(props: propsType<TData>) {
+  const { rows, columnsConfig, fieldAsRowId, paginationConfig, onSelectedRows, tableLabel, tableName = '' } = props;
 
   return (
     <Paper style={{ padding: '20px' }}>
+      <LabelStyled>{tableLabel}</LabelStyled>
       <CommonTable
-        tableName="prominer-resource-table"
-        // renderLayoutAs={TableLayoutCustom}
+        tableName={tableName}
         fieldAsRowId={fieldAsRowId}
         columnsConfig={columnsConfig}
         rows={rows}
         hasSelectionRows
         onSelectedRows={onSelectedRows}
-        //topActionConfig={topActionConfig}
-        //filterConfig={filterConfig}
-        //onFilterTriggerQuery={filter}
         sortDefault={{
           field: fieldAsRowId,
           direction: 'asc',
         }}
         onSortChange={() => console.log('')}
-        // renderPaginationAs={TablePaginationCustom}
-        //bottomActionsConfig={bottomActionsConfig}
         paginationConfig={paginationConfig}
       />
     </Paper>

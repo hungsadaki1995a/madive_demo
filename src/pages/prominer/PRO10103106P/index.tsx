@@ -1,10 +1,27 @@
+import { useState } from 'react';
+
+import WithAppList from '@/components/templates/WithAppList';
+
+import { useStore } from '@/utils';
+
 import ProminerVaribleDataTable from './DataTable';
 
-function Varible() {
+function Resource() {
+  const { ApplicationStore } = useStore();
+  const [selectedValue, setSelectedValue] = useState<string>(ApplicationStore.selectedApplication.resource_id || '');
+
+  const onValueChange = (value: string) => {
+    setSelectedValue(value);
+  };
+
   return (
-    <>
-      <ProminerVaribleDataTable />
-    </>
+    <WithAppList
+      value={selectedValue}
+      onValueChange={onValueChange}
+    >
+      <ProminerVaribleDataTable appId={selectedValue} />
+    </WithAppList>
   );
 }
-export default Varible;
+
+export default Resource;

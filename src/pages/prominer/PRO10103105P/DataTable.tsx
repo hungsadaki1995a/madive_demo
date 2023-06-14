@@ -1,86 +1,74 @@
-import { useEffect, useMemo } from 'react';
+import { MutableRefObject, useMemo, useRef } from 'react';
 
 import { Paper } from '@mui/material';
 import { observer } from 'mobx-react';
 
 import CommonTable from '@/components/organisms/CmCommonTable';
+import FilterServiceGroupListControl from '@/components/organisms/CmCommonTable/filterControls/FilterServiceGroupListControl';
 import {
-  IBottomAction,
   ICommonTableColumn,
   IFilterConfig,
+  ImperativeHandleDto,
   IPlainObject,
 } from '@/components/organisms/CmCommonTable/types';
 
-import { useStore } from '@/utils';
+import ProminerApi from '@/apis/ProminerApi';
+import { ProminerResourceDto } from '@/types/dtos/prominerDtos';
 
-function ProminerFieldDataTable() {
-  const { AlertStore } = useStore();
+const columnsConfig: ICommonTableColumn<IPlainObject>[] = [
+  {
+    field: 'field_name',
+    label: 'Field Name',
+    type: 'text',
+    sortable: true,
+  },
+  {
+    field: 'declared_type',
+    label: 'Declared Type',
+    type: 'text',
+    sortable: true,
+  },
+  {
+    field: 'declaring_class',
+    label: 'Class Name',
+    type: 'text',
+    sortable: true,
+  },
+  {
+    field: 'service_group_name',
+    label: 'SG Name',
+    type: 'text',
+    sortable: true,
+  },
+  {
+    field: 'field_type',
+    label: 'Feild Type',
+    type: 'text',
+    sortable: true,
+  },
+];
 
-  // -----------------------------------
-  // Sample Data
-
-  const sampleRows = [
-    {
-      declared_type: 'com.tmax.dof.SHDOF',
-      field_type: 'DATA_OBJECT_FACTORY',
-      field_name: 'dof',
-      service_group_name: 'SHSG',
-      declaring_class: 'com.tmax.bo.SHBO',
-    },
-    {
-      declared_type: 'com.tmax.dof.SHDO',
-      field_type: 'DATA_OBJECT',
-      field_name: 'input',
-      service_group_name: 'SHSG',
-      declaring_class: 'com.tmax.so.SHDeferredSO',
-    },
-  ];
-
-  // -----------------------------------
-  // Config table
-  const columnsConfig = useMemo<ICommonTableColumn<IPlainObject>[]>(() => {
-    return [
-      {
-        field: 'field_name',
-        label: 'Field Name',
-        type: 'text',
-        sortable: true,
-      },
-      {
-        field: 'declared_type',
-        label: 'Declared Type',
-        type: 'text',
-        sortable: true,
-      },
-      {
-        field: 'declaring_class',
-        label: 'Class Name',
-        type: 'text',
-        sortable: true,
-      },
-      {
-        field: 'service_group_name',
-        label: 'SG Name',
-        type: 'text',
-        sortable: true,
-      },
-      {
-        field: 'field_type',
-        label: 'Field Type',
-        type: 'text',
-        sortable: true,
-      },
-    ];
-  }, []);
-
-  const filterConfig = useMemo<IFilterConfig>(() => {
+const ProminerFieldDataTable = observer(({ appId }: { appId: string }) => {
+  const filterConfig = useMemo(() => {
     return {
-      submitBy: 'enter',
-      submitLabel: 'Search',
-      filters: [
+      primaryActions: [
         {
           type: 'dropdown',
-          name: 'filterFieldName',
+          component: (props: any) => (
+            <FilterServiceGroupListControl
+              {...props}
+              resourceId={appId}
+            />
+          ),
+          name: 'sg_resource_id',
+          isTriggerFetchData: true,
+        },
+      ],
+      advanceActions: [
+        {
+          type: 'filter',
+          name: 'prominer-field-filter',
+          defaultValue: 'field_name',
           options: [
             {
               label: 'Field Name',
@@ -95,10 +83,6 @@ function ProminerFieldDataTable() {
               value: 'declaring_class',
             },
             {
-              label: 'SG Name',
-              value: 'service_group_name',
-            },
-            {
               label: 'Field Type',
               value: 'field_type',
             },
@@ -107,57 +91,30 @@ function ProminerFieldDataTable() {
         {
           type: 'simple',
           name: 'search',
-          // className: '',
-          // label: 'Keyword',
-          // icon: <SearchIcon />,
         },
       ],
     };
-  }, []);
+  }, [appId]);
 
-  const bottomActionsConfig = useMemo<IBottomAction<IPlainObject>[]>((): IBottomAction<IPlainObject>[] => {
-    return [];
-  }, []);
-
-  // ------------------------------------------------------------------------------------
-  // Handle Data
-
-  useEffect(() => {
-    //fetch();
-  }, []);
+  const tableRef = useRef<ImperativeHandleDto<ProminerResourceDto>>();
 
   return (
     <Paper style={{ padding: '20px' }}>
-      <CommonTable
+      <CommonTable<ProminerResourceDto>
+        allowMultipleSelect={false}
+        query={ProminerApi.getFieldList}
         tableName="prominer-field-table"
-        // renderLayoutAs={TableLayoutCustom}
-        fieldAsRowId="email"
+        fieldAsRowId="field_name"
         columnsConfig={columnsConfig}
-        rows={sampleRows}
-        onSelectedRows={(selectedRows) => {
-          //
-        }}
-        //topActionConfig={topActionConfig}
-        filterConfig={filterConfig}
-        //onFilterTriggerQuery={filter}
+        filterConfig={filterConfig as unknown as IFilterConfig}
         sortDefault={{
           field: 'field_name',
-          direction: 'asc',
+          direction: 'desc',
         }}
-        onSortChange={() => console.log('')}
-        paginationConfig={{
-          rowsPerPageOptions: [10, 25, 50, 100],
-          currentPage: 0,
-          rowsPerPage: 10,
-          totalCount: 0,
-          rowsPerPagePosition: 'last',
-          onPageChange: (newPageIndex: number) => console.log(newPageIndex),
-          onRowsPerPageChange: (newRowsPerPage: number) => console.log(newRowsPerPage),
-        }}
-        // renderPaginationAs={TablePaginationCustom}
-        bottomActionsConfig={bottomActionsConfig}
+        ref={tableRef as MutableRefObject<ImperativeHandleDto<ProminerResourceDto>>}
       />
     </Paper>
   );
-}
-export default observer(ProminerFieldDataTable);
+});
+
+export default ProminerFieldDataTable;

@@ -1,4 +1,4 @@
-import { Route } from 'react-router-dom';
+import { Navigate, Route } from 'react-router-dom';
 
 import { RouteItem } from '@/types/route';
 
@@ -12,8 +12,18 @@ export const generateRoute = (routes: RouteItem[]): React.ReactNode => {
         id={route.id}
       >
         {route.child && generateRoute(route.child)}
+        {route.child && (
+          <Route
+            path="*"
+            element={
+              <Navigate
+                to={route.child[0].fullPath || '/login'}
+                replace
+              />
+            }
+          />
+        )}
       </Route>
     );
-    // }
   });
 };

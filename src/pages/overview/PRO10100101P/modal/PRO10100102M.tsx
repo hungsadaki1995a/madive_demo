@@ -32,7 +32,6 @@ const CreateApplicationModal = ({ resetList, formDiaLogAdd }: Props) => {
     };
     try {
       const responseData = await AppAndSGAPI.addNewApplication(applicationDto);
-      console.log(responseData);
 
       formDiaLogAdd?.current?.hide();
       reset();

@@ -67,8 +67,6 @@ function LogManagementDataTable() {
 
   // Edit Log Management Modal Open
   const handleEditLogManagementModalOpen = (event: React.MouseEvent<unknown>, row: any) => {
-    console.log(event);
-    console.log(row);
     setIsEditLogManagementModalVisible(true);
   };
 

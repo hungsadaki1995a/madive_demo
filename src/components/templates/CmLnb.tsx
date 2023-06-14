@@ -18,7 +18,6 @@ import TreeView from '@mui/lab/TreeView';
 import { Box } from '@mui/material';
 import { observer } from 'mobx-react';
 
-// img, icon
 import logoimg from '@/stylesheets/images/logo.png';
 import { RouteItem } from '@/types/route';
 import { useStore } from '@/utils';
@@ -26,10 +25,9 @@ import { useStore } from '@/utils';
 import { cmComponentRoutes, configRoutes, defaultPageAccessPath, devRoutes, rootRoutes } from '@/routes/routes';
 import { filterRoutesBasePermission } from '@/routes/utils';
 
-// List Data
 import { CmLnbStyle } from './Templates.Styled';
 
-function CmLnb() {
+const CmLnb = observer(() => {
   const { pathname } = useLocation();
   const { MenuStore } = useStore();
   const [menu, setMenu] = useState<RouteItem[]>([]);
@@ -52,7 +50,6 @@ function CmLnb() {
             {child.icon} {child.label}
           </Box>
         }
-        // icon={child.icon}
         onClick={() => handleClickChildMenu(child)}
       />
     );
@@ -69,15 +66,17 @@ function CmLnb() {
       default:
         return [];
     }
-    return [];
   };
 
   const setMenuList = () => {
-    const menu = getMenuListBaseRootMenu();
+    const menu: RouteItem[] = getMenuListBaseRootMenu();
+
     setMenu(menu);
+
     const parentMenuSelected = menu.find((parentMenu) =>
       parentMenu.child?.find((childMenu) => childMenu.fullPath === pathname)
     );
+
     if (parentMenuSelected) {
       const childMenuSelected = parentMenuSelected?.child?.find((menu) => menu.fullPath === pathname);
       setExpandedMenuId(parentMenuSelected?.id || '');
@@ -103,11 +102,10 @@ function CmLnb() {
     if (MenuStore.selectedRootMenu) {
       setMenuList();
     }
-  }, [MenuStore.selectedRootMenu]);
+  }, [MenuStore.selectedRootMenu, pathname]);
 
   return (
     <CmLnbStyle>
-      {/* logo */}
       <h1
         className="logo"
         style={{
@@ -120,8 +118,6 @@ function CmLnb() {
           alt="logo"
         />
       </h1>
-
-      {/* menu */}
       <TreeView
         className="lnbMenuBox"
         defaultCollapseIcon={<ArrowUpIcon />}
@@ -129,7 +125,7 @@ function CmLnb() {
         expanded={[expandedMenuId]}
         selected={selectedMenuId}
       >
-        {menu.map((item, idx) => (
+        {menu.map((item) => (
           <TreeItem
             key={item.id}
             nodeId={item.id}
@@ -140,11 +136,12 @@ function CmLnb() {
             }
             onClick={() => onMenuSelect(item.id || '')}
           >
-            {item.child && item.child.map((child, idx) => renderTreeChild(child))}
+            {item.child && item.child.map((child) => renderTreeChild(child))}
           </TreeItem>
         ))}
       </TreeView>
     </CmLnbStyle>
   );
-}
-export default observer(CmLnb);
+});
+
+export default CmLnb;

@@ -103,19 +103,27 @@ const UserHistoryDataTable = observer(() => {
         {
           type: 'filter',
           name: 'user-filter',
-          defaultValue: 'history_type',
+          defaultValue: 'user_id',
           options: [
-            {
-              label: 'History Type',
-              value: 'history_type',
-            },
             {
               label: 'User ID',
               value: 'user_id',
             },
             {
+              label: 'History Type',
+              value: 'history_type',
+            },
+            {
               label: 'Name',
               value: 'user_name',
+            },
+            {
+              label: 'Email',
+              value: 'email',
+            },
+            {
+              label: 'Tel Number',
+              value: 'tel_no',
             },
           ],
         },

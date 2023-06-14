@@ -1,82 +1,106 @@
-import { useEffect, useMemo, useState } from 'react';
+import { MutableRefObject, useMemo, useRef, useState } from 'react';
 
-import { Paper } from '@mui/material';
+import { Box, Paper } from '@mui/material';
 import { observer } from 'mobx-react';
 
 import CommonTable from '@/components/organisms/CmCommonTable';
 import {
-  IAddAction,
-  IBottomAction,
   ICommonTableColumn,
+  IFilterConfig,
+  ImperativeHandleDto,
   IPlainObject,
-  ITopAction,
 } from '@/components/organisms/CmCommonTable/types';
 
+import { NodeApi } from '@/apis';
+import { ReactComponent as AddIcon } from '@/stylesheets/images/AddIcon.svg';
 import { ReactComponent as DeleteIcon } from '@/stylesheets/images/DeleteIcon.svg';
-import TopButtonModel from '@/types/models/topButtonModel';
-import { useStore } from '@/utils';
+import { NodeDto } from '@/types/dtos/nodeDtos';
+import { notify } from '@/utils/notify';
 
 import DeleteNodeModal from './modal/DeleteNodeModal';
-import CreateNodeModal from './modal/PRO10101102M';
-import EditNodeModal from './modal/PRO10101103M';
+import NodeModal from './modal/NodeModal';
 
-const sampleRowsData = [
+const columnsConfig: ICommonTableColumn<IPlainObject>[] = [
   {
-    node_id: '27ed7eef630d391a47f7a82c73a9cabe',
-    node_type: 'TEST',
-    node_name: 'nODE',
-    node_ip: '192.168.57.34',
-    node_file_port: '8243',
-    node_tcp_port: '8081',
-    node_path: '',
-    node_admin: 'admin',
-    node_http_port: '8080',
-    node_is_ssl: 'FALSE',
-    description: 'This is Test',
+    field: 'node_name',
+    label: 'Node Name',
+    type: 'text',
+    sortable: true,
   },
   {
-    node_id: '2865bb541acc31267a5b86c61445149a',
-    node_type: 'TEST',
-    node_name: 'dd',
-    node_ip: '3',
-    node_file_port: '4',
-    node_tcp_port: '3',
-    node_path: '',
-    node_admin: 'admin',
-    node_http_port: '333',
-    node_is_ssl: 'FALSE',
-    description: 'This is Test',
+    field: 'node_id',
+    label: 'Node ID',
+    type: 'text',
+    sortable: true,
+  },
+  {
+    field: 'node_ip',
+    label: 'IP',
+    type: 'text',
+    sortable: true,
+  },
+
+  {
+    field: 'node_file_port',
+    label: 'File Port',
+    type: 'text',
+    sortable: true,
+  },
+  {
+    field: 'node_http_port',
+    label: 'Http Port',
+    type: 'text',
+    sortable: true,
+  },
+  {
+    field: 'node_tcp_port',
+    label: 'ProObject Port',
+    type: 'text',
+    sortable: true,
+  },
+  {
+    field: 'node_is_ssl',
+    label: 'SSL',
+    type: 'text',
+    sortable: true,
+  },
+  {
+    field: 'node_admin',
+    label: 'Admin',
+    type: 'text',
+    sortable: true,
+  },
+  {
+    field: 'node_type',
+    label: 'Node Type',
+    type: 'text',
+    sortable: true,
   },
 ];
 
-function NodeManagementDataTable() {
-  const { AlertStore } = useStore();
-  const [isCreateNodeModalVisible, setIsCreateNodeModalVisible] = useState(false);
-  const [isEditNodeModalVisible, setIsEditNodeModalVisible] = useState(false);
+const NodeManagementDataTable = observer(() => {
   const [isDeleteNodeModalVisible, setIsDeleteNodeModalVisible] = useState(false);
-  const [selectedRows, setSelectedRows] = useState<any[]>([]);
-  const [sampleRows, setSampleRows] = useState(sampleRowsData);
+  const [isFormModalVisible, setIsFormModalVisible] = useState(false);
+  const [selectedNode, setSelectedNode] = useState<NodeDto[]>([]);
+  const [data, setData] = useState<NodeDto | null>(null);
+  //----------------------------
+  // HANDLE OPEN - CLOSE MODAL
 
   // Create Node Modal Open
   const handleCreateNodeModalOpen = () => {
-    setIsCreateNodeModalVisible(true);
-  };
-
-  // Create Node Modal Close
-  const handleCreateNodeModalClose = () => {
-    setIsCreateNodeModalVisible(false);
+    setData(null);
+    setIsFormModalVisible(true);
   };
 
   // Edit Node Modal Open
-  const handleEditNodeModalOpen = (event: React.MouseEvent<unknown>, row: any) => {
-    console.log(event);
-    console.log(row);
-    setIsEditNodeModalVisible(true);
+  const handleEditNodeModalOpen = (event: React.MouseEvent<unknown>, row: NodeDto) => {
+    setData(row);
+    setIsFormModalVisible(true);
   };
 
-  // Edit Node Modal Close
-  const handleEditNodeModalClose = () => {
-    setIsEditNodeModalVisible(false);
+  // Node Modal Close
+  const handleCloseModal = () => {
+    setIsFormModalVisible(false);
   };
 
   // Delete Node Modal Open
@@ -89,163 +113,200 @@ function NodeManagementDataTable() {
     setIsDeleteNodeModalVisible(false);
   };
 
-  // Delete Node Excute
-  const handleDeleteNode = () => {
-    console.log(selectedRows);
+  // -----------------------------------
+  // HANDLE EXCUTE FUNCTION
+
+  // Save Create/Edit Excute
+  const handleSave = async (formData: NodeDto) => {
+    if (data) {
+      const res = await NodeApi.editNode(formData);
+
+      if (res?.dto?.value === 'SUCCESS') {
+        notify.success('EDIT NODE SUCCESS');
+      } else {
+        notify.error(res?.dto?.value);
+      }
+    } else {
+      formData.node_admin = 'admin';
+      const res = await NodeApi.addNode(formData);
+
+      if (res?.dto?.value === 'SUCCESS') {
+        notify.success('CREATE NODE SUCCESS');
+      } else {
+        notify.error(res?.dto?.value);
+      }
+    }
+    tableRef.current?.resetPageAndRefresh();
   };
 
-  // -----------------------------------
-  // Config table
-  const columnsConfig = useMemo<ICommonTableColumn<IPlainObject>[]>(() => {
-    return [
-      {
-        field: 'node_name',
-        label: 'Node Name',
-        type: 'text',
-        sortable: true,
-      },
-      {
-        field: 'node_id',
-        label: 'Node ID',
-        type: 'text',
-        sortable: true,
-      },
-      {
-        field: 'node_ip',
-        label: 'IP',
-        type: 'text',
-        sortable: true,
-      },
-      {
-        field: 'node_file_port',
-        label: 'File Port',
-        type: 'text',
-        sortable: true,
-      },
-      {
-        field: 'node_http_port',
-        label: 'Http Port',
-        type: 'text',
-        sortable: true,
-      },
-      {
-        field: 'node_tcp_port',
-        label: 'ProObject Port',
-        type: 'text',
-        sortable: true,
-      },
-      {
-        field: 'node_is_ssl',
-        label: 'SSL',
-        type: 'text',
-        sortable: true,
-      },
-      {
-        field: 'node_admin',
-        label: 'Admin',
-        type: 'text',
-        sortable: true,
-      },
-      {
-        field: 'node_type',
-        label: 'Node Type',
-        type: 'text',
-        sortable: true,
-      },
-      {
-        field: 'description',
-        label: 'Action',
-        type: 'text',
-        sortable: true,
-      },
-    ];
-  }, []);
+  // Delete Node Excute
+  const handleDeleteNode = async () => {
+    const res = await NodeApi.deleteNode(selectedNode[0]);
 
-  const addBtnConfig = useMemo<IAddAction>((): IAddAction => {
+    if (res?.dto?.value === 'SUCCESS') {
+      notify.success('DELETE NODE SUCCESS');
+      setSelectedNode([]);
+    } else {
+      notify.error(res?.dto?.value);
+    }
+    handleDeleteNodeModalClose();
+    tableRef.current?.resetPageAndRefresh();
+  };
+
+  const handleRowclick = (event: React.MouseEvent, rowData: NodeDto) => {
+    handleEditNodeModalOpen(event, rowData);
+  };
+  // -----------------------------------
+
+  const filterConfig = useMemo(() => {
     return {
-      label: 'Create New Node',
-      onClick: () => handleCreateNodeModalOpen(),
+      primaryActions: [
+        {
+          type: 'button',
+          handleClick: (selectedRow: NodeDto[]) => {
+            setSelectedNode(selectedRow);
+            handleDeleteNodeModalOpen();
+            tableRef.current?.resetPageAndRefresh();
+          },
+          checkDisabled: (selectedRows: NodeDto[]) => {
+            return selectedRows?.length < 1;
+          },
+          config: {
+            variant: 'contained',
+            color: 'secondary',
+            size: 'small',
+            startIcon: <DeleteIcon />,
+            label: 'Delete',
+          },
+        },
+      ],
+      advanceActions: [
+        {
+          type: 'dropdown',
+          options: [
+            {
+              label: 'ALL',
+              value: 'ALL',
+            },
+            {
+              label: 'TEST',
+              value: 'TEST',
+            },
+            {
+              label: 'RUNTIME',
+              value: 'RUNTIME',
+            },
+            {
+              label: 'MASTER',
+              value: 'MASTER',
+            },
+          ],
+          name: 'node_type',
+        },
+        {
+          label: 'Create',
+          type: 'button',
+          handleClick: (selectedRows: NodeDto[]) => {
+            // return;
+            handleCreateNodeModalOpen();
+          },
+          config: {
+            variant: 'contained',
+            color: 'primary',
+            size: 'small',
+            startIcon: <AddIcon />,
+            label: 'Create',
+          },
+        },
+        {
+          type: 'filter',
+          name: 'node-filter',
+          defaultValue: 'node_name',
+          options: [
+            {
+              label: 'Node Name',
+              value: 'node_name',
+            },
+            {
+              label: 'Node ID',
+              value: 'node_id',
+            },
+            {
+              label: 'IP',
+              value: 'node_ip',
+            },
+            {
+              label: 'File Port',
+              value: 'node_file_port',
+            },
+            {
+              label: 'Http Port',
+              value: 'node_http_port',
+            },
+            {
+              label: 'Deploy port',
+              value: 'node_tcp_port',
+            },
+            {
+              label: 'SSL',
+              value: 'node_is_ssl',
+            },
+            {
+              value: 'node_admin',
+              label: 'Admin',
+            },
+            {
+              value: 'node_type',
+              label: 'Node Type',
+            },
+          ],
+        },
+      ],
     };
   }, []);
 
-  const topActionConfig = useMemo<ITopAction<TopButtonModel>[]>((): ITopAction<TopButtonModel>[] => {
-    return [
-      {
-        label: 'Delete',
-        onClick: () => handleDeleteNodeModalOpen(),
-        icon: <DeleteIcon />,
-      },
-    ];
-  }, []);
-
-  const bottomActionsConfig = useMemo<IBottomAction<IPlainObject>[]>((): IBottomAction<IPlainObject>[] => {
-    return [];
-  }, []);
-
-  const onSelectedRows = (rows: any) => {
-    setSelectedRows([...rows]);
-  };
-
-  // ------------------------------------------------------------------------------------
-  // Handle Data
-
-  useEffect(() => {
-    //fetch();
-  }, []);
+  const tableRef = useRef<ImperativeHandleDto<NodeDto>>();
 
   return (
-    <Paper style={{ padding: '20px' }}>
-      <CommonTable
-        tableName="node-management-table"
-        // renderLayoutAs={TableLayoutCustom}
-        fieldAsRowId="node_id"
-        columnsConfig={columnsConfig}
-        rows={sampleRows}
-        hasSelectionRows
-        onSelectedRows={onSelectedRows}
-        showTopSelect
-        onRowClick={handleEditNodeModalOpen}
-        topActionConfig={topActionConfig}
-        addBtnConfig={addBtnConfig}
-        //filterConfig={filterConfig}
-        //onFilterTriggerQuery={filter}
-        sortDefault={{
-          field: 'node_name',
-          direction: 'asc',
-        }}
-        onSortChange={() => console.log('')}
-        paginationConfig={{
-          rowsPerPageOptions: [10, 25, 50, 100],
-          currentPage: 0,
-          rowsPerPage: 10,
-          totalCount: 0,
-          rowsPerPagePosition: 'last',
-          onPageChange: (newPageIndex: number) => console.log(newPageIndex),
-          onRowsPerPageChange: (newRowsPerPage: number) => console.log(newRowsPerPage),
-        }}
-        // renderPaginationAs={TablePaginationCustom}
-        bottomActionsConfig={bottomActionsConfig}
-      />
+    <Box>
+      <Paper style={{ padding: '20px' }}>
+        <CommonTable<NodeDto>
+          // renderLayoutAs={TableLayoutCustom}
+          hasSelectionRows
+          allowMultipleSelect={false}
+          query={NodeApi.getNodes}
+          tableName="node-management-table"
+          fieldAsRowId="node_id"
+          columnsConfig={columnsConfig}
+          filterConfig={filterConfig as unknown as IFilterConfig}
+          sortDefault={{
+            field: 'node_name',
+            direction: 'asc',
+          }}
+          ref={tableRef as MutableRefObject<ImperativeHandleDto<NodeDto>>}
+          onRowClick={handleRowclick}
+        />
 
-      {/* Create Node - Modal */}
-      <CreateNodeModal
-        visible={isCreateNodeModalVisible}
-        handleClose={handleCreateNodeModalClose}
-      />
+        {isFormModalVisible && (
+          <NodeModal
+            visible={isFormModalVisible}
+            handleClose={handleCloseModal}
+            handleSave={handleSave}
+            data={data}
+          />
+        )}
 
-      {/* Edit Node - Modal */}
-      <EditNodeModal
-        visible={isEditNodeModalVisible}
-        handleClose={handleEditNodeModalClose}
-      />
-
-      {/* Delete Node - Modal */}
-      <DeleteNodeModal
-        visible={isDeleteNodeModalVisible}
-        handleSave={handleDeleteNode}
-        handleClose={handleDeleteNodeModalClose}
-      />
-    </Paper>
+        {/* Delete Node - Modal */}
+        {isDeleteNodeModalVisible && (
+          <DeleteNodeModal
+            visible={isDeleteNodeModalVisible}
+            handleSave={handleDeleteNode}
+            handleClose={handleDeleteNodeModalClose}
+          />
+        )}
+      </Paper>
+    </Box>
   );
-}
-export default observer(NodeManagementDataTable);
+});
+
+export default NodeManagementDataTable;

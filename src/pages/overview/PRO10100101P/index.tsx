@@ -110,8 +110,6 @@ const AppSG = observer(() => {
   const [isDelVisible, setIsDelVisible] = useState(false);
   const [successOpen, setSuccessOpen] = useState(false);
   const [data, setData] = useState<ApplicationDto[]>([]);
-  const [isAddVisible, setIsAddVisible] = useState(false);
-  const [reloadList, setReloadList] = useState(false);
   const formDialogEdit = useRef<IDialogBaseRef>(null);
   const formDiaLogAdd = useRef<IDialogBaseRef>(null);
   const formDialogAddService = useRef<IDialogBaseRef>(null);
@@ -133,7 +131,6 @@ const AppSG = observer(() => {
 
   const handleInit = () => {
     boardId.current = undefined;
-    setIsAddVisible(false);
     setIsDelVisible(false);
     setIsServiceGroup(false);
   };
@@ -156,7 +153,7 @@ const AppSG = observer(() => {
   };
 
   const handleSave = async () => {
-    setReloadList((prevState) => !prevState);
+    ApplicationStore.loadApplicationList();
     formDialogAddService.current?.hide();
     handleInit();
   };

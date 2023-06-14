@@ -169,6 +169,7 @@ const CmBreadcrumbsStyle = styled.div`
           font-size: 12px;
           color: ${CmStyle.color.colorT01};
           text-decoration: none;
+          cursor: pointer;
           :hover {
             text-decoration: underline;
           }
@@ -315,4 +316,4 @@ const CmContainerStyled = styled.div`
   }
 `;
 
-export { CmGnbStyle, CmBreadcrumbsStyle, CmLnbStyle, CmSearchStyle, CmPageTitleStyle, CmContainerStyled };
+export { CmBreadcrumbsStyle, CmContainerStyled, CmGnbStyle, CmLnbStyle, CmPageTitleStyle, CmSearchStyle };
