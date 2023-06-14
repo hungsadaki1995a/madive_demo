@@ -29,9 +29,9 @@ export const DoInfoEndPoint = {
 };
 
 export const UserEndpoint = {
-  getUserList: '/UserList',
+  getUserList: 'UserList',
   getUserHistory: '/UserHistoryList',
-  getUser: '/User',
+  getUser: 'User',
 };
 
 export const MetaEndPoint = {
