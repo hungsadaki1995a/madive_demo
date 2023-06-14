@@ -1,17 +1,80 @@
+import { Controller, useForm } from 'react-hook-form';
+
+import { classValidatorResolver } from '@hookform/resolvers/class-validator';
 import { Box, TextField } from '@mui/material';
 
 import { CmButton } from '@/components/atoms/CmButton';
 import CmModal from '@/components/atoms/CmModal';
 
-// Common Atoms
+import SystemContextApi from '@/apis/SystemContextApi';
+import { CreateKey } from '@/types/dtos/systemContextDtos';
+import { notify } from '@/utils/notify';
+
+import { ISystemContextList } from '@/pages/system-context/PRO10104101P/type';
+
+const initialFormData: CreateKey = {
+  key: '',
+  value: '',
+};
 
 type AddSystemContextModalProps = {
   visible: boolean;
   handleSave?: () => void;
   handleClose: () => void;
+  dataProp: ISystemContextList;
+  resetPageAndRefresh?: () => void;
 };
 
-export default function AddSystemContextModal({ visible, handleSave, handleClose }: AddSystemContextModalProps) {
+export default function AddSystemContextModal({
+  visible,
+  handleSave,
+  handleClose,
+  dataProp,
+  resetPageAndRefresh,
+}: AddSystemContextModalProps) {
+  const resolver = classValidatorResolver(CreateKey);
+
+  const {
+    handleSubmit,
+    control,
+    formState: { errors },
+    reset,
+  } = useForm({
+    values: initialFormData,
+    resolver,
+  });
+
+  const handleCloseModal = () => {
+    handleClose();
+    reset(initialFormData);
+  };
+
+  handleSave = handleSubmit(async (data: CreateKey) => {
+    const response = await SystemContextApi.addSystemContext({
+      appName: dataProp.appName as string,
+      key: data.key,
+      node_id: dataProp.node_id,
+      resource_id: dataProp.resource_id,
+      systemContextName: dataProp.systemContextName,
+      value: data.value,
+    });
+
+    if (response?.dto?.value !== 'Success') {
+      if (response?.dto?.value === 'Duplication') {
+        notify.error('Duplication!');
+        return;
+      }
+      return;
+    }
+
+    resetPageAndRefresh?.();
+
+    handleClose();
+    reset(initialFormData);
+
+    notify.success('Create success!');
+  });
+
   const footerRender = () => (
     <Box className="alignL">
       <CmButton
@@ -21,7 +84,7 @@ export default function AddSystemContextModal({ visible, handleSave, handleClose
         startIcon={<></>}
         className=""
         color="info"
-        onClick={handleClose}
+        onClick={handleCloseModal}
       />
       <CmButton
         id="rightBtn2"
@@ -40,30 +103,53 @@ export default function AddSystemContextModal({ visible, handleSave, handleClose
       title="Add System Context"
       visible={visible}
       onSave={handleSave}
-      onClose={handleClose}
+      onClose={handleCloseModal}
       className="medium"
       footerRenderAs={footerRender}
     >
-      {/* contents */}
       <label className="labelFormArea">
         <span>SHApp - SYSTEM CONTEXT TEST</span>
       </label>
       <label className="labelFormArea">
-        <span>key</span>
-        <TextField
-          className="labelTextField"
-          defaultValue="1"
-          type="password"
-          size="small"
+        <span>Key</span>
+        <Controller
+          name="key"
+          control={control}
+          render={({ field: { onChange, value } }) => (
+            <TextField
+              fullWidth
+              id="key"
+              variant="outlined"
+              value={value}
+              placeholder="*"
+              onChange={(data) => {
+                onChange(data);
+              }}
+              error={!!errors.key}
+              helperText={errors.key?.message}
+            />
+          )}
         />
       </label>
       <label className="labelFormArea">
-        <span>value</span>
-        <TextField
-          className="labelTextField"
-          defaultValue="1"
-          type="password"
-          size="small"
+        <span>Value</span>
+        <Controller
+          name="value"
+          control={control}
+          render={({ field: { onChange, value } }) => (
+            <TextField
+              fullWidth
+              id="value"
+              variant="outlined"
+              value={value}
+              placeholder="*"
+              onChange={(data) => {
+                onChange(data);
+              }}
+              error={!!errors.value}
+              helperText={errors.value?.message}
+            />
+          )}
         />
       </label>
     </CmModal>

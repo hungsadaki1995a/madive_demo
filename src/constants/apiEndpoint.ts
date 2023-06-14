@@ -73,3 +73,13 @@ export const NodeEndpoint = {
   editNode: '/Node',
   deleteNode: '/Node',
 };
+
+export const SystemContextEndpoint = {
+  getNodeList: '/NodeList',
+  systemContextList: '/SystemContextList',
+  deployStatList: 'DeployStatList',
+  systemContextNameList: '/SystemContextNameList',
+  ropertyList: '/PropertyList',
+  systemContext: '/SystemContext',
+  property: '/Property',
+};

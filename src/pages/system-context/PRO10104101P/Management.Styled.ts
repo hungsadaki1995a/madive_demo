@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import * as CmStyle from '@/stylesheets/common';
 import '@/stylesheets/font/stylesheet.css';
 
-const SysContextStyled = styled.div`
+const ManagementStyled = styled.div`
   display: flex;
   flex-wrap: wrap;
   align-items: flex-start;
@@ -29,38 +29,31 @@ const SysContextStyled = styled.div`
         display: flex;
         align-items: center;
 
-
         > span {
           font: 13px/ 1.5 ${CmStyle.notoSansDJKFont.regular};
           color: ${CmStyle.color.colorBtnString};
           padding-top: 4px;
         }
 
-
         .MuiInputBase-root {
           margin-left: auto;
           width: 230px;
           padding: 0;
-
-         
-          }
         }
-
-        & + .formArea {
-          margin-top: 20px;
-        }
-
-        .labelFormArea.secondFormArea{
-        padding-top: 20px
-      }
       }
 
-
-
-      & ~ .MuiPaper-root {
-        width: calc(100% - 456px);
+      & + .formArea {
+        margin-top: 20px;
       }
+    }
+
+    & ~ .MuiPaper-root {
+      width: calc(100% - 456px);
+    }
+
+    .labelFormArea.secondFormArea {
+      padding-top: 20px;
     }
   }
 `;
-export { SysContextStyled };
+export { ManagementStyled };
