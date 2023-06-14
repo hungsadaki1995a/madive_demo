@@ -29,42 +29,6 @@ const UserApi = {
     }
   },
 
-  createUser: async (data: configUserDto) => {
-    try {
-      const res = await apiClient.post(UserEndpoint.getUser, {
-        dto: data,
-      });
-      return res;
-    } catch (error: unknown) {
-      return error instanceof AxiosError ? error.response : error;
-    }
-  },
-
-  editUser: async (data: configUserDto) => {
-    try {
-      const res = await apiClient.put(UserEndpoint.getUser, {
-        dto: data,
-      });
-      return res;
-    } catch (error: unknown) {
-      return error instanceof AxiosError ? error.response : error;
-    }
-  },
-
-  deleteUser: async (data: configUserDto[]) => {
-    try {
-      return await apiClient.delete(UserEndpoint.getUserList, {
-        data: {
-          dto: {
-            ConfigUserDto: data,
-          },
-        },
-      });
-    } catch (error: unknown) {
-      return error instanceof AxiosError ? error.response : error;
-    }
-  },
-
   deleteHistory: async (data: configUserDto[]) => {
     try {
       return await apiClient.delete(UserEndpoint.getUserHistory, {

@@ -1,5 +1,7 @@
 import axios, { AxiosResponse } from 'axios';
 
+import { IPlainObject } from '@/components/organisms/CmCommonTable/types';
+
 import { IOriginalResponse } from '@/types/http';
 
 const apiClient = axios.create();
@@ -27,3 +29,32 @@ apiClient.interceptors.response.use(
 );
 
 export default apiClient;
+
+export function getRequest(URL: string, payload: IPlainObject): Promise<AxiosResponse> {
+  return apiClient
+    .get(`/${URL}`, {
+      params: {
+        [JSON.stringify({
+          dto: payload,
+        })]: '',
+        _: new Date().getTime(),
+      },
+    })
+    .then((response) => response);
+}
+
+export function postRequest(URL: string, payload: IPlainObject) {
+  return apiClient.post(`/${URL}`, payload).then((response) => response);
+}
+
+export function putRequest(URL: string, payload: IPlainObject) {
+  return apiClient.put(`/${URL}`, payload).then((response) => response);
+}
+
+export function patchRequest(URL: string, payload: IPlainObject) {
+  return apiClient.patch(`/${URL}`, payload).then((response) => response);
+}
+
+export function deleteRequest(URL: string, payload: IPlainObject) {
+  return apiClient.delete(`/${URL}`, payload).then((response) => response);
+}

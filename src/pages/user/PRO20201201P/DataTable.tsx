@@ -10,7 +10,11 @@ import UserApi from '@/apis/UserApi';
 import { ReactComponent as AddIcon } from '@/stylesheets/images/AddIcon.svg';
 import { ReactComponent as DeleteIcon } from '@/stylesheets/images/DeleteIcon.svg';
 import { configUserDto } from '@/types/dtos/userDto';
+import { RequestType } from '@/utils/const/api';
+import useApiClientMutation from '@/utils/hooks/useApiMutation';
 import { notify } from '@/utils/notify';
+
+import { UserEndpoint } from '@/constants/apiEndpoint';
 
 import DeleteModal from './modals/DeleteModal';
 import FormModal from './modals/FormModal';
@@ -18,13 +22,53 @@ import FormModal from './modals/FormModal';
 const UserManagementDataTable = observer(() => {
   const [isCreateModal, setIsCreateModal] = useState<boolean>(false);
   const [isDeleteModal, setIsDeleteModal] = useState<boolean>(false);
-  const [data, setData] = useState<configUserDto | null>(null);
+  const [selectedUser, setSelectedUser] = useState<configUserDto | null>(null);
   const [selectedUsers, setSelectedUsers] = useState<configUserDto[]>([]);
   const tableRef = useRef<any>();
 
+  const { request: requestCreateUser, isLoading: isLoadingCreate } = useApiClientMutation({
+    endpoint: UserEndpoint.getUser,
+    method: RequestType.POST,
+    onCompleted: (response) => {
+      if (response?.dto?.value !== 'Success') {
+        notify.error(response.dto.value);
+      } else {
+        notify.success(response.dto.value);
+        tableRef.current?.resetPageAndRefresh();
+      }
+    },
+  });
+
+  const { request: requestEditUser, isLoading: isLoadingEdit } = useApiClientMutation({
+    endpoint: UserEndpoint.getUser,
+    method: RequestType.PUT,
+    onCompleted: (response) => {
+      if (response?.dto?.value !== 'Success') {
+        notify.error(response.dto.value);
+      } else {
+        notify.success(response.dto.value);
+        tableRef.current?.resetPageAndRefresh();
+        setSelectedUsers([]);
+      }
+    },
+  });
+
+  const { request: requestDeleteUser, isLoading: isLoadingDelete } = useApiClientMutation({
+    endpoint: UserEndpoint.getUserList,
+    method: RequestType.DELETE,
+    onCompleted: (response) => {
+      if (response?.dto?.value !== 'Success') {
+        notify.error(response.dto.value);
+      } else {
+        notify.success(response.dto.value);
+        tableRef.current?.resetPageAndRefresh();
+      }
+    },
+  });
+
   // Handle Form Modal
   const handleCreateModalOpen = () => {
-    setData(null);
+    setSelectedUser(null);
     setIsCreateModal(true);
   };
 
@@ -33,46 +77,34 @@ const UserManagementDataTable = observer(() => {
   };
 
   const handleUpdateModalOpen = (event: React.MouseEvent, rowData: configUserDto) => {
-    setData(rowData);
+    setSelectedUser(rowData);
     setIsCreateModal(true);
   };
 
-  const handleDeleleteModalOpen = () => {
+  const handleDeleteModalOpen = () => {
     setIsDeleteModal(true);
   };
 
-  const handleDeleleteModalClose = () => {
+  const handleDeleteModalClose = () => {
     setIsDeleteModal(false);
   };
 
   const handleSave = async (formData: configUserDto) => {
-    if (data) {
-      const res: any = await UserApi.editUser(formData);
-      if (res?.dto?.value !== 'Success') {
-        notify.error(res.dto.value);
-      } else {
-        notify.success(res.dto.value);
-      }
+    if (selectedUser) {
+      requestEditUser({ dto: formData });
     } else {
-      const res: any = await UserApi.createUser(formData);
-      if (res?.dto?.value !== 'Success') {
-        notify.error(res.dto.value);
-      } else {
-        notify.success(res.dto.value);
-      }
+      requestCreateUser({ dto: formData });
     }
-    tableRef.current?.resetPageAndRefresh();
   };
 
   const handleDelete = async () => {
-    const res: any = await UserApi.deleteUser(selectedUsers);
-    if (res?.dto?.value !== 'Success') {
-      notify.error(res.dto.value);
-    } else {
-      notify.success(res.dto.value);
-    }
-    setSelectedUsers([]);
-    tableRef.current?.resetPageAndRefresh();
+    requestDeleteUser({
+      data: {
+        dto: {
+          ConfigUserDto: selectedUsers,
+        },
+      },
+    });
   };
 
   // Config table
@@ -116,7 +148,7 @@ const UserManagementDataTable = observer(() => {
           type: 'button',
           handleClick: (selectedRows: configUserDto[]) => {
             setSelectedUsers(selectedRows);
-            handleDeleleteModalOpen();
+            handleDeleteModalOpen();
           },
           checkDisabled: (selectedRows: configUserDto[]) => {
             return selectedRows?.length < 1;
@@ -195,11 +227,11 @@ const UserManagementDataTable = observer(() => {
         visible={isCreateModal}
         handleSave={handleSave}
         handleClose={handleCreateModalClose}
-        data={data}
+        data={selectedUser}
       />
       <DeleteModal
         visible={isDeleteModal}
-        handleClose={handleDeleleteModalClose}
+        handleClose={handleDeleteModalClose}
         handleSave={handleDelete}
       />
     </Box>
