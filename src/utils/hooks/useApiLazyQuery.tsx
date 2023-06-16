@@ -5,25 +5,22 @@ import { AxiosError } from 'axios';
 import { IPlainObject } from '@/components/organisms/CmCommonTable/types';
 
 import { getRequest } from '@/apis/apiClient';
+import { IOriginalResponse } from '@/types/http';
 
-type UseApiLazyQueryProps<ApiResponse> = {
+type UseApiLazyQueryProps = {
   endpoint: string;
   onError?: (error: AxiosError) => void;
-  onCompleted?: (response: ApiResponse) => void;
+  onCompleted?: (response: IOriginalResponse) => void;
 };
 
-const useApiLazyQuery = <ApiResponse extends IPlainObject>({
-  endpoint,
-  onError,
-  onCompleted,
-}: UseApiLazyQueryProps<ApiResponse>) => {
+const useApiLazyQuery = ({ endpoint, onError, onCompleted }: UseApiLazyQueryProps) => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const request = async (requestParams: IPlainObject) => {
     setIsLoading(true);
     try {
-      const { data } = await getRequest(endpoint, requestParams);
+      const response = await getRequest(endpoint, requestParams);
       setIsLoading(false);
-      onCompleted?.(data);
+      onCompleted?.(response);
     } catch (error) {
       setIsLoading(false);
       onError?.(error?.response || error);

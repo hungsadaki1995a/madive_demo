@@ -14,7 +14,7 @@ export const ServiceGroupEndpoint = {
 };
 
 export const MetaEndPoint = {
-  metaList: '/MetaList',
+  metaList: 'MetaList',
   getTableList: '/TableList',
   getColumnList: '/ColumnList',
   meta: '/Meta',
@@ -27,7 +27,7 @@ export const MetaHistoryEndPoint = {
 };
 
 export const DoInfoEndPoint = {
-  doInfo: '/DoInfo',
+  doInfo: 'DoInfo',
 };
 
 export const NodeEndpoint = {

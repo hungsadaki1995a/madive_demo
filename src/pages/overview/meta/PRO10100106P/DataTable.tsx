@@ -1,26 +1,55 @@
 import { MutableRefObject, useMemo, useRef, useState } from 'react';
 
-import { Paper } from '@mui/material';
+import { Box } from '@mui/material';
 import { observer } from 'mobx-react';
 import Cookies from 'universal-cookie';
 
 import CommonTable from '@/components/organisms/CmCommonTable';
-import { SortDirectionTypes } from '@/components/organisms/CmCommonTable/const';
-import { ICommonTableColumn, IFilterConfig, ImperativeHandleDto } from '@/components/organisms/CmCommonTable/types';
+import { FilterTypes, SortDirectionTypes } from '@/components/organisms/CmCommonTable/const';
+import {
+  ICommonTableColumn,
+  IFilterConfig,
+  ImperativeHandleDto,
+  SearchServerConfig,
+  TableDataResponseDto,
+  TableViewState,
+} from '@/components/organisms/CmCommonTable/types';
 
 import { MetaApi } from '@/apis';
 import { ReactComponent as AddIcon } from '@/stylesheets/images/AddIcon.svg';
 import { ReactComponent as DeleteIcon } from '@/stylesheets/images/DeleteIcon.svg';
 import { ReactComponent as UploadIcon } from '@/stylesheets/images/UploadIcon.svg';
 import { MetaDtos } from '@/types/dtos/MetaDtos';
+import { IOriginalResponse } from '@/types/http';
 import { notify } from '@/utils/notify';
 
 import { USER_INFO_COOKIE } from '@/constants';
+import { MetaEndPoint } from '@/constants/apiEndpoint';
 
 import DeleteMetaModal from './modal/DeleteMetaModal';
 import CreateMetaModal from './modal/PRO10100107M';
 import EditMetaModal from './modal/PRO10100108M';
 import ImportExcelModal from './modal/PRO10100109M';
+
+const searchServerConfig: SearchServerConfig = {
+  fieldOptions: [
+    {
+      label: 'Physical Name',
+      fieldName: 'physical_name',
+      type: FilterTypes.TEXT,
+    },
+    {
+      label: 'Logical Name',
+      fieldName: 'logical_name',
+      type: FilterTypes.TEXT,
+    },
+    {
+      label: 'Resource Group',
+      fieldName: 'resource_group',
+      type: FilterTypes.TEXT,
+    },
+  ],
+};
 
 const cookies = new Cookies();
 function MetaDataTable() {
@@ -226,22 +255,43 @@ function MetaDataTable() {
     };
   }, []);
 
+  const convertPayloadRequest = (tableState: TableViewState) => {
+    const { sort, sortField, sortingType } = tableState;
+    const conditionDto = Object.entries(tableState.filter.server).map(([key, value]) => ({ key, value }));
+    const payload = {
+      pageInfoDto: {
+        pageNum: 1,
+        pageLength: -1,
+      },
+      sort,
+      sortField,
+      sortingType,
+      conditionDto: conditionDto,
+    };
+    return payload;
+  };
+
+  const convertResponse = (response: IOriginalResponse): TableDataResponseDto<MetaDtos> => {
+    return { data: response?.dto?.MetaDto || [], total: response?.dto?.pagingResultDto?.totalNum || 0 };
+  };
+
   return (
-    <Paper style={{ padding: '20px' }}>
-      <CommonTable
-        tableName="meta-table"
+    <Box>
+      <CommonTable<MetaDtos>
         fieldAsRowId="resource_id"
-        columnsConfig={columnsConfig}
-        query={MetaApi.MetaListGet}
         hasSelectionRows
         onRowClick={handleEditMetaModalOpen}
         onSelectedRows={onSelectedRows}
+        searchServerConfig={searchServerConfig}
         filterConfig={filterConfig as unknown as IFilterConfig}
+        columnsConfig={columnsConfig}
         sortDefault={{
           field: 'physical_name',
           direction: SortDirectionTypes.DESC,
         }}
-        onSortChange={() => console.log('')}
+        endpoint={MetaEndPoint.metaList}
+        convertPayloadRequest={convertPayloadRequest}
+        convertResponse={convertResponse}
         ref={metaTableRef as MutableRefObject<ImperativeHandleDto<MetaDtos>>}
       />
 
@@ -277,7 +327,7 @@ function MetaDataTable() {
         handleRefetch={metaTableRef.current?.fetch}
         handleSave={handleImportExcelModalClose}
       />
-    </Paper>
+    </Box>
   );
 }
 export default observer(MetaDataTable);

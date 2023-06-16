@@ -27,7 +27,6 @@ function GroupRoleAssignDataTable<TData extends IPlainObject>(props: propsType<T
     <Paper style={{ padding: '20px' }}>
       <LabelStyled>{tableLabel}</LabelStyled>
       <CommonTable
-        tableName={tableName}
         fieldAsRowId={fieldAsRowId}
         columnsConfig={columnsConfig}
         rows={rows}
@@ -37,7 +36,6 @@ function GroupRoleAssignDataTable<TData extends IPlainObject>(props: propsType<T
           field: fieldAsRowId,
           direction: 'asc',
         }}
-        onSortChange={() => console.log('')}
         paginationConfig={paginationConfig}
       />
     </Paper>

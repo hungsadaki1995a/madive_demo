@@ -120,7 +120,6 @@ const ProminerMethodDataTable = observer(
         <CommonTable<ProminerMethodDto>
           allowMultipleSelect={false}
           query={ProminerApi.getMethodList}
-          tableName="prominer-method-table"
           fieldAsRowId="declaring_class"
           columnsConfig={columnsConfig}
           filterConfig={filterConfig as unknown as IFilterConfig}

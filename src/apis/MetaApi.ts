@@ -1,7 +1,6 @@
 import { AxiosError } from 'axios';
 
-import { SortDirectionTypes } from '@/components/organisms/CmCommonTable/const';
-import { TableDataResponseDto } from '@/components/organisms/CmCommonTable/types';
+import { TableDataResponseDto, TableViewState } from '@/components/organisms/CmCommonTable/types';
 
 import { MetaDtos } from '@/types/dtos/MetaDtos';
 import { IOriginalResponse } from '@/types/http';
@@ -20,12 +19,10 @@ type MetaGetApiParam = {
 };
 
 const MetaApi = {
-  MetaListGet: async ({
-    sort = true,
-    sortingType = SortDirectionTypes.DESC,
-    sortField = 'physical_name',
-  }: MetaGetApiParam): Promise<TableDataResponseDto<MetaDtos> | any> => {
+  MetaListGet: async (tableState: TableViewState): Promise<TableDataResponseDto<MetaDtos> | any> => {
+    const { sort, sortField, sortingType } = tableState;
     try {
+      const conditionDto = Object.entries(tableState.filter.server).map(([key, value]) => ({ key, value }));
       const data: IOriginalResponse = await apiClient.get(MetaEndPoint.metaList, {
         params: {
           [JSON.stringify({
@@ -37,7 +34,7 @@ const MetaApi = {
               sort,
               sortField,
               sortingType,
-              conditionDto: [],
+              conditionDto: conditionDto,
             },
           })]: '',
           _: new Date().getTime(),

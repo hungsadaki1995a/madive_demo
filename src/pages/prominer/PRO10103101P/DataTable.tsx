@@ -187,7 +187,6 @@ const ProminerResourceDataTable = observer(({ appId }: { appId: string }) => {
       <CommonTable<ProminerResourceDto>
         hasSelectionRows
         query={ProminerApi.getResourceList}
-        tableName="prominer-resource-table"
         fieldAsRowId="logical_name"
         columnsConfig={columnsConfig}
         filterConfig={filterConfig as unknown as IFilterConfig}

@@ -62,5 +62,6 @@ declare module '@mui/private-theming' {
 
   interface DefaultTheme extends Theme {
     iconSize: SizeOptions;
+    round?: ThemeOptions['spacing'];
   }
 }

@@ -189,7 +189,6 @@ function SystemContextManagementDataTable(prop: PropType) {
     <>
       <CommonTable<SystemContextList>
         query={SystemContextApi.getTableDataManagement}
-        tableName="management-table"
         fieldAsRowId="key"
         allowMultipleSelect={false}
         hasSelectionRows

@@ -2,6 +2,7 @@ export enum FilterTypes {
   DROPDOWN = 'dropdown',
   SIMPLE = 'simple',
   ACTION_SELECTION = 'action-selection',
+  TEXT = 'text',
 }
 
 export enum SubmitActionTypes {

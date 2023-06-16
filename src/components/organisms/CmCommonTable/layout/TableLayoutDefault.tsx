@@ -2,18 +2,14 @@ import React from 'react';
 
 import { Box } from '@mui/material';
 
-import BottomButtons from '../bottomButtons/BottomButtons';
 import FilterPanel from '../filterControls/FilterPanel';
 import TablePaginationDefault from '../pagination/CmTablePagination';
-import BottomSection from '../styled/BottomSection';
 import TableGrid from '../tablePartitions/TableGrid';
 import { IPlainObject, TableLayoutProps } from '../types';
 
 const TableLayoutDefault = <TRowDataType extends IPlainObject>({
   fieldAsRowId,
-  topActionConfig,
   filterConfig,
-  onFilterTriggerQuery,
   hasSelectionRows,
   rows = [],
   columnsConfig,
@@ -21,11 +17,8 @@ const TableLayoutDefault = <TRowDataType extends IPlainObject>({
   handleSortTable,
   sortInfo,
   handleCheckRow,
-  paginationConfig,
-  renderPaginationAs,
   selectedRowsMapping,
   selectedRows,
-  bottomActionsConfig,
   dispatch,
   tableState,
   onChangePage,
@@ -36,8 +29,6 @@ const TableLayoutDefault = <TRowDataType extends IPlainObject>({
   onRowClick,
   allowMultipleSelect,
 }: TableLayoutProps<TRowDataType>) => {
-  const PaginationComponent = renderPaginationAs ? renderPaginationAs : TablePaginationDefault;
-
   return (
     <div
       style={{
@@ -77,22 +68,13 @@ const TableLayoutDefault = <TRowDataType extends IPlainObject>({
       </Box>
 
       {rows.length > 0 && (
-        <PaginationComponent
+        <TablePaginationDefault
           totalCount={totalCount || 0}
           currentPage={tableState.currentPage}
           onPageChange={onChangePage}
           onRowsPerPageChange={onChangePageSize}
           rowsPerPage={tableState.pageSize}
         />
-      )}
-
-      {!!bottomActionsConfig && (
-        <BottomSection>
-          <BottomButtons
-            actions={bottomActionsConfig}
-            selectedRows={selectedRows}
-          />
-        </BottomSection>
       )}
     </div>
   );

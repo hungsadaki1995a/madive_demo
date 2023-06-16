@@ -35,7 +35,6 @@ function ViewResourceDetailDataTable({ data }: { data: ProminerMethodDto }) {
   return (
     <Paper style={{ padding: '20px' }}>
       <CommonTable
-        tableName="prominer-method-table"
         fieldAsRowId="email"
         columnsConfig={columnsConfig}
         rows={test}

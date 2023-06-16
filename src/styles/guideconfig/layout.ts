@@ -60,6 +60,7 @@ declare module '@mui/material/styles' {
 
   interface DefaultTheme extends Theme {
     iconSize: SizeOptions;
+    round?: ThemeOptions['spacing'];
   }
 }
 
@@ -91,7 +92,7 @@ let layoutTheme = createTheme({
     fontWeightMedium: 500,
     fontWeightBold: 700,
   },
-  round: [0, 0, 2, 4, 8],
+  round: [0, 0, 2, 4, 8, 12],
   iconSize: {
     sm: '16px',
     base: '18px',

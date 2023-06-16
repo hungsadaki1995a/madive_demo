@@ -103,7 +103,6 @@ const PorminerVariableDataTable = observer(({ appId }: { appId: string }) => {
       <CommonTable<ProminerResourceDto>
         allowMultipleSelect={false}
         query={ProminerApi.getVariableList}
-        tableName="prominer-variable-table"
         fieldAsRowId="variable_name"
         columnsConfig={columnsConfig}
         filterConfig={filterConfig as unknown as IFilterConfig}

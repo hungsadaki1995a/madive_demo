@@ -138,7 +138,6 @@ const UserHistoryDataTable = observer(() => {
           hasSelectionRows
           allowMultipleSelect
           query={UserApi.getHistoryList}
-          tableName="user-table"
           fieldAsRowId="history_id"
           columnsConfig={columnsConfig}
           filterConfig={filterConfig as unknown as IFilterConfig}

@@ -13,6 +13,8 @@ import logGif from '@/stylesheets/images/login/framework_illust.gif';
 import logTImg from '@/stylesheets/images/login/loginTimg.svg';
 import { ReactComponent as PasswordIcon } from '@/stylesheets/images/login/logPw.svg';
 import { ReactComponent as UserIcon } from '@/stylesheets/images/login/logUser.svg';
+import { useStore } from '@/utils';
+import { clearAllCacheLocalStorage } from '@/utils/CacheUtils';
 import { notify } from '@/utils/notify';
 
 import { AUTHENTICATION_COOKIE, COOKIE_EXPIRE_TIME, USER_INFO_COOKIE } from '@/constants';
@@ -43,6 +45,7 @@ const resolver = classValidatorResolver(LoginDto);
 
 const Login = (): JSX.Element => {
   const navigate = useNavigate();
+  const { SearchServerCachedStore } = useStore();
   const [isShowPassword, setIsShowPassword] = useState<boolean>(false);
 
   const {
@@ -94,11 +97,22 @@ const Login = (): JSX.Element => {
     }
   });
 
+  const clearAllCacheStore = () => {
+    SearchServerCachedStore.resetSearchCache();
+  };
+
+  const clearAllCache = () => {
+    clearAllCacheStore();
+    clearAllCacheLocalStorage();
+  };
+
   useEffect(() => {
     const auth = cookies.get(AUTHENTICATION_COOKIE);
 
     if (auth && auth.signed) {
       navigate('/', { replace: true });
+    } else {
+      clearAllCache();
     }
   }, []);
 

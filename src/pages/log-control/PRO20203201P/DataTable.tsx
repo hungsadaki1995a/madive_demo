@@ -4,16 +4,8 @@ import { Paper } from '@mui/material';
 import { observer } from 'mobx-react';
 
 import CommonTable from '@/components/organisms/CmCommonTable';
-import {
-  IAddAction,
-  ICommonTableColumn,
-  IFilterConfig,
-  IPlainObject,
-  ITopAction,
-} from '@/components/organisms/CmCommonTable/types';
+import { ICommonTableColumn, IFilterConfig, IPlainObject } from '@/components/organisms/CmCommonTable/types';
 
-import { ReactComponent as DeleteIcon } from '@/stylesheets/images/DeleteIcon.svg';
-import TopButtonModel from '@/types/models/topButtonModel';
 import { useStore } from '@/utils';
 
 import DeleteLogControlItemModal from './modal/DeleteLogControlItemModal';
@@ -170,23 +162,6 @@ function LogManagementDataTable() {
     };
   }, []);
 
-  const addBtnConfig = useMemo<IAddAction>((): IAddAction => {
-    return {
-      label: 'Add New Log Control Item',
-      onClick: () => handleCreateLogManagementModalOpen(),
-    };
-  }, []);
-
-  const topActionConfig = useMemo<ITopAction<TopButtonModel>[]>((): ITopAction<TopButtonModel>[] => {
-    return [
-      {
-        label: 'Delete',
-        onClick: () => handleDeleteLogManagementModalOpen(),
-        icon: <DeleteIcon />,
-      },
-    ];
-  }, []);
-
   const onSelectedRows = (rows: any) => {
     setSelectedRows([...rows]);
   };
@@ -201,7 +176,6 @@ function LogManagementDataTable() {
   return (
     <Paper style={{ padding: '20px' }}>
       <CommonTable
-        tableName="meta-table"
         // renderLayoutAs={TableLayoutCustom}
         fieldAsRowId="user_key"
         columnsConfig={columnsConfig}
@@ -209,15 +183,12 @@ function LogManagementDataTable() {
         hasSelectionRows
         onSelectedRows={onSelectedRows}
         onRowClick={handleEditLogManagementModalOpen}
-        topActionConfig={topActionConfig}
-        addBtnConfig={addBtnConfig}
         filterConfig={filterConfig}
         //onFilterTriggerQuery={filter}
         sortDefault={{
           field: 'user_key',
           direction: 'asc',
         }}
-        onSortChange={() => console.log('')}
         paginationConfig={{
           rowsPerPageOptions: [10, 25, 50, 100],
           currentPage: 0,

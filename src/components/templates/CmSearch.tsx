@@ -104,10 +104,6 @@ function CmSearch() {
           label="Property 2 : Value 3"
           onDelete={handleDelete}
         />
-        <Chip
-          label="Property 3 : Value 4"
-          onDelete={handleDelete}
-        />
       </Stack>
       <TextField
         hiddenLabel
