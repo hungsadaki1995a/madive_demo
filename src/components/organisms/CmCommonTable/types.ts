@@ -1,4 +1,6 @@
-import { TableActionName } from './const';
+import { IOriginalResponse } from '@/types/http';
+
+import { FilterTypes, TableActionName } from './const';
 
 export type DirectionType = 'asc' | 'desc';
 
@@ -113,62 +115,38 @@ export interface IPaginationConfig extends IPaginationParams {
 }
 
 export interface ICommonTable<TRowDataType extends IPlainObject> {
-  tableName: string;
   fieldAsRowId: string;
-  // eslint-disable-next-line no-use-before-define
-  renderLayoutAs?: (props: TableLayoutProps<TRowDataType>) => JSX.Element;
   columnsConfig: ICommonTableColumn<TRowDataType>[];
   rows?: TRowDataType[];
-  //
   hasSelectionRows?: boolean;
   allowMultipleSelect?: boolean;
   onSelectedRows?: (selectedRows: TRowDataType[]) => void;
-  //
-  showTopSelect?: boolean;
-  //
-  topActionConfig?: ITopAction<TRowDataType>[];
-  //
-  addBtnConfig?: IAddAction;
-  //
   filterConfig?: IFilterConfig;
-  onFilterTriggerQuery?: (filterValues: IPlainObject) => void;
-  //
   sortDefault: ISortInfo;
-  onSortChange?: (sortInfo: ISortInfo) => void;
-  //
   paginationConfig?: IPaginationConfig;
-  renderPaginationAs?: (props: IPaginationConfig) => JSX.Element;
-  //
-  showResultCount?: boolean;
-  //
-  bottomActionsConfig?: IBottomAction<TRowDataType>[];
   query?: (filterData?: any) => Promise<any>;
   onRowClick?: (event: React.MouseEvent, row: TRowDataType) => void;
-  totalCount?: number;
+  searchServerConfig?: SearchServerConfig;
+  convertPayloadRequest?: (filterData: TableViewState) => IPlainObject;
+  convertResponse?: (response: IOriginalResponse) => TableDataResponseDto<TRowDataType>;
+  endpoint?: string;
 }
 
 export type TableLayoutProps<TRowDataType extends IPlainObject> = Pick<
   ICommonTable<TRowDataType>,
-  | 'showTopSelect'
-  | 'topActionConfig'
-  | 'addBtnConfig'
   | 'filterConfig'
-  | 'onFilterTriggerQuery'
   | 'hasSelectionRows'
   | 'rows'
   | 'columnsConfig'
   | 'paginationConfig'
-  | 'renderPaginationAs'
   | 'fieldAsRowId'
-  | 'bottomActionsConfig'
-  | 'totalCount'
   | 'onRowClick'
   | 'allowMultipleSelect'
 > & {
   handleCheckAll: ({ checked }: { checked: boolean }) => void;
   sortInfo: ISortInfo;
   handleSortTable: ({ field }: { field: string }) => void;
-  handleCheckRow: ({ row, checked }: { row: any; checked: boolean }) => void;
+  handleCheckRow: ({ row, checked }: { row: TRowDataType; checked: boolean }) => void;
   selectedRowsMapping: {
     [key: string]: TRowDataType;
   };
@@ -177,8 +155,9 @@ export type TableLayoutProps<TRowDataType extends IPlainObject> = Pick<
   tableState: TableViewState;
   onChangePage: (page: number) => void;
   onChangePageSize: (pageNumber: number) => void;
-  onChangeFilterClient?: (filterData: any) => void;
+  onChangeFilterClient?: (filterData: FilterFormType) => void;
   onChangeFilterServer?: (filterData: FilterFormType) => void;
+  totalCount?: number;
 };
 
 export interface IButtonMenuConfig {
@@ -264,4 +243,39 @@ export type ImperativeHandleDto<TRowType> = {
   fetch: () => void;
   resetPageAndRefresh: () => void;
   changeFilterServer: (filter: FilterFormType) => void;
+};
+
+export type SearchServerConfigOption = {
+  label: string;
+  fieldName: string;
+  value?: string;
+  type?: FilterTypes;
+  options?: {
+    label: string;
+    value: string;
+  }[];
+};
+
+export type SearchServerConfig = {
+  fieldOptions: SearchServerConfigOption[];
+};
+
+export type SearchServerFieldValue = {
+  fieldName: string;
+  value: string;
+  label: string;
+};
+
+export type SearchCachedCondition = {
+  name: string;
+  conditions: SearchServerFieldValue[];
+};
+
+export type SearchCachedFromPath = {
+  path: string;
+  conditions: SearchCachedCondition[];
+};
+
+export type SaveCacheConditionForm = {
+  conditionName: string;
 };

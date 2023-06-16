@@ -4,17 +4,8 @@ import { Paper } from '@mui/material';
 import { observer } from 'mobx-react';
 
 import CommonTable from '@/components/organisms/CmCommonTable';
-import {
-  IAddAction,
-  IBottomAction,
-  ICommonTableColumn,
-  IFilterConfig,
-  IPlainObject,
-  ITopAction,
-} from '@/components/organisms/CmCommonTable/types';
+import { ICommonTableColumn, IFilterConfig, IPlainObject } from '@/components/organisms/CmCommonTable/types';
 
-import { ReactComponent as DeleteIcon } from '@/stylesheets/images/DeleteIcon.svg';
-import TopButtonModel from '@/types/models/topButtonModel';
 import { useStore } from '@/utils';
 
 import DeleteRoleModal from './modal/DeleteRoleModal';
@@ -136,27 +127,6 @@ function RoleManagementDataTable() {
     };
   }, []);
 
-  const addBtnConfig = useMemo<IAddAction>((): IAddAction => {
-    return {
-      label: 'Create New Role',
-      onClick: () => handleCreateRoleModalOpen(),
-    };
-  }, []);
-
-  const topActionConfig = useMemo<ITopAction<TopButtonModel>[]>((): ITopAction<TopButtonModel>[] => {
-    return [
-      {
-        label: 'Delete',
-        onClick: () => handleDeleteRoleModalOpen(),
-        icon: <DeleteIcon />,
-      },
-    ];
-  }, []);
-
-  const bottomActionsConfig = useMemo<IBottomAction<IPlainObject>[]>((): IBottomAction<IPlainObject>[] => {
-    return [];
-  }, []);
-
   const onSelectedRows = (rows: any) => {
     setSelectedRows([...rows]);
   };
@@ -171,23 +141,18 @@ function RoleManagementDataTable() {
   return (
     <Paper style={{ padding: '20px' }}>
       <CommonTable
-        tableName="role-management-table"
-        // renderLayoutAs={TableLayoutCustom}
         fieldAsRowId="role_id"
         columnsConfig={columnsConfig}
         rows={sampleRows}
         hasSelectionRows
         onSelectedRows={onSelectedRows}
         onRowClick={handleEditRoleModalOpen}
-        topActionConfig={topActionConfig}
-        addBtnConfig={addBtnConfig}
         filterConfig={filterConfig}
         //onFilterTriggerQuery={filter}
         sortDefault={{
           field: 'role_id',
           direction: 'asc',
         }}
-        onSortChange={() => console.log('')}
         paginationConfig={{
           rowsPerPageOptions: [10, 25, 50, 100],
           currentPage: 0,
@@ -197,8 +162,6 @@ function RoleManagementDataTable() {
           onPageChange: (newPageIndex: number) => console.log(newPageIndex),
           onRowsPerPageChange: (newRowsPerPage: number) => console.log(newRowsPerPage),
         }}
-        // renderPaginationAs={TablePaginationCustom}
-        bottomActionsConfig={bottomActionsConfig}
       />
 
       {/* Create Role - Modal */}

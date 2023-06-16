@@ -19,23 +19,15 @@ function UserGroupAssignDataTable(props: propsType) {
   return (
     <Paper style={{ padding: '20px' }}>
       <CommonTable
-        tableName="prominer-resource-table"
-        // renderLayoutAs={TableLayoutCustom}
         fieldAsRowId={fieldAsRowId}
         columnsConfig={columnsConfig}
         rows={rows}
         hasSelectionRows
         onSelectedRows={onSelectedRows}
-        //topActionConfig={topActionConfig}
-        //filterConfig={filterConfig}
-        //onFilterTriggerQuery={filter}
         sortDefault={{
           field: fieldAsRowId,
           direction: 'asc',
         }}
-        onSortChange={() => console.log('')}
-        // renderPaginationAs={TablePaginationCustom}
-        //bottomActionsConfig={bottomActionsConfig}
         paginationConfig={paginationConfig}
       />
     </Paper>

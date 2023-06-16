@@ -164,7 +164,6 @@ function DbioDataTable() {
       <CommonTable
         hasSelectionRows
         query={DbioApi.getDbios}
-        tableName="dbio-table"
         fieldAsRowId="alias"
         columnsConfig={columnsConfig}
         filterConfig={filterConfig as unknown as IFilterConfig}

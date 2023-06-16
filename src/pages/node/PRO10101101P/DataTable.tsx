@@ -275,7 +275,6 @@ const NodeManagementDataTable = observer(() => {
           hasSelectionRows
           allowMultipleSelect={false}
           query={NodeApi.getNodes}
-          tableName="node-management-table"
           fieldAsRowId="node_id"
           columnsConfig={columnsConfig}
           filterConfig={filterConfig as unknown as IFilterConfig}

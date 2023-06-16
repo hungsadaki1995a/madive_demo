@@ -30,7 +30,7 @@ apiClient.interceptors.response.use(
 
 export default apiClient;
 
-export function getRequest(URL: string, payload: IPlainObject): Promise<AxiosResponse> {
+export function getRequest(URL: string, payload: IPlainObject): Promise<IOriginalResponse> {
   return apiClient
     .get(`/${URL}`, {
       params: {
@@ -40,7 +40,7 @@ export function getRequest(URL: string, payload: IPlainObject): Promise<AxiosRes
         _: new Date().getTime(),
       },
     })
-    .then((response) => response);
+    .then((response) => response as unknown as IOriginalResponse);
 }
 
 export function postRequest(URL: string, payload: IPlainObject) {

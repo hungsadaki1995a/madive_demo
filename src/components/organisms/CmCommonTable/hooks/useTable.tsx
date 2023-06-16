@@ -1,6 +1,8 @@
 import { useEffect, useMemo, useReducer, useState } from 'react';
 
+import { IOriginalResponse } from '@/types/http';
 import { rowsPerPageDefault } from '@/utils/const/form.const';
+import useApiLazyQuery from '@/utils/hooks/useApiLazyQuery';
 
 import { TableActions } from '../state/action';
 import { tableReducer } from '../state/reducer';
@@ -14,6 +16,9 @@ type FilterLogicCallbackType = <TRowDataType extends IPlainObject>(
 interface IUseTableProps<TRowData> {
   query?: (tableViewState: TableViewState) => Promise<TableDataResponseDto<TRowData>>;
   rows?: TRowData[];
+  convertPayloadRequest?: (tableViewState: TableViewState) => IPlainObject;
+  convertResponse?: (response: IOriginalResponse) => TableDataResponseDto<TRowData>;
+  endpoint?: string;
 }
 
 interface IUseTableResult<TRowDataType extends IPlainObject> {
@@ -84,6 +89,9 @@ const initValue: TableViewState = {
 const useTable = <TRowDataType extends IPlainObject>({
   query,
   rows,
+  convertPayloadRequest,
+  convertResponse,
+  endpoint,
 }: IUseTableProps<TRowDataType>): IUseTableResult<TRowDataType> => {
   const [tableState, dispatch] = useReducer(tableReducer, initValue);
   const [tableData, setTableData] = useState<TableDataResponseDto<TRowDataType>>({
@@ -91,13 +99,42 @@ const useTable = <TRowDataType extends IPlainObject>({
     total: 0,
   });
 
+  const { request, isLoading } = useApiLazyQuery({
+    endpoint: endpoint || '',
+    onCompleted: (response) => {
+      const tableData = convertResponse?.(response) || {
+        data: [],
+        total: 0,
+      };
+      setTableData(tableData);
+    },
+    onError: (error) => {
+      setTableData({
+        data: [],
+        total: 0,
+      });
+    },
+  });
+
   const queryData = async () => {
     if (query) {
       const { data, total } = await query(tableState);
       setTableData({
-        data,
-        total,
+        data: data,
+        total: total,
       });
+    } else {
+      let payloadRequest: IPlainObject = {
+        ...tableState,
+        pageInfoDto: {
+          pageNum: 1,
+          pageLength: -1,
+        },
+      };
+      if (convertPayloadRequest) {
+        payloadRequest = convertPayloadRequest(tableState);
+      }
+      request(payloadRequest);
     }
   };
 
@@ -129,6 +166,7 @@ const useTable = <TRowDataType extends IPlainObject>({
       setTableData({ data: rows, total: rows?.length || 0 });
     }
   }, [rows]);
+
   useEffect(() => {
     if (tableState.invalidate) {
       queryData();

@@ -160,7 +160,6 @@ const GroupManagementDataTable = observer(() => {
   return (
     <Paper style={{ padding: '20px' }}>
       <CommonTable<ConfigGroupDto>
-        tableName="group-management-table"
         fieldAsRowId="group_id"
         query={GroupManagement.groupManagement}
         allowMultipleSelect

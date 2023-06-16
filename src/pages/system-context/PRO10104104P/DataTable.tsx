@@ -183,7 +183,6 @@ function SystemContextDatasourceDataTable(prop: PropType) {
     <>
       <CommonTable<PropertyList>
         query={SystemContextApi.getTableDataDatasource}
-        tableName="data-source-table"
         fieldAsRowId="key_parameter"
         hasSelectionRows
         allowMultipleSelect={false}

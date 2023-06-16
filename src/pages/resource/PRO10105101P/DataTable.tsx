@@ -153,7 +153,6 @@ const LockAndUnlockDataTable = observer(({ appId }: { appId: string }) => {
         hasSelectionRows
         allowMultipleSelect
         query={LockUnlockApi.getLockList}
-        tableName="resource-lock-table"
         fieldAsRowId="resource_id"
         columnsConfig={columnsConfig}
         filterConfig={filterConfig as unknown as IFilterConfig}

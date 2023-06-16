@@ -8,6 +8,7 @@ import {
   NodeStore,
   ProminerStore,
   RoleStore,
+  SearchServerCachedStore,
   TestCaseStore,
   UserStore,
 } from '@/stores';
@@ -25,4 +26,5 @@ export class RootStore {
   // ConfigRoleStore: ConfigRoleStore = new ConfigRoleStore();
   MenuStore: MenuStore = new MenuStore();
   ApplicationStore: ApplicationStore = new ApplicationStore();
+  SearchServerCachedStore: SearchServerCachedStore = new SearchServerCachedStore();
 }

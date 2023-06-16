@@ -103,7 +103,6 @@ const ProminerFieldDataTable = observer(({ appId }: { appId: string }) => {
       <CommonTable<ProminerResourceDto>
         allowMultipleSelect={false}
         query={ProminerApi.getFieldList}
-        tableName="prominer-field-table"
         fieldAsRowId="field_name"
         columnsConfig={columnsConfig}
         filterConfig={filterConfig as unknown as IFilterConfig}

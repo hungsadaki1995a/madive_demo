@@ -211,7 +211,6 @@ const UserManagementDataTable = observer(() => {
           hasSelectionRows
           allowMultipleSelect
           query={UserApi.getList}
-          tableName="user-table"
           fieldAsRowId="user_id"
           columnsConfig={columnsConfig}
           filterConfig={filterConfig as unknown as IFilterConfig}

@@ -1,22 +1,44 @@
-import { useMemo, useState } from 'react';
-import { useForm } from 'react-hook-form';
+import { useMemo } from 'react';
 
-import { Box, Paper, TextField } from '@mui/material';
+import { Box } from '@mui/material';
 import { observer } from 'mobx-react';
 
-import { CmButton } from '@/components/atoms/CmButton';
 import CommonTable from '@/components/organisms/CmCommonTable';
-import { ICommonTableColumn, IPlainObject } from '@/components/organisms/CmCommonTable/types';
+import { FilterTypes } from '@/components/organisms/CmCommonTable/const';
+import {
+  ICommonTableColumn,
+  IPlainObject,
+  SearchServerConfig,
+  TableDataResponseDto,
+  TableViewState,
+} from '@/components/organisms/CmCommonTable/types';
 
-import { DoInfoApi } from '@/apis';
-import { DoInfoInput, FieldInfoDto } from '@/types/dtos/doInfoDto';
-import { notify } from '@/utils/notify';
+import { FieldInfoDto } from '@/types/dtos/doInfoDto';
+import { IOriginalResponse } from '@/types/http';
+
+import { DoInfoEndPoint } from '@/constants';
+
+const searchServerConfig: SearchServerConfig = {
+  fieldOptions: [
+    {
+      label: 'Application',
+      fieldName: 'app_name',
+      type: FilterTypes.TEXT,
+    },
+    {
+      label: 'Service Group',
+      fieldName: 'sg_name',
+      type: FilterTypes.TEXT,
+    },
+    {
+      label: 'Physical Name',
+      fieldName: 'physical_name',
+      type: FilterTypes.TEXT,
+    },
+  ],
+};
 
 const DoInfoDataTable = observer(() => {
-  const { register, handleSubmit } = useForm<DoInfoInput>();
-
-  const [data, setData] = useState<FieldInfoDto[]>([]);
-
   const columnsConfig = useMemo<ICommonTableColumn<IPlainObject>[]>(() => {
     return [
       {
@@ -106,71 +128,29 @@ const DoInfoDataTable = observer(() => {
     ];
   }, []);
 
-  const onSubmit = async (formData: DoInfoInput) => {
-    const res = await DoInfoApi.getDoInfo(formData);
+  const convertPayloadRequest = (tableState: TableViewState) => {
+    const payload = tableState.filter.server;
+    return payload;
+  };
 
-    if (res?.dto?.result === 'Success') {
-      setData(res?.dto?.FieldInfo);
-    } else {
-      notify.error(res?.dto?.result);
-      setData([]);
-    }
+  const convertResponse = (response: IOriginalResponse): TableDataResponseDto<FieldInfoDto> => {
+    return { data: response?.dto?.FieldInfo || [], total: response?.dto?.pagingResultDto?.totalNum || 0 };
   };
 
   return (
     <Box>
-      <Paper style={{ padding: '20px' }}>
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <label
-            className="labelFormArea"
-            style={{ padding: '20px' }}
-          >
-            <span style={{ padding: '20px' }}>Application</span>
-            <TextField
-              className="labelTextField"
-              size="small"
-              {...register('app_name')}
-            />
-          </label>
-          <label
-            className="labelFormArea"
-            style={{ padding: '20px' }}
-          >
-            <span style={{ padding: '20px' }}>Service Group</span>
-            <TextField
-              className="labelTextField"
-              size="small"
-              {...register('sg_name')}
-            />
-          </label>
-          <label
-            className="labelFormArea"
-            style={{ padding: '20px' }}
-          >
-            <span style={{ padding: '20px' }}>Physical Name</span>
-            <TextField
-              className="labelTextField"
-              size="small"
-              {...register('physical_name')}
-            />
-          </label>
-          <CmButton
-            btnTitle="Search"
-            variant="contained"
-            type="submit"
-          />
-        </form>
-        <CommonTable<FieldInfoDto>
-          tableName="node-management-table"
-          fieldAsRowId="node_id"
-          columnsConfig={columnsConfig}
-          sortDefault={{
-            field: 'seq',
-            direction: 'asc',
-          }}
-          rows={data}
-        />
-      </Paper>
+      <CommonTable<FieldInfoDto>
+        fieldAsRowId="node_id"
+        columnsConfig={columnsConfig}
+        sortDefault={{
+          field: 'seq',
+          direction: 'asc',
+        }}
+        searchServerConfig={searchServerConfig}
+        endpoint={DoInfoEndPoint.doInfo}
+        convertPayloadRequest={convertPayloadRequest}
+        convertResponse={convertResponse}
+      />
     </Box>
   );
 });

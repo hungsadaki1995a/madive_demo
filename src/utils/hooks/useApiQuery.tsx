@@ -18,7 +18,7 @@ const useApiQuery = <ApiResponse extends IPlainObject>({ endpoint, onError, vari
   const request = async () => {
     setIsLoading(true);
     try {
-      const { data } = await getRequest(endpoint, variables);
+      const { dto } = await getRequest(endpoint, variables);
       setIsLoading(false);
       setData(data);
     } catch (error) {

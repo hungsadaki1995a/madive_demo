@@ -1,7 +1,10 @@
 import { forwardRef, Ref, useCallback, useEffect, useImperativeHandle, useMemo, useState } from 'react';
 
+import { Paper } from '@mui/material';
+
 import useTable from './hooks/useTable';
 import TableLayoutDefault from './layout/TableLayoutDefault';
+import SearchServerSection from './searchServerSection';
 import { ICommonTable, ImperativeHandleDto, IPlainObject, ISortInfo } from './types';
 
 export type CommonTableRefType = {
@@ -9,24 +12,20 @@ export type CommonTableRefType = {
 };
 const DataGridView = <TRowDataType extends IPlainObject>(
   {
-    renderLayoutAs,
     fieldAsRowId,
     columnsConfig,
     sortDefault,
-    renderPaginationAs,
     hasSelectionRows,
     allowMultipleSelect = true,
     onSelectedRows,
-    onSortChange,
     filterConfig,
-    onFilterTriggerQuery,
-    showTopSelect,
-    topActionConfig,
-    addBtnConfig,
-    bottomActionsConfig,
     query,
     rows,
     onRowClick,
+    searchServerConfig,
+    convertPayloadRequest,
+    convertResponse,
+    endpoint,
   }: ICommonTable<TRowDataType>,
   ref: Ref<ImperativeHandleDto<TRowDataType>> | undefined
 ) => {
@@ -45,6 +44,9 @@ const DataGridView = <TRowDataType extends IPlainObject>(
   } = useTable<TRowDataType>({
     query: query,
     rows: rows,
+    convertPayloadRequest: convertPayloadRequest,
+    convertResponse: convertResponse,
+    endpoint: endpoint,
   });
 
   const [selectedRows, setSelectedRows] = useState<TRowDataType[]>([]);
@@ -129,7 +131,7 @@ const DataGridView = <TRowDataType extends IPlainObject>(
       setSortInfo(sort);
       onChangeSortBy(sort);
     },
-    [onSortChange, sortInfo.field, sortInfo.direction]
+    [sortInfo.field, sortInfo.direction]
   );
 
   useEffect(() => {
@@ -146,38 +148,38 @@ const DataGridView = <TRowDataType extends IPlainObject>(
     []
   );
 
-  const LayoutComponent = renderLayoutAs ? renderLayoutAs : TableLayoutDefault;
-
   return (
     <>
-      <LayoutComponent
-        dispatch={dispatch}
-        fieldAsRowId={fieldAsRowId}
-        showTopSelect={showTopSelect}
-        topActionConfig={topActionConfig}
-        addBtnConfig={addBtnConfig}
-        filterConfig={filterConfig}
-        onFilterTriggerQuery={onFilterTriggerQuery}
-        hasSelectionRows={hasSelectionRows}
-        rows={currentPageData}
-        columnsConfig={columnsConfig}
-        handleSortTable={handleSortTable}
-        sortInfo={sortInfo}
-        renderPaginationAs={renderPaginationAs}
-        selectedRows={selectedRows}
-        handleCheckAll={handleCheckAll}
-        handleCheckRow={handleCheckRow}
-        selectedRowsMapping={selectedRowsMapping}
-        bottomActionsConfig={bottomActionsConfig}
-        tableState={tableState}
-        onChangePageSize={onChangePageSize}
-        onChangePage={onChangePage}
-        onChangeFilterClient={onChangeFilterClient}
-        onChangeFilterServer={onChangeFilterServer}
-        totalCount={totalCount}
-        onRowClick={onRowClick}
-        allowMultipleSelect={allowMultipleSelect}
-      />
+      {searchServerConfig && (
+        <SearchServerSection
+          config={searchServerConfig}
+          onChangeFilterServer={onChangeFilterServer}
+        />
+      )}
+      <Paper style={{ padding: '20px' }}>
+        <TableLayoutDefault
+          dispatch={dispatch}
+          fieldAsRowId={fieldAsRowId}
+          filterConfig={filterConfig}
+          hasSelectionRows={hasSelectionRows}
+          rows={currentPageData}
+          columnsConfig={columnsConfig}
+          handleSortTable={handleSortTable}
+          sortInfo={sortInfo}
+          selectedRows={selectedRows}
+          handleCheckAll={handleCheckAll}
+          handleCheckRow={handleCheckRow}
+          selectedRowsMapping={selectedRowsMapping}
+          tableState={tableState}
+          onChangePageSize={onChangePageSize}
+          onChangePage={onChangePage}
+          onChangeFilterClient={onChangeFilterClient}
+          onChangeFilterServer={onChangeFilterServer}
+          totalCount={totalCount}
+          onRowClick={onRowClick}
+          allowMultipleSelect={allowMultipleSelect}
+        />
+      </Paper>
     </>
   );
 };

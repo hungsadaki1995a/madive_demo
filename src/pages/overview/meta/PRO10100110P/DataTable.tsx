@@ -1,10 +1,16 @@
 import { useMemo, useRef, useState } from 'react';
 
-import { Box, Paper } from '@mui/material';
+import { Box } from '@mui/material';
 import { observer } from 'mobx-react';
 
 import CommonTable from '@/components/organisms/CmCommonTable';
-import { ICommonTableColumn, IFilterConfig, IPlainObject } from '@/components/organisms/CmCommonTable/types';
+import { FilterTypes } from '@/components/organisms/CmCommonTable/const';
+import {
+  ICommonTableColumn,
+  IFilterConfig,
+  IPlainObject,
+  SearchServerConfig,
+} from '@/components/organisms/CmCommonTable/types';
 
 import { MetaHistoryApi } from '@/apis';
 import { ReactComponent as DeleteIcon } from '@/stylesheets/images/DeleteIcon.svg';
@@ -57,6 +63,31 @@ const columnsConfig: ICommonTableColumn<IPlainObject>[] = [
     sortable: true,
   },
 ];
+
+const searchServerConfig: SearchServerConfig = {
+  fieldOptions: [
+    {
+      label: 'Physical Name',
+      fieldName: 'physical_name',
+      type: FilterTypes.TEXT,
+    },
+    {
+      label: 'History Type',
+      fieldName: 'logical_name',
+      type: FilterTypes.DROPDOWN,
+      options: [
+        { label: 'CREATE', value: 'CREATE' },
+        { label: 'UPDATE', value: 'UPDATE' },
+        { label: 'DELETE', value: 'DELETE' },
+      ],
+    },
+    {
+      label: 'Resource Group',
+      fieldName: 'resource_group',
+      type: FilterTypes.TEXT,
+    },
+  ],
+};
 
 function MetaHistoryDataTable() {
   const [isDeleteMetaHistoryModalVisible, setIsDeleteMetaHistoryModalVisible] = useState<boolean>(false);
@@ -129,27 +160,25 @@ function MetaHistoryDataTable() {
 
   return (
     <Box>
-      <Paper style={{ padding: '20px', marginTop: '30px' }}>
-        <CommonTable<MetaHistoryDto>
-          hasSelectionRows
-          allowMultipleSelect={false}
-          query={MetaHistoryApi.getList}
-          tableName="meta-history-table"
-          fieldAsRowId="history_id"
-          columnsConfig={columnsConfig}
-          filterConfig={filterConfig as unknown as IFilterConfig}
-          sortDefault={{
-            field: 'logical_name',
-            direction: 'desc',
-          }}
-          ref={tableRef}
-        />
-        <DeleteMetaHistoryModal
-          visible={isDeleteMetaHistoryModalVisible}
-          handleSave={handleDeleteMetaHistory}
-          handleClose={handleDeleteMetaHistoryModalClose}
-        />
-      </Paper>
+      <CommonTable<MetaHistoryDto>
+        hasSelectionRows
+        allowMultipleSelect={false}
+        query={MetaHistoryApi.getList}
+        fieldAsRowId="history_id"
+        searchServerConfig={searchServerConfig}
+        columnsConfig={columnsConfig}
+        filterConfig={filterConfig as unknown as IFilterConfig}
+        sortDefault={{
+          field: 'logical_name',
+          direction: 'desc',
+        }}
+        ref={tableRef}
+      />
+      <DeleteMetaHistoryModal
+        visible={isDeleteMetaHistoryModalVisible}
+        handleSave={handleDeleteMetaHistory}
+        handleClose={handleDeleteMetaHistoryModalClose}
+      />
     </Box>
   );
 }

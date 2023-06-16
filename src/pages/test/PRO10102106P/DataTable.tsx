@@ -257,19 +257,18 @@ function TestCaseDataTable() {
   return (
     <Paper style={{ padding: '20px' }}>
       <CommonTable
-        tableName="testcase-management"
         // renderLayoutAs={TableLayoutCustom}
         fieldAsRowId="email"
         columnsConfig={columnsConfig}
         rows={rows}
         //topActionConfig={topActionConfig}
         filterConfig={filterConfig}
-        onFilterTriggerQuery={filter}
+        // onFilterTriggerQuery={filter}
         sortDefault={{
           field: defaultFilterField,
           direction: SortDirectionTypes.DESC,
         }}
-        onSortChange={sort}
+        // onSortChange={sort}
         paginationConfig={pagination}
         //bottomActionsConfig={bottomActionsConfig}
       />

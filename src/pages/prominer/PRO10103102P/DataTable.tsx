@@ -63,7 +63,6 @@ function ViewResourceDetailDataTable() {
   return (
     <Paper style={{ padding: '20px' }}>
       <CommonTable
-        tableName="prominer-resource-table"
         // renderLayoutAs={TableLayoutCustom}
         fieldAsRowId="email"
         columnsConfig={columnsConfig}
@@ -78,7 +77,6 @@ function ViewResourceDetailDataTable() {
           field: 'logical_name',
           direction: 'asc',
         }}
-        onSortChange={() => console.log('')}
         // renderPaginationAs={TablePaginationCustom}
         //bottomActionsConfig={bottomActionsConfig}
       />

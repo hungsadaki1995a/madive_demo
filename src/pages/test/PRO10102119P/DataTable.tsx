@@ -130,7 +130,6 @@ const TestHistoryDataTable = observer(({ selectedValue }: { selectedValue: strin
       <Paper style={{ padding: '20px', marginTop: '30px' }}>
         <CommonTable<TestCaseDto>
           query={TestHistoryApi.getListHistory}
-          tableName="prominer-resource-table"
           onRowClick={handleClickRow}
           fieldAsRowId="create_time"
           columnsConfig={columnsConfig}
