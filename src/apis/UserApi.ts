@@ -11,7 +11,7 @@ import apiClient from './apiClient';
 const UserApi = {
   getList: async (): Promise<TableDataResponseDto<configUserDto> | unknown> => {
     try {
-      const res = (await apiClient.get(UserEndpoint.getUserList)) as any;
+      const res = (await apiClient.get(UserEndpoint.getList)) as any;
       const result = res.dto.ConfigUserDto;
       return { data: result, total: result.length || 0 };
     } catch (error: unknown) {
@@ -21,7 +21,7 @@ const UserApi = {
 
   getHistoryList: async (): Promise<TableDataResponseDto<configUserDto> | unknown> => {
     try {
-      const res = (await apiClient.get(UserEndpoint.getUserHistory)) as any;
+      const res = (await apiClient.get(UserEndpoint.historyList)) as any;
       const result = res.dto.ConfigUserDto;
       return { data: result, total: result.length || 0 };
     } catch (error: unknown) {
@@ -31,7 +31,7 @@ const UserApi = {
 
   deleteHistory: async (data: configUserDto[]) => {
     try {
-      return await apiClient.delete(UserEndpoint.getUserHistory, {
+      return await apiClient.delete(UserEndpoint.historyList, {
         data: {
           dto: {
             ConfigUserDto: data,

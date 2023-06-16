@@ -26,7 +26,7 @@ const MetaApi = {
     sortField = 'physical_name',
   }: MetaGetApiParam): Promise<TableDataResponseDto<MetaDtos> | any> => {
     try {
-      const data: IOriginalResponse = await apiClient.get(MetaEndPoint.getMetaList, {
+      const data: IOriginalResponse = await apiClient.get(MetaEndPoint.metaList, {
         params: {
           [JSON.stringify({
             dto: {
@@ -88,7 +88,7 @@ const MetaApi = {
 
   MetaCreate: async (submitValue: MetaModel): Promise<{ value: string } | any> => {
     try {
-      const data: IOriginalResponse = await apiClient.post(MetaEndPoint.createMeta, {
+      const data: IOriginalResponse = await apiClient.post(MetaEndPoint.meta, {
         dto: submitValue,
       });
       return data;
@@ -99,7 +99,7 @@ const MetaApi = {
 
   editMeta: async (submitValue: MetaModel): Promise<{ value: string } | any> => {
     try {
-      const data: IOriginalResponse = await apiClient.put(MetaEndPoint.editMeta, {
+      const data: IOriginalResponse = await apiClient.put(MetaEndPoint.meta, {
         dto: submitValue,
       });
       return data;
@@ -110,7 +110,7 @@ const MetaApi = {
 
   MetaListDelete: async (submitValue: MetaDtos[]): Promise<{ value: string } | any> => {
     try {
-      const data: IOriginalResponse = await apiClient.delete(MetaEndPoint.deleteMetaList, {
+      const data: IOriginalResponse = await apiClient.delete(MetaEndPoint.metaList, {
         data: {
           dto: {
             MetaDto: submitValue,

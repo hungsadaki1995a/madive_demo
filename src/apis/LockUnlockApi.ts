@@ -5,7 +5,7 @@ import { TableDataResponseDto, TableViewState } from '@/components/organisms/CmC
 import { LockAndUnlockDto } from '@/types/dtos/lockUnlockDtos';
 import { IOriginalResponse } from '@/types/http';
 
-import { ResourceEndPoint } from '@/constants';
+import { LockUnLockEndPoint } from '@/constants';
 
 import apiClient from './apiClient';
 
@@ -17,7 +17,7 @@ const LockUnlockApi = {
       let totalNum = 0;
 
       if (filter.server.app_resource_id) {
-        const data: IOriginalResponse = await apiClient.get(ResourceEndPoint.getLockList, {
+        const data: IOriginalResponse = await apiClient.get(LockUnLockEndPoint.getLockList, {
           params: {
             [JSON.stringify({
               dto: {
@@ -48,7 +48,7 @@ const LockUnlockApi = {
   unlockResources: async (data: LockAndUnlockDto[]): Promise<TableDataResponseDto<LockAndUnlockDto> | unknown> => {
     try {
       if (data) {
-        await apiClient.delete(ResourceEndPoint.unlockResources, {
+        await apiClient.delete(LockUnLockEndPoint.unlockResources, {
           data: {
             dto: { LockUnDto: data },
           },

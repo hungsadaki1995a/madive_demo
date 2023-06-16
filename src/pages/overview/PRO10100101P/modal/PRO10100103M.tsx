@@ -5,7 +5,7 @@ import { CmButton } from '@/components/atoms/CmButton';
 import { CmTextField } from '@/components/atoms/CmTextField';
 import CmFormDialog from '@/components/molecules/CmFormDialog';
 
-import AppAndSGAPI from '@/apis/ServiceGroupApi';
+import { ApplicationApi } from '@/apis';
 import { IDialogBaseRef } from '@/types/common';
 import { ApplicationDto } from '@/types/dtos/applicationDtos';
 import { editApplicationDto } from '@/types/dtos/overviewDtos';
@@ -37,7 +37,7 @@ const EditApplicationModal: React.FC<CmModalEditProps> = ({ resetList, data, for
 
     try {
       // Send a request to edit the application
-      await AppAndSGAPI.editApplication(editApplication);
+      await ApplicationApi.editApplication(editApplication);
       // Close the modal
       formDialogLargeRef.current?.hide();
       // Reset List

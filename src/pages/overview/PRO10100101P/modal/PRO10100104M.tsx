@@ -13,11 +13,12 @@ import { ReactComponent as ModalAdd } from '@/stylesheets/images/cmModalAdd.svg'
 import { ReactComponent as ModalDelIcon } from '@/stylesheets/images/cmModalDelIcon.svg';
 import { ApplicationDto } from '@/types/dtos/applicationDtos';
 import { SgListResponse } from '@/types/dtos/overviewDtos';
+import { notify } from '@/utils/notify';
 
 type ServiceGroup = {
   visible: boolean;
   clickedItem?: ApplicationDto;
-  handleSave?: () => void;
+  handleSave: () => void;
   handleClose: () => void;
 };
 
@@ -31,15 +32,6 @@ type FormData = {
   physical_name: string;
   logical_name: string;
 };
-// AppAndSGAPI.addSgData([
-//   {
-//     creator: '',
-//     group_id: '000000170802000027b8b200dcf79930',
-//     group_name: 'Test',
-//     logical_name: '5555',
-//     physical_name: '5555',
-//   },
-// ]);
 
 export default function ServiceGroup({ clickedItem, visible, handleSave, handleClose }: ServiceGroup) {
   const {
@@ -51,46 +43,98 @@ export default function ServiceGroup({ clickedItem, visible, handleSave, handleC
   const [dataSg, setDataSg] = useState<SgListResponse[]>([]);
   const [dataNew, setDataNew] = useState<SgListResponse[]>([]);
   const [dataEdit, setDataEdit] = useState<SgListResponse[]>([]);
-  const [dataDelete, setDataDelete] = useState<string[]>([]);
+  const [dataDelete, setDataDelete] = useState<SgListResponse[]>([]);
+  const [dataAdd, setDataAdd] = useState<SgListResponse[]>([]);
+
   const onSubmit = (data: FormData) => {
-    setDataNew((prevDataNew) => [
-      ...prevDataNew,
-      {
-        physical_name: data.physical_name,
-        logical_name: data.logical_name,
-        group_id: clickedItem?.resource_id,
-        group_name: clickedItem?.physical_name,
-        creator: clickedItem?.creator,
-      },
-    ]);
+    const isPhysicalNameExists = dataNew.some((item) => item.physical_name === data.physical_name);
+
+    if (!isPhysicalNameExists) {
+      setDataAdd((prevDataAdd) => [
+        ...prevDataAdd,
+        {
+          physical_name: data.physical_name,
+          logical_name: data.logical_name,
+          group_id: clickedItem?.resource_id,
+          group_name: clickedItem?.physical_name,
+          creator: clickedItem?.creator,
+        },
+      ]);
+      setDataNew((prevDataNew) => [
+        ...prevDataNew,
+        {
+          physical_name: data.physical_name,
+          logical_name: data.logical_name,
+          group_id: clickedItem?.resource_id,
+          group_name: clickedItem?.physical_name,
+          creator: clickedItem?.creator,
+        },
+      ]);
+      reset();
+    } else {
+      notify.error('Physical Name is Duplicated ! ');
+    }
   };
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await AppAndSGAPI.getSglist(clickedItem?.resource_id);
+        const response = await AppAndSGAPI.getServiceList(clickedItem?.resource_id);
         setDataSg(response?.dto.ServiceGroupDto);
         setDataNew(response?.dto.ServiceGroupDto);
       } catch (error) {
         console.error('Delete application failed:', error);
       }
     };
-    // setDataNew((prevDataNew) => [...prevDataNew, ...dataSg]);
     fetchData();
   }, [clickedItem]);
 
   const handleSaveService = async () => {
     try {
-      await Promise.all([AppAndSGAPI.editSgData(dataEdit), AppAndSGAPI.addSgData(dataNew)]);
-      handleSave?.();
+      // Check Duplicate
+      const filteredDataAdd = dataAdd.filter((item) => {
+        return !dataDelete.some(
+          (deleteItem) =>
+            deleteItem.physical_name === item.physical_name && deleteItem.logical_name === item.logical_name
+        );
+      });
+      const filteredDataDelete = dataDelete.filter((item) => {
+        return !dataAdd.some(
+          (addItem) => addItem.physical_name === item.physical_name && addItem.logical_name === item.logical_name
+        );
+      });
+      // API implementation conditions
+      if (dataDelete.length > 0) {
+        await AppAndSGAPI.deleteSgData(filteredDataDelete);
+      }
+      if (dataAdd.length > 0) {
+        await AppAndSGAPI.addSgData(filteredDataAdd);
+      }
+      if (dataEdit.length > 0) {
+        await AppAndSGAPI.editSgData(dataEdit);
+      }
+      // Reset the value
+      setDataAdd([]);
+      setDataEdit([]);
+      setDataDelete([]);
       handleClose();
-      reset();
+      handleSave();
     } catch (error) {
       console.error('Save service group failed:', error);
     }
   };
+  const handleCloseModal = () => {
+    // Reset the value
+    setDataAdd([]);
+    setDataEdit([]);
+    setDataDelete([]);
+    setDataNew(dataSg);
+    handleClose();
+  };
 
-  const handleDeleteRow = (itemId: string) => {
+  const handleDeleteRow = (itemId: any) => {
+    console.log(itemId);
     setDataDelete((prevDataDelete) => [...prevDataDelete, itemId]);
+    setDataNew((prevDataNew) => prevDataNew.filter((item) => item !== itemId));
   };
   const footerRender = () => (
     <Box className="alignL">
@@ -101,7 +145,7 @@ export default function ServiceGroup({ clickedItem, visible, handleSave, handleC
         startIcon={<></>}
         className=""
         color="info"
-        onClick={handleClose}
+        onClick={handleCloseModal}
       />
       <CmButton
         id="rightBtn2"
@@ -146,11 +190,14 @@ export default function ServiceGroup({ clickedItem, visible, handleSave, handleC
             name="logical_name"
             control={control}
             defaultValue=""
+            rules={{ required: true }}
             render={({ field }) => (
               <TextField
                 {...field}
                 placeholder="Logical Name"
                 size="small"
+                error={!!errors.logical_name}
+                helperText={errors.logical_name ? '' : ''}
               />
             )}
           />
@@ -206,7 +253,7 @@ export default function ServiceGroup({ clickedItem, visible, handleSave, handleC
               </TableCell>
               <TableCell align="center">
                 <CmIconButton
-                  onClick={() => item?.resource_id && handleDeleteRow(item.resource_id)}
+                  onClick={() => handleDeleteRow(item)}
                   iconName={<ModalDelIcon />}
                 />
               </TableCell>

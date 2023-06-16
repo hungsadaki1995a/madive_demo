@@ -40,7 +40,7 @@ const SystemContextApi = {
 
   getNodeForSystemContext: async () => {
     try {
-      const data = (await apiClient.get(NodeEndpoint.getNodeList, {
+      const data = (await apiClient.get(NodeEndpoint.getList, {
         params: {
           [JSON.stringify({
             dto: {
