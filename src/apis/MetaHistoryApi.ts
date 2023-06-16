@@ -14,7 +14,7 @@ const MetaHistoryApi = {
       const { currentPage, sortBy } = tableState;
       let result = sortBy.field;
       let totalNum = 0;
-      const data = (await apiClient.get(MetaHistoryEndPoint.getList, {
+      const data = (await apiClient.get(MetaHistoryEndPoint.metaHistory, {
         params: {
           [JSON.stringify({
             dto: {
@@ -42,7 +42,7 @@ const MetaHistoryApi = {
   },
   deleteList: async (metaHistory: MetaHistoryDto) => {
     try {
-      const response = await apiClient.delete(MetaHistoryEndPoint.deleteList, {
+      const response = await apiClient.delete(MetaHistoryEndPoint.metaHistory, {
         data: {
           dto: {
             MetaDto: [metaHistory],

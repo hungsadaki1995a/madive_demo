@@ -5,44 +5,71 @@ export const AuthEndpoint = {
 };
 
 export const ApplicationEndpoint = {
-  getApplicationList: '/ApplicationList',
+  getList: '/ApplicationList',
+  app: '/Application',
 };
 
 export const ServiceGroupEndpoint = {
-  getServiceList: '/SgList',
+  sg: '/SgList',
 };
 
-export const ProminerEndpoint = {
-  getResourceList: '/ProminerResource',
-  getMethodList: '/ProminerMethod',
-  getFieldList: '/ProminerField',
-  getVariableList: '/ProminerVariable',
+export const MetaEndPoint = {
+  metaList: '/MetaList',
+  getTableList: '/TableList',
+  getColumnList: '/ColumnList',
+  meta: '/Meta',
+  importExcel: '/MetaExcel',
+  getExcelSample: '/MetaSampleFile',
 };
 
-export const ResourceEndPoint = {
+export const MetaHistoryEndPoint = {
+  metaHistory: '/MetaHistoryList',
+};
+
+export const DoInfoEndPoint = {
+  doInfo: '/DoInfo',
+};
+
+export const NodeEndpoint = {
+  getList: '/NodeList',
+  node: '/Node',
+};
+
+export const ResourceEndpoint = {
+  getList: '/ProminerResource',
+};
+
+export const MethodEndpoint = {
+  getList: '/ProminerMethod',
+};
+
+export const FieldEndpoint = {
+  getList: '/ProminerField',
+};
+
+export const VariableEndpoint = {
+  getList: '/ProminerVariable',
+};
+
+export const SystemContextEndpoint = {
+  getNodeList: '/NodeList',
+  systemContextList: '/SystemContextList',
+  deployStatList: 'DeployStatList',
+  systemContextNameList: '/SystemContextNameList',
+  ropertyList: '/PropertyList',
+  systemContext: '/SystemContext',
+  property: '/Property',
+};
+
+export const LockUnLockEndPoint = {
   getLockList: 'LockUnList',
   unlockResources: 'LockUnList',
 };
 
-export const DoInfoEndPoint = {
-  getDoInfo: '/DoInfo',
-};
-
 export const UserEndpoint = {
-  getUserList: 'UserList',
-  getUserHistory: '/UserHistoryList',
+  getList: 'UserList',
+  historyList: '/UserHistoryList',
   getUser: 'User',
-};
-
-export const MetaEndPoint = {
-  getMetaList: '/MetaList',
-  getTableList: '/TableList',
-  getColumnList: '/ColumnList',
-  createMeta: '/Meta',
-  editMeta: '/Meta',
-  deleteMetaList: '/MetaList',
-  importExcel: '/MetaExcel',
-  getExcelSample: '/MetaSampleFile',
 };
 
 export const GroupManagementEndpoint = {
@@ -57,29 +84,7 @@ export const RoleEndpoint = {
   groupRoleAssign: '/GroupRole?action=Assign',
 };
 
-export const MetaHistoryEndPoint = {
-  getList: '/MetaHistoryList',
-  deleteList: '/MetaHistoryList',
-};
-
 export const DbioEndpoint = {
   modelDbioList: '/ModelDbioList',
   modelDbio: '/ModelDbio',
-};
-
-export const NodeEndpoint = {
-  getNodeList: '/NodeList',
-  addNode: '/Node',
-  editNode: '/Node',
-  deleteNode: '/Node',
-};
-
-export const SystemContextEndpoint = {
-  getNodeList: '/NodeList',
-  systemContextList: '/SystemContextList',
-  deployStatList: 'DeployStatList',
-  systemContextNameList: '/SystemContextNameList',
-  ropertyList: '/PropertyList',
-  systemContext: '/SystemContext',
-  property: '/Property',
 };

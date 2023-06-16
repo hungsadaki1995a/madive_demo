@@ -2,7 +2,6 @@ import { AxiosError } from 'axios';
 
 import { TableDataResponseDto, TableViewState } from '@/components/organisms/CmCommonTable/types';
 
-import { ProminerResourceDto } from '@/types/dtos/prominerDtos';
 import { TestHistoryDto } from '@/types/dtos/TestHistoryDtos';
 import { IOriginalResponse } from '@/types/http';
 

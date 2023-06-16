@@ -3,12 +3,15 @@ export {
   AuthEndpoint,
   DbioEndpoint,
   DoInfoEndPoint,
+  FieldEndpoint,
   GroupManagementEndpoint,
+  LockUnLockEndPoint,
+  MethodEndpoint,
   NodeEndpoint,
-  ProminerEndpoint,
-  ResourceEndPoint,
+  ResourceEndpoint,
   ServiceGroupEndpoint,
   SystemContextEndpoint,
+  VariableEndpoint,
 } from './apiEndpoint';
 export { AUTHENTICATION_COOKIE, PERMISSION_COOKIE, USER_INFO_COOKIE } from './authentication';
 export { emptyUserInfo, initialUserValue } from './constantObjects';

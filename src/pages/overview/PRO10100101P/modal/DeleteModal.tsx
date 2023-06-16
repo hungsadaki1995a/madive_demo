@@ -3,7 +3,7 @@ import { Box } from '@mui/material';
 import { CmButton } from '@/components/atoms/CmButton';
 import CmModal from '@/components/atoms/CmModal';
 
-import AppAndSGAPI from '@/apis/ServiceGroupApi';
+import { ApplicationApi } from '@/apis';
 import { ApplicationDto } from '@/types/dtos/applicationDtos';
 import { DeleteApplicationDto } from '@/types/dtos/overviewDtos';
 
@@ -23,7 +23,7 @@ export default function DeleteModal({ data, visible, handleSave, handleClose }: 
 
     try {
       if (deleteApplication) {
-        await AppAndSGAPI.deleteApplication(deleteApplication);
+        await ApplicationApi.deleteApplication(deleteApplication);
       }
       handleSave();
     } catch (error) {

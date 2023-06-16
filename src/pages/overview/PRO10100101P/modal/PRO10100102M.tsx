@@ -4,7 +4,7 @@ import { CmButton } from '@/components/atoms/CmButton';
 import { CmTextField } from '@/components/atoms/CmTextField';
 import CmFormDialog from '@/components/molecules/CmFormDialog';
 
-import AppAndSGAPI from '@/apis/ServiceGroupApi';
+import { ApplicationApi } from '@/apis';
 import { IDialogBaseRef } from '@/types/common';
 import { addNewApplicationDto } from '@/types/dtos/overviewDtos';
 import { notify } from '@/utils/notify';
@@ -31,7 +31,7 @@ const CreateApplicationModal = ({ resetList, formDiaLogAdd }: Props) => {
       physical_name: data.physicalName,
     };
     try {
-      const responseData = await AppAndSGAPI.addNewApplication(applicationDto);
+      await ApplicationApi.addNewApplication(applicationDto);
 
       formDiaLogAdd?.current?.hide();
       reset();

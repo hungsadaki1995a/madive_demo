@@ -13,7 +13,7 @@ type Response = {
 };
 const DoInfoApi = {
   getDoInfo: async (filterDoInfo: DoInfoInput): Promise<Response> => {
-    return await apiClient.get(DoInfoEndPoint.getDoInfo, {
+    return await apiClient.get(DoInfoEndPoint.doInfo, {
       params: {
         [JSON.stringify({ dto: filterDoInfo })]: '',
       },

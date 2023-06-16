@@ -8,7 +8,7 @@ const apiClient = axios.create();
 
 const { REACT_APP_BACKEND_URL } = process.env;
 
-apiClient.defaults.baseURL = REACT_APP_BACKEND_URL ?? 'http://101.101.209.11:14000/proobject/proobject-manager';
+apiClient.defaults.baseURL = REACT_APP_BACKEND_URL;
 
 apiClient.interceptors.response.use(
   (response: AxiosResponse<IOriginalResponse>): IOriginalResponse => {

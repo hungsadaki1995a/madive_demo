@@ -5,7 +5,7 @@ import { TableDataResponseDto, TableViewState } from '@/components/organisms/CmC
 import { ProminerMethodDto, ProminerResourceDto } from '@/types/dtos/prominerDtos';
 import { IOriginalResponse } from '@/types/http';
 
-import { ProminerEndpoint } from '@/constants';
+import { FieldEndpoint, MethodEndpoint, ResourceEndpoint, VariableEndpoint } from '@/constants';
 
 import apiClient from './apiClient';
 
@@ -16,7 +16,7 @@ const ProminerApi = {
       let result = [];
       let totalNum = 0;
       if (filter.server.app_resource_id) {
-        const data: IOriginalResponse = await apiClient.get(ProminerEndpoint.getResourceList, {
+        const data: IOriginalResponse = await apiClient.get(ResourceEndpoint.getList, {
           params: {
             [JSON.stringify({
               dto: {
@@ -50,7 +50,7 @@ const ProminerApi = {
       let result = [];
       let totalNum = 0;
       if (filter.server.app_resource_id) {
-        const data: IOriginalResponse = await apiClient.get(ProminerEndpoint.getMethodList, {
+        const data: IOriginalResponse = await apiClient.get(MethodEndpoint.getList, {
           params: {
             [JSON.stringify({
               dto: {
@@ -84,7 +84,7 @@ const ProminerApi = {
       let result = [];
       let totalNum = 0;
       if (filter.server.app_resource_id) {
-        const data: IOriginalResponse = await apiClient.get(ProminerEndpoint.getFieldList, {
+        const data: IOriginalResponse = await apiClient.get(FieldEndpoint.getList, {
           params: {
             [JSON.stringify({
               dto: {
@@ -118,7 +118,7 @@ const ProminerApi = {
       let result = [];
       let totalNum = 0;
       if (filter.server.app_resource_id) {
-        const data: IOriginalResponse = await apiClient.get(ProminerEndpoint.getVariableList, {
+        const data: IOriginalResponse = await apiClient.get(VariableEndpoint.getList, {
           params: {
             [JSON.stringify({
               dto: {

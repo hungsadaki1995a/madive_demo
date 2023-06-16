@@ -54,7 +54,7 @@ const UserManagementDataTable = observer(() => {
   });
 
   const { request: requestDeleteUser, isLoading: isLoadingDelete } = useApiClientMutation({
-    endpoint: UserEndpoint.getUserList,
+    endpoint: UserEndpoint.getList,
     method: RequestType.DELETE,
     onCompleted: (response) => {
       if (response?.dto?.value !== 'Success') {
