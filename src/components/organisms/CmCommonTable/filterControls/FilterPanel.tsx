@@ -50,6 +50,14 @@ const useStyles = makeStyles(({ palette, typography }) => ({
       alignItems: 'center',
     },
   },
+  leftSelect: {
+    '& fieldset.MuiOutlinedInput-notchedOutline': {
+      top: '-5px',
+    },
+    '& svg.MuiSvgIcon-root': {
+      top: '3px',
+    },
+  },
 }));
 
 const FilterPanel = ({
@@ -152,6 +160,7 @@ const FilterPanel = ({
       spacing={4}
     >
       <Stack
+        className={classes.leftSelect}
         direction="row"
         spacing={2}
       >
