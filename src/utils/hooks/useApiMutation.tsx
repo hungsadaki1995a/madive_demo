@@ -2,9 +2,8 @@ import { useState } from 'react';
 
 import { AxiosError, AxiosResponse } from 'axios';
 
-import { IPlainObject } from '@/components/organisms/CmCommonTable/types';
-
 import { deleteRequest, postRequest, putRequest } from '@/apis/apiClient';
+import { IPlainObject } from '@/types/common';
 
 import { RequestType } from '../const/api';
 

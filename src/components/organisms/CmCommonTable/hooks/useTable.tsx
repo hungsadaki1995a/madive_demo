@@ -1,12 +1,13 @@
 import { useEffect, useMemo, useReducer, useState } from 'react';
 
+import { IPlainObject } from '@/types/common';
 import { IOriginalResponse } from '@/types/http';
 import { rowsPerPageDefault } from '@/utils/const/form';
 import useApiLazyQuery from '@/utils/hooks/useApiLazyQuery';
 
 import { TableActions } from '../state/action';
 import { tableReducer } from '../state/reducer';
-import { ActionType, FilterFormType, IPlainObject, ISortInfo, TableDataResponseDto, TableViewState } from '../types';
+import { ActionType, FilterFormType, ISortInfo, TableDataResponseDto, TableViewState } from '../types';
 import usePaginationClient from './usePaginationClient';
 
 type FilterLogicCallbackType = <TRowDataType extends IPlainObject>(

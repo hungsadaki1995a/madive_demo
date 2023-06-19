@@ -14,13 +14,14 @@ import { Box, Grid, Paper } from '@mui/material';
 
 // Common Atoms
 import { CmButton } from '@/components/atoms/CmButton';
-import { ICommonTableColumn, IPlainObject } from '@/components/organisms/CmCommonTable/types';
+import { ICommonTableColumn } from '@/components/organisms/CmCommonTable/types';
 // Templates
 import { CmPageTselectColum } from '@/components/templates/CmPageTitle';
 
 // Icon
 import { ReactComponent as ArrLeftIcon } from '@/stylesheets/images/arrLeftIcon.svg';
 import { ReactComponent as ArrRightIcon } from '@/stylesheets/images/arrRightIcon.svg';
+import { IPlainObject } from '@/types/common';
 
 import { UserStyled } from '../User.Styled';
 import DataTable from './DataTable';

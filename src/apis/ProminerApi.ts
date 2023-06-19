@@ -2,12 +2,19 @@ import { AxiosError } from 'axios';
 
 import { TableDataResponseDto, TableViewState } from '@/components/organisms/CmCommonTable/types';
 
-import { ProminerMethodDto, ProminerResourceDto } from '@/types/dtos/prominerDtos';
+import { ProminerMethodDetailDto, ProminerMethodDto, ProminerResourceDto } from '@/types/dtos/prominerDtos';
 import { IOriginalResponse } from '@/types/http';
 
 import { FieldEndpoint, MethodEndpoint, ResourceEndpoint, VariableEndpoint } from '@/constants';
 
 import apiClient from './apiClient';
+
+type MethodDetailResponse = {
+  dto: {
+    DevMnrDto: ProminerMethodDetailDto[];
+    rootClass: string;
+  };
+};
 
 const ProminerApi = {
   getResourceList: async (tableState: TableViewState): Promise<TableDataResponseDto<ProminerResourceDto> | unknown> => {
@@ -145,6 +152,28 @@ const ProminerApi = {
     } catch (error: unknown) {
       return error instanceof AxiosError ? error.response : error;
     }
+  },
+  getMethodDetail: async ({
+    declaringClass,
+    methodName,
+    searchType = 'Forward',
+  }: {
+    declaringClass: string;
+    methodName: string;
+    searchType?: string;
+  }): Promise<MethodDetailResponse> => {
+    return await apiClient.get(MethodEndpoint.detail, {
+      params: {
+        [JSON.stringify({
+          dto: {
+            declaring_class: declaringClass,
+            method_name: methodName,
+            searchType: searchType,
+          },
+        })]: '',
+        _: new Date().getTime(),
+      },
+    });
   },
 };
 

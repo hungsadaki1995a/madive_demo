@@ -2,10 +2,12 @@ import { forwardRef, Ref, useCallback, useEffect, useImperativeHandle, useMemo, 
 
 import { Paper } from '@mui/material';
 
+import { IPlainObject } from '@/types/common';
+
 import useTable from './hooks/useTable';
 import TableLayoutDefault from './layout/TableLayoutDefault';
 import SearchServerSection from './searchServerSection';
-import { ICommonTable, ImperativeHandleDto, IPlainObject, ISortInfo } from './types';
+import { ICommonTable, ImperativeHandleDto, ISortInfo } from './types';
 
 export type CommonTableRefType = {
   resetSelectedRows: () => void;

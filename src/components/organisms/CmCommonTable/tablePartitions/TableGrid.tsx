@@ -2,8 +2,9 @@ import { styled, Table, TableBody, TableCell, TableContainer, TableHead, TableRo
 
 import FailIcon from '@/stylesheets/images/FailIcon.svg';
 import SuccessIcon from '@/stylesheets/images/SuccessIcon.svg';
+import { IPlainObject } from '@/types/common';
 
-import { IPlainObject, TableLayoutProps } from '../types';
+import { TableLayoutProps } from '../types';
 import BodyCheckBoxCell from './BodyCheckBoxCell';
 import HeaderCheckBoxCell from './HeaderCheckBoxCell';
 import TableEmpty from './TableEmpty';
@@ -27,6 +28,7 @@ const TableHeadComponent = styled(TableHead)(({ theme }) => ({
     },
   },
 }));
+
 const TableBodyComponent = styled(TableBody)(({ theme }) => ({
   '& .MuiTableRow-root': {
     '&:nth-child(even)': {

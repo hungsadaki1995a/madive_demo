@@ -4,11 +4,12 @@ import { Box } from '@mui/material';
 import { observer } from 'mobx-react';
 
 import CommonTable from '@/components/organisms/CmCommonTable';
-import { ICommonTableColumn, IFilterConfig, IPlainObject } from '@/components/organisms/CmCommonTable/types';
+import { ICommonTableColumn, IFilterConfig } from '@/components/organisms/CmCommonTable/types';
 
 import DbioApi from '@/apis/DbioApi';
 import { ReactComponent as AddIcon } from '@/stylesheets/images/AddIcon.svg';
 import { ReactComponent as DeleteIcon } from '@/stylesheets/images/DeleteIcon.svg';
+import { IPlainObject } from '@/types/common';
 import DbioModel from '@/types/models/dbioModel';
 
 import DeleteDbioModal from './modal/DeleteDbioModal';

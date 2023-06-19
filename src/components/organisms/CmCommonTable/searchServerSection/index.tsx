@@ -7,12 +7,12 @@ import makeStyles from '@mui/styles/makeStyles';
 import { observer } from 'mobx-react';
 
 import { notoSansDJKFont } from '@/stylesheets/common';
+import { IPlainObject } from '@/types/common';
 import { useStore } from '@/utils';
 
 import { FilterTypes } from '../const';
 import {
   FilterFormType,
-  IPlainObject,
   SearchCachedCondition,
   SearchServerConfig,
   SearchServerConfigOption,

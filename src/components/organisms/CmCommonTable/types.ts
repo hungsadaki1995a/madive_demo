@@ -1,12 +1,9 @@
+import { IPlainObject } from '@/types/common';
 import { IOriginalResponse } from '@/types/http';
 
 import { FilterTypes, TableActionName } from './const';
 
 export type DirectionType = 'asc' | 'desc';
-
-export type IPlainObject = {
-  [key: string]: any;
-};
 
 export interface ISortInfo {
   field: string;

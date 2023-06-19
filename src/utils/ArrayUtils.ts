@@ -1,4 +1,4 @@
-import { IPlainObject } from '@/components/organisms/CmCommonTable/types';
+import { IPlainObject } from '@/types/common';
 
 export const getObjectValuesByKey = (arr: IPlainObject[], key: string): string[] => {
   return arr.map((object) => `${object[key]}`);

@@ -1,15 +1,17 @@
-import React from 'react';
-import { useCallback } from 'react';
+import React, { useCallback } from 'react';
 
 import { TableCell, TableSortLabel } from '@mui/material';
 
-import { ICommonTableColumn, IPlainObject, ISortInfo } from '../types';
+import { IPlainObject } from '@/types/common';
+
+import { ICommonTableColumn, ISortInfo } from '../types';
 
 interface ITableHeaderCellProps<TRowDataType extends IPlainObject> {
   sortInfo: ISortInfo;
   column: ICommonTableColumn<TRowDataType>;
   onSortClick: ({ field }: { field: string }) => void;
 }
+
 const TableHeaderCell = <TRowDataType extends IPlainObject>({
   sortInfo,
   column,
