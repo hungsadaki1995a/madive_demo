@@ -1,15 +1,61 @@
+import { useCallback, useEffect, useState } from 'react';
+
 import { Box } from '@mui/material';
 
 import { CmButton } from '@/components/atoms/CmButton';
 import CmModal from '@/components/atoms/CmModal';
+import Loader from '@/components/molecules/Loader';
+
+import { RoleApi } from '@/apis';
+import RoleModel from '@/types/models/roleModel';
+import { notify } from '@/utils/notify';
 
 type DeleteRoleModalPrpos = {
   visible: boolean;
-  handleSave?: () => void;
   handleClose: () => void;
+  selectedList: any[];
+  fetchTableData: () => void;
 };
 
-export default function DeleteRoleModal({ visible, handleSave, handleClose }: DeleteRoleModalPrpos) {
+export default function DeleteRoleModal({ visible, handleClose, selectedList, fetchTableData }: DeleteRoleModalPrpos) {
+  const [deleteConfirmMessage, setDeleteConfirmMessage] = useState<string>('');
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isLoadingMsg, setIsLoadingMsg] = useState<boolean>(false);
+
+  //Get Group List By Role
+  const getDeleteConfirmMessage = useCallback(async (selectedList: RoleModel[]) => {
+    setIsLoadingMsg(true);
+    setIsLoading(true);
+    const res = await RoleApi.getDeleteConfigData(selectedList);
+    setDeleteConfirmMessage(res);
+    setIsLoadingMsg(false);
+    setIsLoading(false);
+  }, []);
+
+  // Delete Role Excute
+  const handleDeleteRole = useCallback(async () => {
+    setIsLoading(true);
+    try {
+      const res = (await RoleApi.deleteRoles(selectedList)) as any;
+      notify.success(res?.dto?.value);
+    } catch (error) {
+      notify.error(error?.data?.exception?.message);
+    }
+    setIsLoading(false);
+    fetchTableData?.();
+    handleClose();
+  }, [selectedList]);
+
+  useEffect(() => {
+    if (visible) {
+      getDeleteConfirmMessage(selectedList);
+    } else setDeleteConfirmMessage('Are you sure to delete this role ?');
+  }, [visible]);
+
+  const handleCloseBtn = useCallback(() => {
+    if (!isLoading) handleClose();
+  }, [isLoading]);
+
   const footerRender = () => (
     <Box className="alignL">
       <CmButton
@@ -20,6 +66,7 @@ export default function DeleteRoleModal({ visible, handleSave, handleClose }: De
         className=""
         color="info"
         onClick={handleClose}
+        disabled={isLoading}
       />
       <CmButton
         id="rightBtn2"
@@ -28,7 +75,8 @@ export default function DeleteRoleModal({ visible, handleSave, handleClose }: De
         startIcon={<></>}
         className=""
         color="error"
-        onClick={handleSave}
+        onClick={handleDeleteRole}
+        disabled={isLoading}
       />
     </Box>
   );
@@ -37,13 +85,21 @@ export default function DeleteRoleModal({ visible, handleSave, handleClose }: De
     <CmModal
       title="Delete Role"
       visible={visible}
-      onSave={handleSave}
-      onClose={handleClose}
+      onClose={handleCloseBtn}
       className="medium"
       footerRenderAs={footerRender}
     >
       {/* contents */}
-      <p className="pointTxt">Are you sure to delete this role ?</p>
+      {isLoadingMsg ? (
+        <Loader />
+      ) : (
+        <p
+          className="pointTxt"
+          style={{ whiteSpace: 'pre-line' }}
+        >
+          {deleteConfirmMessage || 'Are you sure to delete this role ?'}
+        </p>
+      )}
     </CmModal>
   );
 }

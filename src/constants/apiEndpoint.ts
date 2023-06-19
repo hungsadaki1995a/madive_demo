@@ -83,6 +83,9 @@ export const RoleEndpoint = {
   getGroupList: '/GroupList',
   getGroupRole: '/GroupRole',
   groupRoleAssign: '/GroupRole?action=Assign',
+  getGroupListByRole: '/GroupListByRole',
+  role: '/Role',
+  roleList: 'RoleList',
 };
 
 export const DbioEndpoint = {
