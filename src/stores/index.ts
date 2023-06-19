@@ -1,15 +1,8 @@
 export { AlertStore } from './AlertStore';
 export { ApplicationStore } from './AplicationStore';
-export { AuthStore } from './AuthStore';
-// export { ConfigRoleStore } from './ConfigRoleStore';
-export { DbioStore } from './DbioStore';
 export { MenuStore } from './MenuStore';
-export { MetaHistoryStore } from './MetaHistoryStore';
 export { MetaStore } from './MetaStore';
 export { NodeStore } from './NodeStore';
-export { ProminerStore } from './ProminerStore';
-export { RoleStore } from './RoleStore';
 export { RootStore } from './RootStore';
 export { SearchServerCachedStore } from './SearchServerCachedStore';
 export { TestCaseStore } from './TestCaseStore';
-export { UserStore } from './UserStore';

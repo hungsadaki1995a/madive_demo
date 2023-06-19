@@ -10,7 +10,6 @@ import DbioApi from '@/apis/DbioApi';
 import { ReactComponent as AddIcon } from '@/stylesheets/images/AddIcon.svg';
 import { ReactComponent as DeleteIcon } from '@/stylesheets/images/DeleteIcon.svg';
 import DbioModel from '@/types/models/dbioModel';
-import { useStore } from '@/utils';
 
 import DeleteDbioModal from './modal/DeleteDbioModal';
 import CreateDbioModal from './modal/PRO20202202M';
@@ -50,7 +49,6 @@ const columnsConfig: ICommonTableColumn<IPlainObject>[] = [
 ];
 
 function DbioDataTable() {
-  const { AlertStore, DbioStore } = useStore();
   const [isCreateDbioModalVisible, setIsCreateDbioModalVisible] = useState(false);
   const [isEditDbioModalVisible, setIsEditDbioModalVisible] = useState<boolean>(false);
   const [isDeleteDbioModalVisible, setIsDeleteDbioModalVisible] = useState(false);
