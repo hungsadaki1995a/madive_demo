@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useReducer, useState } from 'react';
 
 import { IOriginalResponse } from '@/types/http';
-import { rowsPerPageDefault } from '@/utils/const/form.const';
+import { rowsPerPageDefault } from '@/utils/const/form';
 import useApiLazyQuery from '@/utils/hooks/useApiLazyQuery';
 
 import { TableActions } from '../state/action';

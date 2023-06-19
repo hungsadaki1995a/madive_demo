@@ -1,6 +1,6 @@
 import React, { useMemo, useRef, useState } from 'react';
 
-import { Paper } from '@mui/material';
+import { Box } from '@mui/material';
 import { observer } from 'mobx-react';
 
 import CommonTable from '@/components/organisms/CmCommonTable';
@@ -158,7 +158,7 @@ function DbioDataTable() {
   }, []);
 
   return (
-    <Paper style={{ padding: '20px' }}>
+    <Box>
       <CommonTable
         hasSelectionRows
         query={DbioApi.getDbios}
@@ -195,7 +195,7 @@ function DbioDataTable() {
         handleClose={handleDeleteDbioModalClose}
         selectedRows={selectedRows}
       />
-    </Paper>
+    </Box>
   );
 }
 export default observer(DbioDataTable);

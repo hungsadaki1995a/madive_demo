@@ -1,6 +1,6 @@
 import { useMemo, useRef, useState } from 'react';
 
-import { Box, Paper } from '@mui/material';
+import { Box } from '@mui/material';
 import { observer } from 'mobx-react';
 
 import CommonTable from '@/components/organisms/CmCommonTable';
@@ -127,20 +127,18 @@ const TestHistoryDataTable = observer(({ selectedValue }: { selectedValue: strin
 
   return (
     <Box>
-      <Paper style={{ padding: '20px', marginTop: '30px' }}>
-        <CommonTable<TestCaseDto>
-          query={TestHistoryApi.getListHistory}
-          onRowClick={handleClickRow}
-          fieldAsRowId="create_time"
-          columnsConfig={columnsConfig}
-          filterConfig={filterConfig as unknown as IFilterConfig}
-          sortDefault={{
-            field: 'create_time',
-            direction: 'desc',
-          }}
-          ref={tableRef}
-        />
-      </Paper>
+      <CommonTable<TestCaseDto>
+        query={TestHistoryApi.getListHistory}
+        onRowClick={handleClickRow}
+        fieldAsRowId="create_time"
+        columnsConfig={columnsConfig}
+        filterConfig={filterConfig as unknown as IFilterConfig}
+        sortDefault={{
+          field: 'create_time',
+          direction: 'desc',
+        }}
+        ref={tableRef}
+      />
       <ViewDetailModal
         dataRow={dataClickRow}
         handleSave={handleClose}

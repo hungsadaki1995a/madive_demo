@@ -1,6 +1,6 @@
 import { MutableRefObject, useMemo, useRef, useState } from 'react';
 
-import { Paper } from '@mui/material';
+import { Box } from '@mui/material';
 import { observer } from 'mobx-react';
 
 import CommonTable from '@/components/organisms/CmCommonTable';
@@ -158,7 +158,7 @@ const GroupManagementDataTable = observer(() => {
   const tableRef = useRef<ImperativeHandleDto<ConfigGroupDto>>();
 
   return (
-    <Paper style={{ padding: '20px' }}>
+    <Box>
       <CommonTable<ConfigGroupDto>
         fieldAsRowId="group_id"
         query={GroupManagement.groupManagement}
@@ -200,7 +200,7 @@ const GroupManagementDataTable = observer(() => {
         handleClose={handleDeleteGroupModalClose}
         resetPageAndRefresh={tableRef.current?.resetPageAndRefresh}
       />
-    </Paper>
+    </Box>
   );
 });
 

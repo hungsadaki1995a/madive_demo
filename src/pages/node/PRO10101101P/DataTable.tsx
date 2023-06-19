@@ -1,6 +1,6 @@
 import { MutableRefObject, useMemo, useRef, useState } from 'react';
 
-import { Box, Paper } from '@mui/material';
+import { Box } from '@mui/material';
 import { observer } from 'mobx-react';
 
 import CommonTable from '@/components/organisms/CmCommonTable';
@@ -269,41 +269,38 @@ const NodeManagementDataTable = observer(() => {
 
   return (
     <Box>
-      <Paper style={{ padding: '20px' }}>
-        <CommonTable<NodeDto>
-          // renderLayoutAs={TableLayoutCustom}
-          hasSelectionRows
-          allowMultipleSelect={false}
-          query={NodeApi.getNodes}
-          fieldAsRowId="node_id"
-          columnsConfig={columnsConfig}
-          filterConfig={filterConfig as unknown as IFilterConfig}
-          sortDefault={{
-            field: 'node_name',
-            direction: 'asc',
-          }}
-          ref={tableRef as MutableRefObject<ImperativeHandleDto<NodeDto>>}
-          onRowClick={handleRowclick}
+      <CommonTable<NodeDto>
+        hasSelectionRows
+        allowMultipleSelect={false}
+        query={NodeApi.getNodes}
+        fieldAsRowId="node_id"
+        columnsConfig={columnsConfig}
+        filterConfig={filterConfig as unknown as IFilterConfig}
+        sortDefault={{
+          field: 'node_name',
+          direction: 'asc',
+        }}
+        ref={tableRef as MutableRefObject<ImperativeHandleDto<NodeDto>>}
+        onRowClick={handleRowclick}
+      />
+
+      {isFormModalVisible && (
+        <NodeModal
+          visible={isFormModalVisible}
+          handleClose={handleCloseModal}
+          handleSave={handleSave}
+          data={data}
         />
+      )}
 
-        {isFormModalVisible && (
-          <NodeModal
-            visible={isFormModalVisible}
-            handleClose={handleCloseModal}
-            handleSave={handleSave}
-            data={data}
-          />
-        )}
-
-        {/* Delete Node - Modal */}
-        {isDeleteNodeModalVisible && (
-          <DeleteNodeModal
-            visible={isDeleteNodeModalVisible}
-            handleSave={handleDeleteNode}
-            handleClose={handleDeleteNodeModalClose}
-          />
-        )}
-      </Paper>
+      {/* Delete Node - Modal */}
+      {isDeleteNodeModalVisible && (
+        <DeleteNodeModal
+          visible={isDeleteNodeModalVisible}
+          handleSave={handleDeleteNode}
+          handleClose={handleDeleteNodeModalClose}
+        />
+      )}
     </Box>
   );
 });

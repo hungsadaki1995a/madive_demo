@@ -1,4 +1,4 @@
-import { Paper, styled } from '@mui/material';
+import { Box, styled } from '@mui/material';
 import { observer } from 'mobx-react';
 
 import CommonTable from '@/components/organisms/CmCommonTable';
@@ -24,7 +24,7 @@ function GroupRoleAssignDataTable<TData extends IPlainObject>(props: propsType<T
   const { rows, columnsConfig, fieldAsRowId, paginationConfig, onSelectedRows, tableLabel, tableName = '' } = props;
 
   return (
-    <Paper style={{ padding: '20px' }}>
+    <Box>
       <LabelStyled>{tableLabel}</LabelStyled>
       <CommonTable
         fieldAsRowId={fieldAsRowId}
@@ -38,7 +38,7 @@ function GroupRoleAssignDataTable<TData extends IPlainObject>(props: propsType<T
         }}
         paginationConfig={paginationConfig}
       />
-    </Paper>
+    </Box>
   );
 }
 export default observer(GroupRoleAssignDataTable);

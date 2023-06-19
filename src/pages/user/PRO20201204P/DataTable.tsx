@@ -1,6 +1,6 @@
 import { useMemo, useRef, useState } from 'react';
 
-import { Box, Paper } from '@mui/material';
+import { Box } from '@mui/material';
 import { observer } from 'mobx-react';
 
 import CommonTable from '@/components/organisms/CmCommonTable';
@@ -133,21 +133,19 @@ const UserHistoryDataTable = observer(() => {
 
   return (
     <Box>
-      <Paper style={{ padding: '20px', marginTop: '30px' }}>
-        <CommonTable<configUserDto>
-          hasSelectionRows
-          allowMultipleSelect
-          query={UserApi.getHistoryList}
-          fieldAsRowId="history_id"
-          columnsConfig={columnsConfig}
-          filterConfig={filterConfig as unknown as IFilterConfig}
-          sortDefault={{
-            field: 'user_id',
-            direction: 'desc',
-          }}
-          ref={tableRef}
-        />
-      </Paper>
+      <CommonTable<configUserDto>
+        hasSelectionRows
+        allowMultipleSelect
+        query={UserApi.getHistoryList}
+        fieldAsRowId="history_id"
+        columnsConfig={columnsConfig}
+        filterConfig={filterConfig as unknown as IFilterConfig}
+        sortDefault={{
+          field: 'user_id',
+          direction: 'desc',
+        }}
+        ref={tableRef}
+      />
       <DeleteModal
         visible={isDeleteModal}
         handleClose={handleDeleleteModalClose}

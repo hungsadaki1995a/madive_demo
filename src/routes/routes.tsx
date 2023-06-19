@@ -25,7 +25,6 @@ import AppSG from '@/pages/overview/PRO10100101P';
 import DoInfo from '@/pages/overview/PRO10100111P';
 import Prominer from '@/pages/prominer';
 import ProminerResource from '@/pages/prominer/PRO10103101P';
-import ViewResourceDetail from '@/pages/prominer/PRO10103102P';
 import Method from '@/pages/prominer/PRO10103103P';
 import Field from '@/pages/prominer/PRO10103105P';
 import Varible from '@/pages/prominer/PRO10103106P';
@@ -37,8 +36,6 @@ import Datasource from '@/pages/system-context/PRO10104104P';
 import Test from '@/pages/test';
 import TestManagement from '@/pages/test/PRO10102101P';
 import TestCase from '@/pages/test/PRO10102106P';
-import CreateTestCase from '@/pages/test/PRO10102109P';
-import EditTestCase from '@/pages/test/PRO10102114P';
 import TestHistory from '@/pages/test/PRO10102119P';
 import User from '@/pages/user';
 import UserManagement from '@/pages/user/PRO20201201P';
@@ -146,22 +143,6 @@ const devRoutes: RouteItem[] = [
         fullPath: '/development/test/test-case',
       },
       {
-        id: 'createTestCase',
-        label: 'Create TestCase',
-        path: 'create-test-case',
-        element: <CreateTestCase />,
-        icon: <SubIcon />,
-        fullPath: '/development/test/create-test-case',
-      },
-      {
-        id: 'editTestCase',
-        label: 'Edit TestCase',
-        path: 'edit-test-case',
-        element: <EditTestCase />,
-        icon: <SubIcon />,
-        fullPath: '/development/test/edit-test-case',
-      },
-      {
         id: 'testHistory',
         label: 'History',
         path: 'history',
@@ -186,14 +167,6 @@ const devRoutes: RouteItem[] = [
         icon: <SubIcon />,
         menuName: 'ProMiner/Resource',
         fullPath: '/development/prominer/resource',
-      },
-      {
-        id: 'resourceDetail',
-        label: 'View Resource Detail',
-        path: 'view-resource-detail',
-        element: <ViewResourceDetail />,
-        icon: <SubIcon />,
-        fullPath: '/development/prominer/view-resource-detail',
       },
       {
         id: 'prominerMethod',
