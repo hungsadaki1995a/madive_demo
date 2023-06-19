@@ -41,6 +41,7 @@ const UserStyled = styled.div`
           width: 10%;
           display: flex;
           justify-content: center;
+          align-items: center;
           .MuiGrid-root {
             width: 100%;
 

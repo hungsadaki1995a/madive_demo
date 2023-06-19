@@ -253,12 +253,10 @@ const SystemContextManagement = observer((props: propsType) => {
             />
           </Box>
         </Paper>
-        <Paper>
-          <SystemContextManagementDataTable
-            isDisabled={Boolean(!application?.length || !node?.length || !context?.systemContextName?.length)}
-            dataProp={fetchDataSystemContext}
-          />
-        </Paper>
+        <SystemContextManagementDataTable
+          isDisabled={Boolean(!application?.length || !node?.length || !context?.systemContextName?.length)}
+          dataProp={fetchDataSystemContext}
+        />
       </ManagementStyled>
     </>
   );

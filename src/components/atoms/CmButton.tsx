@@ -16,19 +16,19 @@ import { Button, IconButton, Menu, MenuItem, Tooltip } from '@mui/material';
 import makeStyles from '@mui/styles/makeStyles';
 import { OverridableStringUnion } from '@mui/types';
 
-import { notoSansDJKFont } from '@/stylesheets/common';
+import * as CmStyle from '@/stylesheets/common';
 
 import { IButtonMenuConfig } from '../organisms/CmCommonTable/types';
 import { CmButtonStyle } from './Atoms.Styled';
 
 // Styled
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles(({ palette, typography }) => ({
   button: {
     '& ~ label[class*="makeStyles-button"]': {
       marginLeft: '8px',
     },
     '& button': {
-      fontFamily: notoSansDJKFont.regular,
+      fontWeight: typography.fontWeightRegular,
       fontSize: '13px',
       lineHeight: '1.5',
       padding: '2.5px 8px',
@@ -37,20 +37,17 @@ const useStyles = makeStyles(() => ({
       minHeight: '28px',
       textTransform: 'none',
       boxShadow: 'none',
-      '& *': {
-        fontFamily: notoSansDJKFont.regular,
-        fontSize: '13px',
-        lineHeight: '1.5',
-      },
       '&:hover': {
         boxShadow: 'none',
       },
 
       '& .MuiButton-startIcon': {
         margin: 0,
-        padding: '2.5px 0 2px 0',
         '& svg': {
+          margin: '0 4px 0 1px',
+          padding: '2.5px 0 2px 0',
           fontSize: '18px',
+          height: '18px',
           '& path': {
             width: '15px',
             height: '15px',
@@ -59,24 +56,24 @@ const useStyles = makeStyles(() => ({
       },
       '& span:not([class*="Mui"])': {
         padding: '0 4px',
-        font: ' 13px / 1.5 notoSansDJKFont.light',
+        fontSize: '13px',
       },
 
       // Primary - Filled
       '&.MuiButton-containedPrimary:not([class*="-disabled"])': {
         color: '#fff',
-        background: '#1898F5',
+        background: CmStyle.color.info.main,
 
         '&:hover': {
-          background: '#0485E3',
+          background: CmStyle.color.info[500],
         },
         '&:active': {
-          background: '#116CAE',
+          background: CmStyle.color.info[600],
         },
       },
       '&.MuiButton-containedPrimary.Mui-disabled': {
-        color: '#B9BDC3',
-        background: '#F5F6F7',
+        color: CmStyle.color.grey[200],
+        background: CmStyle.color.grey[50],
         '&:hover': {
           background: 'none',
         },
@@ -89,18 +86,20 @@ const useStyles = makeStyles(() => ({
           background: '#ECEEF0',
         },
       },
-      '&.MuiButton-textPrimary.Mui-disabled': {
-        color: '#B9BDC3',
+      '&.MuiButton-textPrimary.Mui-disabled:not([class*="tBtnBg"])': {
+        color: CmStyle.color.grey[200],
         '&:hover': {
           background: 'none',
         },
       },
 
       // String - Ghost (Background)
-      '&.tBtnBg:not([class*="-disabled"])': {
+      '&:not([class*="-disabled"]).tBtnBg': {
         color: '#1C293E',
-        background: '#ECEEF0',
-
+        background: '#DEDFE2',
+        '& svg path': {
+          fill: '#1C293E',
+        },
         '&:hover': {
           background: '#DEDFE2',
         },
@@ -108,9 +107,12 @@ const useStyles = makeStyles(() => ({
           background: '#D3D5DA',
         },
       },
-      '&.tBtnBg.Mui-disabled': {
-        color: '#B9BDC3',
-        background: '#F5F6F7',
+      '&.tBtnBg.MuiButton-textPrimary.Mui-disabled': {
+        color: CmStyle.color.grey[200],
+        background: CmStyle.color.grey[50],
+        '& svg path': {
+          fill: CmStyle.color.grey[200],
+        },
       },
 
       // Outline - Login button
@@ -168,7 +170,6 @@ const useStyles = makeStyles(() => ({
     },
   },
 }));
-
 type btnPropsType = {
   id?: string;
   startIcon?: React.ReactNode;

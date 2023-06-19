@@ -192,12 +192,12 @@ function Datasource() {
         </Box>
       </Paper>
 
-      <Paper className="inputDataBox">
-        <SystemContextDatasourceDataTable
-          isDisabled={Boolean(!application?.length || !node?.length)}
-          dataProp={fetchDataPropertyList}
-        />
-      </Paper>
+      {/* <Paper className="inputDataBox"> */}
+      <SystemContextDatasourceDataTable
+        isDisabled={Boolean(!application?.length || !node?.length)}
+        dataProp={fetchDataPropertyList}
+      />
+      {/* </Paper> */}
     </SysContextStyled>
   );
 }

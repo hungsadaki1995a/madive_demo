@@ -58,7 +58,7 @@ export default styled.div`
         box-shadow: none !important;
 
         .MuiButton-startIcon {
-          margin: 0;
+          margin: 0 6px 0 1px;
           padding: 2.5px 0 2px 0;
           svg {
             font-size: 18px;

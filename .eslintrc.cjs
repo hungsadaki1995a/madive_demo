@@ -13,7 +13,7 @@ module.exports = {
   plugins: ['react', 'react-hooks', 'jsx-a11y', 'react-refresh', '@typescript-eslint', 'prettier'],
   rules: {
     'react-refresh/only-export-components': 'warn',
-    'prettier/prettier': ['error', { endOfLine: 'auto' }],
+    // 'prettier/prettier': ['error', { endOfLine: 'auto' }],
     'no-empty-function': 'off',
     '@typescript-eslint/no-empty-function': 'error',
     // Disable warning missing deps in useEffect, useMemo, useCallback

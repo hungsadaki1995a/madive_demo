@@ -1,6 +1,6 @@
 import React, { useCallback, useState } from 'react';
 
-import { Button, IconButton, Tooltip } from '@mui/material';
+import { IconButton, Tooltip } from '@mui/material';
 
 import { CmButton } from '@/components/atoms/CmButton';
 
@@ -112,13 +112,18 @@ const FilterControls = ({
               return renderFilterComponentBaseType(filterItem);
             })}
             {filterConfig?.submitBy === SubmitActionTypes.BUTTON && (
-              <Button
-                size="small"
+              // <Button
+              //   size="small"
+              //   variant="contained"
+              //   onClick={handleTriggerQuery}
+              // >
+              //   {filterConfig?.submitLabel}
+              // </Button>
+              <CmButton
                 variant="contained"
+                btnTitle={filterConfig?.submitLabel}
                 onClick={handleTriggerQuery}
-              >
-                {filterConfig?.submitLabel}
-              </Button>
+              />
             )}
           </FilterConfig>
         </>

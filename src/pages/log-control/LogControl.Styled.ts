@@ -73,6 +73,10 @@ const LogControlStyled = styled.div`
         p.MuiTypography-root {
           margin-bottom: 20px;
         }
+        .MuiPaper-root {
+          all: unset;
+          padding: 0 !important;
+        }
         div[role='tabpanel'] {
           padding: 20px 10px;
           & > .MuiBox-root {

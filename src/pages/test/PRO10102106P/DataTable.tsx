@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 
-import { Paper } from '@mui/material';
+import { Box } from '@mui/material';
 import { observer } from 'mobx-react';
 
 import { CmButtonDropdownMenu } from '@/components/atoms/CmButton';
@@ -255,7 +255,7 @@ function TestCaseDataTable() {
   }, []);
 
   return (
-    <Paper style={{ padding: '20px' }}>
+    <Box>
       <CommonTable
         // renderLayoutAs={TableLayoutCustom}
         fieldAsRowId="email"
@@ -297,7 +297,7 @@ function TestCaseDataTable() {
           handleClose={handleViewTestResultModalClose}
         />
       )}
-    </Paper>
+    </Box>
   );
 }
 export default observer(TestCaseDataTable);

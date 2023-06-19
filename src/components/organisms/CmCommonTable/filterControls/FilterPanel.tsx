@@ -1,6 +1,9 @@
 import React from 'react';
 
-import { Box, Button, MenuItem, Select, SelectChangeEvent, Stack } from '@mui/material';
+import { Box, MenuItem, Select, SelectChangeEvent, Stack } from '@mui/material';
+import makeStyles from '@mui/styles/makeStyles';
+
+import { CmButton } from '@/components/atoms/CmButton';
 
 import { FilterTypes } from '../const';
 import { ActionType, FilterFormType } from '../types';
@@ -15,6 +18,28 @@ interface IFilterPanelProps {
   filterState: { client: FilterFormType; server: FilterFormType };
 }
 
+// Styled
+const useStyles = makeStyles(({ palette, typography }) => ({
+  filterPanel: {
+    '& .MuiSelect-select': {
+      padding: '0 32px 0 8px',
+      minHeight: 'unset',
+      height: '28px',
+    },
+    '& .MuiSelect-nativeInput': {
+      top: '0',
+      height: '28px',
+    },
+    '& .MuiSvgIcon-root': {
+      top: '3px',
+    },
+    '& fieldset.MuiOutlinedInput-notchedOutline': {
+      height: '33px',
+      top: '-4px',
+    },
+  },
+}));
+
 const FilterPanel = ({
   filterConfig,
   onChangeFilterClient,
@@ -23,6 +48,7 @@ const FilterPanel = ({
   dispatch,
   filterState,
 }: IFilterPanelProps) => {
+  const classes = useStyles();
   const onClick = (callback: (selectedRows: any[]) => void) => {
     callback(selectedRows);
   };
@@ -79,7 +105,8 @@ const FilterPanel = ({
         );
       }
       case 'button': {
-        const ButtonComponent = control.component ? control.component : Button;
+        const ButtonComponent = CmButton;
+        // const ButtonComponent = control.component ? control.component : Button;
         const { handleClick, checkDisabled } = control;
         const isDisabled = checkDisabled ? checkDisabled(selectedRows) : false;
         return (
@@ -88,9 +115,16 @@ const FilterPanel = ({
             key={actionIndex}
             disabled={isDisabled}
             {...control?.config}
-          >
-            {control?.config?.label}
-          </ButtonComponent>
+            btnTitle={control?.config?.label}
+          />
+          // <ButtonComponent
+          //   onClick={() => onClick(handleClick)}
+          //   key={actionIndex}
+          //   disabled={isDisabled}
+          //   {...control?.config}
+          // >
+          //   {control?.config?.label}
+          // </ButtonComponent>
         );
       }
       default:
@@ -98,7 +132,7 @@ const FilterPanel = ({
     }
   };
   return (
-    <Box>
+    <Box className={classes.filterPanel}>
       <Stack
         direction="row"
         justifyContent="space-between"
