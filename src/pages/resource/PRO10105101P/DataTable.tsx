@@ -1,7 +1,7 @@
 import { MutableRefObject, useMemo, useRef, useState } from 'react';
 import { toast } from 'react-toastify';
 
-import { Paper } from '@mui/material';
+import { Box } from '@mui/material';
 import { observer } from 'mobx-react';
 
 import CommonTable from '@/components/organisms/CmCommonTable';
@@ -144,7 +144,7 @@ const LockAndUnlockDataTable = observer(({ appId }: { appId: string }) => {
 
   const tableRef = useRef<ImperativeHandleDto<LockAndUnlockDto>>();
   return (
-    <Paper style={{ padding: '20px' }}>
+    <Box>
       <CommonTable<LockAndUnlockDto>
         hasSelectionRows
         allowMultipleSelect
@@ -164,7 +164,7 @@ const LockAndUnlockDataTable = observer(({ appId }: { appId: string }) => {
         handleSave={handleUnlockResource}
         handleClose={handleUnlockResourceModalClose}
       />
-    </Paper>
+    </Box>
   );
 });
 

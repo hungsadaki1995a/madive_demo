@@ -381,6 +381,7 @@ const CmModalStyle = styled.div`
           padding: 0;
           line-height: 200%;
           color: ${CmStyle.color.colorT01};
+          font-size: 13px;
         }
         .Mui-disabled {
           color: ${CmStyle.color.colorT01};

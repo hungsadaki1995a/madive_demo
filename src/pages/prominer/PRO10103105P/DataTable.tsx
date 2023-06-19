@@ -1,6 +1,6 @@
 import { MutableRefObject, useMemo, useRef } from 'react';
 
-import { Paper } from '@mui/material';
+import { Box } from '@mui/material';
 import { observer } from 'mobx-react';
 
 import CommonTable from '@/components/organisms/CmCommonTable';
@@ -95,7 +95,7 @@ const ProminerFieldDataTable = observer(({ appId }: { appId: string }) => {
   const tableRef = useRef<ImperativeHandleDto<ProminerResourceDto>>();
 
   return (
-    <Paper style={{ padding: '20px' }}>
+    <Box>
       <CommonTable<ProminerResourceDto>
         allowMultipleSelect={false}
         query={ProminerApi.getFieldList}
@@ -108,7 +108,7 @@ const ProminerFieldDataTable = observer(({ appId }: { appId: string }) => {
         }}
         ref={tableRef as MutableRefObject<ImperativeHandleDto<ProminerResourceDto>>}
       />
-    </Paper>
+    </Box>
   );
 });
 

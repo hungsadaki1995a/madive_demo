@@ -1,6 +1,6 @@
 import { MutableRefObject, useEffect, useMemo, useRef } from 'react';
 
-import { Paper } from '@mui/material';
+import { Box } from '@mui/material';
 import { observer } from 'mobx-react';
 
 import CommonTable from '@/components/organisms/CmCommonTable';
@@ -112,7 +112,7 @@ const ProminerMethodDataTable = observer(
     }, [appId]);
 
     return (
-      <Paper style={{ padding: '20px' }}>
+      <Box>
         <CommonTable<ProminerMethodDto>
           allowMultipleSelect={false}
           query={ProminerApi.getMethodList}
@@ -126,7 +126,7 @@ const ProminerMethodDataTable = observer(
           ref={tableRef as MutableRefObject<ImperativeHandleDto<ProminerMethodDto>>}
           onRowClick={handleRowClick}
         />
-      </Paper>
+      </Box>
     );
   }
 );

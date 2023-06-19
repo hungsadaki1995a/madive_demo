@@ -2,7 +2,7 @@ import { useRef, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 
 import SearchIcon from '@mui/icons-material/SearchOutlined';
-import { Autocomplete, Chip, IconButton, Paper, Stack, styled, TextField, Typography } from '@mui/material';
+import { Autocomplete, Box, Chip, IconButton, Paper, Stack, styled, TextField, Typography } from '@mui/material';
 import makeStyles from '@mui/styles/makeStyles';
 import { observer } from 'mobx-react';
 
@@ -34,6 +34,7 @@ const useStyles = makeStyles(() => ({
     alignItems: 'center',
     padding: '4px 8px !important',
     marginBottom: '20px !important',
+    boxShadow: '0px 1px 4px rgba(0, 0, 0, 0.2)',
     '& *:not(svg)': {
       fontFamily: notoSansDJKFont.regular,
       fontSize: '13px',
@@ -221,7 +222,7 @@ const SearchServerSection = observer(({ config, onChangeFilterServer }: ISearchS
   };
 
   return (
-    <Paper sx={{ marginBottom: '20px' }}>
+    <Box>
       <Paper className={classes.topSearchBar}>
         <IconButton onClick={onClickSearchServer}>
           <SearchIcon />
@@ -325,7 +326,7 @@ const SearchServerSection = observer(({ config, onChangeFilterServer }: ISearchS
           })}
         </Stack>
       )}
-    </Paper>
+    </Box>
   );
 });
 
