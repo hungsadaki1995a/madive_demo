@@ -3,8 +3,9 @@ import { useEffect, useMemo } from 'react';
 import { observer } from 'mobx-react';
 
 import CommonTable from '@/components/organisms/CmCommonTable';
-import { ICommonTableColumn, IFilterConfig, IPlainObject } from '@/components/organisms/CmCommonTable/types';
+import { ICommonTableColumn, IFilterConfig } from '@/components/organisms/CmCommonTable/types';
 
+import { IPlainObject } from '@/types/common';
 import { useStore } from '@/utils';
 
 function RolePermissionAssignDataTable() {

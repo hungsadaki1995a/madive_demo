@@ -2,10 +2,12 @@ import React from 'react';
 
 import { Box } from '@mui/material';
 
+import { IPlainObject } from '@/types/common';
+
 import FilterPanel from '../filterControls/FilterPanel';
 import TablePaginationDefault from '../pagination/CmTablePagination';
 import TableGrid from '../tablePartitions/TableGrid';
-import { IPlainObject, TableLayoutProps } from '../types';
+import { TableLayoutProps } from '../types';
 
 const TableLayoutDefault = <TRowDataType extends IPlainObject>({
   fieldAsRowId,

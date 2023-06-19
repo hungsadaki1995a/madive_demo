@@ -5,15 +5,11 @@ import { observer } from 'mobx-react';
 
 import CommonTable from '@/components/organisms/CmCommonTable';
 import { FilterTypes } from '@/components/organisms/CmCommonTable/const';
-import {
-  ICommonTableColumn,
-  IFilterConfig,
-  IPlainObject,
-  SearchServerConfig,
-} from '@/components/organisms/CmCommonTable/types';
+import { ICommonTableColumn, IFilterConfig, SearchServerConfig } from '@/components/organisms/CmCommonTable/types';
 
 import { MetaHistoryApi } from '@/apis';
 import { ReactComponent as DeleteIcon } from '@/stylesheets/images/DeleteIcon.svg';
+import { IPlainObject } from '@/types/common';
 import { MetaHistoryDto } from '@/types/dtos/metaHistoryDtos';
 import { notify } from '@/utils/notify';
 

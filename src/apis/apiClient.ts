@@ -1,7 +1,6 @@
 import axios, { AxiosResponse } from 'axios';
 
-import { IPlainObject } from '@/components/organisms/CmCommonTable/types';
-
+import { IPlainObject } from '@/types/common';
 import { IOriginalResponse } from '@/types/http';
 
 const apiClient = axios.create();

@@ -7,12 +7,12 @@ import CommonTable from '@/components/organisms/CmCommonTable';
 import { FilterTypes } from '@/components/organisms/CmCommonTable/const';
 import {
   ICommonTableColumn,
-  IPlainObject,
   SearchServerConfig,
   TableDataResponseDto,
   TableViewState,
 } from '@/components/organisms/CmCommonTable/types';
 
+import { IPlainObject } from '@/types/common';
 import { FieldInfoDto } from '@/types/dtos/doInfoDto';
 import { IOriginalResponse } from '@/types/http';
 

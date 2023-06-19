@@ -41,6 +41,7 @@ export const ResourceEndpoint = {
 
 export const MethodEndpoint = {
   getList: '/ProminerMethod',
+  detail: '/ProminerMethodDetail',
 };
 
 export const FieldEndpoint = {

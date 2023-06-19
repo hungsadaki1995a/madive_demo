@@ -3,16 +3,12 @@ import { MutableRefObject, useEffect, useMemo, useRef, useState } from 'react';
 import { observer } from 'mobx-react';
 
 import CommonTable from '@/components/organisms/CmCommonTable';
-import {
-  ICommonTableColumn,
-  IFilterConfig,
-  ImperativeHandleDto,
-  IPlainObject,
-} from '@/components/organisms/CmCommonTable/types';
+import { ICommonTableColumn, IFilterConfig, ImperativeHandleDto } from '@/components/organisms/CmCommonTable/types';
 
 import SystemContextApi from '@/apis/SystemContextApi';
 import { ReactComponent as AddIcon } from '@/stylesheets/images/AddIcon.svg';
 import { ReactComponent as DeleteIcon } from '@/stylesheets/images/DeleteIcon.svg';
+import { IPlainObject } from '@/types/common';
 import { SystemContextDtos, SystemContextList } from '@/types/dtos/systemContextDtos';
 
 import DeleteSystemContextModal from '@/pages/system-context/PRO10104101P/modal/DeleteSystemContextModal';

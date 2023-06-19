@@ -5,9 +5,10 @@ import { observer } from 'mobx-react';
 
 import CommonTable from '@/components/organisms/CmCommonTable';
 import FilterServiceGroupListControl from '@/components/organisms/CmCommonTable/filterControls/FilterServiceGroupListControl';
-import { ICommonTableColumn, IFilterConfig, IPlainObject } from '@/components/organisms/CmCommonTable/types';
+import { ICommonTableColumn, IFilterConfig } from '@/components/organisms/CmCommonTable/types';
 
 import TestHistoryApi from '@/apis/TestHistoryApi';
+import { IPlainObject } from '@/types/common';
 import { TestCaseDto } from '@/types/dtos/testCaseDtos';
 
 import { testHistoryDetailDefault } from './const';

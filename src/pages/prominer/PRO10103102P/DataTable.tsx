@@ -4,8 +4,9 @@ import { Paper } from '@mui/material';
 import { observer } from 'mobx-react';
 
 import CommonTable from '@/components/organisms/CmCommonTable';
-import { ICommonTableColumn, IPlainObject } from '@/components/organisms/CmCommonTable/types';
+import { ICommonTableColumn } from '@/components/organisms/CmCommonTable/types';
 
+import { IPlainObject } from '@/types/common';
 import { useStore } from '@/utils';
 
 import useTableTree from './useTableTree';

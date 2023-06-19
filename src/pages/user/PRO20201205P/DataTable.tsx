@@ -4,16 +4,12 @@ import { Box } from '@mui/material';
 import { observer } from 'mobx-react';
 
 import CommonTable from '@/components/organisms/CmCommonTable';
-import {
-  ICommonTableColumn,
-  IFilterConfig,
-  ImperativeHandleDto,
-  IPlainObject,
-} from '@/components/organisms/CmCommonTable/types';
+import { ICommonTableColumn, IFilterConfig, ImperativeHandleDto } from '@/components/organisms/CmCommonTable/types';
 
 import GroupManagement from '@/apis/GroupManagement';
 import { ReactComponent as AddIcon } from '@/stylesheets/images/AddIcon.svg';
 import { ReactComponent as DeleteIcon } from '@/stylesheets/images/DeleteIcon.svg';
+import { IPlainObject } from '@/types/common';
 import { ConfigGroupDto, GroupManagementDto } from '@/types/dtos/groupManagementDtos';
 
 import DeleteGroupModal from './modal/DeleteGroupModal';

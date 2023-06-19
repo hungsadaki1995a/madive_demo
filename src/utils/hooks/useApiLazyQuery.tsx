@@ -2,9 +2,8 @@ import { useState } from 'react';
 
 import { AxiosError } from 'axios';
 
-import { IPlainObject } from '@/components/organisms/CmCommonTable/types';
-
 import { getRequest } from '@/apis/apiClient';
+import { IPlainObject } from '@/types/common';
 import { IOriginalResponse } from '@/types/http';
 
 type UseApiLazyQueryProps = {

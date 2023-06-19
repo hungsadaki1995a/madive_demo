@@ -4,16 +4,12 @@ import { observer } from 'mobx-react';
 
 import CommonTable from '@/components/organisms/CmCommonTable';
 import FilterServiceGroupListControl from '@/components/organisms/CmCommonTable/filterControls/FilterServiceGroupListControl';
-import {
-  ICommonTableColumn,
-  IFilterConfig,
-  ImperativeHandleDto,
-  IPlainObject,
-} from '@/components/organisms/CmCommonTable/types';
+import { ICommonTableColumn, IFilterConfig, ImperativeHandleDto } from '@/components/organisms/CmCommonTable/types';
 
 import ProminerApi from '@/apis/ProminerApi';
 import { ReactComponent as AddIcon } from '@/stylesheets/images/AddIcon.svg';
 import { ReactComponent as DeleteIcon } from '@/stylesheets/images/DeleteIcon.svg';
+import { IPlainObject } from '@/types/common';
 import { ProminerResourceDto } from '@/types/dtos/prominerDtos';
 
 const columnsConfig: ICommonTableColumn<IPlainObject>[] = [

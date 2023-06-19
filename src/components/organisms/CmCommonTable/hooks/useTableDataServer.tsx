@@ -1,6 +1,8 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 
-import { IPaginationConfig, IPaginationParams, IPlainObject, ISortInfo } from '../types';
+import { IPlainObject } from '@/types/common';
+
+import { IPaginationConfig, IPaginationParams, ISortInfo } from '../types';
 
 interface IUseTableApiParams<TRowDataType extends IPlainObject> {
   queryFn: (params: { filter: IPlainObject; sort: ISortInfo; pagination: IPaginationParams }) => Promise<void>;
