@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Box, MenuItem, Select, SelectChangeEvent, Stack } from '@mui/material';
+import { MenuItem, Select, SelectChangeEvent, Stack } from '@mui/material';
 import makeStyles from '@mui/styles/makeStyles';
 
 import { CmButton } from '@/components/atoms/CmButton';
@@ -21,21 +21,33 @@ interface IFilterPanelProps {
 // Styled
 const useStyles = makeStyles(({ palette, typography }) => ({
   filterPanel: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
     '& .MuiSelect-select': {
+      marginLeft: '10px',
       padding: '0 32px 0 8px',
       minHeight: 'unset',
       height: '28px',
+      fontSize: '13px',
+      lineHeight: 2,
     },
     '& .MuiSelect-nativeInput': {
       top: '0',
       height: '28px',
     },
     '& .MuiSvgIcon-root': {
-      top: '3px',
+      top: '7px',
     },
     '& fieldset.MuiOutlinedInput-notchedOutline': {
       height: '33px',
-      top: '-4px',
+      top: '-0',
+    },
+
+    '& label[class*="makeStyles-button"]': {
+      display: 'flex',
+      alignItems: 'center',
     },
   },
 }));
@@ -132,35 +144,30 @@ const FilterPanel = ({
     }
   };
   return (
-    <Box className={classes.filterPanel}>
+    <Stack
+      className={classes.filterPanel}
+      direction="row"
+      justifyContent="space-between"
+      alignItems="center"
+      spacing={4}
+    >
       <Stack
         direction="row"
-        justifyContent="space-between"
-        alignItems="center"
-        spacing={4}
+        spacing={2}
       >
-        <Box>
-          <Stack
-            direction="row"
-            spacing={2}
-          >
-            {filterConfig.primaryActions?.map((action: any, index: number) => {
-              return renderActionControl(action, index);
-            })}
-          </Stack>
-        </Box>
-        <Box>
-          <Stack
-            direction="row"
-            spacing={2}
-          >
-            {filterConfig.advanceActions?.map((action: any, index: number) => {
-              return renderActionControl(action, index);
-            })}
-          </Stack>
-        </Box>
+        {filterConfig.primaryActions?.map((action: any, index: number) => {
+          return renderActionControl(action, index);
+        })}
       </Stack>
-    </Box>
+      <Stack
+        direction="row"
+        spacing={2}
+      >
+        {filterConfig.advanceActions?.map((action: any, index: number) => {
+          return renderActionControl(action, index);
+        })}
+      </Stack>
+    </Stack>
   );
 };
 

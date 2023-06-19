@@ -29,3 +29,15 @@ ul {
   display: flex;
   justify-content: flex-end;
 }
+
+/* Modal */
+.MuiModal-root {
+  overflow-y: auto;
+}
+
+/* Select-Layer */
+.MuiModal-root[role='presentation'] .MuiMenu-list li {
+  height: 28px;
+  font-size: 13px;
+  color: #1c293e;
+}

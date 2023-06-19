@@ -2,9 +2,11 @@ import { useRef, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 
 import SearchIcon from '@mui/icons-material/SearchOutlined';
-import { Autocomplete, Button, Chip, IconButton, Paper, Stack, styled, TextField, Typography } from '@mui/material';
+import { Autocomplete, Chip, IconButton, Paper, Stack, styled, TextField, Typography } from '@mui/material';
 import makeStyles from '@mui/styles/makeStyles';
 import { observer } from 'mobx-react';
+
+import { CmButton } from '@/components/atoms/CmButton';
 
 import { notoSansDJKFont } from '@/stylesheets/common';
 import { IPlainObject } from '@/types/common';
@@ -273,18 +275,29 @@ const SearchServerSection = observer(({ config, onChangeFilterServer }: ISearchS
           spacing={1}
           title="Rbtn"
         >
-          <Button
+          {/* <Button
             variant="text"
             onClick={onClickSaveSearchConditions}
           >
             Save search conditions
-          </Button>
-          <Button
+          </Button> */}
+          <CmButton
+            variant="text"
+            btnTitle="Save search conditions"
+            onClick={onClickSaveSearchConditions}
+          />
+
+          {/* <Button
             variant="text"
             onClick={onClickDeleteAll}
           >
             Delete all
-          </Button>
+          </Button> */}
+          <CmButton
+            variant="text"
+            btnTitle="Delete all"
+            onClick={onClickDeleteAll}
+          />
         </Stack>
         {isShowSaveConditionModal && (
           <SearchConditionsSavedModal
