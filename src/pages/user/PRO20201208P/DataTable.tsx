@@ -1,38 +1,39 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo, useRef, useState } from 'react';
 
 import { Box } from '@mui/material';
 import { observer } from 'mobx-react';
 
 import CommonTable from '@/components/organisms/CmCommonTable';
-import { ICommonTableColumn, IFilterConfig } from '@/components/organisms/CmCommonTable/types';
+import { SortDirectionTypes } from '@/components/organisms/CmCommonTable/const';
+import {
+  ICommonTableColumn,
+  IFilterConfig,
+  TableDataResponseDto,
+  TableViewState,
+} from '@/components/organisms/CmCommonTable/types';
 
-import { IPlainObject } from '@/types/common';
+import { ReactComponent as AddIcon } from '@/stylesheets/images/AddIcon.svg';
+import { ReactComponent as DeleteIcon } from '@/stylesheets/images/DeleteIcon.svg';
+import { ConfigRoleDto } from '@/types/dtos/configRoleDtos';
+import { IOriginalResponse } from '@/types/http';
+import RoleModel from '@/types/models/roleModel';
 import { useStore } from '@/utils';
+
+import { RoleEndpoint } from '@/constants/apiEndpoint';
 
 import DeleteRoleModal from './modal/DeleteRoleModal';
 import CreateRoleModal from './modal/PRO20201209M';
 import EditRoleModal from './modal/PRO20201210M';
 
-const sampleRowsData = [
-  {
-    role_id: 'AdminRole',
-    role_name: 'AdminRole',
-    description: 'AdminRole',
-  },
-  {
-    role_id: 'AdminRole2',
-    role_name: 'AdminRole2',
-    description: 'AdminRole2',
-  },
-];
-
-function RoleManagementDataTable() {
+const RoleManagementDataTable = observer(() => {
   const { AlertStore } = useStore();
   const [isCreateRoleModalVisible, setIsCreateRoleModalVisible] = useState(false);
   const [isEditRoleModalVisible, setIsEditRoleModalVisible] = useState(false);
   const [isDeleteRoleModalVisible, setIsDeleteRoleModalVisible] = useState(false);
   const [selectedRows, setSelectedRows] = useState<any[]>([]);
-  const [sampleRows, setSampleRows] = useState(sampleRowsData);
+  const [selectedRow, setSelectedRow] = useState<RoleModel>();
+  const [deleteConfirmMessage, setDeleteConfirmMessage] = useState<string>('');
+  const tableRef = useRef<any>();
 
   // Create Role Modal Open
   const handleCreateRoleModalOpen = () => {
@@ -46,6 +47,7 @@ function RoleManagementDataTable() {
 
   // Edit Role Modal Open
   const handleEditRoleModalOpen = (event: React.MouseEvent<unknown>, row: any) => {
+    setSelectedRow(row);
     setIsEditRoleModalVisible(true);
   };
 
@@ -55,7 +57,7 @@ function RoleManagementDataTable() {
   };
 
   // Delete Role Modal Open
-  const handleDeleteRoleModalOpen = () => {
+  const handleDeleteRoleModalOpen = async () => {
     setIsDeleteRoleModalVisible(true);
   };
 
@@ -64,14 +66,9 @@ function RoleManagementDataTable() {
     setIsDeleteRoleModalVisible(false);
   };
 
-  // Delete Role Excute
-  const handleDeleteRole = () => {
-    console.log(selectedRows);
-  };
-
   // -----------------------------------
   // Config table
-  const columnsConfig = useMemo<ICommonTableColumn<IPlainObject>[]>(() => {
+  const columnsConfig = useMemo<ICommonTableColumn<ConfigRoleDto[]>[]>(() => {
     return [
       {
         field: 'role_id',
@@ -94,14 +91,46 @@ function RoleManagementDataTable() {
     ];
   }, []);
 
-  const filterConfig = useMemo<IFilterConfig>(() => {
+  const filterConfig = useMemo(() => {
     return {
-      submitBy: 'enter',
-      submitLabel: 'Search',
-      filters: [
+      primaryActions: [
         {
-          type: 'dropdown',
-          name: 'filterFieldName',
+          type: 'button',
+          handleClick: async (selectedRows: RoleModel[]) => {
+            setSelectedRows(selectedRows);
+            handleDeleteRoleModalOpen();
+          },
+          config: {
+            variant: 'contained',
+            color: 'secondary',
+            size: 'small',
+            startIcon: <DeleteIcon />,
+            label: 'Delete',
+          },
+          checkDisabled: (selectedRows: RoleModel[]) => {
+            //TODO: Check disabled row
+            return selectedRows?.length < 1;
+          },
+        },
+      ],
+      advanceActions: [
+        {
+          type: 'button',
+          handleClick: (selectedRows: RoleModel[]) => {
+            handleCreateRoleModalOpen();
+          },
+          config: {
+            variant: 'contained',
+            color: 'primary',
+            size: 'small',
+            startIcon: <AddIcon />,
+            label: 'Create New Role',
+          },
+        },
+        {
+          type: 'filter',
+          name: 'dbio-filter',
+          defaultValue: 'role_id',
           options: [
             {
               label: 'Role ID',
@@ -117,73 +146,75 @@ function RoleManagementDataTable() {
             },
           ],
         },
-        {
-          type: 'simple',
-          name: 'search',
-          // className: '',
-          // label: 'Keyword',
-          // icon: <SearchIcon />,
-        },
       ],
     };
   }, []);
 
-  const onSelectedRows = (rows: any) => {
-    setSelectedRows([...rows]);
+  // ------------------------------------------------------------------------------------
+
+  const convertPayloadRequest = (tableState: TableViewState) => {
+    const { sort, sortField, sortingType } = tableState;
+    const conditionDto = Object.entries(tableState.filter.server).map(([key, value]) => ({ key, value }));
+    const payload = {
+      pageInfoDto: {
+        pageNum: 1,
+        pageLength: -1,
+      },
+      sort,
+      sortField,
+      sortingType,
+      conditionDto: conditionDto,
+    };
+    return payload;
   };
 
-  // ------------------------------------------------------------------------------------
-  // Handle Data
-
-  useEffect(() => {
-    //fetch();
-  }, []);
+  const convertResponse = (response: IOriginalResponse): TableDataResponseDto<ConfigRoleDto[]> => {
+    return { data: response?.dto?.ConfigRoleDto || [], total: response?.dto?.ConfigRoleDto?.length || 0 };
+  };
 
   return (
     <Box>
-      <CommonTable
+      <CommonTable<ConfigRoleDto[]>
         fieldAsRowId="role_id"
         columnsConfig={columnsConfig}
-        rows={sampleRows}
+        // query={RoleApi.getRoles}
+
         hasSelectionRows
-        onSelectedRows={onSelectedRows}
         onRowClick={handleEditRoleModalOpen}
-        filterConfig={filterConfig}
-        //onFilterTriggerQuery={filter}
+        filterConfig={filterConfig as unknown as IFilterConfig}
         sortDefault={{
-          field: 'role_id',
-          direction: 'asc',
+          field: 'description',
+          direction: SortDirectionTypes.ASC,
         }}
-        paginationConfig={{
-          rowsPerPageOptions: [10, 25, 50, 100],
-          currentPage: 0,
-          rowsPerPage: 10,
-          totalCount: 0,
-          rowsPerPagePosition: 'last',
-          onPageChange: (newPageIndex: number) => console.log(newPageIndex),
-          onRowsPerPageChange: (newRowsPerPage: number) => console.log(newRowsPerPage),
-        }}
+        ref={tableRef}
+        endpoint={RoleEndpoint.roleList}
+        convertPayloadRequest={convertPayloadRequest}
+        convertResponse={convertResponse}
       />
 
       {/* Create Role - Modal */}
       <CreateRoleModal
         visible={isCreateRoleModalVisible}
         handleClose={handleCreateRoleModalClose}
+        fetchTableData={tableRef?.current?.fetch}
       />
 
       {/* Edit Role - Modal */}
       <EditRoleModal
         visible={isEditRoleModalVisible}
         handleClose={handleEditRoleModalClose}
+        roleData={selectedRow}
+        fetchTableData={tableRef?.current?.fetch}
       />
 
       {/* Delete Role - Modal */}
       <DeleteRoleModal
         visible={isDeleteRoleModalVisible}
-        handleSave={handleDeleteRole}
         handleClose={handleDeleteRoleModalClose}
+        selectedList={selectedRows}
+        fetchTableData={tableRef?.current?.fetch}
       />
     </Box>
   );
-}
-export default observer(RoleManagementDataTable);
+});
+export default RoleManagementDataTable;

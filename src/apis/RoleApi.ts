@@ -1,53 +1,58 @@
-import axios, { AxiosError } from 'axios';
+import { AxiosError } from 'axios';
 
 import { ConfigGroupDtos } from '@/types/dtos/configGroupDto';
-import { ConfigRoleDtos } from '@/types/dtos/configRoleDtos';
+import { ConfigRoleDto, ConfigRoleDtos } from '@/types/dtos/configRoleDtos';
 import { IOriginalResponse } from '@/types/http';
-import { RoleType } from '@/types/typeBundle';
 
 import { RoleEndpoint } from '@/constants/apiEndpoint';
 
 import apiClient from './apiClient';
 
-const { NODE_ENV, REACT_APP_BACKEND_URL } = process.env;
-const BASE_URL = NODE_ENV === 'development' ? REACT_APP_BACKEND_URL : '/proobject-devserver';
-
 const RoleApi = {
-  getRoles: async () => {
+  getRoles: async (): Promise<ConfigRoleDtos[] | any> => {
     try {
-      return await axios.get(BASE_URL + '/role');
+      const data = (await apiClient.get(RoleEndpoint.getRoleList)) as any;
+      return { data: data?.dto?.ConfigRoleDto, totalNum: data?.dto?.ConfigRoleDto?.length };
     } catch (error: unknown) {
       return error instanceof AxiosError ? error.response : error;
     }
   },
 
-  addRole: async (submitValue: RoleType) => {
-    try {
-      return await axios.post(BASE_URL + '/role', submitValue);
-    } catch (error: unknown) {
-      return error instanceof AxiosError ? error.response : error;
-    }
+  addRole: async (submitValue: ConfigRoleDto): Promise<ConfigGroupDtos | any> => {
+    const data = await apiClient.post(RoleEndpoint.role, {
+      dto: submitValue,
+    });
+    return data;
   },
 
-  editRole: async (submitValue: RoleType) => {
-    try {
-      return await axios.patch(BASE_URL + '/role', submitValue);
-    } catch (error: unknown) {
-      return error instanceof AxiosError ? error.response : error;
-    }
+  editRole: async (submitValue: ConfigRoleDto): Promise<ConfigGroupDtos | any> => {
+    const data = await apiClient.put(RoleEndpoint.role, {
+      dto: submitValue,
+    });
+    return data;
   },
 
-  deleteRoles: async (submitValue: string[]) => {
-    try {
-      return await axios.delete(BASE_URL + '/role', { data: submitValue });
-    } catch (error: unknown) {
-      return error instanceof AxiosError ? error.response : error;
-    }
+  deleteRoles: async (roles: ConfigRoleDto[]): Promise<ConfigGroupDtos | any> => {
+    return await apiClient.delete(RoleEndpoint.roleList, {
+      data: {
+        dto: {
+          ConfigRoleDto: roles,
+        },
+      },
+    });
   },
 
-  getSpecificRole: async (roleName: string) => {
+  getDeleteConfigData: async (roles: ConfigRoleDto[]): Promise<ConfigGroupDtos | any> => {
     try {
-      return await axios.get(`${BASE_URL}/role/${roleName}`);
+      const data = (await apiClient.get(RoleEndpoint.getGroupListByRole, {
+        params: {
+          [JSON.stringify({
+            dto: { ConfigGroupDto: roles },
+          })]: '',
+          _: new Date().getTime(),
+        },
+      })) as any;
+      return data?.dto?.value;
     } catch (error: unknown) {
       return error instanceof AxiosError ? error.response : error;
     }
