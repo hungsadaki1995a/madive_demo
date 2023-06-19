@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 
-import { Paper } from '@mui/material';
+import { Box } from '@mui/material';
 import { observer } from 'mobx-react';
 
 import CommonTable from '@/components/organisms/CmCommonTable';
@@ -139,7 +139,7 @@ function RoleManagementDataTable() {
   }, []);
 
   return (
-    <Paper style={{ padding: '20px' }}>
+    <Box>
       <CommonTable
         fieldAsRowId="role_id"
         columnsConfig={columnsConfig}
@@ -182,7 +182,7 @@ function RoleManagementDataTable() {
         handleSave={handleDeleteRole}
         handleClose={handleDeleteRoleModalClose}
       />
-    </Paper>
+    </Box>
   );
 }
 export default observer(RoleManagementDataTable);

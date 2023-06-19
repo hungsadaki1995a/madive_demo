@@ -1,7 +1,7 @@
 import { TablePagination } from '@mui/material';
 import makeStyles from '@mui/styles/makeStyles';
 
-import { rowsPerPageDefault, rowsPerPageOptionsDefault } from '@/utils/const/form.const';
+import { rowsPerPageDefault, rowsPerPageOptionsDefault } from '@/utils/const/form';
 
 import { IPaginationConfig } from '../types';
 

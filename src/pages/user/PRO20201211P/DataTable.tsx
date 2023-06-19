@@ -1,4 +1,3 @@
-import { Paper } from '@mui/material';
 import { observer } from 'mobx-react';
 
 import CommonTable from '@/components/organisms/CmCommonTable';
@@ -17,20 +16,18 @@ function UserGroupAssignDataTable(props: propsType) {
   const { AlertStore } = useStore();
 
   return (
-    <Paper style={{ padding: '20px' }}>
-      <CommonTable
-        fieldAsRowId={fieldAsRowId}
-        columnsConfig={columnsConfig}
-        rows={rows}
-        hasSelectionRows
-        onSelectedRows={onSelectedRows}
-        sortDefault={{
-          field: fieldAsRowId,
-          direction: 'asc',
-        }}
-        paginationConfig={paginationConfig}
-      />
-    </Paper>
+    <CommonTable
+      fieldAsRowId={fieldAsRowId}
+      columnsConfig={columnsConfig}
+      rows={rows}
+      hasSelectionRows
+      onSelectedRows={onSelectedRows}
+      sortDefault={{
+        field: fieldAsRowId,
+        direction: 'asc',
+      }}
+      paginationConfig={paginationConfig}
+    />
   );
 }
 export default observer(UserGroupAssignDataTable);

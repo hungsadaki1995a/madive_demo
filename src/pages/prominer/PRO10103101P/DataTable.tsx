@@ -1,6 +1,5 @@
 import { MutableRefObject, useMemo, useRef } from 'react';
 
-import { Paper } from '@mui/material';
 import { observer } from 'mobx-react';
 
 import CommonTable from '@/components/organisms/CmCommonTable';
@@ -183,21 +182,19 @@ const ProminerResourceDataTable = observer(({ appId }: { appId: string }) => {
   const tableRef = useRef<ImperativeHandleDto<ProminerResourceDto>>();
 
   return (
-    <Paper style={{ padding: '20px' }}>
-      <CommonTable<ProminerResourceDto>
-        hasSelectionRows
-        query={ProminerApi.getResourceList}
-        fieldAsRowId="logical_name"
-        columnsConfig={columnsConfig}
-        filterConfig={filterConfig as unknown as IFilterConfig}
-        sortDefault={{
-          field: 'logical_name',
-          direction: 'desc',
-        }}
-        ref={tableRef as MutableRefObject<ImperativeHandleDto<ProminerResourceDto>>}
-        onRowClick={handleRowClick}
-      />
-    </Paper>
+    <CommonTable<ProminerResourceDto>
+      hasSelectionRows
+      query={ProminerApi.getResourceList}
+      fieldAsRowId="logical_name"
+      columnsConfig={columnsConfig}
+      filterConfig={filterConfig as unknown as IFilterConfig}
+      sortDefault={{
+        field: 'logical_name',
+        direction: 'desc',
+      }}
+      ref={tableRef as MutableRefObject<ImperativeHandleDto<ProminerResourceDto>>}
+      onRowClick={handleRowClick}
+    />
   );
 });
 

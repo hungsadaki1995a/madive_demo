@@ -1,6 +1,5 @@
 import { useEffect, useMemo } from 'react';
 
-import { Paper } from '@mui/material';
 import { observer } from 'mobx-react';
 
 import CommonTable from '@/components/organisms/CmCommonTable';
@@ -90,27 +89,25 @@ function RolePermissionAssignDataTable() {
   }, []);
 
   return (
-    <Paper style={{ padding: '20px' }}>
-      <CommonTable
-        fieldAsRowId="field"
-        columnsConfig={columnsConfig}
-        rows={sampleRows}
-        filterConfig={filterConfig}
-        sortDefault={{
-          field: 'menu_name',
-          direction: 'asc',
-        }}
-        paginationConfig={{
-          rowsPerPageOptions: [10, 25, 50, 100],
-          currentPage: 0,
-          rowsPerPage: 10,
-          totalCount: 0,
-          rowsPerPagePosition: 'last',
-          onPageChange: (newPageIndex: number) => console.log(newPageIndex),
-          onRowsPerPageChange: (newRowsPerPage: number) => console.log(newRowsPerPage),
-        }}
-      />
-    </Paper>
+    <CommonTable
+      fieldAsRowId="field"
+      columnsConfig={columnsConfig}
+      rows={sampleRows}
+      filterConfig={filterConfig}
+      sortDefault={{
+        field: 'menu_name',
+        direction: 'asc',
+      }}
+      paginationConfig={{
+        rowsPerPageOptions: [10, 25, 50, 100],
+        currentPage: 0,
+        rowsPerPage: 10,
+        totalCount: 0,
+        rowsPerPagePosition: 'last',
+        onPageChange: (newPageIndex: number) => console.log(newPageIndex),
+        onRowsPerPageChange: (newRowsPerPage: number) => console.log(newRowsPerPage),
+      }}
+    />
   );
 }
 export default observer(RolePermissionAssignDataTable);
