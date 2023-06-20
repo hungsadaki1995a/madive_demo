@@ -169,7 +169,6 @@ const NodeManagementDataTable = observer(() => {
           },
           config: {
             variant: 'contained',
-            color: 'secondary',
             size: 'small',
             startIcon: <DeleteIcon />,
             label: 'Delete',
