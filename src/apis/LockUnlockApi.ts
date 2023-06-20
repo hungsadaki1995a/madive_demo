@@ -25,7 +25,7 @@ const LockUnlockApi = {
                 app_resource_id: filter.server.app_resource_id,
                 sg_resource_id: filter.server.sg_resource_id,
                 pageInfoDto: {
-                  pageNum: currentPage + 1,
+                  pageNum: 1,
                   pageLength: -1,
                 },
                 sort: sortBy.field ? true : false,

@@ -29,13 +29,12 @@ apiClient.interceptors.response.use(
 
 export default apiClient;
 
-export function getRequest(URL: string, payload: IPlainObject): Promise<IOriginalResponse> {
+export function getRequest(URL: string, payload?: IPlainObject): Promise<IOriginalResponse> {
+  const params = payload ? JSON.stringify({ dto: payload }) : '';
   return apiClient
     .get(`/${URL}`, {
       params: {
-        [JSON.stringify({
-          dto: payload,
-        })]: '',
+        [params]: '',
         _: new Date().getTime(),
       },
     })

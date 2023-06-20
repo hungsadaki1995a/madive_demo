@@ -32,6 +32,11 @@ export default function ImportExcelModal({ visible, handleSave, handleClose, han
   //loading status
   const [isFetching, setIsFetching] = useState<boolean>(false);
 
+  //handle close model
+  const onCloseModal = async () => {
+    handleClose();
+    await handleRefetch?.();
+  };
   // Import Excel File Change
   const handleImportExcelChange = (files: File) => {
     setMetaResponse([]);
@@ -82,10 +87,8 @@ export default function ImportExcelModal({ visible, handleSave, handleClose, han
       reader.onabort = (e) => {
         notify.warning('File load cancelled !');
       };
-
-      await handleRefetch?.();
-      setIsFetching(false);
     }
+    setIsFetching(false);
   };
 
   // Get Excel Sample
@@ -126,7 +129,7 @@ export default function ImportExcelModal({ visible, handleSave, handleClose, han
         btnTitle="Cancel"
         startIcon={<></>}
         className=""
-        onClick={handleClose}
+        onClick={onCloseModal}
         disabled={isFetching}
       />
       <CmButton
@@ -146,7 +149,7 @@ export default function ImportExcelModal({ visible, handleSave, handleClose, han
       title="Import Excel"
       visible={visible}
       onSave={handleSave}
-      onClose={handleClose}
+      onClose={onCloseModal}
       className="medium"
       footerRenderAs={footerRender}
     >

@@ -223,7 +223,7 @@ function TestCaseDataTable() {
           app_resource_id: '0000d8a6e0bd0004b35b8c00dcf79930', // hard code for test
           pageInfoDto: {
             pageLength: '0',
-            pageNum: pagination.currentPage + 1,
+            pageNum: 1,
             sort: true,
             sortField: sort.field || defaultFilterField,
             sortingType: sort.direction || SortDirectionTypes.ASC,

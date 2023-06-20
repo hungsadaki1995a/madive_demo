@@ -114,19 +114,20 @@ export interface IPaginationConfig extends IPaginationParams {
 export interface ICommonTable<TRowDataType extends IPlainObject> {
   fieldAsRowId: string;
   columnsConfig: ICommonTableColumn<TRowDataType>[];
-  rows?: TRowDataType[];
+  rows: TRowDataType[];
   hasSelectionRows?: boolean;
   allowMultipleSelect?: boolean;
   onSelectedRows?: (selectedRows: TRowDataType[]) => void;
   filterConfig?: IFilterConfig;
   sortDefault: ISortInfo;
   paginationConfig?: IPaginationConfig;
-  query?: (filterData?: any) => Promise<any>;
   onRowClick?: (event: React.MouseEvent, row: TRowDataType) => void;
   searchServerConfig?: SearchServerConfig;
   convertPayloadRequest?: (filterData: TableViewState) => IPlainObject;
-  convertResponse?: (response: IOriginalResponse) => TableDataResponseDto<TRowDataType>;
+  map?: (response: IOriginalResponse) => TableDataResponseDto<TRowDataType>;
   endpoint?: string;
+  onTriggerRequest?: (tableFilterData: TableViewState) => void;
+  isLoading?: boolean;
 }
 
 export type TableLayoutProps<TRowDataType extends IPlainObject> = Pick<

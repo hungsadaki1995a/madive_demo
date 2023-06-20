@@ -6,13 +6,13 @@ import { observer } from 'mobx-react';
 import CommonTable from '@/components/organisms/CmCommonTable';
 import { ICommonTableColumn, IFilterConfig } from '@/components/organisms/CmCommonTable/types';
 
-import UserApi from '@/apis/UserApi';
 import { ReactComponent as AddIcon } from '@/stylesheets/images/AddIcon.svg';
 import { ReactComponent as DeleteIcon } from '@/stylesheets/images/DeleteIcon.svg';
 import { IPlainObject } from '@/types/common';
 import { configUserDto } from '@/types/dtos/userDto';
 import { RequestType } from '@/utils/const/api';
 import useApiClientMutation from '@/utils/hooks/useApiMutation';
+import useApiQuery from '@/utils/hooks/useApiQuery';
 import { notify } from '@/utils/notify';
 
 import { UserEndpoint } from '@/constants/apiEndpoint';
@@ -204,12 +204,27 @@ const UserManagementDataTable = observer(() => {
     };
   }, []);
 
+  const {
+    request,
+    isLoading,
+    data: userList,
+  } = useApiQuery<configUserDto[]>({
+    endpoint: UserEndpoint.getList,
+    map: (response) => {
+      return response?.dto?.ConfigUserDto || [];
+    },
+  });
+
+  const requestGetUserList = () => {
+    const payload = { user_id: 'admin' };
+    return request(payload);
+  };
+
   return (
     <Box>
       <CommonTable<configUserDto>
         hasSelectionRows
         allowMultipleSelect
-        query={UserApi.getList}
         fieldAsRowId="user_id"
         columnsConfig={columnsConfig}
         filterConfig={filterConfig as unknown as IFilterConfig}
@@ -219,6 +234,9 @@ const UserManagementDataTable = observer(() => {
         }}
         ref={tableRef}
         onRowClick={handleUpdateModalOpen}
+        onTriggerRequest={requestGetUserList}
+        rows={userList || []}
+        isLoading={isLoading}
       />
       <FormModal
         visible={isCreateModal}

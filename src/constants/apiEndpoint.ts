@@ -23,7 +23,7 @@ export const MetaEndPoint = {
 };
 
 export const MetaHistoryEndPoint = {
-  metaHistory: '/MetaHistoryList',
+  metaHistory: 'MetaHistoryList',
 };
 
 export const DoInfoEndPoint = {
@@ -31,33 +31,33 @@ export const DoInfoEndPoint = {
 };
 
 export const NodeEndpoint = {
-  getList: '/NodeList',
+  getList: 'NodeList',
   node: '/Node',
 };
 
 export const ResourceEndpoint = {
-  getList: '/ProminerResource',
+  getList: 'ProminerResource',
 };
 
 export const MethodEndpoint = {
-  getList: '/ProminerMethod',
+  getList: 'ProminerMethod',
   detail: '/ProminerMethodDetail',
 };
 
 export const FieldEndpoint = {
-  getList: '/ProminerField',
+  getList: 'ProminerField',
 };
 
 export const VariableEndpoint = {
-  getList: '/ProminerVariable',
+  getList: 'ProminerVariable',
 };
 
 export const SystemContextEndpoint = {
   getNodeList: '/NodeList',
-  systemContextList: '/SystemContextList',
+  systemContextList: 'SystemContextList',
   deployStatList: 'DeployStatList',
   systemContextNameList: '/SystemContextNameList',
-  ropertyList: '/PropertyList',
+  propertyList: 'PropertyList',
   systemContext: '/SystemContext',
   property: '/Property',
 };
@@ -69,12 +69,12 @@ export const LockUnLockEndPoint = {
 
 export const UserEndpoint = {
   getList: 'UserList',
-  historyList: '/UserHistoryList',
+  historyList: 'UserHistoryList',
   getUser: 'User',
 };
 
 export const GroupManagementEndpoint = {
-  groupList: '/GroupList',
+  groupList: 'GroupList',
   group: '/Group',
 };
 
@@ -89,6 +89,10 @@ export const RoleEndpoint = {
 };
 
 export const DbioEndpoint = {
-  modelDbioList: '/ModelDbioList',
+  modelDbioList: 'ModelDbioList',
   modelDbio: '/ModelDbio',
+};
+
+export const TestEndpoint = {
+  historyList: 'TestHistoryList',
 };

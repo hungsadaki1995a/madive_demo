@@ -10,7 +10,10 @@ import UserApi from '@/apis/UserApi';
 import { ReactComponent as DeleteIcon } from '@/stylesheets/images/DeleteIcon.svg';
 import { IPlainObject } from '@/types/common';
 import { configUserDto } from '@/types/dtos/userDto';
+import useApiQuery from '@/utils/hooks/useApiQuery';
 import { notify } from '@/utils/notify';
+
+import { UserEndpoint } from '@/constants/apiEndpoint';
 
 import DeleteModal from '../PRO20201201P/modals/DeleteModal';
 
@@ -131,12 +134,27 @@ const UserHistoryDataTable = observer(() => {
     };
   }, []);
 
+  const {
+    request,
+    isLoading,
+    data: userHistoryList,
+  } = useApiQuery<configUserDto[]>({
+    endpoint: UserEndpoint.historyList,
+    map: (response) => {
+      return response?.dto?.ConfigUserDto || [];
+    },
+  });
+
+  const requestGetUserHistoryList = () => {
+    const payload = { user_id: 'admin' };
+    return request(payload);
+  };
+
   return (
     <Box>
       <CommonTable<configUserDto>
         hasSelectionRows
         allowMultipleSelect
-        query={UserApi.getHistoryList}
         fieldAsRowId="history_id"
         columnsConfig={columnsConfig}
         filterConfig={filterConfig as unknown as IFilterConfig}
@@ -145,6 +163,9 @@ const UserHistoryDataTable = observer(() => {
           direction: 'desc',
         }}
         ref={tableRef}
+        onTriggerRequest={requestGetUserHistoryList}
+        rows={userHistoryList || []}
+        isLoading={isLoading}
       />
       <DeleteModal
         visible={isDeleteModal}

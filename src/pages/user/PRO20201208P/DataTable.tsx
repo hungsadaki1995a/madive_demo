@@ -2,23 +2,20 @@ import { useMemo, useRef, useState } from 'react';
 
 import { Box } from '@mui/material';
 import { observer } from 'mobx-react';
+import Cookies from 'universal-cookie';
 
 import CommonTable from '@/components/organisms/CmCommonTable';
 import { SortDirectionTypes } from '@/components/organisms/CmCommonTable/const';
-import {
-  ICommonTableColumn,
-  IFilterConfig,
-  TableDataResponseDto,
-  TableViewState,
-} from '@/components/organisms/CmCommonTable/types';
+import { ICommonTableColumn, IFilterConfig } from '@/components/organisms/CmCommonTable/types';
 
 import { ReactComponent as AddIcon } from '@/stylesheets/images/AddIcon.svg';
 import { ReactComponent as DeleteIcon } from '@/stylesheets/images/DeleteIcon.svg';
 import { ConfigRoleDto } from '@/types/dtos/configRoleDtos';
-import { IOriginalResponse } from '@/types/http';
 import RoleModel from '@/types/models/roleModel';
 import { useStore } from '@/utils';
+import useApiQuery from '@/utils/hooks/useApiQuery';
 
+import { USER_INFO_COOKIE } from '@/constants';
 import { RoleEndpoint } from '@/constants/apiEndpoint';
 
 import DeleteRoleModal from './modal/DeleteRoleModal';
@@ -34,6 +31,8 @@ const RoleManagementDataTable = observer(() => {
   const [selectedRow, setSelectedRow] = useState<RoleModel>();
   const [deleteConfirmMessage, setDeleteConfirmMessage] = useState<string>('');
   const tableRef = useRef<any>();
+  const cookies = new Cookies();
+  const userInfo = cookies.get(USER_INFO_COOKIE);
 
   // Create Role Modal Open
   const handleCreateRoleModalOpen = () => {
@@ -68,7 +67,7 @@ const RoleManagementDataTable = observer(() => {
 
   // -----------------------------------
   // Config table
-  const columnsConfig = useMemo<ICommonTableColumn<ConfigRoleDto[]>[]>(() => {
+  const columnsConfig = useMemo<ICommonTableColumn<ConfigRoleDto>[]>(() => {
     return [
       {
         field: 'role_id',
@@ -150,30 +149,25 @@ const RoleManagementDataTable = observer(() => {
   }, []);
 
   // ------------------------------------------------------------------------------------
+  const {
+    request,
+    isLoading,
+    data: roleList,
+  } = useApiQuery<ConfigRoleDto[]>({
+    endpoint: RoleEndpoint.roleList,
+    map: (response) => {
+      return response?.dto?.ConfigRoleDto || [];
+    },
+  });
 
-  const convertPayloadRequest = (tableState: TableViewState) => {
-    const { sort, sortField, sortingType } = tableState;
-    const conditionDto = Object.entries(tableState.filter.server).map(([key, value]) => ({ key, value }));
-    const payload = {
-      pageInfoDto: {
-        pageNum: 1,
-        pageLength: -1,
-      },
-      sort,
-      sortField,
-      sortingType,
-      conditionDto: conditionDto,
-    };
-    return payload;
-  };
-
-  const convertResponse = (response: IOriginalResponse): TableDataResponseDto<ConfigRoleDto[]> => {
-    return { data: response?.dto?.ConfigRoleDto || [], total: response?.dto?.ConfigRoleDto?.length || 0 };
+  const requestGetRoleManagement = () => {
+    const payload = { user_id: userInfo.id || '' };
+    return request(payload);
   };
 
   return (
     <Box>
-      <CommonTable<ConfigRoleDto[]>
+      <CommonTable<ConfigRoleDto>
         fieldAsRowId="role_id"
         columnsConfig={columnsConfig}
         // query={RoleApi.getRoles}
@@ -186,9 +180,9 @@ const RoleManagementDataTable = observer(() => {
           direction: SortDirectionTypes.ASC,
         }}
         ref={tableRef}
-        endpoint={RoleEndpoint.roleList}
-        convertPayloadRequest={convertPayloadRequest}
-        convertResponse={convertResponse}
+        onTriggerRequest={requestGetRoleManagement}
+        rows={roleList || []}
+        isLoading={isLoading}
       />
 
       {/* Create Role - Modal */}

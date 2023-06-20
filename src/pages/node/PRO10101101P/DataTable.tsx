@@ -2,6 +2,7 @@ import { MutableRefObject, useMemo, useRef, useState } from 'react';
 
 import { Box } from '@mui/material';
 import { observer } from 'mobx-react';
+import Cookies from 'universal-cookie';
 
 import CommonTable from '@/components/organisms/CmCommonTable';
 import { ICommonTableColumn, IFilterConfig, ImperativeHandleDto } from '@/components/organisms/CmCommonTable/types';
@@ -11,7 +12,10 @@ import { ReactComponent as AddIcon } from '@/stylesheets/images/AddIcon.svg';
 import { ReactComponent as DeleteIcon } from '@/stylesheets/images/DeleteIcon.svg';
 import { IPlainObject } from '@/types/common';
 import { NodeDto } from '@/types/dtos/nodeDtos';
+import useApiQuery from '@/utils/hooks/useApiQuery';
 import { notify } from '@/utils/notify';
+
+import { NodeEndpoint, USER_INFO_COOKIE } from '@/constants';
 
 import DeleteNodeModal from './modal/DeleteNodeModal';
 import NodeModal from './modal/NodeModal';
@@ -79,6 +83,8 @@ const NodeManagementDataTable = observer(() => {
   const [isFormModalVisible, setIsFormModalVisible] = useState(false);
   const [selectedNode, setSelectedNode] = useState<NodeDto[]>([]);
   const [data, setData] = useState<NodeDto | null>(null);
+  const cookies = new Cookies();
+  const userInfo = cookies.get(USER_INFO_COOKIE);
   //----------------------------
   // HANDLE OPEN - CLOSE MODAL
 
@@ -137,6 +143,8 @@ const NodeManagementDataTable = observer(() => {
 
   // Delete Node Excute
   const handleDeleteNode = async () => {
+    // eslint-disable-next-line no-debugger
+    debugger;
     const res = await NodeApi.deleteNode(selectedNode[0]);
 
     if (res?.dto?.value === 'SUCCESS') {
@@ -149,7 +157,7 @@ const NodeManagementDataTable = observer(() => {
     tableRef.current?.resetPageAndRefresh();
   };
 
-  const handleRowclick = (event: React.MouseEvent, rowData: NodeDto) => {
+  const handleRowClick = (event: React.MouseEvent, rowData: NodeDto) => {
     handleEditNodeModalOpen(event, rowData);
   };
   // -----------------------------------
@@ -162,7 +170,6 @@ const NodeManagementDataTable = observer(() => {
           handleClick: (selectedRow: NodeDto[]) => {
             setSelectedNode(selectedRow);
             handleDeleteNodeModalOpen();
-            tableRef.current?.resetPageAndRefresh();
           },
           checkDisabled: (selectedRows: NodeDto[]) => {
             return selectedRows?.length < 1;
@@ -260,6 +267,22 @@ const NodeManagementDataTable = observer(() => {
     };
   }, []);
 
+  const {
+    request,
+    isLoading,
+    data: nodeList,
+  } = useApiQuery<NodeDto[]>({
+    endpoint: NodeEndpoint.getList,
+    map: (response) => {
+      return response?.dto?.NodeDto || [];
+    },
+  });
+
+  const requestGetNodeList = () => {
+    const payload = { user_id: userInfo.id || '' };
+    return request(payload);
+  };
+
   const tableRef = useRef<ImperativeHandleDto<NodeDto>>();
 
   return (
@@ -267,7 +290,6 @@ const NodeManagementDataTable = observer(() => {
       <CommonTable<NodeDto>
         hasSelectionRows
         allowMultipleSelect={false}
-        query={NodeApi.getNodes}
         fieldAsRowId="node_id"
         columnsConfig={columnsConfig}
         filterConfig={filterConfig as unknown as IFilterConfig}
@@ -276,7 +298,10 @@ const NodeManagementDataTable = observer(() => {
           direction: 'asc',
         }}
         ref={tableRef as MutableRefObject<ImperativeHandleDto<NodeDto>>}
-        onRowClick={handleRowclick}
+        onRowClick={handleRowClick}
+        onTriggerRequest={requestGetNodeList}
+        rows={nodeList || []}
+        isLoading={isLoading}
       />
 
       {isFormModalVisible && (

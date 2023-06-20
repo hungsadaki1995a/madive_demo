@@ -21,13 +21,10 @@ const DataGridView = <TRowDataType extends IPlainObject>(
     allowMultipleSelect = true,
     onSelectedRows,
     filterConfig,
-    query,
     rows,
     onRowClick,
     searchServerConfig,
-    convertPayloadRequest,
-    convertResponse,
-    endpoint,
+    onTriggerRequest,
   }: ICommonTable<TRowDataType>,
   ref: Ref<ImperativeHandleDto<TRowDataType>> | undefined
 ) => {
@@ -37,18 +34,16 @@ const DataGridView = <TRowDataType extends IPlainObject>(
     onChangePage,
     onChangePageSize,
     currentPageData,
-    totalCount,
     onChangeSortBy,
     onChangeFilterClient,
     fetch,
     onChangeFilterServer,
     resetCurrentPageAndRefresh,
+    totalCount,
   } = useTable<TRowDataType>({
-    query: query,
     rows: rows,
-    convertPayloadRequest: convertPayloadRequest,
-    convertResponse: convertResponse,
-    endpoint: endpoint,
+    onTriggerRequest: onTriggerRequest,
+    sortDefault: sortDefault,
   });
 
   const [selectedRows, setSelectedRows] = useState<TRowDataType[]>([]);

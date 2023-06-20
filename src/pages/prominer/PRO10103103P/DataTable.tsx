@@ -5,12 +5,19 @@ import { observer } from 'mobx-react';
 
 import CommonTable from '@/components/organisms/CmCommonTable';
 import FilterServiceGroupListControl from '@/components/organisms/CmCommonTable/filterControls/FilterServiceGroupListControl';
-import { ICommonTableColumn, IFilterConfig, ImperativeHandleDto } from '@/components/organisms/CmCommonTable/types';
+import {
+  ICommonTableColumn,
+  IFilterConfig,
+  ImperativeHandleDto,
+  TableViewState,
+} from '@/components/organisms/CmCommonTable/types';
 
 import { ServiceGroupApi } from '@/apis';
-import ProminerApi from '@/apis/ProminerApi';
 import { IPlainObject } from '@/types/common';
 import { ProminerMethodDto } from '@/types/dtos/prominerDtos';
+import useApiQuery from '@/utils/hooks/useApiQuery';
+
+import { MethodEndpoint } from '@/constants';
 
 import { View } from '.';
 
@@ -111,11 +118,41 @@ const ProminerMethodDataTable = observer(
       }
     }, [appId]);
 
+    const {
+      request,
+      isLoading,
+      data: prominerMethodList,
+    } = useApiQuery<ProminerMethodDto[]>({
+      endpoint: MethodEndpoint.getList,
+      map: (response) => {
+        return response?.dto?.ProminerRscDto || [];
+      },
+    });
+
+    const requestGetPriminerMethodList = (tableState: TableViewState) => {
+      const { filter, currentPage, sortBy } = tableState;
+      if (!filter.server.app_resource_id) {
+        return;
+      }
+      const payload = {
+        searchType: filter.server.sg_resource_id ? 'Sg' : 'App',
+        app_resource_id: filter.server.app_resource_id,
+        sg_resource_id: filter.server.sg_resource_id,
+        pageInfoDto: {
+          pageNum: 1,
+          pageLength: -1,
+        },
+        sort: sortBy.field ? true : false,
+        sortField: sortBy.field || 'field_name',
+        sortingType: sortBy.direction || 'desc',
+      };
+      request(payload);
+    };
+
     return (
       <Box>
         <CommonTable<ProminerMethodDto>
           allowMultipleSelect={false}
-          query={ProminerApi.getMethodList}
           fieldAsRowId="declaring_class"
           columnsConfig={columnsConfig}
           filterConfig={filterConfig as unknown as IFilterConfig}
@@ -125,6 +162,9 @@ const ProminerMethodDataTable = observer(
           }}
           ref={tableRef as MutableRefObject<ImperativeHandleDto<ProminerMethodDto>>}
           onRowClick={handleRowClick}
+          onTriggerRequest={requestGetPriminerMethodList}
+          rows={prominerMethodList || []}
+          isLoading={isLoading}
         />
       </Box>
     );
