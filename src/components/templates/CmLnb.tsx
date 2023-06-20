@@ -22,7 +22,7 @@ import logoimg from '@/stylesheets/images/logo.png';
 import { RouteItem } from '@/types/route';
 import { useStore } from '@/utils';
 
-import { cmComponentRoutes, configRoutes, defaultPageAccessPath, devRoutes, rootRoutes } from '@/routes/routes';
+import { cmComponentRoutes, defaultPageAccessPath, devRoutes, rootRoutes } from '@/routes/routes';
 import { filterRoutesBasePermission } from '@/routes/utils';
 
 import { CmLnbStyle } from './Templates.Styled';
@@ -59,8 +59,6 @@ const CmLnb = observer(() => {
     switch (MenuStore.selectedRootMenu) {
       case rootRoutes.development.title:
         return filterRoutesBasePermission(devRoutes);
-      case rootRoutes.configuration.title:
-        return filterRoutesBasePermission(configRoutes);
       case rootRoutes.cmComponent.title:
         return cmComponentRoutes;
       default:

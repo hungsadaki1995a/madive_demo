@@ -14,11 +14,7 @@ import { NavLink } from 'react-router-dom';
 import { AppBar, Box, Button, Menu, MenuItem, Toolbar, Typography } from '@mui/material';
 import { observer } from 'mobx-react';
 
-import { CmButton } from '@/components/atoms/CmButton';
-
-import { AuthApi } from '@/apis';
 import * as CmStyle from '@/stylesheets/common';
-import { ReactComponent as LogoutIcon } from '@/stylesheets/images/logout.svg';
 
 import { rootRoutes } from '@/routes/routes';
 
@@ -30,10 +26,6 @@ const rootMenus = [
   {
     title: rootRoutes.development.title,
     path: rootRoutes.development.path,
-  },
-  {
-    title: rootRoutes.configuration.title,
-    path: rootRoutes.configuration.path,
   },
   {
     title: rootRoutes.cmComponent.title,
@@ -76,14 +68,6 @@ const CmGnb = observer(() => {
           </Box>
 
           <Box sx={{ flexGrow: 0 }}>
-            <CmButton
-              id="menu-appbar-btn"
-              className=""
-              variant="outlined"
-              startIcon={<LogoutIcon />}
-              btnTitle="Logout"
-              onClick={AuthApi.logout}
-            />
             <Menu
               id="menu-appbar"
               anchorEl={anchorElUser}

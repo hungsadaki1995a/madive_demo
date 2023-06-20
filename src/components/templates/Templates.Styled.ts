@@ -68,7 +68,8 @@ const CmLnbStyle = styled.div`
     background: ${CmStyle.color.colorBg01};
 
     img {
-      width: 164px;
+      width: 100%;
+      height: 150%;
     }
   }
 

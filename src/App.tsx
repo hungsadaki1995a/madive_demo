@@ -1,11 +1,7 @@
-import { ErrorBoundary } from 'react-error-boundary';
-
 import { ThemeProvider } from '@mui/material/styles';
 
 import { RootStore } from '@/stores';
 import CreateStore from '@/utils/useStore';
-
-import ErrorFallback from '@/pages/error/ErrorFallback';
 
 import RoutesWrapper from './routes/RoutesWrapper';
 import theme from './styles/theme';
@@ -20,9 +16,7 @@ const App = () => {
   return (
     <CreateStore.Provider value={{ MobxStore }}>
       <ThemeProvider theme={theme}>
-        <ErrorBoundary FallbackComponent={ErrorFallback}>
-          <RoutesWrapper />
-        </ErrorBoundary>
+        <RoutesWrapper />
       </ThemeProvider>
     </CreateStore.Provider>
   );
