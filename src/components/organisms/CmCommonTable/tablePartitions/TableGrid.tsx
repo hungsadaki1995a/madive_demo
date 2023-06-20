@@ -21,10 +21,10 @@ const TableHeadComponent = styled(TableHead)(({ theme }) => ({
       height: '40px',
       padding: '0 8px',
       fontWeight: theme.typography.fontWeightMedium,
-      // borderRight: '1px solid #dbdfe1',
-      // '&:last-child': {
-      //   borderRight: 'none',
-      // },
+      // CheckBox
+      '& .MuiCheckbox-root': {
+        padding: '1px',
+      },
     },
   },
 }));
@@ -36,7 +36,7 @@ const TableBodyComponent = styled(TableBody)(({ theme }) => ({
     },
     '& .MuiTableCell-body': {
       padding: '0 8px',
-      fontSize: '12px',
+      fontSize: '13px',
       height: '32px',
       color: theme.palette.neutralLight[800],
       fontWeight: theme.typography.fontWeightRegular,
@@ -56,6 +56,10 @@ const TableBodyComponent = styled(TableBody)(({ theme }) => ({
         color: '#30BE8B',
         paddingLeft: '20px',
         backgroundImage: `url(${SuccessIcon}) left center no-repeat`,
+      },
+      // CheckBox
+      '& .MuiCheckbox-root': {
+        padding: '1px',
       },
     },
   },
