@@ -16,8 +16,10 @@ import { observer } from 'mobx-react';
 
 import { CmCard, CmCardAdd } from '@/components/atoms/CmCard';
 import Loader from '@/components/molecules/Loader';
+import { FilterTypes } from '@/components/organisms/CmCommonTable/const';
+import SearchServerSection from '@/components/organisms/CmCommonTable/searchServerSection';
+import { SearchServerConfig } from '@/components/organisms/CmCommonTable/types';
 import { CmPageTselectBtw } from '@/components/templates/CmPageTitle';
-import CmSearch from '@/components/templates/CmSearch';
 
 import * as CmStyle from '@/stylesheets/common';
 import { ReactComponent as CloseIcon } from '@/stylesheets/images/SnackCloseIcon.svg';
@@ -101,6 +103,26 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
+const searchServerConfig: SearchServerConfig = {
+  fieldOptions: [
+    {
+      label: 'Physical Name',
+      fieldName: 'physical_name',
+      type: FilterTypes.TEXT,
+    },
+    {
+      label: 'Logical Name',
+      fieldName: 'logical_name',
+      type: FilterTypes.TEXT,
+    },
+    {
+      label: 'Resource Group',
+      fieldName: 'resource_group',
+      type: FilterTypes.TEXT,
+    },
+  ],
+};
+
 const AppSG = observer(() => {
   const { ApplicationStore, AlertStore } = useStore();
   const classes = useStyles();
@@ -175,7 +197,12 @@ const AppSG = observer(() => {
 
   return (
     <OverviewStyled>
-      <CmSearch />
+      <SearchServerSection
+        config={searchServerConfig}
+        onChangeFilterServer={() => {
+          console.log('on changed filter server');
+        }}
+      />
       <CmPageTselectBtw total={data.length} />
       <Box className="cardArea">
         {ApplicationStore.isLoading ? (
