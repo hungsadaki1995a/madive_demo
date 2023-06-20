@@ -136,7 +136,7 @@ function CmDataSelect({
         displayEmpty
         input={<OutlinedInput />}
         IconComponent={ArrowDownIcon}
-        value={value ? value : isMultipleSelect ? [] : 'Test01'}
+        value={value ? value : isMultipleSelect ? [] : ''}
         onChange={onChange}
         multiple={isMultipleSelect}
         disabled={disabled}
