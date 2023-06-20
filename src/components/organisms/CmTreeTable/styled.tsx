@@ -11,9 +11,11 @@ const ButtonWrapper = styled('div')(() => ({
   margin: '16px 0',
 }));
 
-const TableRowStyled = styled(TableRow)(({ hasCursor }: { hasCursor?: boolean }) => ({
-  cursor: hasCursor ? 'pointer' : 'default',
-}));
+const TableRowStyled = styled(TableRow, { shouldForwardProp: (prop) => prop !== 'hasCursor' })(
+  ({ hasCursor }: { hasCursor?: boolean }) => ({
+    cursor: hasCursor ? 'pointer' : 'default',
+  })
+);
 
 const TableCellStyled = styled(TableCell)(({ depth = 0, width }: { depth?: number; width?: string }) => ({
   paddingLeft: depth * 16 + 'px',

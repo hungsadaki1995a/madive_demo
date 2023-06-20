@@ -1,8 +1,10 @@
 import { useEffect, useState } from 'react';
 
+import CancelIcon from '@mui/icons-material/Cancel';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { Table, TableBody, TableContainer, TableHead, TableRow, Typography } from '@mui/material';
+import { v4 as uuid } from 'uuid';
 
 import { CmButton } from '@/components/atoms/CmButton';
 import Loader from '@/components/molecules/Loader';
@@ -102,7 +104,7 @@ const CmTreeDepth = <TValue extends IPlainObject, TValue2 extends IPlainObject>(
   formatDataFn,
 }: CmTreeDepthProps<TValue, TValue2>) => {
   const [activeButton, setActiveButton] = useState<string>(topButton[0].title);
-  const [isShowRootChildren, setIsShowRootChildren] = useState<boolean>(false);
+  const [isShowRootChildren, setIsShowRootChildren] = useState<boolean>(true);
   const [data, setData] = useState<TreeData[][]>([]);
 
   const handleRootChildren = (value: boolean) => {
@@ -169,7 +171,7 @@ const CmTreeDepth = <TValue extends IPlainObject, TValue2 extends IPlainObject>(
     setData(newData);
   };
 
-  const renderDepthData = ({ data, dataColumns }: { data: TreeData[][]; dataColumns: IColumnConfig[] }) => {
+  const renderDepthData = ({ data, columns }: { data: TreeData[][]; columns: IColumnConfig[] }) => {
     return data.map((rowArr) => {
       if (rowArr.length) {
         return rowArr.map((row) => {
@@ -190,7 +192,7 @@ const CmTreeDepth = <TValue extends IPlainObject, TValue2 extends IPlainObject>(
                     : undefined
                 }
               >
-                {dataColumns.map((column, idx) => {
+                {columns.map((column, idx) => {
                   return (
                     <TableCellStyled
                       key={row.id + row.value[column.field]}
@@ -203,9 +205,12 @@ const CmTreeDepth = <TValue extends IPlainObject, TValue2 extends IPlainObject>(
                               {isExpand ? <ExpandMoreIcon /> : <ChevronRightIcon />}
                             </ExpandsionIconWrapper>
                           ) : (
-                            <ExpandsionIconWrapper />
+                            <>
+                              <CancelIcon color="error" />
+                              <Typography color="red.500">영향도가 없습니다.</Typography>
+                            </>
                           ))}
-                        {row.value[column.field]}
+                        {Object.keys(row.value).length ? row.value[column.field] : ''}
                       </TableCellContentStyled>
                     </TableCellStyled>
                   );
@@ -220,8 +225,31 @@ const CmTreeDepth = <TValue extends IPlainObject, TValue2 extends IPlainObject>(
 
   useEffect(() => {
     if (initialData) {
-      setData(formatDataFn(initialData));
-      setIsShowRootChildren(false);
+      const formattedData = formatDataFn(initialData);
+      const newData = JSON.parse(JSON.stringify(formattedData)) as TreeData[][];
+
+      formattedData.map((data, idx) => {
+        if (data.length) {
+          for (let i = 0; i < data.length; i++) {
+            if (!data[i].hasChildren) {
+              newData[idx][i].hasChildren = true;
+
+              newData[idx].splice(i + 1, 0, {
+                id: uuid(),
+                value: {},
+                depth: Number(data[i].depth + 1),
+                parentId: data[i].id,
+                hasChildren: false,
+                isShow: false,
+                isExpand: false,
+              });
+            }
+          }
+        }
+      });
+
+      setData(newData);
+      setIsShowRootChildren(true);
     }
   }, [initialData]);
 
@@ -291,7 +319,7 @@ const CmTreeDepth = <TValue extends IPlainObject, TValue2 extends IPlainObject>(
                   );
                 })}
               </TableRowStyled>
-              {isShowRootChildren && renderDepthData({ data, dataColumns })}
+              {isShowRootChildren && renderDepthData({ data, columns: dataColumns })}
             </TableBody>
           </Table>
         </TableContainer>

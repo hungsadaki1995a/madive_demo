@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 
 import { Box, Paper, Stack } from '@mui/material';
+import { v4 as uuid } from 'uuid';
 
 import { CmIconButton } from '@/components/atoms/CmButton';
 import CmTreeTable from '@/components/organisms/CmTreeTable';
@@ -56,7 +57,7 @@ const ViewMethodDetail = ({
       if (item.callDepth === '1') {
         rootData.push([
           {
-            id: item.callee_class,
+            id: uuid(),
             value: {
               callee_class: item.callee_class,
               callee_method: item.callee_method,
@@ -68,7 +69,7 @@ const ViewMethodDetail = ({
             depth: Number(item.callDepth),
             parentId: '',
             hasChildren: false,
-            isShow: false,
+            isShow: true,
             isExpand: false,
           },
         ]);
@@ -80,7 +81,7 @@ const ViewMethodDetail = ({
             child.hasChildren = true;
 
             root.push({
-              id: item.callee_class,
+              id: uuid(),
               value: {
                 callee_class: item.callee_class,
                 callee_method: item.callee_method,
@@ -173,15 +174,15 @@ const ViewMethodDetail = ({
             dataColumns={[
               {
                 label: '',
-                field: 'callee_method',
+                field: searchType === ESearchType.FORWARD ? 'callee_method' : 'caller_method',
               },
               {
                 label: '',
-                field: 'callee_class',
+                field: searchType === ESearchType.FORWARD ? 'callee_class' : 'caller_class',
               },
               {
                 label: '',
-                field: 'callee_type',
+                field: searchType === ESearchType.FORWARD ? 'callee_type' : 'caller_method',
               },
             ]}
             data={depthData}
