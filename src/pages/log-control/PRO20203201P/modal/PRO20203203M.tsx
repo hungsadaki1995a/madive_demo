@@ -19,7 +19,6 @@ export default function EditLogControlItemModal({ visible, handleSave, handleClo
         btnTitle="Cancel"
         startIcon={<></>}
         className=""
-        color="info"
         onClick={handleClose}
       />
       <CmButton
@@ -28,7 +27,6 @@ export default function EditLogControlItemModal({ visible, handleSave, handleClo
         btnTitle="Save"
         startIcon={<></>}
         className=""
-        color="info"
         onClick={handleSave}
       />
     </Box>

@@ -22,7 +22,6 @@ export default function DeleteLogControlItemModal({
         btnTitle="Cancel"
         startIcon={<></>}
         className=""
-        color="info"
         onClick={handleClose}
       />
       <CmButton

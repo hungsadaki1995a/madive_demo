@@ -77,7 +77,6 @@ const ProminerResourceDataTable = observer(({ appId }: { appId: string }) => {
           },
           config: {
             variant: 'contained',
-            color: 'secondary',
             size: 'small',
             startIcon: <DeleteIcon />,
             label: 'Delete',
@@ -134,7 +133,6 @@ const ProminerResourceDataTable = observer(({ appId }: { appId: string }) => {
           // Using component property for own button style
           // component: (props: any) => (
           //   <Button
-          //     color="primary"
           //     size="small"
           //     variant="contained"
           //     startIcon={<AddIcon />}

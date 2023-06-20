@@ -23,7 +23,6 @@ export default function TestCaseDetailModal({ isOpen, handleClose, testCaseDetai
         btnTitle="OK"
         startIcon={<></>}
         className=""
-        color="info"
         onClick={handleClose}
       />
     </Box>

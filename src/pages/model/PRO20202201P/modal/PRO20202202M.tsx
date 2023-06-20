@@ -74,7 +74,6 @@ export default function CreateDbioModal({ visible, handleClose, aliasId, fetchTa
         btnTitle="Cancel"
         startIcon={<></>}
         className=""
-        color="info"
         onClick={handleClose}
         disabled={isLoading}
       />
@@ -84,7 +83,6 @@ export default function CreateDbioModal({ visible, handleClose, aliasId, fetchTa
         btnTitle="OK"
         startIcon={<></>}
         className=""
-        color="info"
         onClick={handleSubmit(onSubmit)}
         disabled={isLoading}
       />

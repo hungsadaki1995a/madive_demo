@@ -73,7 +73,6 @@ export default function EditRoleModal({ visible, handleClose, roleData, fetchTab
         btnTitle="Cancel"
         startIcon={<></>}
         className=""
-        color="info"
         onClick={handleClose}
         disabled={isLoading}
       />
@@ -83,7 +82,6 @@ export default function EditRoleModal({ visible, handleClose, roleData, fetchTab
         btnTitle="OK"
         startIcon={<></>}
         className=""
-        color="info"
         onClick={handleSubmit(handleEdit)}
         disabled={isLoading}
       />

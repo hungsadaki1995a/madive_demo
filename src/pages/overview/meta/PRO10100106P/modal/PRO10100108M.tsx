@@ -208,7 +208,6 @@ export default function EditMetaModal({
         btnTitle="Cancel"
         startIcon={<></>}
         className=""
-        color="info"
         onClick={handleClickCloseModal}
         disabled={isFetching}
       />
@@ -218,7 +217,6 @@ export default function EditMetaModal({
         btnTitle="OK"
         startIcon={<></>}
         className=""
-        color="info"
         onClick={handleSubmit(submitForm)}
         disabled={isFetching}
       />

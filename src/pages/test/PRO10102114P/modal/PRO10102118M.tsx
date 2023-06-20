@@ -18,7 +18,6 @@ export default function SaveTestCaseModal({ visible, handleSave, handleClose }: 
         btnTitle="Cancel"
         startIcon={<></>}
         className=""
-        color="info"
         onClick={handleClose}
       />
       <CmButton
@@ -27,7 +26,6 @@ export default function SaveTestCaseModal({ visible, handleSave, handleClose }: 
         btnTitle="Save"
         startIcon={<></>}
         className=""
-        color="info"
         onClick={handleSave}
       />
     </Box>

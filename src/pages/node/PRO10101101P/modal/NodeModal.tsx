@@ -90,7 +90,6 @@ export default function NodeModal({ visible, handleSave, handleClose, data }: No
         btnTitle="Cancel"
         startIcon={<></>}
         className=""
-        color="info"
         onClick={onClose}
       />
       <CmButton
@@ -99,7 +98,6 @@ export default function NodeModal({ visible, handleSave, handleClose, data }: No
         btnTitle="OK"
         startIcon={<></>}
         className=""
-        color="info"
         onClick={handleSubmit(handleSubmitForm)}
       />
     </Box>

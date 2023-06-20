@@ -62,7 +62,6 @@ function CmModal(props: propsType) {
                 btnTitle="Test"
                 startIcon={<></>}
                 className=""
-                color="info"
               />
               <label className="check">
                 <Checkbox />
@@ -77,7 +76,6 @@ function CmModal(props: propsType) {
                   btnTitle="Cancel"
                   startIcon={<></>}
                   className=""
-                  color="info"
                   onClick={onClose}
                 />
                 <CmButton
@@ -86,7 +84,6 @@ function CmModal(props: propsType) {
                   btnTitle="Save"
                   startIcon={<></>}
                   className=""
-                  color="info"
                   onClick={onSave}
                 />
                 <CmButton

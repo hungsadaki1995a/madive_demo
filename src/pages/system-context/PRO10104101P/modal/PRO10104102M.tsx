@@ -83,7 +83,6 @@ export default function AddSystemContextModal({
         btnTitle="Cancel"
         startIcon={<></>}
         className=""
-        color="info"
         onClick={handleCloseModal}
       />
       <CmButton
@@ -92,7 +91,6 @@ export default function AddSystemContextModal({
         btnTitle="OK"
         startIcon={<></>}
         className=""
-        color="info"
         onClick={handleSave}
       />
     </Box>

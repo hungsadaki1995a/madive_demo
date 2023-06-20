@@ -22,7 +22,6 @@ const DeleteMetaModal = ({ visible, handleSave, handleClose, isFetching = false 
           btnTitle="Cancel"
           startIcon={<></>}
           className=""
-          color="info"
           onClick={handleClose}
           disabled={isFetching}
         />

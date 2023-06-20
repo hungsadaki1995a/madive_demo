@@ -56,7 +56,6 @@ const BodyCheckBoxCell = ({ onChange, row, checked, ...props }: IBodyCheckBoxCel
     >
       <CheckBox
         checked={checked}
-        color="info"
         onChange={handleChange}
         onClick={(e) => e.stopPropagation()}
         {...props}

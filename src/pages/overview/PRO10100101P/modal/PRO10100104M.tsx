@@ -144,7 +144,6 @@ export default function ServiceGroup({ clickedItem, visible, handleSave, handleC
         btnTitle="Cancel"
         startIcon={<></>}
         className=""
-        color="info"
         onClick={handleCloseModal}
       />
       <CmButton
@@ -153,7 +152,6 @@ export default function ServiceGroup({ clickedItem, visible, handleSave, handleC
         btnTitle="Save"
         startIcon={<></>}
         className=""
-        color="info"
         onClick={handleSaveService}
       />
     </Box>

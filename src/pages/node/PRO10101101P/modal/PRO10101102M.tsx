@@ -95,7 +95,6 @@ export default function CreateNodeModal({ visible, handleSave, handleClose }: Cr
         btnTitle="Cancel"
         startIcon={<></>}
         className=""
-        color="info"
         onClick={() => {
           reset();
           handleClose();
@@ -107,7 +106,6 @@ export default function CreateNodeModal({ visible, handleSave, handleClose }: Cr
         btnTitle="OK"
         startIcon={<></>}
         className=""
-        color="info"
         onClick={handleSubmit(handleSubmitForm)}
       />
     </Box>

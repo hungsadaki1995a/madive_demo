@@ -35,7 +35,6 @@ export default function SearchConditionsSavedModal({ visible, handleSave, handle
         btnTitle="Cancel"
         startIcon={<></>}
         className=""
-        color="info"
         onClick={handleClose}
       />
       <CmButton
@@ -43,7 +42,6 @@ export default function SearchConditionsSavedModal({ visible, handleSave, handle
         btnTitle="Save"
         startIcon={<></>}
         className=""
-        color="info"
         onClick={handleSubmit(handleSaveConditionGroup)}
       />
     </Box>

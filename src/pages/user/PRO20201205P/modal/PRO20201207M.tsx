@@ -46,7 +46,6 @@ export default function EditGroupModal({
         btnTitle="Cancel"
         startIcon={<></>}
         className=""
-        color="info"
         onClick={handleClose}
       />
       <CmButton
@@ -55,7 +54,6 @@ export default function EditGroupModal({
         btnTitle="Save"
         startIcon={<></>}
         className=""
-        color="info"
         onClick={handleSave}
       />
     </Box>

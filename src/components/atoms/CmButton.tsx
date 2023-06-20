@@ -16,8 +16,6 @@ import { Button, IconButton, Menu, MenuItem, Tooltip } from '@mui/material';
 import makeStyles from '@mui/styles/makeStyles';
 import { OverridableStringUnion } from '@mui/types';
 
-import * as CmStyle from '@/stylesheets/common';
-
 import { IButtonMenuConfig } from '../organisms/CmCommonTable/types';
 import { CmButtonStyle } from './Atoms.Styled';
 
@@ -62,18 +60,24 @@ const useStyles = makeStyles(({ palette, typography }) => ({
       // Primary - Filled
       '&.MuiButton-containedPrimary:not([class*="-disabled"])': {
         color: '#fff',
-        background: CmStyle.color.info.main,
+        background: palette.blue[500],
+        '& svg path': {
+          fill: '#fff',
+        },
 
         '&:hover': {
-          background: CmStyle.color.info[500],
+          background: palette.blue[600],
         },
         '&:active': {
-          background: CmStyle.color.info[600],
+          background: palette.blue[700],
         },
       },
       '&.MuiButton-containedPrimary.Mui-disabled': {
-        color: CmStyle.color.grey[200],
-        background: CmStyle.color.grey[50],
+        color: palette.neutralLight[300],
+        background: palette.neutralLight[50],
+        '& svg path': {
+          fill: palette.neutralLight[300],
+        },
         '&:hover': {
           background: 'none',
         },
@@ -87,7 +91,7 @@ const useStyles = makeStyles(({ palette, typography }) => ({
         },
       },
       '&.MuiButton-textPrimary.Mui-disabled:not([class*="tBtnBg"])': {
-        color: CmStyle.color.grey[200],
+        color: palette.grey[200],
         '&:hover': {
           background: 'none',
         },
@@ -108,10 +112,10 @@ const useStyles = makeStyles(({ palette, typography }) => ({
         },
       },
       '&.tBtnBg.MuiButton-textPrimary.Mui-disabled': {
-        color: CmStyle.color.grey[200],
-        background: CmStyle.color.grey[50],
+        color: palette.grey[200],
+        background: palette.grey[50],
         '& svg path': {
-          fill: CmStyle.color.grey[200],
+          fill: palette.grey[200],
         },
       },
 
@@ -177,7 +181,8 @@ type btnPropsType = {
   variant?: OverridableStringUnion<'text' | 'outlined' | 'contained'>;
   btnTitle?: string;
   className?: string;
-  color?: OverridableStringUnion<'inherit' | 'primary' | 'secondary' | 'success' | 'error' | 'info' | 'warning'>;
+  // color?: OverridableStringUnion<'inherit' | 'primary' | 'secondary' | 'success' | 'error' | 'info' | 'warning'>;
+  color?: OverridableStringUnion<'error'>;
   disabled?: boolean;
   type?: OverridableStringUnion<'button' | 'reset' | 'submit'>;
 };

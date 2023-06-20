@@ -18,7 +18,6 @@ export default function DeleteNodeModal({ visible, handleSave, handleClose }: De
         btnTitle="Cancel"
         startIcon={<></>}
         className=""
-        color="info"
         onClick={handleClose}
       />
       <CmButton

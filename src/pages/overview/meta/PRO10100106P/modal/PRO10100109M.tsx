@@ -126,7 +126,6 @@ export default function ImportExcelModal({ visible, handleSave, handleClose, han
         btnTitle="Cancel"
         startIcon={<></>}
         className=""
-        color="info"
         onClick={handleClose}
         disabled={isFetching}
       />
@@ -136,7 +135,6 @@ export default function ImportExcelModal({ visible, handleSave, handleClose, han
         btnTitle="OK"
         startIcon={<></>}
         className=""
-        color="info"
         onClick={handleSave}
         disabled={isFetching}
       />

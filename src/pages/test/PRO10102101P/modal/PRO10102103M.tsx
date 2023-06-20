@@ -18,7 +18,6 @@ export default function SelectResourceDataModal({ visible, handleSave, handleClo
         btnTitle="Cancel"
         startIcon={<></>}
         className=""
-        color="info"
         onClick={handleClose}
       />
       <CmButton
@@ -27,7 +26,6 @@ export default function SelectResourceDataModal({ visible, handleSave, handleClo
         btnTitle="OK"
         startIcon={<></>}
         className=""
-        color="info"
         onClick={handleSave}
       />
     </Box>

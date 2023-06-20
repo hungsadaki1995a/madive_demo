@@ -37,7 +37,6 @@ export default function EditDatasourceModal({
         btnTitle="Cancel"
         startIcon={<></>}
         className=""
-        color="info"
         onClick={handleClose}
       />
       <CmButton
@@ -46,7 +45,6 @@ export default function EditDatasourceModal({
         btnTitle="Save"
         startIcon={<></>}
         className=""
-        color="info"
         onClick={handleSave}
       />
     </Box>

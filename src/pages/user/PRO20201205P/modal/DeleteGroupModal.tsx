@@ -52,7 +52,6 @@ export default function DeleteGroupModal({
         btnTitle="Cancel"
         startIcon={<></>}
         className=""
-        color="info"
         onClick={handleClose}
       />
       <CmButton

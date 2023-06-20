@@ -92,7 +92,6 @@ const LockAndUnlockDataTable = observer(({ appId }: { appId: string }) => {
           },
           config: {
             variant: 'contained',
-            color: 'secondary',
             size: 'small',
             startIcon: <DeleteIcon />,
             label: 'Unlock',

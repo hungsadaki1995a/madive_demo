@@ -95,7 +95,6 @@ const EditApplicationModal: React.FC<CmModalEditProps> = ({ resetList, data, for
             <CmButton
               variant="text"
               btnTitle="Cancel"
-              color="info"
               onClick={handleClose}
             />
             <CmButton

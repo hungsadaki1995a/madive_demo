@@ -70,7 +70,6 @@ export default function CreateRoleModal({ visible, handleClose, fetchTableData }
         btnTitle="Cancel"
         startIcon={<></>}
         className=""
-        color="info"
         onClick={handleClose}
         disabled={isLoading}
       />
@@ -80,7 +79,6 @@ export default function CreateRoleModal({ visible, handleClose, fetchTableData }
         btnTitle="OK"
         startIcon={<></>}
         className=""
-        color="info"
         onClick={handleSubmit(handleCreate)}
         disabled={isLoading}
       />

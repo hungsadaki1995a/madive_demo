@@ -35,7 +35,6 @@ export default function DeleteDatasourceModal({
         btnTitle="Cancel"
         startIcon={<></>}
         className=""
-        color="info"
         onClick={handleClose}
       />
       <CmButton

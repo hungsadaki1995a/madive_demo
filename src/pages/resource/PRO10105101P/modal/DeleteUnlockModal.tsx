@@ -18,7 +18,6 @@ export default function DeleteUnlockModal({ visible, handleSave, handleClose }: 
         btnTitle="Cancel"
         startIcon={<></>}
         className=""
-        color="info"
         onClick={handleClose}
       />
       <CmButton

@@ -43,7 +43,6 @@ export default function ViewDetailModal({ dataRow, visible, handleSave }: ViewDe
         btnTitle="OK"
         startIcon={<></>}
         className=""
-        color="info"
         onClick={handleSave}
       />
     </Box>

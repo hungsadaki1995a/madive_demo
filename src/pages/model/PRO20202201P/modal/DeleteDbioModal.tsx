@@ -35,7 +35,6 @@ export default function DeleteDbioModal({ visible, fetchTableData, handleClose, 
         btnTitle="Cancel"
         startIcon={<></>}
         className=""
-        color="info"
         onClick={handleClose}
       />
       <CmButton

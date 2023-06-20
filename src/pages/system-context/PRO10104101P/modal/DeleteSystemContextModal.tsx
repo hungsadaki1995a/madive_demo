@@ -34,7 +34,6 @@ export default function DeleteSystemContextModal({
         btnTitle="Cancel"
         startIcon={<></>}
         className=""
-        color="info"
         onClick={handleClose}
       />
       <CmButton

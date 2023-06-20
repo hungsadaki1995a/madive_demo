@@ -89,7 +89,6 @@ export default function EditDbioModal({ visible, handleClose, aliasId, fetchTabl
         btnTitle="Cancel"
         startIcon={<></>}
         className=""
-        color="info"
         onClick={handleClose}
         disabled={isLoading}
       />
@@ -99,7 +98,6 @@ export default function EditDbioModal({ visible, handleClose, aliasId, fetchTabl
         btnTitle="OK"
         startIcon={<></>}
         className=""
-        color="info"
         onClick={handleSubmit(onSubmit)}
         disabled={isLoading}
       />

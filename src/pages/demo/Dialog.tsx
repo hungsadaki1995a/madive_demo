@@ -73,7 +73,6 @@ const Form = ({ onClose }: { onClose: () => void }) => {
         <CmButton
           variant="text"
           btnTitle="Reset"
-          color="info"
           onClick={() => {
             reset({
               input_inside: '',
@@ -85,7 +84,6 @@ const Form = ({ onClose }: { onClose: () => void }) => {
           <CmButton
             variant="text"
             btnTitle="Cancel"
-            color="info"
             onClick={onClose}
           />
           <CmButton

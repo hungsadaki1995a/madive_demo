@@ -59,7 +59,6 @@ const FormModal = ({ visible, handleSave, handleClose, data }: CreateModalProps)
         btnTitle={data ? 'Update' : 'Create'}
         startIcon={<></>}
         className=""
-        color="info"
         onClick={handleSubmit(onSubmit)}
       />
       <CmButton
@@ -68,7 +67,6 @@ const FormModal = ({ visible, handleSave, handleClose, data }: CreateModalProps)
         btnTitle="Cancel"
         startIcon={<></>}
         className=""
-        color="info"
         onClick={onClose}
       />
     </Box>

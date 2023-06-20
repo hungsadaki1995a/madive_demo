@@ -64,7 +64,6 @@ export default function DeleteRoleModal({ visible, handleClose, selectedList, fe
         btnTitle="Cancel"
         startIcon={<></>}
         className=""
-        color="info"
         onClick={handleClose}
         disabled={isLoading}
       />

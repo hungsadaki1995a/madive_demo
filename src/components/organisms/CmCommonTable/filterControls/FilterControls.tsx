@@ -102,7 +102,6 @@ const FilterControls = ({
             <Tooltip title={open ? 'Close Filter' : 'Open Filter'}>
               <IconButton
                 className="filter-button"
-                color="inherit"
                 onClick={handleFilter}
               >
                 <SearchIcon />

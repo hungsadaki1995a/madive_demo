@@ -16,7 +16,6 @@ export default function TestCaseDeleteModal({ isOpen, handleClose }: TestCaseDel
         btnTitle="Cancel"
         startIcon={<></>}
         className=""
-        color="info"
         onClick={() => handleClose(false)}
       />
       <CmButton

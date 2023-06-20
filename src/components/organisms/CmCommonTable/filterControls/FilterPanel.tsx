@@ -133,6 +133,7 @@ const FilterPanel = ({
           <ButtonComponent
             onClick={() => onClick(handleClick)}
             key={actionIndex}
+            variant="contained"
             disabled={isDisabled}
             {...control?.config}
             btnTitle={control?.config?.label}

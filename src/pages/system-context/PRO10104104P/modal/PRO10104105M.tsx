@@ -47,7 +47,6 @@ export default function CreateDatasourceModal({
         btnTitle="Cancel"
         startIcon={<></>}
         className=""
-        color="info"
         onClick={handleCloseModal}
       />
       <CmButton
@@ -56,7 +55,6 @@ export default function CreateDatasourceModal({
         btnTitle="OK"
         startIcon={<></>}
         className=""
-        color="info"
         onClick={() => {
           handleSave?.();
         }}

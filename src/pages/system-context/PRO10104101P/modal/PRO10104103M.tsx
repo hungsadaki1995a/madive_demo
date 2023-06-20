@@ -39,7 +39,6 @@ export default function EditSystemContextModal({
         btnTitle="Cancel"
         startIcon={<></>}
         className=""
-        color="info"
         onClick={handleClose}
       />
       <CmButton
@@ -48,7 +47,6 @@ export default function EditSystemContextModal({
         btnTitle="Save"
         startIcon={<></>}
         className=""
-        color="info"
         onClick={handleSave}
       />
     </Box>

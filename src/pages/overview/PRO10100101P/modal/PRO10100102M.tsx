@@ -93,14 +93,12 @@ const CreateApplicationModal = ({ resetList, formDiaLogAdd }: Props) => {
           <CmButton
             variant="text"
             btnTitle="Reset"
-            color="info"
             onClick={handleReset}
           />
           <div>
             <CmButton
               variant="text"
               btnTitle="Cancel"
-              color="info"
               onClick={handleClose}
             />
             <CmButton

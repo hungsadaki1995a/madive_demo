@@ -1,5 +1,4 @@
-import { TextField } from '@mui/material';
-import { Box } from '@mui/material';
+import { Box, TextField } from '@mui/material';
 
 import { CmButton } from '@/components/atoms/CmButton';
 import { CmDataSelect } from '@/components/atoms/CmDataInput';
@@ -20,7 +19,6 @@ export default function AddLogControlItemModal({ visible, handleSave, handleClos
         btnTitle="Cancel"
         startIcon={<></>}
         className=""
-        color="info"
         onClick={handleClose}
       />
       <CmButton
@@ -29,7 +27,6 @@ export default function AddLogControlItemModal({ visible, handleSave, handleClos
         btnTitle="OK"
         startIcon={<></>}
         className=""
-        color="info"
         onClick={handleSave}
       />
     </Box>

@@ -18,7 +18,6 @@ export default function DeleteMetaHistoryModal({ visible, handleSave, handleClos
         btnTitle="Cancel"
         startIcon={<></>}
         className=""
-        color="info"
         onClick={handleClose}
       />
       <CmButton
