@@ -6,12 +6,20 @@ import { observer } from 'mobx-react';
 
 import CommonTable from '@/components/organisms/CmCommonTable';
 import FilterServiceGroupListControl from '@/components/organisms/CmCommonTable/filterControls/FilterServiceGroupListControl';
-import { ICommonTableColumn, IFilterConfig, ImperativeHandleDto } from '@/components/organisms/CmCommonTable/types';
+import {
+  ICommonTableColumn,
+  IFilterConfig,
+  ImperativeHandleDto,
+  TableViewState,
+} from '@/components/organisms/CmCommonTable/types';
 
 import LockUnlockApi from '@/apis/LockUnlockApi';
 import { ReactComponent as DeleteIcon } from '@/stylesheets/images/DeleteIcon.svg';
 import { IPlainObject } from '@/types/common';
 import { LockAndUnlockDto } from '@/types/dtos/lockUnlockDtos';
+import useApiQuery from '@/utils/hooks/useApiQuery';
+
+import { LockUnLockEndPoint } from '@/constants';
 
 import DeleteUnlockModal from './modal/DeleteUnlockModal';
 
@@ -141,13 +149,43 @@ const LockAndUnlockDataTable = observer(({ appId }: { appId: string }) => {
     };
   }, [appId]);
 
+  const {
+    request,
+    isLoading,
+    data: lockAndUnlockList,
+  } = useApiQuery<LockAndUnlockDto[]>({
+    endpoint: LockUnLockEndPoint.getLockList,
+    map: (response) => {
+      return response?.dto?.LockUnDto || [];
+    },
+  });
+
+  const requestGetLockAnUnlock = (tableState: TableViewState) => {
+    const { filter, currentPage, sortBy } = tableState;
+    if (!filter.server.app_resource_id) {
+      return;
+    }
+    const payload = {
+      searchType: filter.server.sg_resource_id ? 'Sg' : 'App',
+      app_resource_id: filter.server.app_resource_id,
+      sg_resource_id: filter.server.sg_resource_id,
+      pageInfoDto: {
+        pageNum: 1,
+        pageLength: -1,
+      },
+      sort: sortBy.field ? true : false,
+      sortField: sortBy.field || 'resource_path',
+      sortingType: sortBy.direction || 'desc',
+    };
+    request(payload);
+  };
+
   const tableRef = useRef<ImperativeHandleDto<LockAndUnlockDto>>();
   return (
     <Box>
       <CommonTable<LockAndUnlockDto>
         hasSelectionRows
         allowMultipleSelect
-        query={LockUnlockApi.getLockList}
         fieldAsRowId="resource_id"
         columnsConfig={columnsConfig}
         filterConfig={filterConfig as unknown as IFilterConfig}
@@ -156,6 +194,9 @@ const LockAndUnlockDataTable = observer(({ appId }: { appId: string }) => {
           direction: 'desc',
         }}
         ref={tableRef as MutableRefObject<ImperativeHandleDto<LockAndUnlockDto>>}
+        onTriggerRequest={requestGetLockAnUnlock}
+        rows={lockAndUnlockList || []}
+        isLoading={isLoading}
       />
 
       <DeleteUnlockModal

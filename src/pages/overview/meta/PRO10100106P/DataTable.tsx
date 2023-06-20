@@ -11,7 +11,6 @@ import {
   IFilterConfig,
   ImperativeHandleDto,
   SearchServerConfig,
-  TableDataResponseDto,
   TableViewState,
 } from '@/components/organisms/CmCommonTable/types';
 
@@ -20,7 +19,7 @@ import { ReactComponent as AddIcon } from '@/stylesheets/images/AddIcon.svg';
 import { ReactComponent as DeleteIcon } from '@/stylesheets/images/DeleteIcon.svg';
 import { ReactComponent as UploadIcon } from '@/stylesheets/images/UploadIcon.svg';
 import { MetaDtos } from '@/types/dtos/MetaDtos';
-import { IOriginalResponse } from '@/types/http';
+import useApiQuery from '@/utils/hooks/useApiQuery';
 import { notify } from '@/utils/notify';
 
 import { USER_INFO_COOKIE } from '@/constants';
@@ -208,25 +207,6 @@ function MetaDataTable() {
       ],
       advanceActions: [
         {
-          type: 'filter',
-          name: 'meta-filter',
-          defaultValue: 'physical_name',
-          options: [
-            {
-              label: 'Physical Name',
-              value: 'physical_name',
-            },
-            {
-              label: 'Logical Name',
-              value: 'logical_name',
-            },
-            {
-              label: 'Resource Group',
-              value: 'resource_group',
-            },
-          ],
-        },
-        {
           type: 'button',
           label: 'Add Excel',
           handleClick: () => handleImportExcelModalOpen(),
@@ -254,24 +234,30 @@ function MetaDataTable() {
     };
   }, []);
 
-  const convertPayloadRequest = (tableState: TableViewState) => {
-    const { sort, sortField, sortingType } = tableState;
+  const {
+    request,
+    isLoading,
+    data: metaList,
+  } = useApiQuery<MetaDtos[]>({
+    endpoint: MetaEndPoint.metaList,
+    map: (response) => {
+      return response?.dto?.MetaDto || [];
+    },
+  });
+
+  const requestGetMetaList = (tableState: TableViewState) => {
     const conditionDto = Object.entries(tableState.filter.server).map(([key, value]) => ({ key, value }));
     const payload = {
       pageInfoDto: {
         pageNum: 1,
         pageLength: -1,
       },
-      sort,
-      sortField,
-      sortingType,
+      sort: true,
+      sortField: tableState?.sortBy?.field || 'physical_name',
+      sortingType: tableState?.sortBy?.direction?.toUpperCase() || 'DESC',
       conditionDto: conditionDto,
     };
-    return payload;
-  };
-
-  const convertResponse = (response: IOriginalResponse): TableDataResponseDto<MetaDtos> => {
-    return { data: response?.dto?.MetaDto || [], total: response?.dto?.pagingResultDto?.totalNum || 0 };
+    request(payload);
   };
 
   return (
@@ -288,10 +274,10 @@ function MetaDataTable() {
           field: 'physical_name',
           direction: SortDirectionTypes.DESC,
         }}
-        endpoint={MetaEndPoint.metaList}
-        convertPayloadRequest={convertPayloadRequest}
-        convertResponse={convertResponse}
         ref={metaTableRef as MutableRefObject<ImperativeHandleDto<MetaDtos>>}
+        onTriggerRequest={requestGetMetaList}
+        rows={metaList || []}
+        isLoading={isLoading}
       />
 
       {/* Create Meta - Modal */}

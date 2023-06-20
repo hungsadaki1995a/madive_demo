@@ -101,6 +101,7 @@ function GroupRoleAssign() {
 
   //handle get group list
   const getGroupList = async () => {
+    setGroupListData([]);
     const data = await RoleApi.GroupListGet();
     if (data?.ConfigGroupDto) {
       setGroupListData(data?.ConfigGroupDto);
@@ -109,6 +110,7 @@ function GroupRoleAssign() {
 
   //handle get group role by group name
   const getGroupRole = async (group_name: string) => {
+    setGroupRoleData([]);
     const data = await RoleApi.GroupRoleGet(group_name);
     if (data?.ConfigGroupDto) {
       setGroupRoleData(data?.ConfigGroupDto);

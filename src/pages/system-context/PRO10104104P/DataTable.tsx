@@ -3,14 +3,20 @@ import { MutableRefObject, useEffect, useMemo, useRef, useState } from 'react';
 import { observer } from 'mobx-react';
 
 import CommonTable from '@/components/organisms/CmCommonTable';
-import { ICommonTableColumn, IFilterConfig, ImperativeHandleDto } from '@/components/organisms/CmCommonTable/types';
+import {
+  ICommonTableColumn,
+  IFilterConfig,
+  ImperativeHandleDto,
+  TableViewState,
+} from '@/components/organisms/CmCommonTable/types';
 
-import SystemContextApi from '@/apis/SystemContextApi';
 import { ReactComponent as AddIcon } from '@/stylesheets/images/AddIcon.svg';
 import { ReactComponent as DeleteIcon } from '@/stylesheets/images/DeleteIcon.svg';
 import { IPlainObject } from '@/types/common';
-import { ConfigDto, EditDatasourceResquest, PropertyList } from '@/types/dtos/systemContextDtos';
+import { ConfigDto, EditDatasourceResquest } from '@/types/dtos/systemContextDtos';
+import useApiQuery from '@/utils/hooks/useApiQuery';
 
+import { SystemContextEndpoint } from '@/constants';
 import DeleteDatasourceModal from '@/pages/system-context/PRO10104104P/modal/DeleteDatasourceModal';
 import CreateDatasourceModal from '@/pages/system-context/PRO10104104P/modal/PRO10104105M';
 import EditDatasourceModal from '@/pages/system-context/PRO10104104P/modal/PRO10104106M';
@@ -174,10 +180,42 @@ function SystemContextDatasourceDataTable(prop: PropType) {
     }
   }, [isDisabled]);
 
+  const {
+    request,
+    isLoading,
+    data: systemContextDataSource,
+  } = useApiQuery<ConfigDto[]>({
+    endpoint: SystemContextEndpoint.propertyList,
+    map: (response) => {
+      return response?.dto?.ConfigDto || [];
+    },
+  });
+
+  const requestGetSystemContextDataSource = (tableState: TableViewState) => {
+    const { filter, currentPage, sortBy } = tableState;
+    if (!filter.server.node_id || !filter.server.resource_id) {
+      return;
+    }
+    const payload = {
+      resource_type: filter.server.resource_type,
+      node_id: filter.server.node_id,
+      resource_id: filter.server.resource_id,
+      property_key: 'APPLICATION_SYSTEM_CONTEXT_{0}_DATASOURCE',
+      pageInfoDto: {
+        pageNum: 1,
+        pageLength: -1,
+        sort: sortBy.field ? true : false,
+        sortingType: sortBy.direction || 'DESC',
+        sortField: sortBy.field || 'key',
+      },
+      conditionDto: [],
+    };
+    request(payload);
+  };
+
   return (
     <>
-      <CommonTable<PropertyList>
-        query={SystemContextApi.getTableDataDatasource}
+      <CommonTable<ConfigDto>
         fieldAsRowId="key_parameter"
         hasSelectionRows
         allowMultipleSelect={false}
@@ -189,6 +227,9 @@ function SystemContextDatasourceDataTable(prop: PropType) {
           direction: 'desc',
         }}
         ref={tableRef as MutableRefObject<ImperativeHandleDto<ConfigDto>>}
+        onTriggerRequest={requestGetSystemContextDataSource}
+        rows={systemContextDataSource || []}
+        isLoading={isLoading}
       />
 
       <CreateDatasourceModal

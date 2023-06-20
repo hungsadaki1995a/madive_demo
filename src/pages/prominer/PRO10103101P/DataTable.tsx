@@ -4,13 +4,20 @@ import { observer } from 'mobx-react';
 
 import CommonTable from '@/components/organisms/CmCommonTable';
 import FilterServiceGroupListControl from '@/components/organisms/CmCommonTable/filterControls/FilterServiceGroupListControl';
-import { ICommonTableColumn, IFilterConfig, ImperativeHandleDto } from '@/components/organisms/CmCommonTable/types';
+import {
+  ICommonTableColumn,
+  IFilterConfig,
+  ImperativeHandleDto,
+  TableViewState,
+} from '@/components/organisms/CmCommonTable/types';
 
-import ProminerApi from '@/apis/ProminerApi';
 import { ReactComponent as AddIcon } from '@/stylesheets/images/AddIcon.svg';
 import { ReactComponent as DeleteIcon } from '@/stylesheets/images/DeleteIcon.svg';
 import { IPlainObject } from '@/types/common';
 import { ProminerResourceDto } from '@/types/dtos/prominerDtos';
+import useApiQuery from '@/utils/hooks/useApiQuery';
+
+import { ResourceEndpoint } from '@/constants';
 
 const columnsConfig: ICommonTableColumn<IPlainObject>[] = [
   {
@@ -95,28 +102,6 @@ const ProminerResourceDataTable = observer(({ appId }: { appId: string }) => {
         },
       ],
       advanceActions: [
-        // {
-        //   type: 'dropdown',
-        //   options: [
-        //     {
-        //       label: 'ALL',
-        //       value: 'ALL',
-        //     },
-        //     {
-        //       label: 'SERVICE OBJECT',
-        //       value: 'SERVICE_OBJECT',
-        //     },
-        //     {
-        //       label: 'BIZ OBJECT',
-        //       value: 'BIZ_OBJECT',
-        //     },
-        //     {
-        //       label: 'JOB OBJECT',
-        //       value: 'JOB_OBJECT',
-        //     },
-        //   ],
-        //   name: 'resource_type',
-        // },
         {
           label: 'Create',
           type: 'button',
@@ -130,17 +115,6 @@ const ProminerResourceDataTable = observer(({ appId }: { appId: string }) => {
             startIcon: <AddIcon />,
             label: 'Create',
           },
-          // Using component property for own button style
-          // component: (props: any) => (
-          //   <Button
-          //     size="small"
-          //     variant="contained"
-          //     startIcon={<AddIcon />}
-          //     {...props}
-          //   >
-          //     Create
-          //   </Button>
-          // ),
         },
         {
           type: 'filter',
@@ -155,10 +129,10 @@ const ProminerResourceDataTable = observer(({ appId }: { appId: string }) => {
               label: 'Logical Name',
               value: 'logical_name',
             },
-            // {
-            //   label: 'Resource Type',
-            //   value: 'resource_type',
-            // },
+            {
+              label: 'Resource Type',
+              value: 'resource_type',
+            },
             {
               label: 'Resource Path',
               value: 'resource_path',
@@ -169,8 +143,35 @@ const ProminerResourceDataTable = observer(({ appId }: { appId: string }) => {
     };
   }, [appId]);
 
-  const handleRowClick = (event: React.MouseEvent, rowData: ProminerResourceDto) => {
-    return;
+  const {
+    request,
+    isLoading,
+    data: prominerResourceList,
+  } = useApiQuery<ProminerResourceDto[]>({
+    endpoint: ResourceEndpoint.getList,
+    map: (response) => {
+      return response?.dto?.ProminerRscDto || [];
+    },
+  });
+
+  const requestGetProminerResourceList = (tableState: TableViewState) => {
+    const { filter, currentPage, sortBy } = tableState;
+    if (!filter.server.app_resource_id) {
+      return;
+    }
+    const payload = {
+      searchType: filter.server.sg_resource_id ? 'Sg' : 'App',
+      app_resource_id: filter.server.app_resource_id,
+      sg_resource_id: filter.server.sg_resource_id,
+      pageInfoDto: {
+        pageNum: 1,
+        pageLength: -1,
+      },
+      sort: sortBy.field ? true : false,
+      sortField: sortBy.field || 'logical_name',
+      sortingType: sortBy.direction || 'desc',
+    };
+    request(payload);
   };
 
   const tableRef = useRef<ImperativeHandleDto<ProminerResourceDto>>();
@@ -178,7 +179,6 @@ const ProminerResourceDataTable = observer(({ appId }: { appId: string }) => {
   return (
     <CommonTable<ProminerResourceDto>
       hasSelectionRows
-      query={ProminerApi.getResourceList}
       fieldAsRowId="logical_name"
       columnsConfig={columnsConfig}
       filterConfig={filterConfig as unknown as IFilterConfig}
@@ -187,7 +187,9 @@ const ProminerResourceDataTable = observer(({ appId }: { appId: string }) => {
         direction: 'desc',
       }}
       ref={tableRef as MutableRefObject<ImperativeHandleDto<ProminerResourceDto>>}
-      onRowClick={handleRowClick}
+      onTriggerRequest={requestGetProminerResourceList}
+      rows={prominerResourceList || []}
+      isLoading={isLoading}
     />
   );
 });

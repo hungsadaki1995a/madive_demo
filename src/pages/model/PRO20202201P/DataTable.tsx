@@ -2,15 +2,18 @@ import React, { useMemo, useRef, useState } from 'react';
 
 import { Box } from '@mui/material';
 import { observer } from 'mobx-react';
+import Cookies from 'universal-cookie';
 
 import CommonTable from '@/components/organisms/CmCommonTable';
 import { ICommonTableColumn, IFilterConfig } from '@/components/organisms/CmCommonTable/types';
 
-import DbioApi from '@/apis/DbioApi';
 import { ReactComponent as AddIcon } from '@/stylesheets/images/AddIcon.svg';
 import { ReactComponent as DeleteIcon } from '@/stylesheets/images/DeleteIcon.svg';
 import { IPlainObject } from '@/types/common';
 import DbioModel from '@/types/models/dbioModel';
+import useApiQuery from '@/utils/hooks/useApiQuery';
+
+import { DbioEndpoint, USER_INFO_COOKIE } from '@/constants';
 
 import DeleteDbioModal from './modal/DeleteDbioModal';
 import CreateDbioModal from './modal/PRO20202202M';
@@ -56,6 +59,8 @@ function DbioDataTable() {
   const [selectedRows, setSelectedRows] = useState<DbioModel[]>([]);
   const [selectedRow, setSelectedRow] = useState<string>('');
   const tableRef = useRef<any>();
+  const cookies = new Cookies();
+  const userInfo = cookies.get(USER_INFO_COOKIE);
 
   // Create Dbio Modal Open
   const handleCreateDbioModalOpen = () => {
@@ -157,11 +162,26 @@ function DbioDataTable() {
     };
   }, []);
 
+  const {
+    request,
+    isLoading,
+    data: dbioList,
+  } = useApiQuery<any[]>({
+    endpoint: DbioEndpoint.modelDbioList,
+    map: (response) => {
+      return response?.dto?.ModelDbioDto || [];
+    },
+  });
+
+  const requestGetDbioList = () => {
+    const payload = { user_id: userInfo.id || '' };
+    return request(payload);
+  };
+
   return (
     <Box>
       <CommonTable
         hasSelectionRows
-        query={DbioApi.getDbios}
         fieldAsRowId="alias"
         columnsConfig={columnsConfig}
         filterConfig={filterConfig as unknown as IFilterConfig}
@@ -171,6 +191,9 @@ function DbioDataTable() {
         }}
         ref={tableRef}
         onRowClick={handleEditDbioModalOpen}
+        onTriggerRequest={requestGetDbioList}
+        rows={dbioList || []}
+        isLoading={isLoading}
       />
       {/* Create Dbio - Modal */}
       <CreateDbioModal

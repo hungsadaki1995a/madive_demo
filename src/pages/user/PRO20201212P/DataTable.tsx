@@ -31,7 +31,7 @@ function GroupRoleAssignDataTable<TData extends IPlainObject>(props: propsType<T
       <CommonTable
         fieldAsRowId={fieldAsRowId}
         columnsConfig={columnsConfig}
-        rows={rows}
+        rows={rows || []}
         hasSelectionRows
         onSelectedRows={onSelectedRows}
         sortDefault={{

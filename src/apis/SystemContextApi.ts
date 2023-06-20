@@ -92,7 +92,7 @@ const SystemContextApi = {
                 resource_id: filter.server.resource_id,
                 systemContextName: [filter.server.systemContextName],
                 pageInfoDto: {
-                  pageNum: currentPage + 1,
+                  pageNum: 1,
                   pageLength: -1,
                   sort: sortBy.field ? true : false,
                   sortingType: sortBy.direction || 'DESC',
@@ -125,7 +125,7 @@ const SystemContextApi = {
       let totalNum = 0;
 
       if (filter.server.node_id && filter.server.resource_id) {
-        const data = (await apiClient.get(SystemContextEndpoint.ropertyList, {
+        const data = (await apiClient.get(SystemContextEndpoint.propertyList, {
           params: {
             [JSON.stringify({
               dto: {
@@ -134,7 +134,7 @@ const SystemContextApi = {
                 resource_id: filter.server.resource_id,
                 property_key: 'APPLICATION_SYSTEM_CONTEXT_{0}_DATASOURCE',
                 pageInfoDto: {
-                  pageNum: currentPage + 1,
+                  pageNum: 1,
                   pageLength: -1,
                   sort: sortBy.field ? true : false,
                   sortingType: sortBy.direction || 'DESC',

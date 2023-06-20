@@ -2,15 +2,18 @@ import { MutableRefObject, useMemo, useRef, useState } from 'react';
 
 import { Box } from '@mui/material';
 import { observer } from 'mobx-react';
+import Cookies from 'universal-cookie';
 
 import CommonTable from '@/components/organisms/CmCommonTable';
 import { ICommonTableColumn, IFilterConfig, ImperativeHandleDto } from '@/components/organisms/CmCommonTable/types';
 
-import GroupManagement from '@/apis/GroupManagement';
 import { ReactComponent as AddIcon } from '@/stylesheets/images/AddIcon.svg';
 import { ReactComponent as DeleteIcon } from '@/stylesheets/images/DeleteIcon.svg';
 import { IPlainObject } from '@/types/common';
 import { ConfigGroupDto, GroupManagementDto } from '@/types/dtos/groupManagementDtos';
+import useApiQuery from '@/utils/hooks/useApiQuery';
+
+import { GroupManagementEndpoint, USER_INFO_COOKIE } from '@/constants';
 
 import DeleteGroupModal from './modal/DeleteGroupModal';
 import CreateGroupModal from './modal/PRO20201206M';
@@ -43,6 +46,9 @@ const GroupManagementDataTable = observer(() => {
   const [isDeleteGroupModalVisible, setIsDeleteGroupModalVisible] = useState(false);
   const [selectedRows, setSelectedRows] = useState<ConfigGroupDto[]>([]);
   const [editRow, setEditRow] = useState<GroupManagementDto>({ description: '', group_id: '', group_name: '' });
+
+  const cookies = new Cookies();
+  const userInfo = cookies.get(USER_INFO_COOKIE);
 
   const handleCreateGroupModalOpen = () => {
     setIsCreateGroupModalVisible(true);
@@ -152,11 +158,26 @@ const GroupManagementDataTable = observer(() => {
 
   const tableRef = useRef<ImperativeHandleDto<ConfigGroupDto>>();
 
+  const {
+    request,
+    isLoading,
+    data: groupList,
+  } = useApiQuery<ConfigGroupDto[]>({
+    endpoint: GroupManagementEndpoint.groupList,
+    map: (response) => {
+      return response?.dto?.ConfigGroupDto || [];
+    },
+  });
+
+  const requestGetGroupManagement = () => {
+    const payload = { user_id: userInfo.id || '' };
+    return request(payload);
+  };
+
   return (
     <Box>
       <CommonTable<ConfigGroupDto>
         fieldAsRowId="group_id"
-        query={GroupManagement.groupManagement}
         allowMultipleSelect
         onSelectedRows={onSelectedRows}
         hasSelectionRows
@@ -168,6 +189,9 @@ const GroupManagementDataTable = observer(() => {
           direction: 'desc',
         }}
         ref={tableRef as MutableRefObject<ImperativeHandleDto<ConfigGroupDto>>}
+        onTriggerRequest={requestGetGroupManagement}
+        rows={groupList || []}
+        isLoading={isLoading}
       />
 
       {/* Create Group - Modal */}

@@ -1,15 +1,21 @@
-import { useMemo, useRef, useState } from 'react';
+import { MutableRefObject, useEffect, useMemo, useRef, useState } from 'react';
 
 import { Box } from '@mui/material';
 import { observer } from 'mobx-react';
 
 import CommonTable from '@/components/organisms/CmCommonTable';
-import FilterServiceGroupListControl from '@/components/organisms/CmCommonTable/filterControls/FilterServiceGroupListControl';
-import { ICommonTableColumn, IFilterConfig } from '@/components/organisms/CmCommonTable/types';
+import {
+  ICommonTableColumn,
+  IFilterConfig,
+  ImperativeHandleDto,
+  TableViewState,
+} from '@/components/organisms/CmCommonTable/types';
 
-import TestHistoryApi from '@/apis/TestHistoryApi';
 import { IPlainObject } from '@/types/common';
 import { TestCaseDto } from '@/types/dtos/testCaseDtos';
+import useApiQuery from '@/utils/hooks/useApiQuery';
+
+import { TestEndpoint } from '@/constants/apiEndpoint';
 
 import { testHistoryDetailDefault } from './const';
 import ViewDetailModal from './modal/PRO10102120M';
@@ -66,19 +72,6 @@ const TestHistoryDataTable = observer(({ selectedValue }: { selectedValue: strin
 
   const filterConfig = useMemo(() => {
     return {
-      primaryActions: [
-        {
-          type: 'dropdown',
-          component: (props: any) => (
-            <FilterServiceGroupListControl
-              {...props}
-              resourceId={selectedValue}
-            />
-          ),
-          name: 'sg_resource_id',
-          isTriggerFetchData: true,
-        },
-      ],
       advanceActions: [
         {
           type: 'filter',
@@ -124,12 +117,46 @@ const TestHistoryDataTable = observer(({ selectedValue }: { selectedValue: strin
     setViewHistoryModalVisible(false);
   };
 
-  const tableRef = useRef<any>();
+  const tableRef = useRef<ImperativeHandleDto<TestCaseDto>>();
+
+  const {
+    request,
+    isLoading,
+    data: testHistoryList,
+  } = useApiQuery<TestCaseDto[]>({
+    endpoint: TestEndpoint.historyList,
+    map: (response) => {
+      return response?.dto?.TestCaseDto || [];
+    },
+  });
+
+  const requestGetTestHistory = (tableState: TableViewState) => {
+    const { filter, sortBy } = tableState;
+    if (!filter.server.app_resource_id) {
+      return;
+    }
+    const payload = {
+      app_resource_id: filter.server.app_resource_id,
+      pageInfoDto: {
+        pageNum: 1,
+        pageLength: -1,
+      },
+      sort: sortBy.field ? true : false,
+      sortField: sortBy.field || 'create_time',
+      sortingType: sortBy.direction || 'desc',
+    };
+    request(payload);
+  };
+
+  useEffect(() => {
+    if (selectedValue) {
+      tableRef?.current?.changeFilterServer({ app_resource_id: selectedValue });
+    }
+  }, [selectedValue]);
 
   return (
     <Box>
       <CommonTable<TestCaseDto>
-        query={TestHistoryApi.getListHistory}
         onRowClick={handleClickRow}
         fieldAsRowId="create_time"
         columnsConfig={columnsConfig}
@@ -138,7 +165,10 @@ const TestHistoryDataTable = observer(({ selectedValue }: { selectedValue: strin
           field: 'create_time',
           direction: 'desc',
         }}
-        ref={tableRef}
+        ref={tableRef as MutableRefObject<ImperativeHandleDto<TestCaseDto>>}
+        onTriggerRequest={requestGetTestHistory}
+        rows={testHistoryList || []}
+        isLoading={isLoading}
       />
       <ViewDetailModal
         dataRow={dataClickRow}

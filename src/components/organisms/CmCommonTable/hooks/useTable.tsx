@@ -1,26 +1,21 @@
 import { useEffect, useMemo, useReducer, useState } from 'react';
 
 import { IPlainObject } from '@/types/common';
-import { IOriginalResponse } from '@/types/http';
 import { rowsPerPageDefault } from '@/utils/const/form';
-import useApiLazyQuery from '@/utils/hooks/useApiLazyQuery';
 
 import { TableActions } from '../state/action';
 import { tableReducer } from '../state/reducer';
-import { ActionType, FilterFormType, ISortInfo, TableDataResponseDto, TableViewState } from '../types';
+import { ActionType, FilterFormType, ICommonTable, ISortInfo, TableDataResponseDto, TableViewState } from '../types';
 import usePaginationClient from './usePaginationClient';
 
 type FilterLogicCallbackType = <TRowDataType extends IPlainObject>(
   row: TRowDataType,
   filterValues: { [key: string]: any }
 ) => boolean;
-interface IUseTableProps<TRowData> {
-  query?: (tableViewState: TableViewState) => Promise<TableDataResponseDto<TRowData>>;
-  rows?: TRowData[];
-  convertPayloadRequest?: (tableViewState: TableViewState) => IPlainObject;
-  convertResponse?: (response: IOriginalResponse) => TableDataResponseDto<TRowData>;
-  endpoint?: string;
-}
+type UseTableProps<TRowData extends IPlainObject> = Pick<
+  ICommonTable<TRowData>,
+  'rows' | 'onTriggerRequest' | 'sortDefault'
+>;
 
 interface IUseTableResult<TRowDataType extends IPlainObject> {
   dispatch: (type: ActionType) => void;
@@ -88,55 +83,18 @@ const initValue: TableViewState = {
 };
 
 const useTable = <TRowDataType extends IPlainObject>({
-  query,
-  rows,
-  convertPayloadRequest,
-  convertResponse,
-  endpoint,
-}: IUseTableProps<TRowDataType>): IUseTableResult<TRowDataType> => {
-  const [tableState, dispatch] = useReducer(tableReducer, initValue);
+  rows = [],
+  onTriggerRequest,
+  sortDefault,
+}: UseTableProps<TRowDataType>): IUseTableResult<TRowDataType> => {
+  const [tableState, dispatch] = useReducer(tableReducer, { ...initValue, sortBy: sortDefault });
   const [tableData, setTableData] = useState<TableDataResponseDto<TRowDataType>>({
-    data: [],
-    total: 0,
-  });
-
-  const { request, isLoading } = useApiLazyQuery({
-    endpoint: endpoint || '',
-    onCompleted: (response) => {
-      const tableData = convertResponse?.(response) || {
-        data: [],
-        total: 0,
-      };
-      setTableData(tableData);
-    },
-    onError: (error) => {
-      setTableData({
-        data: [],
-        total: 0,
-      });
-    },
+    data: rows,
+    total: rows?.length || 0,
   });
 
   const queryData = async () => {
-    if (query) {
-      const { data, total } = await query(tableState);
-      setTableData({
-        data: data,
-        total: total,
-      });
-    } else {
-      let payloadRequest: IPlainObject = {
-        ...tableState,
-        pageInfoDto: {
-          pageNum: 1,
-          pageLength: -1,
-        },
-      };
-      if (convertPayloadRequest) {
-        payloadRequest = convertPayloadRequest(tableState);
-      }
-      request(payloadRequest);
-    }
+    onTriggerRequest?.(tableState);
   };
 
   const derivedRows = useMemo(() => {

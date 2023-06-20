@@ -5,13 +5,21 @@ import { observer } from 'mobx-react';
 
 import CommonTable from '@/components/organisms/CmCommonTable';
 import { FilterTypes } from '@/components/organisms/CmCommonTable/const';
-import { ICommonTableColumn, IFilterConfig, SearchServerConfig } from '@/components/organisms/CmCommonTable/types';
+import {
+  ICommonTableColumn,
+  IFilterConfig,
+  SearchServerConfig,
+  TableViewState,
+} from '@/components/organisms/CmCommonTable/types';
 
 import { MetaHistoryApi } from '@/apis';
 import { ReactComponent as DeleteIcon } from '@/stylesheets/images/DeleteIcon.svg';
 import { IPlainObject } from '@/types/common';
 import { MetaHistoryDto } from '@/types/dtos/metaHistoryDtos';
+import useApiQuery from '@/utils/hooks/useApiQuery';
 import { notify } from '@/utils/notify';
+
+import { MetaHistoryEndPoint } from '@/constants/apiEndpoint';
 
 import DeleteMetaHistoryModal from './modal/DeleteMetaHistoryModal';
 
@@ -69,7 +77,7 @@ const searchServerConfig: SearchServerConfig = {
     },
     {
       label: 'History Type',
-      fieldName: 'logical_name',
+      fieldName: 'history_type',
       type: FilterTypes.DROPDOWN,
       options: [
         { label: 'CREATE', value: 'CREATE' },
@@ -78,8 +86,8 @@ const searchServerConfig: SearchServerConfig = {
       ],
     },
     {
-      label: 'Resource Group',
-      fieldName: 'resource_group',
+      label: 'Modifier',
+      fieldName: 'modifier',
       type: FilterTypes.TEXT,
     },
   ],
@@ -128,46 +136,53 @@ function MetaHistoryDataTable() {
           },
         },
       ],
-      advanceActions: [
-        {
-          type: 'filter',
-          name: 'meta-history-filter',
-          defaultValue: 'physical_name',
-          options: [
-            {
-              label: 'Physical name',
-              value: 'physical_name',
-            },
-            {
-              label: 'History Type',
-              value: 'history_type',
-            },
-            {
-              label: 'Modifier',
-              value: 'modifier',
-            },
-          ],
-        },
-      ],
     };
   }, []);
   const tableRef = useRef<any>();
+
+  const {
+    request,
+    isLoading,
+    data: metaHistoryList,
+  } = useApiQuery<MetaHistoryDto[]>({
+    endpoint: MetaHistoryEndPoint.metaHistory,
+    map: (response) => {
+      return response?.dto?.MetaDto || [];
+    },
+  });
+
+  const requestGetMetaHistoryList = (tableState: TableViewState) => {
+    const conditionDto = Object.entries(tableState.filter.server).map(([key, value]) => ({ key, value }));
+    const payload = {
+      pageInfoDto: {
+        pageNum: 1,
+        pageLength: -1,
+      },
+      sort: true,
+      sortField: tableState?.sortBy?.field || 'physical_name',
+      sortingType: tableState?.sortBy?.direction?.toUpperCase() || 'DESC',
+      conditionDto: conditionDto,
+    };
+    request(payload);
+  };
 
   return (
     <Box>
       <CommonTable<MetaHistoryDto>
         hasSelectionRows
         allowMultipleSelect={false}
-        query={MetaHistoryApi.getList}
         fieldAsRowId="history_id"
         searchServerConfig={searchServerConfig}
         columnsConfig={columnsConfig}
         filterConfig={filterConfig as unknown as IFilterConfig}
         sortDefault={{
-          field: 'logical_name',
+          field: 'physical_name',
           direction: 'desc',
         }}
         ref={tableRef}
+        onTriggerRequest={requestGetMetaHistoryList}
+        rows={metaHistoryList || []}
+        isLoading={isLoading}
       />
       <DeleteMetaHistoryModal
         visible={isDeleteMetaHistoryModalVisible}

@@ -3,14 +3,20 @@ import { MutableRefObject, useEffect, useMemo, useRef, useState } from 'react';
 import { observer } from 'mobx-react';
 
 import CommonTable from '@/components/organisms/CmCommonTable';
-import { ICommonTableColumn, IFilterConfig, ImperativeHandleDto } from '@/components/organisms/CmCommonTable/types';
+import {
+  ICommonTableColumn,
+  IFilterConfig,
+  ImperativeHandleDto,
+  TableViewState,
+} from '@/components/organisms/CmCommonTable/types';
 
-import SystemContextApi from '@/apis/SystemContextApi';
 import { ReactComponent as AddIcon } from '@/stylesheets/images/AddIcon.svg';
 import { ReactComponent as DeleteIcon } from '@/stylesheets/images/DeleteIcon.svg';
 import { IPlainObject } from '@/types/common';
-import { SystemContextDtos, SystemContextList } from '@/types/dtos/systemContextDtos';
+import { SystemContextDtos } from '@/types/dtos/systemContextDtos';
+import useApiQuery from '@/utils/hooks/useApiQuery';
 
+import { SystemContextEndpoint } from '@/constants';
 import DeleteSystemContextModal from '@/pages/system-context/PRO10104101P/modal/DeleteSystemContextModal';
 import AddSystemContextModal from '@/pages/system-context/PRO10104101P/modal/PRO10104102M';
 import EditSystemContextModal from '@/pages/system-context/PRO10104101P/modal/PRO10104103M';
@@ -180,10 +186,41 @@ function SystemContextManagementDataTable(prop: PropType) {
     }
   }, [isDisabled]);
 
+  const {
+    request,
+    isLoading,
+    data: systemContextList,
+  } = useApiQuery<SystemContextDtos[]>({
+    endpoint: SystemContextEndpoint.systemContextList,
+    map: (response) => {
+      return response?.dto?.SystemContextDto || [];
+    },
+  });
+
+  const requestGetSystemContextList = (tableState: TableViewState) => {
+    const { filter, currentPage, sortBy } = tableState;
+    if (!filter.server.node_id || !filter.server.resource_id || !filter.server.systemContextName) {
+      return;
+    }
+    const payload = {
+      node_id: filter.server.node_id,
+      resource_id: filter.server.resource_id,
+      systemContextName: [filter.server.systemContextName],
+      pageInfoDto: {
+        pageNum: 1,
+        pageLength: -1,
+        sort: sortBy.field ? true : false,
+        sortingType: sortBy.direction || 'DESC',
+        sortField: sortBy.field || 'key',
+      },
+      conditionDto: [],
+    };
+    request(payload);
+  };
+
   return (
     <>
-      <CommonTable<SystemContextList>
-        query={SystemContextApi.getTableDataManagement}
+      <CommonTable<SystemContextDtos>
         fieldAsRowId="key"
         allowMultipleSelect={false}
         hasSelectionRows
@@ -195,6 +232,9 @@ function SystemContextManagementDataTable(prop: PropType) {
           direction: 'desc',
         }}
         ref={tableRef as MutableRefObject<ImperativeHandleDto<SystemContextDtos>>}
+        onTriggerRequest={requestGetSystemContextList}
+        rows={systemContextList || []}
+        isLoading={isLoading}
       />
 
       <AddSystemContextModal

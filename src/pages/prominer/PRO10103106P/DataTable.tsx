@@ -5,11 +5,18 @@ import { observer } from 'mobx-react';
 
 import CommonTable from '@/components/organisms/CmCommonTable';
 import FilterServiceGroupListControl from '@/components/organisms/CmCommonTable/filterControls/FilterServiceGroupListControl';
-import { ICommonTableColumn, IFilterConfig, ImperativeHandleDto } from '@/components/organisms/CmCommonTable/types';
+import {
+  ICommonTableColumn,
+  IFilterConfig,
+  ImperativeHandleDto,
+  TableViewState,
+} from '@/components/organisms/CmCommonTable/types';
 
-import ProminerApi from '@/apis/ProminerApi';
 import { IPlainObject } from '@/types/common';
 import { ProminerResourceDto } from '@/types/dtos/prominerDtos';
+import useApiQuery from '@/utils/hooks/useApiQuery';
+
+import { VariableEndpoint } from '@/constants';
 
 const columnsConfig: ICommonTableColumn<IPlainObject>[] = [
   {
@@ -92,13 +99,43 @@ const PorminerVariableDataTable = observer(({ appId }: { appId: string }) => {
     };
   }, [appId]);
 
+  const {
+    request,
+    isLoading,
+    data: prominerVariableList,
+  } = useApiQuery<ProminerResourceDto[]>({
+    endpoint: VariableEndpoint.getList,
+    map: (response) => {
+      return response?.dto?.ProminerRscDto || [];
+    },
+  });
+
+  const requestGetProminerVariableList = (tableState: TableViewState) => {
+    const { filter, currentPage, sortBy } = tableState;
+    if (!filter.server.app_resource_id) {
+      return;
+    }
+    const payload = {
+      searchType: filter.server.sg_resource_id ? 'Sg' : 'App',
+      app_resource_id: filter.server.app_resource_id,
+      sg_resource_id: filter.server.sg_resource_id,
+      pageInfoDto: {
+        pageNum: 1,
+        pageLength: -1,
+      },
+      sort: sortBy.field ? true : false,
+      sortField: sortBy.field || 'variable_name',
+      sortingType: sortBy.direction || 'desc',
+    };
+    request(payload);
+  };
+
   const tableRef = useRef<ImperativeHandleDto<ProminerResourceDto>>();
 
   return (
     <Box>
       <CommonTable<ProminerResourceDto>
         allowMultipleSelect={false}
-        query={ProminerApi.getVariableList}
         fieldAsRowId="variable_name"
         columnsConfig={columnsConfig}
         filterConfig={filterConfig as unknown as IFilterConfig}
@@ -107,6 +144,9 @@ const PorminerVariableDataTable = observer(({ appId }: { appId: string }) => {
           direction: 'desc',
         }}
         ref={tableRef as MutableRefObject<ImperativeHandleDto<ProminerResourceDto>>}
+        onTriggerRequest={requestGetProminerVariableList}
+        rows={prominerVariableList || []}
+        isLoading={isLoading}
       />
     </Box>
   );

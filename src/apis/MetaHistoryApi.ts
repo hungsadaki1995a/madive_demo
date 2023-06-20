@@ -19,7 +19,7 @@ const MetaHistoryApi = {
           [JSON.stringify({
             dto: {
               pageInfoDto: {
-                pageNum: currentPage + 1,
+                pageNum: 1,
                 pageLength: -1,
                 sort: sortBy.field ? true : false,
                 sortField: 'physical_name',

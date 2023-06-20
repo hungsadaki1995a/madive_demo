@@ -5,16 +5,11 @@ import { observer } from 'mobx-react';
 
 import CommonTable from '@/components/organisms/CmCommonTable';
 import { FilterTypes } from '@/components/organisms/CmCommonTable/const';
-import {
-  ICommonTableColumn,
-  SearchServerConfig,
-  TableDataResponseDto,
-  TableViewState,
-} from '@/components/organisms/CmCommonTable/types';
+import { ICommonTableColumn, SearchServerConfig, TableViewState } from '@/components/organisms/CmCommonTable/types';
 
 import { IPlainObject } from '@/types/common';
 import { FieldInfoDto } from '@/types/dtos/doInfoDto';
-import { IOriginalResponse } from '@/types/http';
+import useApiQuery from '@/utils/hooks/useApiQuery';
 
 import { DoInfoEndPoint } from '@/constants';
 
@@ -128,13 +123,25 @@ const DoInfoDataTable = observer(() => {
     ];
   }, []);
 
-  const convertPayloadRequest = (tableState: TableViewState) => {
-    const payload = tableState.filter.server;
-    return payload;
-  };
+  const {
+    request,
+    isLoading,
+    data: doInfoList,
+  } = useApiQuery<FieldInfoDto[]>({
+    endpoint: DoInfoEndPoint.doInfo,
+    map: (response) => {
+      return response?.dto?.FieldInfo || [];
+    },
+  });
 
-  const convertResponse = (response: IOriginalResponse): TableDataResponseDto<FieldInfoDto> => {
-    return { data: response?.dto?.FieldInfo || [], total: response?.dto?.pagingResultDto?.totalNum || 0 };
+  const requestGetDoInfoList = (tableState: TableViewState) => {
+    const { app_name = '', sg_name = '', physical_name = '' } = tableState.filter.server;
+    const payload = {
+      app_name,
+      sg_name,
+      physical_name,
+    };
+    request(payload);
   };
 
   return (
@@ -147,9 +154,9 @@ const DoInfoDataTable = observer(() => {
           direction: 'asc',
         }}
         searchServerConfig={searchServerConfig}
-        endpoint={DoInfoEndPoint.doInfo}
-        convertPayloadRequest={convertPayloadRequest}
-        convertResponse={convertResponse}
+        onTriggerRequest={requestGetDoInfoList}
+        rows={doInfoList || []}
+        isLoading={isLoading}
       />
     </Box>
   );
